@@ -1,0 +1,155 @@
+/**
+ * Created by 17144 on 2017/12/15 10:08.
+ */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+//mm
+html,body,#app{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    min-width: 320px;
+}
+
+
+.cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+//浮动
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
+.clearfix{
+    &:after {
+        display: block;
+        content: "";
+        clear: both;
+    }
+}
+
+/*遮罩*/
+.mmPlayer-bg-mask, .mmPlayer-bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+.mmPlayer-bg-mask {
+    z-index: 2;
+    background-color: rgba(0, 0, 0, .35);
+}
+.mmPlayer-bg {
+    z-index: 1;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50%;
+    filter: blur(30px);
+    opacity: .6;
+    transform: translateZ(0);
+    transition: all .8s;
+}
+
+//滚动条
+::-webkit-scrollbar {
+    /*滚动条整体部分，其中的属性有width,height,background,border（就和一个块级元素一样）等*/
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 5px;//纵向滚动条
+    border-radius: 10px;
+}
+
+
+::-webkit-scrollbar-button {
+    /*滚动条两端的按钮。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果。*/
+    display: none;
+}
+
+::-webkit-scrollbar-track {
+    /*外层轨道。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果。*/
+    display: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-track-piece {
+    /*内层轨道，滚动条中间部分（除去）。*/
+    background-color: rgba(255, 255, 255, .1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    /*滚动条里面可以拖动的那部分*/
+    background-color: rgba(0, 0, 0, .3);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-corner {
+    border-radius: 10px;
+}
+
+::-webkit-resizer {
+    /*定义右下角拖动块的样式*/
+    border-radius: 10px;
+}
