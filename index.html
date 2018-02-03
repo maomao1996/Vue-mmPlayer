@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>mmPlayer在线音乐播放器</title>
+    <meta name="description" content="mmPlayer在线音乐播放器"/>
+    <meta name="keywords" content="mmPlayer在线音乐播放器"/>
+    <style media="screen" type="text/css">
+        #appLoading{position:fixed;top:0;left:0;z-index:1314520;width:100%;height:100%;background:rgba(255,255,255,1)}#appLoading.removeAnimate{-webkit-animation:removeAnimate 1s 0s 1 both}@-webkit-keyframes removeAnimate{from{opacity:1}to{opacity:0}}#appLoading img{position:absolute;top:50%;left:50%;width:50px;height:50px;-webkit-transform:translateY(-50%) translateX(-50%);transform:translateY(-50%) translateX(-50%)}
+    </style>
+</head>
+<body>
+    <div id="appLoading">
+        <img src="./static/loading.gif" alt="loading"/>
+    </div>
+    <div id="app"></div>
+    <script>
+        (function() {
+            var OriginTitile = document.title, titleTime;
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    document.title = '死鬼去哪里了！';
+                    clearTimeout(titleTime);
+                } else {
+                    document.title = '(つェ⊂)咦!又好了!';
+                    titleTime = setTimeout(function() {
+                        document.title = OriginTitile;
+                    },2000);
+                }
+            });
+        })();
+    </script>
+    <!-- built files will be auto injected -->
+</body>
+</html>
