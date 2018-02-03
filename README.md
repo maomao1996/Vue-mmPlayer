@@ -1,4 +1,4 @@
-# mmPlayer V0.2.20180129（在线音乐播放器）
+# mmPlayer V0.2.0（在线音乐播放器）
 模仿QQ音乐网页版界面，采用flexbox和position布局，并适配了移动端
 
 > api：一个开源的[网易云音乐 NodeJS 版 API](https://binaryify.github.io/NeteaseCloudMusicApi)（有api才有动力写！！！）
@@ -49,11 +49,11 @@ npm run build  //项目打包
 - 界面兼容PC端和移动端
 
 ## 更新说明
-### V0.1.20180124
+### V0.1.0
 - 发布试用版
 
 
-### V0.2.20180129
+### V0.2.0
 - 新增音量控制模块
 - 优化歌曲选中
 
