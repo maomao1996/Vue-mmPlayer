@@ -1,4 +1,4 @@
-# mmPlayer V1.0.0（在线音乐播放器）
+# mmPlayer V1.1.0（2018.02.09）
 模仿QQ音乐网页版界面，采用flexbox和position布局；
 mmPlayer虽然是响应式，但主要以为PC端为主，移动端只做相应适配
 
@@ -11,27 +11,17 @@ mmPlayer虽然是响应式，但主要以为PC端为主，移动端只做相应�
 > 后台服务器
 
 ```
-git clone git@github.com:Binaryify/NeteaseCloudMusicApi.git
-
-cd NeteaseCloudMusicApi
+cd mmPlayer/server
 
 npm install //安装依赖
 
 node app.js //服务端运行 访问 http://localhost:3000
-
-注意:后台服务器需要做如下修改
-app.js加入
-app.use("/toplist/detail/mm", require("./router/toplist_detail_mm"));
-
-复制toplist_detail_mm.js到router目录下
-
-（后续会发布单独版本）
 ```
 
 > mmPlayer
 
 ```
-git clone https://github.com/maomao1996/mmPlayer.git
+git clone https://github.com/maomao1996/mmPlayer.git  //下载mmPlayer
 
 cd mmPlayer
 
@@ -77,11 +67,16 @@ npm run build  //项目打包
 - 优化点击时可能出现的半透明背景
 - 新增排行榜
 
+### V1.1.0（2018.02.09）
+- 新增我听过的（播放历史）
+- 整合公用列表组件
+- 新增mmToast插件
+- 整合字体大小、颜色相关CSS
+
 ## 后续功能
 - 搜索
 - 歌手
 - 热门歌单
-- 播放历史
 - 收藏
 - 同步网易云歌单
 

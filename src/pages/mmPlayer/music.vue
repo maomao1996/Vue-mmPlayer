@@ -5,12 +5,16 @@
                 <div class="music-btn">
                     <router-link to="/music/playlist" tag="span">正在播放</router-link>
                     <router-link to="/music/toplist" tag="span">排行榜</router-link>
+                    <!--<router-link to="/music/search" tag="span">搜索</router-link>-->
                     <!--<router-link to="/music/sheetlist" tag="span">歌单</router-link>-->
+                    <router-link to="/music/historyList" tag="span">我听过的</router-link>
                 </div>
+                <!--<transition name="">-->
                 <keep-alive>
                     <router-view v-if="$route.meta.keepAlive" class="music-list"></router-view>
                 </keep-alive>
                 <router-view v-if="!$route.meta.keepAlive" class="music-list"></router-view>
+                <!--</transition>-->
             </div>
             <lyric class="music-right" :lyric="lyric" :lyricIndex="lyricIndex"></lyric>
         </div>
@@ -46,7 +50,7 @@
 <script>
     import {getLyric} from 'api/music'
     import mmPlayerMusic from './mmPlayer'
-    import {mapGetters, mapMutations} from 'vuex'
+    import {mapGetters, mapMutations, mapActions} from 'vuex'
     import MmProgress from 'base/mm-progress/mm-progress'
     import Lyric from 'components/lyric/lyric'
     
@@ -73,8 +77,8 @@
             })
         },
         computed: {
-            picUrl(){
-                return this.currentMusic.id ? 'background-image:url('+this.currentMusic.al.picUrl+')' : ''
+            picUrl() {
+                return this.currentMusic.id ? 'background-image:url(' + this.currentMusic.al.picUrl + ')' : ''
             },
             percentMusic() {
                 return this.currentTime && this.duration ? this.currentTime / this.duration : 0
@@ -88,8 +92,14 @@
             ])
         },
         watch: {
+            playlist(newPlaylist) {
+                if (newPlaylist.length === 0) {
+                    this.lyric = null;
+                    this.lyricIndex = 0
+                }
+            },
             currentMusic(newMusic, oldMusic) {
-                if(newMusic.id === oldMusic.id){
+                if (newMusic.id === oldMusic.id) {
                     return
                 }
                 this.$nextTick(() => {
@@ -163,9 +173,9 @@
                 this.isMute ? audio.volume = 0 : audio.volume = this.volume
             },
             //获取歌词
-            _getLyric(id){
+            _getLyric(id) {
                 getLyric(id).then((res) => {
-                    if(res.status === 200){
+                    if (res.status === 200) {
                         this.lyric = parseLyric(res.data.lrc.lyric)
                     }
                     //console.log(parseLyric(res.data.lrc.lyric))
@@ -174,7 +184,10 @@
             ...mapMutations({
                 setPlaying: 'SET_PLAYING',
                 setCurrentIndex: 'SET_CURRENTINDEX'
-            })
+            }),
+            ...mapActions([
+                'setHistoryList'
+            ])
         },
         filters: {
             //时间格式化
@@ -185,7 +198,7 @@
             },
         }
     }
-
+    
     //歌词解析
     function parseLyric(lrc) {
         let lyrics = lrc.split("\n");
@@ -212,6 +225,7 @@
 
 <style lang="less">
     @import "../../assets/css/var";
+    
     .music {
         padding: 50px 25px 25px 25px;
         width: 100%;
@@ -243,7 +257,7 @@
                         line-height: 40px;
                         overflow: hidden;
                         cursor: pointer;
-                        &:hover,&.active {
+                        &:hover, &.active {
                             border-color: @btn_color_active;
                             color: @btn_color_active;
                         }

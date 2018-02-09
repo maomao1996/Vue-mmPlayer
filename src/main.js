@@ -7,13 +7,19 @@ import App from './App'
 
 //网络请求
 import axios from 'axios'
-const $http = axios.create({});
-Vue.prototype.$http = $http;
+Vue.prototype.$http = axios;
+
+import mmToast from 'base/mm-toast/index.js'
+Vue.use(mmToast);
 
 //引入样式
 import '@/assets/css/index.less'
 
-Vue.config.productionTip = false;
+const isDebug_mode = process.env.NODE_ENV !== 'production';
+Vue.config.silent = isDebug_mode;
+Vue.config.debug = isDebug_mode;
+Vue.config.devtools = isDebug_mode;
+Vue.config.productionTip = isDebug_mode;
 
 /* eslint-disable no-new */
 new Vue({

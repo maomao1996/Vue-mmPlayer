@@ -18,7 +18,8 @@ const mmPlayerMusic = {
             clearTimeout(timer);
             timer = setTimeout(() => {
                 that.musicReady = true
-            },100)
+            },100);
+            that.setHistoryList(that.currentMusic)
         };
         ele.onerror = () => {
             that.musicReady = true

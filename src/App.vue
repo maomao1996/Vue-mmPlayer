@@ -23,7 +23,7 @@
             MmLoading
         },
         created() {
-            console.info('欢迎使用 MmPlayer!\n作者：maomao(http://www.mtnhao.com)\nGithub：https://github.com/maomao1996/mmPlayer\n歌曲来源于网易云音乐(http://music.163.com)');
+            console.info('欢迎使用 MmPlayer!\n作者：茂茂(http://www.mtnhao.com)\nGithub：https://github.com/maomao1996/mmPlayer\n歌曲来源于网易云音乐(http://music.163.com)');
             //设置audio元素
             this.$nextTick(() => {
                 this.setAudioele(this.$refs.mmPlayer)

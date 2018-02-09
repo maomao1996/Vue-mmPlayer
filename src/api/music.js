@@ -36,7 +36,18 @@ export function search(keywords){
     })
 }
 
-//获取歌单详情
+//热门歌手
+export function getTopArtists(offset = 0,limit = 50) {
+    const url = URL + '/top/artists';
+    return axios.get(url, {
+        params: {
+            offset: offset,
+            limit: limit
+        }
+    })
+}
+
+//获取用户歌单详情
 export function getplaylistdetail(id) {
     const url = URL+'/playlist/detail';
     return axios.get(url, {
