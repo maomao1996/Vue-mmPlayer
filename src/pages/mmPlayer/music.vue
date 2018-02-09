@@ -5,7 +5,7 @@
                 <div class="music-btn">
                     <router-link to="/music/playlist" tag="span">正在播放</router-link>
                     <router-link to="/music/toplist" tag="span">排行榜</router-link>
-                    <!--<router-link to="/music/search" tag="span">搜索</router-link>-->
+                    <router-link to="/music/search" tag="span">搜索</router-link>
                     <!--<router-link to="/music/sheetlist" tag="span">歌单</router-link>-->
                     <router-link to="/music/historyList" tag="span">我听过的</router-link>
                 </div>

@@ -42,7 +42,7 @@ const mmPlayer = {
         },
         //清空播放列表
         [types.CLEAR_PLAYLIST](state) {
-            //state.playlist = playlist
+            state.playlist = []
         },
         //修改当前音乐索引
         [types.SET_CURRENTINDEX](state, currentIndex) {
