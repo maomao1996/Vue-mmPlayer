@@ -18,10 +18,12 @@ const storage = {
     }
 };
 
+//获取播放历史
 export function getPlayList() {
     return storage.get(PLAYLIST_KEY)
 }
 
+//更新播放历史
 export function setPlayList(music) {
     let list = storage.get(PLAYLIST_KEY);
     const index = list.findIndex(item => {
@@ -38,10 +40,16 @@ export function setPlayList(music) {
         list.pop()
     }
     storage.set(PLAYLIST_KEY, JSON.stringify(list));
-    console.log(list)
     return list;
 }
 
+//删除一条播放历史
+export function removePlayList(music) {
+    storage.set(PLAYLIST_KEY, JSON.stringify(music));
+    return music
+}
+
+//清空播放历史
 export function clearPlayList() {
     storage.clear(PLAYLIST_KEY);
     return []

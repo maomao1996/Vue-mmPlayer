@@ -1,17 +1,17 @@
-import {mapGetters,mapMutations,mapActions} from 'vuex'
+import {mapGetters, mapMutations, mapActions} from 'vuex'
 
 export const listMixin = {
     computed: {
         ...mapGetters([
             'playing',
-            'currentMusic'
+            'currentMusic',
         ])
     },
     methods: {
-        selectItem(item,index) {
-            if(item.id === this.currentMusic.id&&this.playing){
+        selectItem(item, index) {
+            if (item.id === this.currentMusic.id && this.playing) {
                 this.setPlaying(false)
-            }else{
+            } else {
                 this.selectPlay({
                     list: this.list,
                     index

@@ -1,9 +1,9 @@
 <template>
     <div class="playList">
-        <music-list :list="playlist">
-            <div slot="listBtn" class="list-btn">
-                <span @click="click">清空列表</span>
-            </div>
+        <music-list :list="playlist" @del="deleteItem">
+            <!--<div slot="listBtn" class="list-btn">-->
+                <!--<span @click="click">清空列表</span>-->
+            <!--</div>-->
         </music-list>
     </div>
 </template>
@@ -11,7 +11,8 @@
 <script>
     import {mapGetters, mapMutations} from 'vuex'
     import {topList} from 'api/music'
-    import MusicList from 'components/music-list/music-list'
+    import MusicList from 'components/music-list/music-list-del'
+    import {createTopList} from 'assets/js/song'
     
     export default {
         name: "play-list",
@@ -25,7 +26,8 @@
             topList(1)
                 .then((res) => {
                     if (res.status === 200) {
-                        this.setPlaylist(res.data.playlist.tracks)
+                        let list = this._formatSongs(res.data.playlist.tracks);
+                        this.setPlaylist(list)
                     }
                 })
         },
@@ -38,6 +40,22 @@
             click() {
                 this.clearPlaylist();
                 this.$mmToast('列表清空成功')
+            },
+            deleteItem(index){
+                let list = this.playlist.slice();
+                list.splice(index,1);
+                this.setPlaylist(list);
+                this.$mmToast('删除成功')
+            },
+            _formatSongs(list) {
+                let ret = [];
+                list.forEach((item) => {
+                    const musicData = item;
+                    if (musicData.id) {
+                        ret.push(createTopList(musicData))
+                    }
+                });
+                return ret
             },
             ...mapMutations({
                 setPlaylist: 'SET_PLAYLIST',

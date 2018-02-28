@@ -25,8 +25,8 @@
             <a class="music-bar-btn btn-next" @click="next"></a>
             <div class="music-music">
                 <template v-if="percentMusic">
-                    <div class="music-bar-info">{{currentMusic.name}}<span> - {{currentMusic.ar[0].name}}</span></div>
-                    <div class="music-bar-time">{{currentTime | format}}/{{duration | format}}</div>
+                    <div class="music-bar-info">{{currentMusic.name}}<span> - {{currentMusic.singer}}</span></div>
+                    <div class="music-bar-time">{{currentTime | format}}/{{currentMusic.duration | formatDuration}}</div>
                     <mm-progress class="music-progress" :percent="percentMusic"
                                  @percentChange="progressMusic"></mm-progress>
                 </template>
@@ -64,7 +64,6 @@
             return {
                 musicReady: false,
                 currentTime: 0,
-                duration: 0,
                 lyric: null,
                 lyricIndex: 0,
                 isMute: false,
@@ -78,10 +77,10 @@
         },
         computed: {
             picUrl() {
-                return this.currentMusic.id ? 'background-image:url(' + this.currentMusic.al.picUrl + ')' : ''
+                return this.currentMusic.id && this.currentMusic.image ? `background-image:url(${this.currentMusic.image})` : ''
             },
             percentMusic() {
-                return this.currentTime && this.duration ? this.currentTime / this.duration : 0
+                return this.currentTime && this.currentMusic.duration ? this.currentTime / this.currentMusic.duration : 0
             },
             ...mapGetters([
                 'audioEle',
@@ -92,19 +91,12 @@
             ])
         },
         watch: {
-            playlist(newPlaylist) {
-                if (newPlaylist.length === 0) {
-                    this.lyric = null;
-                    this.lyricIndex = 0
-                }
-            },
             currentMusic(newMusic, oldMusic) {
                 if (newMusic.id === oldMusic.id) {
                     return
                 }
                 this.$nextTick(() => {
-                    this.audioEle.play();
-                    this._getLyric(newMusic.id)
+                    this._getLyric(newMusic.id);
                 })
             },
             playing(newPlaying) {
@@ -158,7 +150,7 @@
             },
             //修改音乐进度
             progressMusic(percent) {
-                this.audioEle.currentTime = Math.round(this.duration * percent)
+                this.audioEle.currentTime = this.currentMusic.duration * percent
             },
             //修改音量大小
             volumeChange(percent) {
@@ -177,6 +169,7 @@
                 getLyric(id).then((res) => {
                     if (res.status === 200) {
                         this.lyric = parseLyric(res.data.lrc.lyric)
+                        this.audioEle.play();
                     }
                     //console.log(parseLyric(res.data.lrc.lyric))
                 })
@@ -186,7 +179,7 @@
                 setCurrentIndex: 'SET_CURRENTINDEX'
             }),
             ...mapActions([
-                'setHistoryList'
+                'setHistory'
             ])
         },
         filters: {
@@ -196,6 +189,12 @@
                 let second = Math.floor(value % 60);
                 return `${minute < 10 ? '0' + minute : minute}:${second < 10 ? '0' + second : second}`
             },
+            formatDuration(value){
+                let other = value % 3600;
+                let minutes = Math.floor(other / 60);
+                let seconds = Math.floor(other % 60);
+                return (minutes<10?'0'+minutes:minutes)+':'+(seconds<10?'0'+seconds:seconds)
+            }
         }
     }
     
@@ -244,11 +243,12 @@
                 .music-btn {
                     width: 100%;
                     height: 60px;
+                    font-size: 0;
                     span {
                         display: inline-block;
                         height: 40px;
                         box-sizing: border-box;
-                        margin-right: 6px;
+                        margin-right: 8px;
                         padding: 0 23px;
                         border: 1px solid @btn_color;
                         color: @btn_color;
@@ -396,8 +396,11 @@
                     height: 50px;
                     span {
                         height: 35px;
-                        padding: 0 15px;
+                        padding: 0 10px;
                         line-height: 35px;
+                        &:nth-last-of-type(1){
+                            margin: 0;
+                        }
                     }
                 }
                 .music-list {

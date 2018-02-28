@@ -9,7 +9,7 @@
         </section>
         
         <!--播放器-->
-        <audio ref="mmPlayer" :src="`https://music.163.com/song/media/outer/url?id=${currentMusic.id}.mp3`"></audio>
+        <audio ref="mmPlayer" :src="currentMusic.url"></audio>
     </div>
 </template>
 
@@ -23,7 +23,12 @@
             MmLoading
         },
         created() {
-            console.info('欢迎使用 MmPlayer!\n作者：茂茂(http://www.mtnhao.com)\nGithub：https://github.com/maomao1996/mmPlayer\n歌曲来源于网易云音乐(http://music.163.com)');
+            console.info(`
+欢迎使用 MmPlayer!
+作者：茂茂(http://www.mtnhao.com)
+Github：https://github.com/maomao1996/mmPlayer
+歌曲来源于网易云音乐(http://music.163.com)
+            `);
             //设置audio元素
             this.$nextTick(() => {
                 this.setAudioele(this.$refs.mmPlayer)

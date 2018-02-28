@@ -27,11 +27,13 @@ export function topListMm(id) {
 }
 
 //搜索
-export function search(keywords){
+export function search(keywords,page=0){
     const url = URL+'/search';
     return axios.get(url, {
         params: {
-            keywords: keywords
+            keywords: keywords,
+            offset: page*50,
+            limit: 50
         }
     })
 }

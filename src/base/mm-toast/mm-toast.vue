@@ -11,7 +11,7 @@
             return {
                 position: 'center',//默认显示位置
                 message: 'Hello World',
-                duration: 2500,
+                duration: 2000,
                 visible: false,
             }
         },

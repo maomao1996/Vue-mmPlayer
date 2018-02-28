@@ -3,11 +3,10 @@
         <div class="list-item list-header">
             <span class="list-name">歌曲</span>
             <span class="list-artist">歌手</span>
-            <span class="list-time">专辑</span>
+            <span class="list-time">时长</span>
         </div>
-        <div class="list-content" v-if="list.length>0">
-            <div class="list-item" :class="{'on':playing&&currentMusic.id===item.id}" v-for="(item,index) in list"
-                 :key="index">
+        <div ref="listContent" class="list-content" v-if="list.length>0" @scroll="listScroll($event)">
+            <div class="list-item" :class="{'on':playing&&currentMusic.id===item.id}" v-for="(item,index) in list" :key="item.id">
                 <span class="list-num" v-text="index+1"></span>
                 <div class="list-name">
                     <span>{{item.name}}</span>
@@ -17,7 +16,10 @@
                     </div>
                 </div>
                 <span class="list-artist">{{item.singer}}</span>
-                <span class="list-time">{{item.album}}</span>
+                <span class="list-time">
+                    {{item.duration | formatDuration}}
+                    <i class="list-menu-icon-del" @click="deleteItem(index)"></i>
+                </span>
             </div>
             <slot name="listBtn"></slot>
         </div>
@@ -31,12 +33,57 @@
     import {listMixin} from 'assets/js/mixin'
     
     export default {
-        name: "music-list",
+        name: "music-list-del",
         mixins: [listMixin],
         props: {
             list: {
                 type: Array,
                 default: []
+            }
+        },
+        data() {
+            return {
+                /**
+                 * 是否锁定上拉加载事件,默认锁定
+                 */
+                lockUp: true
+            }
+        },
+        watch: {
+            list(newList,oldList){
+                if(newList.length !==oldList.length){
+                    this.lockUp = false
+                }else if(newList[newList.length-1].id !== oldList.length>0&&oldList[oldList.length-1].id){
+                    this.lockUp = false
+                }
+            }
+        },
+        methods: {
+            listScroll(e){
+                if(this.lockUp){
+                    return
+                }
+                let scrollTop = e.target.scrollTop,
+                    scrollHeight = e.target.scrollHeight,
+                    height = e.target.offsetHeight;
+                if(scrollTop + height >= scrollHeight){
+                    this.lockUp = true;//锁定上拉加载
+                    this.$emit('pullUp')//触发上拉加载事件
+                }
+            },
+            scrollTop(){
+                this.$refs.listContent.scrollTop = 0;
+            },
+            deleteItem(index){
+                this.$emit('del',index)//触发删除事件
+            }
+        },
+        filters: {
+            formatDuration(value){
+                let other = value % 3600;
+                let minutes = Math.floor(other / 60);
+                let seconds = Math.floor(other % 60);
+                return (minutes<10?'0'+minutes:minutes)+':'+(seconds<10?'0'+seconds:seconds)
             }
         }
     }
@@ -82,10 +129,16 @@
                 background: url("../../assets/img/wave.gif") no-repeat center center;
             }
         }
-        &:hover {
+        &:not([class*="list-header"]):hover {
             .list-name {
                 padding-right: 80px;
                 .list-menu {
+                    display: block;
+                }
+            }
+            .list-time {
+                font-size: 0;
+                .list-menu-icon-del {
                     display: block;
                 }
             }
@@ -151,12 +204,33 @@
                 }
             }
         }
-        .list-artist, .list-time {
+        .list-artist {
             display: block;
             width: 150px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+        .list-time {
+            display: block;
+            width: 60px;
+            position: relative;
+            .list-menu-icon-del {
+                display: none;
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 36px;
+                height: 36px;
+                background-image: url("../../assets/img/icon_list_menu.png");
+                background-repeat: no-repeat;
+                background-position: -80px -160px;
+                cursor: pointer;
+                transform: translateY(-50%);
+                &:hover {
+                    background-position: -120px -160px;
+                }
+            }
         }
     }
     

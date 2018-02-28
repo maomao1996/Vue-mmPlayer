@@ -7,12 +7,12 @@
             </dt>
             <template v-if="currentMusic.id">
                 <dd>歌曲名：{{currentMusic.name}}</dd>
-                <dd>歌手名：{{currentMusic.ar[0].name}}</dd>
-                <dd>专辑名：{{currentMusic.al.name}}</dd>
+                <dd>歌手名：{{currentMusic.singer}}</dd>
+                <dd>专辑名：{{currentMusic.album}}</dd>
             </template>
         </dl>
         <!--歌词-->
-        <div class="music-lyric">
+        <div class="music-lyric" ref="musicLyric">
             <div class="music-lyric-items" :style="lyricTop">
                 <template v-if="lyric">
                     <p :class="{on:lyricIndex===index}" v-for="(item,index) in lyric" :key="index">{{item.text}}</p>
@@ -39,12 +39,24 @@
                 default: 0
             }
         },
+        data() {
+            return {
+                top: 0
+            }
+        },
+        mounted() {
+            this.$nextTick(() => {
+                let height = this.$refs.musicLyric.offsetHeight;
+                this.top = Math.floor(height / 34 / 2)
+                console.log(this.top)
+            })
+        },
         computed: {
             musicPicUrl() {
-                return this.currentMusic.id ? this.currentMusic.al.picUrl : require('../../assets/img/player_cover.png')
+                return this.currentMusic.id ? this.currentMusic.image : require('../../assets/img/player_cover.png')
             },
             lyricTop() {
-                return 'transform :translate3d(0px, ' + (-34 * (this.lyricIndex - 6)) + 'px, 0px)'
+                return `transform :translate3d(0px, ${-34*(this.lyricIndex-this.top)}px, 0px)`
             },
             ...mapGetters([
                 'currentMusic'
@@ -55,6 +67,7 @@
 
 <style lang="less" scoped>
     @import "../../assets/css/var";
+    
     .music-info {
         padding-bottom: 20px;
         text-align: center;
