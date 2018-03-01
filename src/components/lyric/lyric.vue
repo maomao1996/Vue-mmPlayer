@@ -48,7 +48,7 @@
             this.$nextTick(() => {
                 let height = this.$refs.musicLyric.offsetHeight;
                 this.top = Math.floor(height / 34 / 2)
-                console.log(this.top)
+                //console.log(this.top)
             })
         },
         computed: {

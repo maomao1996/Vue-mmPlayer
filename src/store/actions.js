@@ -4,6 +4,7 @@ import * as types from "./mutation-types";
 //选择播放（会更新整个播放列表）
 export const selectPlay = function ({commit}, {list, index}) {
     commit(types.SET_PLAYLIST, list);
+    commit(types.SET_ORDERLIST, list);
     commit(types.SET_CURRENTINDEX, index);
     commit(types.SET_PLAYING, true)
 };
@@ -12,8 +13,20 @@ export const selectAddPlay = function ({commit, state}, {item}) {
     let list = state.playlist.slice();
     list.unshift(item);
     commit(types.SET_PLAYLIST, list);
+    commit(types.SET_ORDERLIST, list);
     commit(types.SET_CURRENTINDEX, 0);
     commit(types.SET_PLAYING, true)
+};
+//删除正在播放列表中的歌曲
+export const removerPlayListItem = function ({commit, state}, {list, index}) {
+    let currentIndex = state.currentIndex;
+    if (index < state.currentIndex) {
+        currentIndex--;
+        commit(types.SET_PLAYLIST, list);
+        commit(types.SET_CURRENTINDEX, currentIndex);
+    }else{
+        commit(types.SET_PLAYLIST, list);
+    }
 };
 //设置播放历史
 export const setHistory = function ({commit}, music) {

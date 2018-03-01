@@ -9,6 +9,10 @@ const mutations = {
     [types.SET_AUDIOELE](state, audioEle) {
         state.audioEle = audioEle
     },
+    //修改播放模式
+    [types.SET_PLAYMODE](state, mode){
+        state.mode = mode
+    },
     //修改播放状态
     [types.SET_PLAYING](state, playing) {
         state.playing = playing
@@ -20,6 +24,10 @@ const mutations = {
     //清空播放列表
     [types.CLEAR_PLAYLIST](state) {
         state.playlist = []
+    },
+    //修改顺序列表
+    [types.SET_ORDERLIST](state, orderList) {
+        state.orderList = orderList
     },
     //修改当前音乐索引
     [types.SET_CURRENTINDEX](state, currentIndex) {

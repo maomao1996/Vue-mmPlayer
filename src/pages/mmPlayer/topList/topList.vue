@@ -1,6 +1,6 @@
 <template>
     <div class="topList">
-        <mm-loading v-model="show" :loadingBgColor="'rgba(0,0,0,.6)'"></mm-loading>
+        <mm-loading v-model="mmLoadShow" :loadingBgColor="'rgba(0,0,0,.6)'"></mm-loading>
         <div class="list-item" v-for="(item,index) in list" :key="index" :title="item.name+item.updateFrequency">
             <router-link :to="{path:'/music/details',query:{id:item.id}}" tag="div" class="topList-item">
                 <img class="cover-img" :src="item.coverImgUrl+'?param=200y200'">
@@ -13,14 +13,16 @@
 <script>
     import {getToplistDetail} from 'api/music'
     import MmLoading from 'base/mm-loading/mm-loading'
+    import {loadMixin} from "assets/js/mixin"
+    
     export default {
         name: "play-list",
+        mixins: [loadMixin],
         components: {
             MmLoading
         },
         data() {
             return {
-                show: true,//loading
                 list: [],//列表
             }
         },
@@ -28,11 +30,7 @@
             getToplistDetail().then( (res) => {
                 if(res.status === 200) {
                     this.list = res.data.list;
-                    let timer;
-                    clearTimeout(timer);
-                    timer = setTimeout(()=>{
-                        this.show = false
-                    },200)
+                    this._hideLoad()
                 }
             })
         }

@@ -30,11 +30,10 @@
 </template>
 
 <script>
-    import {listMixin} from 'assets/js/mixin'
+    import {mapGetters} from 'vuex'
     
     export default {
         name: "music-list-del",
-        mixins: [listMixin],
         props: {
             list: {
                 type: Array,
@@ -46,8 +45,14 @@
                 /**
                  * 是否锁定上拉加载事件,默认锁定
                  */
-                lockUp: true
+                lockUp: true,
             }
+        },
+        computed: {
+            ...mapGetters([
+                'playing',
+                'currentMusic',
+            ])
         },
         watch: {
             list(newList,oldList){
@@ -73,6 +78,9 @@
             },
             scrollTop(){
                 this.$refs.listContent.scrollTop = 0;
+            },
+            selectItem(item,index){
+                this.$emit('select',item,index)//触发点击播放事件
             },
             deleteItem(index){
                 this.$emit('del',index)//触发删除事件

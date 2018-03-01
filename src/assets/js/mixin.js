@@ -1,5 +1,8 @@
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 
+/**
+ * 歌曲列表
+ */
 export const listMixin = {
     computed: {
         ...mapGetters([
@@ -25,4 +28,25 @@ export const listMixin = {
             'selectPlay'
         ])
     }
-}
+};
+
+/**
+ * loading状态
+ * @type {{data(): *, methods: {_hideLoad(): void}}}
+ */
+export const loadMixin = {
+    data(){
+        return {
+            mmLoadShow: true,//loading状态
+        }
+    },
+    methods: {
+        _hideLoad(){
+            let timer;
+            clearTimeout(timer);
+            timer = setTimeout(()=>{
+                this.mmLoadShow = false
+            },200)
+        }
+    }
+};

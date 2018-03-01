@@ -50,11 +50,11 @@ export function getTopArtists(offset = 0,limit = 50) {
 }
 
 //获取用户歌单详情
-export function getplaylistdetail(id) {
-    const url = URL+'/playlist/detail';
+export function getUserPlaylist(id) {
+    const url = URL+'/user/playlist';
     return axios.get(url, {
         params: {
-            id: id
+            uid: id
         }
     })
 }
@@ -70,14 +70,14 @@ export function getMusicDetail(id) {
 }
 
 //获取音乐地址
-export function getMusicUrl(id) {
-    const url = URL+'/music/url';
-    return axios.get(url, {
-        params: {
-            id: id
-        }
-    })
-}
+//export function getMusicUrl(id) {
+//    const url = URL+'/music/url';
+//    return axios.get(url, {
+//        params: {
+//            id: id
+//        }
+//    })
+//}
 
 //获取歌词
 export function getLyric(id) {
@@ -90,12 +90,12 @@ export function getLyric(id) {
 }
 
 //下载
-export function download(id,name) {
-    const url = URL+'/download';
-    return axios.get(url, {
-        params: {
-            id: id,
-            name: name
-        }
-    })
-}
+//export function download(id,name) {
+//    const url = URL+'/download';
+//    return axios.get(url, {
+//        params: {
+//            id: id,
+//            name: name
+//        }
+//    })
+//}

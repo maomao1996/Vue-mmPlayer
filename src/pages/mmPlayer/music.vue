@@ -19,6 +19,7 @@
             <lyric class="music-right" :lyric="lyric" :lyricIndex="lyricIndex"></lyric>
         </div>
         
+        <!--播放器-->
         <div class="music-bar" :class="{disable:!musicReady||!currentMusic.id}">
             <a class="music-bar-btn btn-prev" @click="prev"></a>
             <a class="music-bar-btn btn-play" :class="{'btn-play-pause':playing}" @click="play"></a>
@@ -34,6 +35,7 @@
                     <mm-progress class="music-progress" :percent="0"></mm-progress>
                 </template>
             </div>
+            <a class="music-bar-btn btn-mode" @click="modeChange"></a>
             <div class="music-bar-volume">
                 <a class="music-bar-btn btn-volume" :class="{'btn-volume-no':isMute}" @click="switchMute"></a>
                 <mm-progress @percentChange="volumeChange"
@@ -62,12 +64,12 @@
         },
         data() {
             return {
-                musicReady: false,
-                currentTime: 0,
-                lyric: null,
-                lyricIndex: 0,
-                isMute: false,
-                volume: .5,
+                musicReady: false,//是否可以使用播放器
+                currentTime: 0,//当前播放时间
+                lyric: [],//歌词数组
+                lyricIndex: 0,//当前播放歌词下标
+                isMute: false,//是否静音
+                volume: .5,//默认音量大小
             }
         },
         mounted() {
@@ -84,6 +86,7 @@
             },
             ...mapGetters([
                 'audioEle',
+                'mode',
                 'playing',
                 'playlist',
                 'currentIndex',
@@ -152,6 +155,12 @@
             progressMusic(percent) {
                 this.audioEle.currentTime = this.currentMusic.duration * percent
             },
+            //切换播放顺序
+            modeChange(){
+                const mode = (this.mode + 1) % 4;
+                this.setPlayMode(mode);
+                console.log(mode)
+            },
             //修改音量大小
             volumeChange(percent) {
                 percent === 0 ? this.isMute = true : this.isMute = false;
@@ -175,6 +184,7 @@
                 })
             },
             ...mapMutations({
+                setPlayMode: 'SET_PLAYMODE',
                 setPlaying: 'SET_PLAYING',
                 setCurrentIndex: 'SET_CURRENTINDEX'
             }),
@@ -284,9 +294,7 @@
             padding-bottom: 15px;
             &.disable {
                 pointer-events: none;
-                .btn-prev, .btn-play, .btn-next {
-                    opacity: .6;
-                }
+                opacity: .6;
             }
             .music-bar-btn {
                 display: block;
@@ -332,8 +340,14 @@
                 .music-bar-time {
                     position: absolute;
                     top: 0;
-                    right: 0;
+                    right: 20px;
                 }
+            }
+            .btn-mode {
+                width: 25px;
+                height: 19px;
+                margin-left: 20px;
+                background-position: 0 -74px;
             }
             .music-bar-volume {
                 position: relative;
@@ -388,7 +402,7 @@
         //当屏幕小于768时
         @media (max-width: 768px) {
             & {
-                padding: 50px 15px 15px 15px
+                padding: 50px 15px 5px 15px
             }
             
             .music-content .music-left {
@@ -416,7 +430,7 @@
             .music-bar {
                 height: 60px;
                 padding-bottom: 0;
-                .music-bar-volume {
+                .btn-mode,.music-bar-volume {
                     display: none;
                 }
             }

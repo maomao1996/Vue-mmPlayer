@@ -1,6 +1,6 @@
 <template>
     <div class="details">
-        <mm-loading v-model="show" :loadingBgColor="'rgba(0,0,0,.6)'"></mm-loading>
+        <mm-loading v-model="mmLoadShow" :loadingBgColor="'rgba(0,0,0,.6)'"></mm-loading>
         <music-list :list="list"></music-list>
     </div>
 </template>
@@ -10,16 +10,17 @@
     import MmLoading from 'base/mm-loading/mm-loading'
     import MusicList from 'components/music-list/music-list'
     import {createTopList} from 'assets/js/song'
+    import {loadMixin} from "assets/js/mixin"
     
     export default {
         name: "detail",
+        mixins: [loadMixin],
         components: {
             MmLoading,
             MusicList
         },
         data() {
             return {
-                show: true,//loading
                 list: [],//列表
             }
         },
@@ -27,11 +28,7 @@
             topListMm(this.$route.query.id)
                 .then((res) => {
                     this.list = this._formatSongs(res.data.playlist.tracks);
-                    let timer;
-                    clearTimeout(timer);
-                    timer = setTimeout(()=>{
-                        this.show = false
-                    },200)
+                    this._hideLoad()
                 })
         },
         methods: {

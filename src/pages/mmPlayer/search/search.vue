@@ -1,6 +1,6 @@
 <template>
     <div class="search">
-        <mm-loading v-model="show" :loadingBgColor="'rgba(0,0,0,.6)'"></mm-loading>
+        <mm-loading v-model="mmLoadShow" :loadingBgColor="'rgba(0,0,0,.6)'"></mm-loading>
         <div class="search-head">
             <span v-for="(item,index) in Artists" :key="index" @click="clickHot(item.name)">{{item.name}}</span>
             <input class="search-input" type="text" placeholder="音乐/歌手" v-model.trim="searchValue"
@@ -38,15 +38,16 @@
     import {getTopArtists, search,getMusicDetail} from 'api/music'
     import {createSerach} from 'assets/js/song'
     import MmLoading from 'base/mm-loading/mm-loading'
+    import {loadMixin} from "assets/js/mixin";
     
     export default {
         name: "search",
+        mixins: [loadMixin],
         components: {
             MmLoading
         },
         data() {
             return {
-                show: true,//loading
                 Artists: [],//热门搜索歌手数组
                 list: [],//搜索数组
                 page: 0,//分页
@@ -87,7 +88,7 @@
                     this.$mmToast('搜索内容不能为空！');
                     return
                 }
-                this.show = true;
+                this.mmLoadShow = true;
                 this.page = 0;
                 if (this.list.length > 0) {
                     this.$refs.listContent.scrollTop = 0;
@@ -114,14 +115,14 @@
             },
             //上拉加载
             pullUpLoad() {
-                this.show = true;
+                this.mmLoadShow = true;
                 this.page += 1;
                 search(this.searchValue, this.page)
                     .then(res => {
                         if (res.data.code === 200) {
                             if(!res.data.result.songs){
                                 this.$mmToast('没有更多歌曲啦！');
-                                this.show = false;
+                                this.mmLoadShow = false;
                                 return
                             }
                             this.list = this.list.concat(this._formatSongs(res.data.result.songs))
@@ -146,13 +147,6 @@
                             return res.data.songs[0].al.picUrl
                         }
                     })
-            },
-            _hideLoad(){
-                let timer;
-                clearTimeout(timer);
-                timer = setTimeout(()=>{
-                    this.show = false
-                },200)
             },
             _formatSongs(list) {
                 let ret = [];
