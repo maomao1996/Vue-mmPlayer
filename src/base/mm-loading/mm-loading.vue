@@ -24,7 +24,7 @@
 </script>
 
 <style lang="less">
-    @import "../../assets/css/var";
+    @import "~assets/css/var";
     .mm-loading {
         position: absolute;
         top: 0;

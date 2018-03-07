@@ -3,11 +3,12 @@
         <div class="list-item list-header">
             <span class="list-name">歌曲</span>
             <span class="list-artist">歌手</span>
-            <span class="list-time">专辑</span>
+            <span v-if="listType === 1" class="list-time">时长</span>
+            <span v-else class="list-album">专辑</span>
         </div>
-        <div class="list-content" v-if="list.length>0">
+        <div ref="listContent" class="list-content" v-if="list.length>0" @scroll="listScroll($event)">
             <div class="list-item" :class="{'on':playing&&currentMusic.id===item.id}" v-for="(item,index) in list"
-                 :key="index">
+                 :key="item.id">
                 <span class="list-num" v-text="index+1"></span>
                 <div class="list-name">
                     <span>{{item.name}}</span>
@@ -17,7 +18,10 @@
                     </div>
                 </div>
                 <span class="list-artist">{{item.singer}}</span>
-                <span class="list-time">{{item.album}}</span>
+                <span class="list-time" v-if="listType === 1">{{item.duration | formatDuration}}
+                    <i class="list-menu-icon-del" @click="deleteItem(index)"></i>
+                </span>
+                <span class="list-album" v-else>{{item.album}}</span>
             </div>
             <slot name="listBtn"></slot>
         </div>
@@ -28,25 +32,97 @@
 </template>
 
 <script>
-    import {listMixin} from 'assets/js/mixin'
+    import {mapGetters, mapMutations} from 'vuex'
     
     export default {
         name: "music-list",
-        mixins: [listMixin],
         props: {
             list: {
                 type: Array,
                 default: []
+            },
+            /**
+             *  0：显示专辑栏目（默认）
+             *  1：显示时长栏目
+             */
+            listType: {
+                type: Number,
+                default: 0
+            }
+        },
+        data() {
+            return {
+                lockUp: true,//是否锁定上拉加载事件,默认锁定
+            }
+        },
+        computed: {
+            ...mapGetters([
+                'playing',
+                'currentMusic',
+            ])
+        },
+        watch: {
+            list(newList, oldList) {
+                if (this.listType !==2){
+                    return
+                }
+                if (newList.length !== oldList.length) {
+                    this.lockUp = false
+                } else if (newList[newList.length - 1].id !== oldList.length > 0 && oldList[oldList.length - 1].id) {
+                    this.lockUp = false
+                }
+            }
+        },
+        methods: {
+            listScroll(e) {
+                if(this.listType !==2){
+                    return
+                }
+                if (this.lockUp) {
+                    return
+                }
+                let scrollTop = e.target.scrollTop,
+                    scrollHeight = e.target.scrollHeight,
+                    height = e.target.offsetHeight;
+                if (scrollTop + height >= scrollHeight) {
+                    this.lockUp = true;//锁定上拉加载
+                    this.$emit('pullUp')//触发上拉加载事件
+                }
+            },
+            scrollTop() {
+                this.$refs.listContent.scrollTop = 0;
+            },
+            selectItem(item, index) {
+                if (item.id === this.currentMusic.id && this.playing) {
+                    this.setPlaying(false);
+                    return
+                }
+                this.$emit('select',item,index)//触发点击播放事件
+            },
+            deleteItem(index) {
+                this.$emit('del', index)//触发删除事件
+            },
+            ...mapMutations({
+                setPlaying: 'SET_PLAYING'
+            })
+        },
+        filters: {
+            formatDuration(value) {
+                let other = value % 3600;
+                let minutes = Math.floor(other / 60);
+                let seconds = Math.floor(other % 60);
+                return (minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds < 10 ? '0' + seconds : seconds)
             }
         }
     }
 </script>
 
 <style lang="less" scoped>
-    @import "../../assets/css/var";
+    @import "~assets/css/var";
     
     .list-header {
         border-bottom: 1px solid @list_head_line_color;
+        color: @text_color_active;
         .list-name {
             padding-left: 40px;
         }
@@ -58,6 +134,7 @@
         overflow-x: hidden;
         overflow-y: auto;
     }
+    
     .list-content-no {
         display: flex;
         width: 100%;
@@ -86,6 +163,20 @@
             .list-name {
                 padding-right: 80px;
                 .list-menu {
+                    display: block;
+                }
+            }
+        }
+        &:not([class*="list-header"]):hover {
+            .list-name {
+                padding-right: 80px;
+                .list-menu {
+                    display: block;
+                }
+            }
+            .list-time {
+                font-size: 0;
+                .list-menu-icon-del {
                     display: block;
                 }
             }
@@ -151,12 +242,33 @@
                 }
             }
         }
-        .list-artist, .list-time {
+        .list-artist, .list-album {
             display: block;
             width: 150px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+        .list-time {
+            display: block;
+            width: 60px;
+            position: relative;
+            .list-menu-icon-del {
+                display: none;
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 36px;
+                height: 36px;
+                background-image: url("../../assets/img/icon_list_menu.png");
+                background-repeat: no-repeat;
+                background-position: -80px -160px;
+                cursor: pointer;
+                transform: translateY(-50%);
+                &:hover {
+                    background-position: -120px -160px;
+                }
+            }
         }
     }
     
@@ -171,7 +283,7 @@
     
     @media (max-width: 768px) {
         .list-item {
-            .list-artist, .list-time {
+            .list-artist, .list-album {
                 width: 20%;
             }
         }
@@ -182,7 +294,7 @@
             .list-artist {
                 width: 80px;
             }
-            .list-time {
+            .list-album, .list-time {
                 display: none;
             }
         }

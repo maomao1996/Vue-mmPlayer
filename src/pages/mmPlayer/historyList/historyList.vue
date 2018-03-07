@@ -1,22 +1,25 @@
 <template>
     <div class="historyList">
-        <music-list :list="historyList" @select="selectItem" @del="deleteItem">
+        <music-list :list="historyList" :listType="1" @select="selectItem" @del="deleteItem">
             <div slot="listBtn" class="list-btn">
-                <span @click="click">清空列表</span>
+                <span @click="$refs.dialog.show()">清空列表</span>
             </div>
         </music-list>
+        <mm-dialog ref="dialog" @confirm="clearList" bodyText="是否清空播放历史列表" confirmBtnText="清空"></mm-dialog>
     </div>
 </template>
 
 <script>
     import {topListMm} from 'api/music'
     import {mapGetters, mapMutations, mapActions} from 'vuex'
-    import MusicList from 'components/music-list/music-list-del'
+    import MusicList from 'components/music-list/music-list'
+    import MmDialog from 'base/mm-dialog/mm-dialog'
     
     export default {
         name: "history-list",
         components: {
-            MusicList
+            MusicList,
+            MmDialog
         },
         computed: {
             ...mapGetters([
@@ -26,19 +29,15 @@
             ])
         },
         methods: {
-            click(){
+            clearList() {
                 this.clearHistory();
                 this.$mmToast('列表清空成功')
             },
             selectItem(item,index){
-                if (item.id === this.currentMusic.id && this.playing) {
-                    this.setPlaying(false)
-                } else {
-                    this.selectPlay({
-                        list: this.historyList,
-                        index
-                    })
-                }
+                this.selectPlay({
+                    list: this.historyList,
+                    index
+                })
             },
             deleteItem(index){
                 let list = this.historyList.slice();
@@ -59,7 +58,7 @@
 </script>
 
 <style lang="less" scoped>
-    @import "../../../assets/css/var";
+    @import "~assets/css/var";
     
     .historyList {
         width: 100%;

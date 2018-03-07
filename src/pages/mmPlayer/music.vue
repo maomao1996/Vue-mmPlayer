@@ -27,7 +27,8 @@
             <div class="music-music">
                 <template v-if="percentMusic">
                     <div class="music-bar-info">{{currentMusic.name}}<span> - {{currentMusic.singer}}</span></div>
-                    <div class="music-bar-time">{{currentTime | format}}/{{currentMusic.duration | formatDuration}}</div>
+                    <div class="music-bar-time">{{currentTime | format}}/{{currentMusic.duration | formatDuration}}
+                    </div>
                     <mm-progress class="music-progress" :percent="percentMusic"
                                  @percentChange="progressMusic"></mm-progress>
                 </template>
@@ -35,7 +36,7 @@
                     <mm-progress class="music-progress" :percent="0"></mm-progress>
                 </template>
             </div>
-            <a class="music-bar-btn btn-mode" @click="modeChange"></a>
+            <a class="music-bar-btn" :class="modeClass" @click="modeChange"></a>
             <div class="music-bar-volume">
                 <a class="music-bar-btn btn-volume" :class="{'btn-volume-no':isMute}" @click="switchMute"></a>
                 <mm-progress @percentChange="volumeChange"
@@ -52,13 +53,17 @@
 <script>
     import {getLyric} from 'api/music'
     import mmPlayerMusic from './mmPlayer'
+    import {randomSortArray} from 'assets/js/util'
+    import {playMode} from "assets/js/config"
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import MmProgress from 'base/mm-progress/mm-progress'
+    import MmDialog from 'base/mm-dialog/mm-dialog'
     import Lyric from 'components/lyric/lyric'
     
     export default {
         name: "music",
         components: {
+            MmDialog,
             MmProgress,
             Lyric
         },
@@ -81,6 +86,22 @@
             picUrl() {
                 return this.currentMusic.id && this.currentMusic.image ? `background-image:url(${this.currentMusic.image})` : ''
             },
+            modeClass() {
+                switch (this.mode) {
+                    case playMode.listLoop:
+                        return 'mode-listLoop';
+                        break;
+                    case playMode.order:
+                        return 'mode-order';
+                        break;
+                    case playMode.random:
+                        return 'mode-random';
+                        break;
+                    case playMode.loop:
+                        return 'mode-loop';
+                        break
+                }
+            },
             percentMusic() {
                 return this.currentTime && this.currentMusic.duration ? this.currentTime / this.currentMusic.duration : 0
             },
@@ -89,12 +110,17 @@
                 'mode',
                 'playing',
                 'playlist',
+                'orderList',
                 'currentIndex',
                 'currentMusic',
             ])
         },
         watch: {
             currentMusic(newMusic, oldMusic) {
+                if (!newMusic.id) {
+                    this.lyric = [];
+                    return
+                }
                 if (newMusic.id === oldMusic.id) {
                     return
                 }
@@ -125,11 +151,18 @@
                 if (!this.musicReady) {
                     return
                 }
-                let index = this.currentIndex - 1;
-                if (index < 0) {
-                    index = this.playlist.length - 1
+                if (this.playlist.length === 1) {
+                    this.loop()
+                } else {
+                    let index = this.currentIndex - 1;
+                    if (index < 0) {
+                        index = this.playlist.length - 1
+                    }
+                    this.setCurrentIndex(index);
+                    if(!this.playing&&this.musicReady){
+                        this.setPlaying(true);
+                    }
                 }
-                this.setCurrentIndex(index);
                 this.musicReady = false
             },
             //播放暂停
@@ -144,22 +177,65 @@
                 if (!this.musicReady) {
                     return
                 }
-                let index = this.currentIndex + 1;
-                if (index === this.playlist.length) {
-                    index = 0
+                if(this.playlist.length-1 === this.currentIndex){
+                    this.setCurrentIndex(-1);
+                    this.setPlaying(false);
+                    return
                 }
-                this.setCurrentIndex(index);
+                if (this.playlist.length === 1) {
+                    this.loop()
+                } else {
+                    let index = this.currentIndex + 1;
+                    if (index === this.playlist.length) {
+                        index = 0
+                    }
+                    if(!this.playing&&this.musicReady){
+                        this.setPlaying(true);
+                    }
+                    this.setCurrentIndex(index);
+                }
                 this.musicReady = false
+            },
+            //循环
+            loop() {
+                this.audioEle.currentTime = 0;
+                this.audioEle.play();
+                this.setPlaying(true);
+                if (this.lyric.length > 0) {
+                    this.lyricIndex = 0
+                }
             },
             //修改音乐进度
             progressMusic(percent) {
                 this.audioEle.currentTime = this.currentMusic.duration * percent
             },
             //切换播放顺序
-            modeChange(){
+            modeChange() {
                 const mode = (this.mode + 1) % 4;
                 this.setPlayMode(mode);
-                console.log(mode)
+                if(mode===playMode.loop){
+                    return
+                }
+                let list = [];
+                switch (mode) {
+                    case playMode.listLoop:
+                        list = this.orderList;
+                        break;
+                    case playMode.order:
+                        list = this.orderList;
+                        break;
+                    case playMode.random:
+                        list = randomSortArray(this.orderList);
+                        break
+                }
+                this.resetCurrentIndex(list);
+                this.setPlaylist(list);
+            },
+            resetCurrentIndex(list){
+                const index = list.findIndex(item => {
+                    return item.id === this.currentMusic.id
+                });
+                this.setCurrentIndex(index)
             },
             //修改音量大小
             volumeChange(percent) {
@@ -184,12 +260,13 @@
                 })
             },
             ...mapMutations({
-                setPlayMode: 'SET_PLAYMODE',
                 setPlaying: 'SET_PLAYING',
+                setPlaylist: 'SET_PLAYLIST',
                 setCurrentIndex: 'SET_CURRENTINDEX'
             }),
             ...mapActions([
-                'setHistory'
+                'setHistory',
+                'setPlayMode'
             ])
         },
         filters: {
@@ -199,11 +276,11 @@
                 let second = Math.floor(value % 60);
                 return `${minute < 10 ? '0' + minute : minute}:${second < 10 ? '0' + second : second}`
             },
-            formatDuration(value){
+            formatDuration(value) {
                 let other = value % 3600;
                 let minutes = Math.floor(other / 60);
                 let seconds = Math.floor(other % 60);
-                return (minutes<10?'0'+minutes:minutes)+':'+(seconds<10?'0'+seconds:seconds)
+                return (minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds < 10 ? '0' + seconds : seconds)
             }
         }
     }
@@ -233,7 +310,7 @@
 </script>
 
 <style lang="less">
-    @import "../../assets/css/var";
+    @import "~assets/css/var";
     
     .music {
         padding: 50px 25px 25px 25px;
@@ -249,6 +326,7 @@
             height: calc(~'100% - 80px');
             .music-left {
                 flex: 1;
+                height: 100%;
                 overflow: hidden;
                 .music-btn {
                     width: 100%;
@@ -343,11 +421,29 @@
                     right: 20px;
                 }
             }
-            .btn-mode {
+            .mode-listLoop {
+                width: 26px;
+                height: 25px;
+                margin-left: 20px;
+                background-position: 0 -205px;
+            }
+            .mode-order {
+                width: 23px;
+                height: 20px;
+                margin-left: 23px;
+                background-position: 0 -260px;
+            }
+            .mode-random {
                 width: 25px;
                 height: 19px;
-                margin-left: 20px;
+                margin-left: 21px;
                 background-position: 0 -74px;
+            }
+            .mode-loop {
+                width: 26px;
+                height: 25px;
+                margin-left: 20px;
+                background-position: 0 -232px;
             }
             .music-bar-volume {
                 position: relative;
@@ -387,7 +483,7 @@
             background-repeat: no-repeat;
             background-size: cover;
             background-position: 50%;
-            filter: blur(10px);
+            filter: blur(12px);
             opacity: .7;
             transform: translateZ(0);
             transition: all .8s;
@@ -412,7 +508,7 @@
                         height: 35px;
                         padding: 0 10px;
                         line-height: 35px;
-                        &:nth-last-of-type(1){
+                        &:nth-last-of-type(1) {
                             margin: 0;
                         }
                     }
@@ -430,7 +526,7 @@
             .music-bar {
                 height: 60px;
                 padding-bottom: 0;
-                .btn-mode,.music-bar-volume {
+                .btn-mode, .music-bar-volume {
                     display: none;
                 }
             }

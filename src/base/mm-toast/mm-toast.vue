@@ -27,7 +27,7 @@
     .mm-toast {
         position: fixed;
         left: 50%;
-        z-index: 19961314520;
+        z-index: 1996;
         max-width: 80%;
         box-sizing: border-box;
         border-radius: 5px;

@@ -1,11 +1,12 @@
 <template>
     <div class="details">
         <mm-loading v-model="mmLoadShow" :loadingBgColor="'rgba(0,0,0,.6)'"></mm-loading>
-        <music-list :list="list"></music-list>
+        <music-list :list="list" @select="selectItem"></music-list>
     </div>
 </template>
 
 <script>
+    import {mapActions} from 'vuex'
     import {topListMm} from 'api/music'
     import MmLoading from 'base/mm-loading/mm-loading'
     import MusicList from 'components/music-list/music-list'
@@ -32,6 +33,12 @@
                 })
         },
         methods: {
+            selectItem(item, index) {
+                this.selectPlay({
+                    list: this.list,
+                    index
+                })
+            },
             _formatSongs(list) {
                 let ret = [];
                 list.forEach((item) => {
@@ -42,6 +49,9 @@
                 });
                 return ret
             },
+            ...mapActions([
+                'selectPlay'
+            ])
         }
     }
 </script>

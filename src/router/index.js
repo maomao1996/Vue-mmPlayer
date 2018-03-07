@@ -53,7 +53,10 @@ const routes = [
                 component: HistoryList
             }, {
                 path: '/music/search',//搜索
-                component: Search
+                component: Search,
+                meta: {
+                    keepAlive: true
+                }
             }
         ]
     }
