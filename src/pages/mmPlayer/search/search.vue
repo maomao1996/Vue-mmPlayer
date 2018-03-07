@@ -6,45 +6,24 @@
             <input class="search-input" type="text" placeholder="音乐/歌手" v-model.trim="searchValue"
                    @keyup.enter="onEnter">
         </div>
-        <div class="musicList">
-            <div class="list-item list-header">
-                <span class="list-name">歌曲</span>
-                <span class="list-artist">歌手</span>
-                <span class="list-time">专辑</span>
-            </div>
-            <div ref="listContent" class="list-content" v-if="list.length>0" @scroll="listScroll($event)">
-                <div class="list-item" :class="{'on':playing&&currentMusic.id===item.id}" v-for="(item,index) in list" :key="item.id">
-                    <span class="list-num" v-text="index+1"></span>
-                    <div class="list-name">
-                        <span>{{item.name}}</span>
-                        <div class="list-menu">
-                        <span class="list-menu-icon-play" :class="{'on':playing&&currentMusic.id===item.id}"
-                              @click="selectItem(item)"></span>
-                        </div>
-                    </div>
-                    <span class="list-artist">{{item.singer}}</span>
-                    <span class="list-time">{{item.album}}</span>
-                </div>
-            </div>
-            <div class="list-content" v-else>
-                <div class="list-item list-item-no">弄啥呢，怎么啥也没有！！！</div>
-            </div>
-        </div>
+        <music-list ref="musicList" :list="list" :listType="2" @select="selectItem" @pullUp="pullUpLoad"></music-list>
     </div>
 </template>
 
 <script>
-    import {mapGetters, mapMutations, mapActions} from 'vuex'
+    import {mapGetters, mapActions} from 'vuex'
     import {getTopArtists, search,getMusicDetail} from 'api/music'
     import {createSerach} from 'assets/js/song'
     import MmLoading from 'base/mm-loading/mm-loading'
+    import MusicList from 'components/music-list/music-list'
     import {loadMixin} from "assets/js/mixin";
     
     export default {
         name: "search",
         mixins: [loadMixin],
         components: {
-            MmLoading
+            MmLoading,
+            MusicList
         },
         data() {
             return {
@@ -91,7 +70,7 @@
                 this.mmLoadShow = true;
                 this.page = 0;
                 if (this.list.length > 0) {
-                    this.$refs.listContent.scrollTop = 0;
+                    this.$refs.musicList.scrollTop();
                 }
                 search(this.searchValue)
                     .then(res => {
@@ -131,14 +110,10 @@
                     })
             },
             //播放歌曲
-            async selectItem(item) {
-                let image = await this._getMusicDetail(item.id);
-                item.image = image;
-                if (item.id === this.currentMusic.id && this.playing) {
-                    this.setPlaying(false)
-                } else {
-                    this.selectAddPlay({item})
-                }
+            async selectItem(music) {
+                let image = await this._getMusicDetail(music.id);
+                music.image = image;
+                this.selectAddPlay(music)
             },
             _getMusicDetail(id){
                 return getMusicDetail(id)
@@ -158,9 +133,6 @@
                 });
                 return ret
             },
-            ...mapMutations({
-                setPlaying: 'SET_PLAYING'
-            }),
             ...mapActions([
                 'selectAddPlay'
             ])
@@ -169,7 +141,7 @@
 </script>
 
 <style lang="less" scoped>
-    @import "../../../assets/css/var";
+    @import "~assets/css/var";
     
     .search {
         position: relative;
@@ -199,166 +171,20 @@
                 box-sizing: border-box;
                 margin: 0 10px;
                 padding: 0 15px;
-                /*border-radius: 30px;*/
                 border: 1px solid @btn_color;
                 outline: 0;
                 background: transparent;
                 color: @text_color_active;
                 font-size: @font_size_medium;
+                box-shadow: 0 0 1px 0 #fff inset;
                 &::placeholder {
                     color: @text_color;
-                }
-                /*:focus*/
-                & {
-                    box-shadow: 0 0 1px 0 #fff inset;
                 }
             }
         }
         .musicList {
             width: 100%;
             height: calc(~'100% - 50px');
-            .list-header {
-                border-bottom: 1px solid @list_head_line_color;
-                .list-name {
-                    padding-left: 40px;
-                }
-            }
-    
-            .list-content {
-                width: 100%;
-                height: calc(~'100% - 60px');
-                overflow-x: hidden;
-                overflow-y: auto;
-            }
-            .list-content-no {
-                display: flex;
-                width: 100%;
-                height: 200px;
-                color: @text_color_active;
-            }
-    
-            .list-item {
-                display: flex;
-                width: 100%;
-                height: 50px;
-                line-height: 50px;
-                border-bottom: 1px solid @list_item_line_color;
-                &.list-item-no {
-                    justify-content: center;
-                    align-items: center;
-                }
-                &.on {
-                    color: #fff;
-                    .list-num {
-                        font-size: 0;
-                        background: url("../../../assets/img/wave.gif") no-repeat center center;
-                    }
-                }
-                &:hover {
-                    .list-name {
-                        padding-right: 80px;
-                        .list-menu {
-                            display: block;
-                        }
-                    }
-                }
-                .list-num {
-                    display: block;
-                    width: 30px;
-                    margin-right: 10px;
-                    text-align: center;
-                }
-                .list-name {
-                    position: relative;
-                    flex: 1;
-                    box-sizing: border-box;
-                    & > span {
-                        text-overflow: ellipsis;
-                        overflow: hidden;
-                        display: -webkit-box;
-                        -webkit-line-clamp: 1;
-                        -webkit-box-orient: vertical;
-                    }
-                    small {
-                        margin-left: 5px;
-                        font-size: 12px;
-                        color: rgba(255, 255, 255, .5);
-                    }
-            
-                    /*hover菜单*/
-                    .list-menu {
-                        display: none;
-                        position: absolute;
-                        top: 50%;
-                        right: 10px;
-                        height: 36px;
-                        font-size: 0;
-                        transform: translateY(-50%);
-                        span, a {
-                            display: inline-block;
-                            width: 36px;
-                            height: 36px;
-                            margin-right: 10px;
-                            background-image: url("../../../assets/img/icon_list_menu.png");
-                            background-repeat: no-repeat;
-                            cursor: pointer;
-                        }
-                        .list-menu-icon-play {
-                            background-position: -80px 0;
-                            &.on {
-                                background-position: -80px -200px;
-                                &:hover {
-                                    background-position: -120px -200px;
-                                }
-                            }
-                            &:hover {
-                                background-position: -120px 0;
-                            }
-                        }
-                        .list-menu-icon-down {
-                            background-position: -80px -120px;
-                            &:hover {
-                                background-position: -120px -120px;
-                            }
-                        }
-                    }
-                }
-                .list-artist, .list-time {
-                    display: block;
-                    width: 150px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-            }
-    
-            @media (max-width: 960px) {
-                .list-item .list-name {
-                    padding-right: 70px;
-                    .list-menu {
-                        display: block;
-                    }
-                }
-            }
-    
-            @media (max-width: 768px) {
-                .list-item {
-                    .list-artist, .list-time {
-                        width: 20%;
-                    }
-                }
-            }
-    
-            @media (max-width: 640px) {
-                .list-item {
-                    .list-artist {
-                        width: 80px;
-                    }
-                    .list-time {
-                        display: none;
-                    }
-                }
-            }
         }
     }
 </style>

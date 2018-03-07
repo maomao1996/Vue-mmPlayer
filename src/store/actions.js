@@ -1,5 +1,17 @@
-import {clearPlayList, setPlayList, removePlayList} from "../assets/js/storage";
+import {clearHistoryList, setHistoryList, removeHistoryList, setMode} from "../assets/js/storage";
 import * as types from "./mutation-types";
+
+function findIndex(list, music) {
+    return list.findIndex((item) => {
+        return item.id === music.id
+    })
+}
+
+//设置播放列表
+export const setPlaylist = function ({commit}, {list}) {
+    commit(types.SET_PLAYLIST, list);
+    commit(types.SET_ORDERLIST, list);
+};
 
 //选择播放（会更新整个播放列表）
 export const selectPlay = function ({commit}, {list, index}) {
@@ -9,14 +21,30 @@ export const selectPlay = function ({commit}, {list, index}) {
     commit(types.SET_PLAYING, true)
 };
 //选择播放（会插入一条到播放列表）
-export const selectAddPlay = function ({commit, state}, {item}) {
+export const selectAddPlay = function ({commit, state}, music) {
     let list = state.playlist.slice();
-    list.unshift(item);
-    commit(types.SET_PLAYLIST, list);
-    commit(types.SET_ORDERLIST, list);
-    commit(types.SET_CURRENTINDEX, 0);
+    //查询当前播放列表是否有代插入的音乐，并返回其索引值
+    let index = findIndex(list, music);
+    //当前播放列表有待插入的音乐时，直接改变当前播放音乐的索引值
+    if (index > -1) {
+        commit(types.SET_CURRENTINDEX, index)
+    }else{
+        list.unshift(music);
+        commit(types.SET_PLAYLIST, list);
+        commit(types.SET_ORDERLIST, list);
+        commit(types.SET_CURRENTINDEX, 0)
+    }
     commit(types.SET_PLAYING, true)
 };
+
+//清空播放列表
+export const clearPlayList = function ({commit}) {
+    commit(types.SET_PLAYLIST, []);
+    commit(types.SET_ORDERLIST, []);
+    commit(types.SET_CURRENTINDEX, -1);
+    commit(types.SET_PLAYING, false)
+};
+
 //删除正在播放列表中的歌曲
 export const removerPlayListItem = function ({commit, state}, {list, index}) {
     let currentIndex = state.currentIndex;
@@ -24,19 +52,23 @@ export const removerPlayListItem = function ({commit, state}, {list, index}) {
         currentIndex--;
         commit(types.SET_PLAYLIST, list);
         commit(types.SET_CURRENTINDEX, currentIndex);
-    }else{
+    } else {
         commit(types.SET_PLAYLIST, list);
     }
 };
 //设置播放历史
 export const setHistory = function ({commit}, music) {
-    commit(types.SET_HISTORYLIST, setPlayList(music));
+    commit(types.SET_HISTORYLIST, setHistoryList(music));
 };
 //删除播放历史
 export const removeHistory = function ({commit}, music) {
-    commit(types.SET_HISTORYLIST, removePlayList(music));
+    commit(types.SET_HISTORYLIST, removeHistoryList(music));
 };
 //清空播放历史
 export const clearHistory = function ({commit}) {
-    commit(types.SET_HISTORYLIST, clearPlayList());
+    commit(types.SET_HISTORYLIST, clearHistoryList());
+};
+//设置播放模式
+export const setPlayMode = function ({commit}, mode) {
+    commit(types.SET_PLAYMODE, setMode(mode));
 };

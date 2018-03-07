@@ -17,6 +17,10 @@
     <div id="app"></div>
     <script>
         (function() {
+            if (!!window.ActiveXObject || "ActiveXObject" in window){
+                window.location="http://music.mtnhao.com/tips.html"
+                return false
+            }
             var OriginTitile = document.title, titleTime;
             document.addEventListener('visibilitychange', function() {
                 if (document.hidden) {

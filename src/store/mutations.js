@@ -21,10 +21,6 @@ const mutations = {
     [types.SET_PLAYLIST](state, playlist) {
         state.playlist = playlist
     },
-    //清空播放列表
-    [types.CLEAR_PLAYLIST](state) {
-        state.playlist = []
-    },
     //修改顺序列表
     [types.SET_ORDERLIST](state, orderList) {
         state.orderList = orderList

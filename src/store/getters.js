@@ -1,5 +1,3 @@
-//加载状态
-export const isShow = state => state.isShow;
 //audio元素
 export const audioEle = state => state.audioEle;
 //播放模式
@@ -13,7 +11,7 @@ export const orderList = state => state.orderList;
 //当前音乐索引
 export const currentIndex = state => state.currentIndex;
 //当前音乐
-export const currentMusic = (state) => {
+export const currentMusic = state => {
     return state.playlist[state.currentIndex] || {}
 };
 //播放历史列表

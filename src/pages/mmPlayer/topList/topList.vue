@@ -38,8 +38,8 @@
 </script>
 
 <style lang="less" scoped>
-    @import "../../../assets/css/var";
-    @import "../../../assets/css/mixin";
+    @import "~assets/css/var";
+    @import "~assets/css/mixin";
     .topList {
         position: relative;
         width: 100%;

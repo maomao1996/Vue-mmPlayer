@@ -14,7 +14,7 @@
         <!--歌词-->
         <div class="music-lyric" ref="musicLyric">
             <div class="music-lyric-items" :style="lyricTop">
-                <template v-if="lyric">
+                <template v-if="lyric.length>0">
                     <p :class="{on:lyricIndex===index}" v-for="(item,index) in lyric" :key="index">{{item.text}}</p>
                 </template>
                 <p v-else-if="!currentMusic.id">还没有播放音乐哦！</p>
@@ -66,7 +66,7 @@
 </script>
 
 <style lang="less" scoped>
-    @import "../../assets/css/var";
+    @import "~assets/css/var";
     
     .music-info {
         padding-bottom: 20px;

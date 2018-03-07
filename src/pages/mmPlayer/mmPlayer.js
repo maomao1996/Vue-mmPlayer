@@ -1,5 +1,7 @@
+import {playMode} from "assets/js/config";
+
 const mmPlayerMusic = {
-    initAudio(that){
+    initAudio(that) {
         const ele = that.audioEle;
         //获取当前播放时间
         ele.ontimeupdate = () => {
@@ -7,14 +9,18 @@ const mmPlayerMusic = {
         };
         //当前音乐播放完毕
         ele.onended = () => {
-            that.next()
+            if (that.mode === playMode.loop) {
+                that.loop()
+            }else{
+                that.next()
+            }
         };
         ele.onplay = () => {
             let timer;
             clearTimeout(timer);
             timer = setTimeout(() => {
                 that.musicReady = true
-            },100);
+            }, 100);
             that.setHistory(that.currentMusic)
         };
         ele.onerror = () => {

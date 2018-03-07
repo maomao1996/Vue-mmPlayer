@@ -1,12 +1,13 @@
 <template>
     <div id="app">
-        <!--加载动画-->
-        <mm-loading v-model="isShow"></mm-loading>
-        
+        <!--主体-->
         <section class="container">
             <header>mmPlayer在线音乐播放器</header>
             <router-view class="router-view"></router-view>
         </section>
+    
+        <!--更新说明-->
+        <!--<mm-dialog :dialogShow="versionShow"></mm-dialog>-->
         
         <!--播放器-->
         <audio ref="mmPlayer" :src="currentMusic.url"></audio>
@@ -14,21 +15,17 @@
 </template>
 
 <script>
+    const pkg = require('../package.json');
     import {mapGetters, mapMutations} from 'vuex'
-    import MmLoading from 'base/mm-loading/mm-loading'
+    //import MmDialog from 'base/mm-dialog/mm-dialog'
+    //import {getVersion,setVersion} from "assets/js/storage";
     
     export default {
         name: "app",
-        components: {
-            MmLoading
-        },
+        //components: {
+        //    MmDialog
+        //},
         created() {
-            console.info(`
-欢迎使用 MmPlayer!
-作者：茂茂(http://www.mtnhao.com)
-Github：https://github.com/maomao1996/mmPlayer
-歌曲来源于网易云音乐(http://music.163.com)
-            `);
             //设置audio元素
             this.$nextTick(() => {
                 this.setAudioele(this.$refs.mmPlayer)
@@ -43,8 +40,21 @@ Github：https://github.com/maomao1996/mmPlayer
             }, 500)
         },
         computed: {
+            /*versionShow(){
+                let version = getVersion();
+                console.log(version)
+                if (version !== null) {
+                     console.log('有version');
+                    return version !== pkg.version
+                } else {
+                     console.log('没有version');
+                     let newVersion = 1
+                    console.log(newVersion)
+                    setVersion(3);
+                    return true
+                }
+            },*/
             ...mapGetters([
-                'isShow',
                 'currentMusic'
             ])
         },
