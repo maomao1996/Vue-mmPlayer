@@ -1,23 +1,33 @@
 <template>
     <!--对话框-->
-    <div class="mm-dialog-box" v-show="dialogShow">
-        <div class="mm-dialog-wrapper">
-            <div class="mm-dialog-content">
-                <div class="mm-dialog-head" v-text="headText"></div>
-                <div class="mm-dialog-text" v-text="bodyText"></div>
-                <div class="mm-dialog-btns">
-                    <div class="mm-btn-cancel" v-text="cancelBtnText" @click="cancel"></div>
-                    <div class="mm-btn-confirm" v-text="confirmBtnText" @click="confirm"></div>
+    <transition name="mm-dialog-fade">
+        <div class="mm-dialog-box" v-show="dialogShow">
+            <div class="mm-dialog-wrapper">
+                <div class="mm-dialog-content">
+                    <div class="mm-dialog-head" v-text="headText"></div>
+                    <div class="mm-dialog-text" v-html="bodyText"></div>
+                    <div class="mm-dialog-btns">
+                        <div class="mm-btn-cancel" v-if="dialogType!==1" v-text="cancelBtnText" @click="cancel"></div>
+                        <div class="mm-btn-confirm" v-text="confirmBtnText" @click="confirm"></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </transition>
 </template>
 
 <script>
     export default {
         name: "mm-dialog",
         props: {
+            /**
+             * type 0：Confirm（默认）
+             *      1：Alert
+             */
+            dialogType: {
+                type: Number,
+                default: 0
+            },
             headText: {
                 type: String,
                 default: '提示'
@@ -36,15 +46,15 @@
             }
         },
         data(){
-            return{
+            return {
                 dialogShow: false
             }
         },
         methods: {
-            show(){
+            show() {
                 this.dialogShow = true;
             },
-            hide(){
+            hide() {
                 this.dialogShow = false;
             },
             cancel() {
@@ -109,6 +119,7 @@
                     align-items: center;
                     padding: 0 15px 10px;
                     text-align: center;
+                    color: @dialog_text_color;
                     @media (min-width: 768px) {
                         justify-content: flex-end;
                         div {
@@ -117,7 +128,6 @@
                             border-radius: 3px;
                             border: 1px solid @btn_color;
                             font-size: @font_size_medium;
-                            color: @dialog_text_color;
                             cursor: pointer;
                             &:nth-of-type(2) {
                                 margin-left: 10px;

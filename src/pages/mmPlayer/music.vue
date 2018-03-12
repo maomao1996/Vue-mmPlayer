@@ -16,7 +16,7 @@
                 <router-view v-if="!$route.meta.keepAlive" class="music-list"></router-view>
                 <!--</transition>-->
             </div>
-            <lyric class="music-right" :lyric="lyric" :lyricIndex="lyricIndex"></lyric>
+            <lyric class="music-right" :lyric="lyric" :nolyric="nolyric" :lyricIndex="lyricIndex"></lyric>
         </div>
         
         <!--播放器-->
@@ -71,7 +71,8 @@
             return {
                 musicReady: false,//是否可以使用播放器
                 currentTime: 0,//当前播放时间
-                lyric: [],//歌词数组
+                lyric: [],//歌词
+                nolyric: false,//是否有歌词
                 lyricIndex: 0,//当前播放歌词下标
                 isMute: false,//是否静音
                 volume: .5,//默认音量大小
@@ -136,6 +137,9 @@
                 })
             },
             currentTime(newTime) {
+                if (this.nolyric) {
+                    return
+                }
                 let lyricIndex = 0;
                 for (let i = 0; i < this.lyric.length; i++) {
                     if (newTime > this.lyric[i].time) {
@@ -159,7 +163,7 @@
                         index = this.playlist.length - 1
                     }
                     this.setCurrentIndex(index);
-                    if(!this.playing&&this.musicReady){
+                    if (!this.playing && this.musicReady) {
                         this.setPlaying(true);
                     }
                 }
@@ -177,7 +181,7 @@
                 if (!this.musicReady) {
                     return
                 }
-                if(this.playlist.length-1 === this.currentIndex){
+                if (this.playlist.length - 1 === this.currentIndex) {
                     this.setCurrentIndex(-1);
                     this.setPlaying(false);
                     return
@@ -189,7 +193,7 @@
                     if (index === this.playlist.length) {
                         index = 0
                     }
-                    if(!this.playing&&this.musicReady){
+                    if (!this.playing && this.musicReady) {
                         this.setPlaying(true);
                     }
                     this.setCurrentIndex(index);
@@ -213,7 +217,7 @@
             modeChange() {
                 const mode = (this.mode + 1) % 4;
                 this.setPlayMode(mode);
-                if(mode===playMode.loop){
+                if (mode === playMode.loop) {
                     return
                 }
                 let list = [];
@@ -231,7 +235,7 @@
                 this.resetCurrentIndex(list);
                 this.setPlaylist(list);
             },
-            resetCurrentIndex(list){
+            resetCurrentIndex(list) {
                 const index = list.findIndex(item => {
                     return item.id === this.currentMusic.id
                 });
@@ -253,7 +257,12 @@
             _getLyric(id) {
                 getLyric(id).then((res) => {
                     if (res.status === 200) {
-                        this.lyric = parseLyric(res.data.lrc.lyric)
+                        if(res.data.nolyric){
+                            this.nolyric = true
+                        }else{
+                            this.nolyric = false;
+                            this.lyric = parseLyric(res.data.lrc.lyric)
+                        }
                         this.audioEle.play();
                     }
                     //console.log(parseLyric(res.data.lrc.lyric))
@@ -410,7 +419,7 @@
                 padding-left: 50px;
                 font-size: @font_size_small;
                 .music-bar-info {
-                    padding: 0 70px 5px 0;
+                    padding: 0 80px 5px 0;
                     overflow: hidden;
                     white-space: nowrap;
                     text-overflow: ellipsis;
@@ -418,7 +427,7 @@
                 .music-bar-time {
                     position: absolute;
                     top: 0;
-                    right: 20px;
+                    right: 5px;
                 }
             }
             .mode-listLoop {
@@ -514,7 +523,6 @@
                     }
                 }
                 .music-list {
-                    height: calc(~'100% - 40px');
                     font-size: 14px;
                 }
             }

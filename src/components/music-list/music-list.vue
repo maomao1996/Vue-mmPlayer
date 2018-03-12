@@ -1,32 +1,34 @@
 <template>
     <div class="musicList">
-        <div class="list-item list-header">
-            <span class="list-name">歌曲</span>
-            <span class="list-artist">歌手</span>
-            <span v-if="listType === 1" class="list-time">时长</span>
-            <span v-else class="list-album">专辑</span>
-        </div>
-        <div ref="listContent" class="list-content" v-if="list.length>0" @scroll="listScroll($event)">
-            <div class="list-item" :class="{'on':playing&&currentMusic.id===item.id}" v-for="(item,index) in list"
-                 :key="item.id">
-                <span class="list-num" v-text="index+1"></span>
-                <div class="list-name">
-                    <span>{{item.name}}</span>
-                    <div class="list-menu">
+        <template v-if="list.length>0">
+            <div class="list-item list-header">
+                <span class="list-name">歌曲</span>
+                <span class="list-artist">歌手</span>
+                <span v-if="listType === 1" class="list-time">时长</span>
+                <span v-else class="list-album">专辑</span>
+            </div>
+            <div ref="listContent" class="list-content" @scroll="listScroll($event)">
+                <div class="list-item" :class="{'on':playing&&currentMusic.id===item.id}" v-for="(item,index) in list"
+                     :key="item.id" @dblclick="selectItem(item,index)">
+                    <span class="list-num" v-text="index+1"></span>
+                    <div class="list-name">
+                        <span>{{item.name}}</span>
+                        <div class="list-menu">
                         <span class="list-menu-icon-play" :class="{'on':playing&&currentMusic.id===item.id}"
-                              @click="selectItem(item,index)"></span>
+                              @click.stop="selectItem(item,index)"></span>
+                        </div>
                     </div>
-                </div>
-                <span class="list-artist">{{item.singer}}</span>
-                <span class="list-time" v-if="listType === 1">{{item.duration | formatDuration}}
+                    <span class="list-artist">{{item.singer}}</span>
+                    <span class="list-time" v-if="listType === 1">{{item.duration | formatDuration}}
                     <i class="list-menu-icon-del" @click="deleteItem(index)"></i>
                 </span>
-                <span class="list-album" v-else>{{item.album}}</span>
+                    <span class="list-album" v-else>{{item.album}}</span>
+                </div>
+                <slot name="listBtn"></slot>
             </div>
-            <slot name="listBtn"></slot>
-        </div>
-        <div class="list-content" v-else>
-            <div class="list-item list-item-no">弄啥呢，怎么啥也没有！！！</div>
+        </template>
+        <div class="list-no" v-else>
+            弄啥呢，怎么啥也没有！！！
         </div>
     </div>
 </template>
@@ -63,7 +65,7 @@
         },
         watch: {
             list(newList, oldList) {
-                if (this.listType !==2){
+                if (this.listType !== 2) {
                     return
                 }
                 if (newList.length !== oldList.length) {
@@ -75,7 +77,7 @@
         },
         methods: {
             listScroll(e) {
-                if(this.listType !==2){
+                if (this.listType !== 2) {
                     return
                 }
                 if (this.lockUp) {
@@ -97,7 +99,7 @@
                     this.setPlaying(false);
                     return
                 }
-                this.$emit('select',item,index)//触发点击播放事件
+                this.$emit('select', item, index)//触发点击播放事件
             },
             deleteItem(index) {
                 this.$emit('del', index)//触发删除事件
@@ -135,11 +137,13 @@
         overflow-y: auto;
     }
     
-    .list-content-no {
+    .list-no {
         display: flex;
+        justify-content: center;
+        align-items: center;
         width: 100%;
-        height: 200px;
-        color: @text_color_active;
+        height: 100%;
+        color: @text_color;
     }
     
     .list-item {
@@ -275,14 +279,14 @@
     @media (max-width: 960px) {
         .list-item .list-name {
             padding-right: 70px;
-            .list-menu {
-                display: block;
-            }
         }
     }
     
     @media (max-width: 768px) {
         .list-item {
+            .list-name .list-menu {
+                display: block;
+            }
             .list-artist, .list-album {
                 width: 20%;
             }
