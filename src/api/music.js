@@ -1,5 +1,5 @@
 import axios from 'axios'
- const URL = 'http://localhost:3000';
+const URL = 'http://localhost:3000';
 
 //排行榜榜单
 export function getToplistDetail(){
