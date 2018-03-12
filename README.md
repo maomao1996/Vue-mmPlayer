@@ -54,8 +54,10 @@ npm run build  //项目打包
 
 ## 界面欣赏
 
-![正在播放](http://img.mukewang.com/5a781eb10001d47c19201004.png)
-![排行榜](http://img.mukewang.com/5a781cdf000125ad19201004.png)
+![正在播放](http://img.mukewang.com/5aa645fe0001c30019201004.png)
+![排行榜](http://img.mukewang.com/5aa6460c0001b2e219201005.png)
+![搜索](http://img.mukewang.com/5aa6461c00014ed419201005.png)
+![我听过的](http://img.mukewang.com/5aa6462500011faf19201004.png)
 
 ## 更新说明
 
