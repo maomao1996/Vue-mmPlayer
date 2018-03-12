@@ -1,7 +1,7 @@
 const storage = {
-    get(key) {
+    get(key,defa = []) {
         if (window.localStorage) {
-            return localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key)) : []
+            return localStorage.getItem(key) ? (Array.isArray(defa) ? JSON.parse(localStorage.getItem(key)) : localStorage.getItem(key)): defa
         }
     },
     set(key, val) {
@@ -68,7 +68,7 @@ export function clearHistoryList() {
 const MODE_KEY = '__mmPlayer_mode__';
 //获取播放模式
 export function getMode() {
-    return storage.get(MODE_KEY)
+    return storage.get(MODE_KEY,null)
 }
 //修改播放模式
 export function setMode(mode) {
@@ -83,7 +83,7 @@ export function setMode(mode) {
 const USERID_KEY = '__mmPlayer_userID__';
 //获取用户uid
 export function getUserId() {
-    return storage.get(MODE_KEY)
+    return storage.get(MODE_KEY,null)
 }
 //修改用户uid
 export function setUserId(uid) {
@@ -98,7 +98,8 @@ export function setUserId(uid) {
 const VERSION_KEY = '__mmPlayer_version__';
 //获取版本号
 export function getVersion(){
-    return storage.get(VERSION_KEY)
+    let getVersion = storage.get(VERSION_KEY,null);
+    return Array.isArray(getVersion) ? null : getVersion
 }
 //修改版本号
 export function setVersion(version) {
