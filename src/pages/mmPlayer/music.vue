@@ -114,6 +114,7 @@
                 'orderList',
                 'currentIndex',
                 'currentMusic',
+                'historyList'
             ])
         },
         watch: {
@@ -181,7 +182,7 @@
                 if (!this.musicReady) {
                     return
                 }
-                if (this.playlist.length - 1 === this.currentIndex) {
+                if (this.playlist.length - 1 === this.currentIndex && this.mode === playMode.order) {
                     this.setCurrentIndex(-1);
                     this.setPlaying(false);
                     return

@@ -1,4 +1,4 @@
-# mmPlayer V1.3.1（2018.03.12）
+# mmPlayer V1.3.2（2018.03.16）
 
 模仿QQ音乐网页版界面，采用flexbox和position布局；
 mmPlayer虽然是响应式，但主要以为PC端为主，移动端只做相应适配（未做歌词显示）；
@@ -8,12 +8,14 @@ mmPlayer虽然是响应式，但主要以为PC端为主，移动端只做相应�
 
 > [在线演示地址](http://music.mtnhao.com)
 
-## 安装与使用
+> [桌面版下载](https://github.com/maomao1996/Electron-mmPlayer)
+
+## 如何安装与使用
 
 > 后台服务器
 
 ```
-cd mmPlayer/server
+cd mmPlayer/server //进入后台服务器目录
 
 npm install //安装依赖
 
@@ -25,7 +27,7 @@ node app.js //服务端运行 访问 http://localhost:3000
 ```
 git clone https://github.com/maomao1996/mmPlayer.git  //下载mmPlayer
 
-cd mmPlayer
+cd mmPlayer //进入mmPlayer播放器目录
 
 npm install //安装依赖
 
@@ -33,7 +35,9 @@ npm run dev //服务端运行
 
 npm run build  //项目打包
 ```
-需要修改api目录下music的url地址为后台服务器地址
+
+#### 运行mmPlayer后无法获取音乐请检查后台服务器是否启动
+#### api目录下music的url地址要和后台服务器地址一致
 
 ## 技术栈
 
@@ -43,6 +47,72 @@ npm run build  //项目打包
 - Axios（网络请求）
 - FastClick（解决移动端300ms点击延迟）
 - Less（CSS预处理器）
+
+## 项目布局
+
+```
+├── build                                         // webpack配置文件
+├── config                                        // 项目打包路径
+├── dist                                          // 项目打包文件
+├── screenshots                                   // 项目截图
+├── server                                        // 后台服务器目录
+├── src                                           // 项目源码目录
+│   ├── api                                      // 数据交互目录
+│   │   └── music.js                            // 获取数据
+│   ├── assets                                   // 资源目录
+│   │   ├── css                                 // 数据交互目录
+│   │   │   ├── index.less                     // 样式重置
+│   │   │   ├── mixin.less                     // 样式混合
+│   │   │   └── var.less                       // 样式变量（字体大小、字体颜色、背景颜色）
+│   │   ├── img                                 // 数据交互目录
+│   │   └── js                                  // 数据交互目录
+│   │        ├── config.js                      // 基本配置
+│   │        ├── mixin.js                       // 组件混合
+│   │        ├── song.js                        // 数据处理
+│   │        ├── storage.js                     // localstorage配置
+│   │        └── util.js                        // 公用js方法
+│   ├── base                                     // 公共基础组件目录
+│   │   ├── mm-dialog
+│   │   │   └── mm-dialog.vue                  // 对话框组件
+│   │   ├── mm-loading
+│   │   │   └── mm-loading.vue                 // 加载动画组件
+│   │   ├── mm-progress
+│   │   │   └── mm-progress.vue                // 进度条拖动组件
+│   │   └── mm-toast
+│   │        └── mm-toast.vue                   // 弹出层提示组件
+│   ├── components                               // 公共项目组件目录
+│   │   ├── lyric
+│   │   │   └── lyric                          // 歌词和封面组件
+│   │   └── music-list
+│   │        └── music-list.vue                 // 列表组件
+│   ├── pages                                    // 入口主文件
+│   │   ├── details
+│   │   │   └── details.vue                    // 排行榜详情
+│   │   ├── historyList
+│   │   │   └── historyList.vue                // 我听过的（播放历史）
+│   │   ├── playList
+│   │   │   └── playList.vue                   // 正在播放
+│   │   ├── search
+│   │   │   └── search.vue                     // 搜索
+│   │   ├── sheet
+│   │   ├── sheetList
+│   │   │   └── sheetList.vue
+│   │   └── topList
+│   │        └── topList.vue                    // 排行榜页面
+│   ├── router
+│   │   └── index.js                            // 路由配置
+│   ├── store                                    // vuex的状态管理
+│   │   ├── actions.js                          // 配置actions
+│   │   ├── getters.js                          // 配置getters
+│   │   ├── index.js                            // 引用vuex，创建store
+│   │   ├── mutations.js                        // 配置mutations
+│   │   ├── mutation-types.js                   // 定义常量mutations名
+│        └── state.js                            // 配置state
+│   ├── App.vue                                  // 根组件
+│   └── main.js                                  // 入口主文件
+├── static                                        // 静态资源文件目录
+└── index.html                                    // 入口html文件
+```
 
 ## 功能
 
@@ -61,42 +131,19 @@ npm run build  //项目打包
 
 ## 更新说明
 
-### V0.1.0（2018.01.24）
-- 发布试用版
+### V1.3.2（2018.03.16）
+- 新增播放链接失效后自动重载当前音乐
+- 优化列表循环不会自动下一曲问题
+- 优化删除正在播放列表歌曲失效问题
+- 优化删除歌曲过快会触发播放问题
+- 优化音乐来源错误不能播放问题，并使用 oncanplay 添加播放历史，避免不能播放的音乐加入播放历史
 
-### V0.2.0（2018.01.29）
-- 新增音量控制模块
-- 优化歌曲选中
-
-### V1.0.0（2018.02.05）
-- 发布正式版（因为一系列原因，mmPlayer V1.0.0版本在试用版的基础上进行了重构了，并引入了Vue-Router和Vuex
-- 当前播放歌曲高亮（感觉一个小GIF还不够）
-- 优化快速切歌导致歌曲播放失败的问题
-- 进度条拖动适配移动端
-- 优化点击时可能出现的半透明背景
-- 新增排行榜
-
-### V1.1.0（2018.02.09）
-- 新增我听过的（播放历史）
-- 整合公用列表组件
-- 新增mmToast插件
-- 整合字体大小、颜色相关CSS
-- 优化清空正在播放列表功能
-
-### V1.2.0（2018.02.28）
-- 新增搜索功能
-- 新增歌曲删除功能（播放历史列表）
-- 使用ES6的class对数据进行二次处理
-- 优化歌词居中显示
-- 优化播放可能出现的错误
-
-### V1.2.1（2018.03.01）
-- 优化正在播放列表第一次加载
-- 优化删除歌曲
-- 优化Vuex模块
-- 优化加载loading
-- 优化移动端适配
-- 提高代码复用性
+### V1.3.1（2018.03.12）
+- 新增双击播放
+- 新增更新提示
+- 优化无歌词时的显示
+- 优化暂无内容提醒
+- 优化列表多位歌手的显示
 
 ### V1.3.0（2018.03.07）
 - 新增随机播放、列表循环、单曲循环、顺序播放功能
@@ -113,12 +160,35 @@ npm run build  //项目打包
 - 优化重复插入音乐的问题
 - 优化暂停后播放下一首播放状态图标不改变的问题
 
-### V1.3.1（2018.03.12）
-- 新增双击播放
-- 新增更新提示
-- 优化无歌词时的显示
-- 优化暂无内容提醒
-- 优化列表多位歌手的显示
+### V1.2.1（2018.03.01）
+- 优化正在播放列表第一次加载
+- 优化删除歌曲
+- 优化Vuex模块
+- 优化加载loading
+- 优化移动端适配
+- 提高代码复用性
+
+### V1.2.0（2018.02.28）
+- 新增搜索功能
+- 新增歌曲删除功能（播放历史列表）
+- 使用ES6的class对数据进行二次处理
+- 优化歌词居中显示
+- 优化播放可能出现的错误
+
+### V1.1.0（2018.02.09）
+- 新增我听过的（播放历史）
+- 整合公用列表组件
+- 新增mmToast插件
+- 整合字体大小、颜色相关CSS
+- 优化清空正在播放列表功能
+
+### V1.0.0（2018.02.05）
+- 发布正式版（因为一系列原因，mmPlayer V1.0.0版本在试用版的基础上进行了重构了，并引入了Vue-Router和Vuex
+- 当前播放歌曲高亮（感觉一个小GIF还不够）
+- 优化快速切歌导致歌曲播放失败的问题
+- 进度条拖动适配移动端
+- 优化点击时可能出现的半透明背景
+- 新增排行榜
 
 ## 后续功能
 
@@ -129,3 +199,6 @@ npm run build  //项目打包
 - 个人练手项目
 - 预计后续将发布小程序版本
 
+## License
+
+[MIT](https://github.com/maomao1996/Vue-mmPlayer/blob/master/LICENSE)

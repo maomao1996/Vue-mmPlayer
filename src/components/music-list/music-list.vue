@@ -9,7 +9,7 @@
             </div>
             <div ref="listContent" class="list-content" @scroll="listScroll($event)">
                 <div class="list-item" :class="{'on':playing&&currentMusic.id===item.id}" v-for="(item,index) in list"
-                     :key="item.id" @dblclick="selectItem(item,index)">
+                     :key="item.id" @dblclick="selectItem(item,index,$event)">
                     <span class="list-num" v-text="index+1"></span>
                     <div class="list-name">
                         <span>{{item.name}}</span>
@@ -20,7 +20,7 @@
                     </div>
                     <span class="list-artist">{{item.singer}}</span>
                     <span class="list-time" v-if="listType === 1">{{item.duration | formatDuration}}
-                    <i class="list-menu-icon-del" @click="deleteItem(index)"></i>
+                    <i class="list-menu-icon-del" @click.stop="deleteItem(index)"></i>
                 </span>
                     <span class="list-album" v-else>{{item.album}}</span>
                 </div>
@@ -87,14 +87,17 @@
                     scrollHeight = e.target.scrollHeight,
                     height = e.target.offsetHeight;
                 if (scrollTop + height >= scrollHeight) {
-                    this.lockUp = true;//锁定上拉加载
-                    this.$emit('pullUp')//触发上拉加载事件
+                    this.lockUp = true;//锁定滚动加载
+                    this.$emit('pullUp')//触发滚动加载事件
                 }
             },
             scrollTop() {
                 this.$refs.listContent.scrollTop = 0;
             },
-            selectItem(item, index) {
+            selectItem(item, index, e) {
+                if(e && /list-menu-icon-del/.test(e.target.className)){
+                    return
+                }
                 if (item.id === this.currentMusic.id && this.playing) {
                     this.setPlaying(false);
                     return

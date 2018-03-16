@@ -28,7 +28,7 @@ export const selectAddPlay = function ({commit, state}, music) {
     //当前播放列表有待插入的音乐时，直接改变当前播放音乐的索引值
     if (index > -1) {
         commit(types.SET_CURRENTINDEX, index)
-    }else{
+    } else {
         list.unshift(music);
         commit(types.SET_PLAYLIST, list);
         commit(types.SET_ORDERLIST, list);
@@ -39,22 +39,21 @@ export const selectAddPlay = function ({commit, state}, music) {
 
 //清空播放列表
 export const clearPlayList = function ({commit}) {
-    commit(types.SET_PLAYLIST, []);
-    commit(types.SET_ORDERLIST, []);
+    commit(types.SET_PLAYING, false);
     commit(types.SET_CURRENTINDEX, -1);
-    commit(types.SET_PLAYING, false)
+    commit(types.SET_PLAYLIST, []);
+    commit(types.SET_ORDERLIST, [])
 };
 
 //删除正在播放列表中的歌曲
 export const removerPlayListItem = function ({commit, state}, {list, index}) {
     let currentIndex = state.currentIndex;
-    if (index < state.currentIndex) {
+    if (index < state.currentIndex || list.length === state.currentIndex) {
         currentIndex--;
-        commit(types.SET_PLAYLIST, list);
         commit(types.SET_CURRENTINDEX, currentIndex);
-    } else {
-        commit(types.SET_PLAYLIST, list);
     }
+    commit(types.SET_PLAYLIST, list);
+    commit(types.SET_ORDERLIST, list);
 };
 //设置播放历史
 export const setHistory = function ({commit}, music) {
