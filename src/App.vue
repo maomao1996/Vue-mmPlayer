@@ -26,15 +26,27 @@
             MmDialog
         },
         created() {
+            //设置title
+            let OriginTitile = document.title, titleTime;
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    document.title = '死鬼去哪里了！';
+                    clearTimeout(titleTime);
+                } else {
+                    document.title = '(つェ⊂)咦!又好了!';
+                    titleTime = setTimeout(function() {
+                        document.title = OriginTitile;
+                    },2000);
+                }
+            });
             //设置audio元素
             this.$nextTick(() => {
                 this.setAudioele(this.$refs.mmPlayer)
             });
             //首次加载完成移除动画
-            if (!document.querySelector('#appLoading')) {
-                return
+            if (document.querySelector('#appLoading')) {
+                document.querySelector('#appLoading').classList.add("removeAnimate");
             }
-            document.querySelector('#appLoading').classList.add("removeAnimate");
             setTimeout(() => {
                 document.body.removeChild(document.getElementById('appLoading'));
                 let version = getVersion(), newVersion = pkg.version;
@@ -53,11 +65,11 @@
             versionBody(){
                 return `<div style="text-align: left">
 版本号：${pkg.version}<br/>
-1、新增双击播放<br>
-2、新增更新提示<br>
-3、优化无歌词时的显示<br>
-4、优化暂无内容提醒<br>
-5、优化列表多位歌手的显示
+1、新增播放链接失效后自动重载当前音乐<br>
+2、优化删除正在播放列表歌曲失效问题<br>
+3、优化删除歌曲过快会触发播放问题<br>
+4、优化音乐来源错误不能播放问题<br>
+5、优化列表循环不会自动下一曲问题
 </div>`
             },
             ...mapGetters([
