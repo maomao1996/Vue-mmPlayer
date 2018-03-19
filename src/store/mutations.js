@@ -1,10 +1,6 @@
 import * as types from './mutation-types'
 
 const mutations = {
-    //修改加载状态
-    [types.SET_ISSHOW](state, isShow) {
-        state.isShow = isShow
-    },
     //修改audio元素
     [types.SET_AUDIOELE](state, audioEle) {
         state.audioEle = audioEle
