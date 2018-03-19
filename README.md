@@ -1,4 +1,4 @@
-# mmPlayer V1.3.2（2018.03.16）
+# mmPlayer V1.3.2（2018.03.19）
 
 模仿QQ音乐网页版界面，采用flexbox和position布局；
 mmPlayer虽然是响应式，但主要以为PC端为主，移动端只做相应适配（未做歌词显示）；
@@ -51,67 +51,67 @@ npm run build  //项目打包
 ## 项目布局
 
 ```
-├── build                                         // webpack配置文件
-├── config                                        // 项目打包路径
-├── dist                                          // 项目打包文件
-├── screenshots                                   // 项目截图
-├── server                                        // 后台服务器目录
-├── src                                           // 项目源码目录
-│   ├── api                                      // 数据交互目录
-│   │   └── music.js                            // 获取数据
-│   ├── assets                                   // 资源目录
-│   │   ├── css                                 // 数据交互目录
-│   │   │   ├── index.less                     // 样式重置
-│   │   │   ├── mixin.less                     // 样式混合
-│   │   │   └── var.less                       // 样式变量（字体大小、字体颜色、背景颜色）
-│   │   ├── img                                 // 数据交互目录
-│   │   └── js                                  // 数据交互目录
-│   │        ├── config.js                      // 基本配置
-│   │        ├── mixin.js                       // 组件混合
-│   │        ├── song.js                        // 数据处理
-│   │        ├── storage.js                     // localstorage配置
-│   │        └── util.js                        // 公用js方法
-│   ├── base                                     // 公共基础组件目录
+├── build                                           // webpack配置文件
+├── config                                          // 项目打包路径
+├── dist                                            // 项目打包文件
+├── screenshots                                     // 项目截图
+├── server                                          // 后台服务器目录
+├── src                                             // 项目源码目录
+│   ├── api                                         // 数据交互目录
+│   │   └── music.js                                // 获取数据
+│   ├── assets                                      // 资源目录
+│   │   ├── css                                     // 数据交互目录
+│   │   │   ├── index.less                          // 样式重置
+│   │   │   ├── mixin.less                          // 样式混合
+│   │   │   └── var.less                            // 样式变量（字体大小、字体颜色、背景颜色）
+│   │   ├── img                                     // 数据交互目录
+│   │   └── js                                      // 数据交互目录
+│   │        ├── config.js                          // 基本配置
+│   │        ├── mixin.js                           // 组件混合
+│   │        ├── song.js                            // 数据处理
+│   │        ├── storage.js                         // localstorage配置
+│   │        └── util.js                            // 公用js方法
+│   ├── base                                        // 公共基础组件目录
 │   │   ├── mm-dialog
-│   │   │   └── mm-dialog.vue                  // 对话框组件
+│   │   │   └── mm-dialog.vue                       // 对话框组件
 │   │   ├── mm-loading
-│   │   │   └── mm-loading.vue                 // 加载动画组件
+│   │   │   └── mm-loading.vue                      // 加载动画组件
 │   │   ├── mm-progress
-│   │   │   └── mm-progress.vue                // 进度条拖动组件
+│   │   │   └── mm-progress.vue                     // 进度条拖动组件
 │   │   └── mm-toast
-│   │        └── mm-toast.vue                   // 弹出层提示组件
-│   ├── components                               // 公共项目组件目录
+│   │        └── mm-toast.vue                       // 弹出层提示组件
+│   ├── components                                  // 公共项目组件目录
 │   │   ├── lyric
-│   │   │   └── lyric                          // 歌词和封面组件
+│   │   │   └── lyric                               // 歌词和封面组件
 │   │   └── music-list
-│   │        └── music-list.vue                 // 列表组件
-│   ├── pages                                    // 入口主文件
+│   │        └── music-list.vue                     // 列表组件
+│   ├── pages                                       // 入口主文件
 │   │   ├── details
-│   │   │   └── details.vue                    // 排行榜详情
+│   │   │   └── details.vue                         // 排行榜详情
 │   │   ├── historyList
-│   │   │   └── historyList.vue                // 我听过的（播放历史）
+│   │   │   └── historyList.vue                     // 我听过的（播放历史）
 │   │   ├── playList
-│   │   │   └── playList.vue                   // 正在播放
+│   │   │   └── playList.vue                        // 正在播放
 │   │   ├── search
-│   │   │   └── search.vue                     // 搜索
+│   │   │   └── search.vue                          // 搜索
 │   │   ├── sheet
 │   │   ├── sheetList
 │   │   │   └── sheetList.vue
 │   │   └── topList
-│   │        └── topList.vue                    // 排行榜页面
+│   │        └── topList.vue                        // 排行榜页面
 │   ├── router
-│   │   └── index.js                            // 路由配置
-│   ├── store                                    // vuex的状态管理
-│   │   ├── actions.js                          // 配置actions
-│   │   ├── getters.js                          // 配置getters
-│   │   ├── index.js                            // 引用vuex，创建store
-│   │   ├── mutations.js                        // 配置mutations
-│   │   ├── mutation-types.js                   // 定义常量mutations名
-│        └── state.js                            // 配置state
-│   ├── App.vue                                  // 根组件
-│   └── main.js                                  // 入口主文件
-├── static                                        // 静态资源文件目录
-└── index.html                                    // 入口html文件
+│   │   └── index.js                                // 路由配置
+│   ├── store                                       // vuex的状态管理
+│   │   ├── actions.js                              // 配置actions
+│   │   ├── getters.js                              // 配置getters
+│   │   ├── index.js                                // 引用vuex，创建store
+│   │   ├── mutations.js                            // 配置mutations
+│   │   ├── mutation-types.js                       // 定义常量mutations名
+│        └── state.js                               // 配置state
+│   ├── App.vue                                     // 根组件
+│   └── main.js                                     // 入口主文件
+├── static                                          // 静态资源文件目录
+└── index.html                                      // 入口html文件
 ```
 
 ## 功能
@@ -131,12 +131,14 @@ npm run build  //项目打包
 
 ## 更新说明
 
-### V1.3.2（2018.03.16）
+### V1.3.2（2018.03.19）
 - 新增播放链接失效后自动重载当前音乐
 - 优化列表循环不会自动下一曲问题
 - 优化删除正在播放列表歌曲失效问题
 - 优化删除歌曲过快会触发播放问题
-- 优化音乐来源错误不能播放问题，并使用 oncanplay 添加播放历史，避免不能播放的音乐加入播放历史
+- 优化音乐来源错误不能播放问题，并使用 oncanplay
+- 添加播放历史，避免不能播放的音乐加入播放历史
+- 修复不能加入音乐到我听过的问题
 
 ### V1.3.1（2018.03.12）
 - 新增双击播放

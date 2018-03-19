@@ -43,7 +43,7 @@ const mmPlayerMusic = {
         };
         //将能播放的音乐加入播放历史
         ele.oncanplay = () => {
-            if (that.currentMusic.id !== that.historyList[0].id) {
+            if (that.historyList.length===0||that.currentMusic.id !== that.historyList[0].id) {
                 that.setHistory(that.currentMusic)
             }
         }
