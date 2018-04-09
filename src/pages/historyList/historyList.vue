@@ -40,7 +40,7 @@
                 })
             },
             deleteItem(index){
-                let list = this.historyList.slice();
+                let list = [...this.historyList];
                 list.splice(index,1);
                 this.removeHistory(list);
                 this.$mmToast('删除成功')

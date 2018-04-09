@@ -2,58 +2,42 @@ import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router);
 
-/**
- * 音乐相关
- */
-//const Music = (resolve) => {
-//    import('pages/mmPlayer/music').then((module) => {
-//        resolve(module)
-//    })
-//};
-
-//import Music from 'pages/mmPlayer/music'
-
-const Music = () => import('pages/mmPlayer/music');
-const PlayList = () => import('pages/mmPlayer/playList/playList');//正在播放列表
-const Toplist = () => import('pages/mmPlayer/toplist/toplist');//排行榜列表
-const Details = () => import('pages/mmPlayer/details/details');//音乐详情列表
-const Search = () => import('pages/mmPlayer/search/search');//搜索
-const Sheetlist = () => import('pages/mmPlayer/sheetlist/sheetlist');//歌单列表
-const HistoryList = () => import('pages/mmPlayer/historyList/historyList');//我听过的列表
-
 const routes = [
     {
         path: '/',
         redirect: '/music'
     }, {
         path: '/music',
-        component: Music,
+        component: () => import('pages/music'),
         redirect: '/music/playlist',
         children: [
             {
                 path: '/music/playlist',//正在播放列表
-                component: PlayList,
+                component: () => import('pages/playList/playList'),
                 meta: {
                     keepAlive: true
                 }
             }, {
-                path: '/music/sheetlist',//歌单列表
-                component: Sheetlist
+                path: '/music/userlist',//我的歌单
+                component: () => import('pages/userList/userList'),
+                meta: {
+                    keepAlive: true
+                }
             }, {
                 path: '/music/toplist',//排行榜列表
-                component: Toplist,
+                component: () => import('pages/topList/topList'),
                 meta: {
                     keepAlive: true
                 }
             }, {
                 path: '/music/details',//音乐详情列表
-                component: Details
+                component: () => import('pages/details/details')
             }, {
-                path: '/music/historyList',//我听过的列表
-                component: HistoryList
+                path: '/music/historylist',//我听过的列表
+                component: () => import('pages/historyList/historyList')
             }, {
                 path: '/music/search',//搜索
-                component: Search,
+                component: () => import('pages/search/search'),
                 meta: {
                     keepAlive: true
                 }

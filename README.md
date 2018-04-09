@@ -1,4 +1,4 @@
-# mmPlayer V1.3.2（2018.03.19）
+# mmPlayer V1.4.0（2018.04.09）
 
 模仿QQ音乐网页版界面，采用flexbox和position布局；
 mmPlayer虽然是响应式，但主要以为PC端为主，移动端只做相应适配（未做歌词显示）；
@@ -44,16 +44,17 @@ npm run build  //项目打包
 - Vue（核心框架）
 - Vue-Router（页面路由）
 - Vuex（状态管理）
+- ES 6 / 7
+- Less（CSS预处理器）
 - Axios（网络请求）
 - FastClick（解决移动端300ms点击延迟）
-- Less（CSS预处理器）
 
 ## 项目布局
 
 ```
 ├── build                                           // webpack配置文件
 ├── config                                          // 项目打包路径
-├── dist                                            // 项目打包文件
+├── mmPlayer                                        // 项目打包版本，可直接使用
 ├── screenshots                                     // 项目截图
 ├── server                                          // 后台服务器目录
 ├── src                                             // 项目源码目录
@@ -61,8 +62,9 @@ npm run build  //项目打包
 │   │   └── music.js                                // 获取数据
 │   ├── assets                                      // 资源目录
 │   │   ├── css                                     // 数据交互目录
-│   │   │   ├── index.less                          // 样式重置
+│   │   │   ├── index.less                          // mmPlayer相关基础样式
 │   │   │   ├── mixin.less                          // 样式混合
+│   │   │   ├── reset.less                          // 样式重置
 │   │   │   └── var.less                            // 样式变量（字体大小、字体颜色、背景颜色）
 │   │   ├── img                                     // 数据交互目录
 │   │   └── js                                      // 数据交互目录
@@ -76,6 +78,8 @@ npm run build  //项目打包
 │   │   │   └── mm-dialog.vue                       // 对话框组件
 │   │   ├── mm-loading
 │   │   │   └── mm-loading.vue                      // 加载动画组件
+│   │   ├── mm-no-result
+│   │   │   └── mm-no-result.vue                    // 暂无数据提示组件
 │   │   ├── mm-progress
 │   │   │   └── mm-progress.vue                     // 进度条拖动组件
 │   │   └── mm-toast
@@ -83,6 +87,10 @@ npm run build  //项目打包
 │   ├── components                                  // 公共项目组件目录
 │   │   ├── lyric
 │   │   │   └── lyric                               // 歌词和封面组件
+│   │   └── mm-header
+│   │   │   └── mm-header.vue                       // 头部组件
+│   │   ├── music-btn
+│   │   │   └── music-btn.vue                       // 按钮组件
 │   │   └── music-list
 │   │        └── music-list.vue                     // 列表组件
 │   ├── pages                                       // 入口主文件
@@ -94,11 +102,12 @@ npm run build  //项目打包
 │   │   │   └── playList.vue                        // 正在播放
 │   │   ├── search
 │   │   │   └── search.vue                          // 搜索
-│   │   ├── sheet
-│   │   ├── sheetList
-│   │   │   └── sheetList.vue
-│   │   └── topList
-│   │        └── topList.vue                        // 排行榜页面
+│   │   ├── userList
+│   │   │   └── userList.vue                        // 我的歌单
+│   │   ├── topList
+│   │   │   └── topList.vue                         // 排行榜页面
+│   │   ├── mmPlayer.js                             // 播放器事相关件绑定
+│   │   └── mmPlayer.vue                            // 播放器主页面
 │   ├── router
 │   │   └── index.js                                // 路由配置
 │   ├── store                                       // vuex的状态管理
@@ -121,15 +130,31 @@ npm run build  //项目打包
 - 排行榜
 - 搜索
 - 播放历史
+- 同步网易云歌单
 
 ## 界面欣赏
 
-![正在播放](http://img.mukewang.com/5aa645fe0001c30019201004.png)
-![排行榜](http://img.mukewang.com/5aa6460c0001b2e219201005.png)
-![搜索](http://img.mukewang.com/5aa6461c00014ed419201005.png)
-![我听过的](http://img.mukewang.com/5aa6462500011faf19201004.png)
+![正在播放](http://img.mukewang.com/5acb5a790001d69b19201006.png)
+![排行榜](http://img.mukewang.com/5acb5a870001972619201006.png)
+![搜索](http://img.mukewang.com/5acb5a91000184b219201007.png)
+![我的歌单](http://img.mukewang.com/5acb5a9a00010cee19201005.png)
+![我听过的](http://img.mukewang.com/5acb5aa200010ea219201003.png)
 
 ## 更新说明
+
+### V1.4.0（2018.04.09）预期功能全部完成
+
+- 新增同步网易云歌单功能
+- 新增快捷键控制
+    - 上一曲 Ctrl + Left
+    - 播放暂停 Ctrl + Space
+    - 下一曲 Ctrl + Right
+    - 切换播放模式 Ctrl + O
+    - 音量加 Ctrl + Up
+    - 音量减 Ctrl + Down
+- 修复safari和安卓UC不能播放的问题
+- 优化url失效问题和音乐无法播放的提示
+- 优化移动端下的样式兼容
 
 ### V1.3.2（2018.03.19）
 - 新增播放链接失效后自动重载当前音乐
@@ -192,14 +217,11 @@ npm run build  //项目打包
 - 优化点击时可能出现的半透明背景
 - 新增排行榜
 
-## 后续功能
-
-- 同步网易云歌单
-
 ## 其他说明
 
-- 个人练手项目
-- 预计后续将发布小程序版本
+- 个人练手项目（本想先做移动端的，但是发现有很多人都做过，就稍微标新立异做个PC端）
+- 如果您喜欢该作品，您可以点右上角 "Star" 表示支持 谢谢！
+- 后续：SSR版本、移动端版本、其他作品
 
 ## License
 

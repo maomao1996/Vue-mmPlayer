@@ -12,7 +12,7 @@
 
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
-    import {topList} from 'api/music'
+    import {topList,topListMm} from 'api/music'
     import MusicList from 'components/music-list/music-list'
     import MmLoading from 'base/mm-loading/mm-loading'
     import MmDialog from 'base/mm-dialog/mm-dialog'
@@ -37,6 +37,7 @@
                 this.mmLoadShow = false;
                 return
             }
+            //topListMm(942225439)
             topList(1)
                 .then((res) => {
                     if (res.status === 200) {
@@ -50,7 +51,8 @@
             ...mapGetters([
                 'playing',
                 'playlist',
-                'currentMusic'
+                'currentMusic',
+                'audioEle'
             ])
         },
         methods: {
@@ -67,7 +69,7 @@
                 }
             },
             deleteItem(index) {
-                let list = this.playlist.slice();
+                let list = [...this.playlist];
                 list.splice(index, 1);
                 this.removerPlayListItem({list, index});
                 this.$mmToast('删除成功')

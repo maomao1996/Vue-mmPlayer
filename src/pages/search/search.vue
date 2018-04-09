@@ -80,18 +80,6 @@
                         }
                     })
             },
-            listScroll(e){
-                if(this.lockUp){
-                    return
-                }
-                let scrollTop = e.target.scrollTop,
-                    scrollHeight = e.target.scrollHeight,
-                    height = e.target.offsetHeight;
-                if(scrollTop + height >= scrollHeight){
-                    this.lockUp = true;//锁定上拉加载事件
-                    this.pullUpLoad()//触发上拉加载事件
-                }
-            },
             //上拉加载
             pullUpLoad() {
                 this.mmLoadShow = true;

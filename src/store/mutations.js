@@ -25,13 +25,13 @@ const mutations = {
     [types.SET_CURRENTINDEX](state, currentIndex) {
         state.currentIndex = currentIndex
     },
-    //修改我喜欢的列表
-    [types.SET_LIKELIST](state, likeList) {
-        state.likeList = likeList
-    },
     //修改播放历史列表
     [types.SET_HISTORYLIST](state, historyList) {
         state.historyList = historyList
+    },
+    //修改网易云用户UID
+    [types.SET_UID](state, uid) {
+        state.uid = uid
     },
 };
 
