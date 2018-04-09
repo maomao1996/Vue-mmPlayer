@@ -27,17 +27,21 @@
                 <slot name="listBtn"></slot>
             </div>
         </template>
-        <div class="list-no" v-else>
-            弄啥呢，怎么啥也没有！！！
-        </div>
+        <mm-no-result v-else title="弄啥呢，怎么啥也没有！！！"></mm-no-result>
     </div>
 </template>
 
 <script>
+    import {debounce} from 'assets/js/util'
+    import {getMusicUrl} from 'api/music'
     import {mapGetters, mapMutations} from 'vuex'
+    import MmNoResult from 'base/mm-no-result/mm-no-result'
     
     export default {
         name: "music-list",
+        components: {
+            MmNoResult
+        },
         props: {
             list: {
                 type: Array,
@@ -95,14 +99,21 @@
                 this.$refs.listContent.scrollTop = 0;
             },
             selectItem(item, index, e) {
-                if(e && /list-menu-icon-del/.test(e.target.className)){
+                if (e && /list-menu-icon-del/.test(e.target.className)) {
                     return
                 }
                 if (item.id === this.currentMusic.id && this.playing) {
                     this.setPlaying(false);
                     return
                 }
-                this.$emit('select', item, index)//触发点击播放事件
+                getMusicUrl(item.id)
+                    .then(res => {
+                        if (!res.data.data[0].url) {
+                            this.$mmToast('当前音乐无法播放，请播放其他音乐')
+                        } else {
+                            this.$emit('select', item, index)//触发点击播放事件
+                        }
+                    });
             },
             deleteItem(index) {
                 this.$emit('del', index)//触发删除事件
@@ -138,6 +149,7 @@
         height: calc(~'100% - 60px');
         overflow-x: hidden;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
     
     .list-no {
@@ -153,8 +165,9 @@
         display: flex;
         width: 100%;
         height: 50px;
-        line-height: 50px;
         border-bottom: 1px solid @list_item_line_color;
+        line-height: 50px;
+        overflow: hidden;
         &.list-item-no {
             justify-content: center;
             align-items: center;

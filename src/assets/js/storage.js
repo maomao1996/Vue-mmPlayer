@@ -83,11 +83,11 @@ export function setMode(mode) {
 const USERID_KEY = '__mmPlayer_userID__';
 //获取用户uid
 export function getUserId() {
-    return storage.get(MODE_KEY,null)
+    return Number(storage.get(USERID_KEY,null))
 }
 //修改用户uid
 export function setUserId(uid) {
-    storage.set(MODE_KEY,uid);
+    storage.set(USERID_KEY,uid);
     return uid
 }
 

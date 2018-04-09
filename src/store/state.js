@@ -1,5 +1,5 @@
 import {playMode} from "assets/js/config";
-import {getHistoryList, getMode} from "assets/js/storage";
+import {getHistoryList, getMode, getUserId} from "assets/js/storage";
 
 const state = {
     audioEle: null,//audio元素
@@ -8,8 +8,8 @@ const state = {
     playlist: [],//播放列表
     orderList: [],//顺序列表
     currentIndex: -1,//当前音乐索引
-    likeList: [],//我喜欢的列表
     historyList: getHistoryList() || [],//播放历史列表
+    uid: getUserId() || null,//网易云用户UID
 };
 
 export default state

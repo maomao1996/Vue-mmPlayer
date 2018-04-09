@@ -1,16 +1,16 @@
 import TempToast from './mm-toast.vue'
 
-let instance, showToast = false; // 存储toast显示状态
+let instance, showToast = false, time; // 存储toast显示状态
 const mmToast = {
-    install(Vue, options) {
-        options = options || {};
+    install(Vue, options = {}) {
         let opt = TempToast.data();//获取组件中的默认配置
-        for (let property in options) {
-            opt[property] = options[property];//使用 options 的配置
-        }
+        Object.assign(opt, options);//合并配置
         Vue.prototype.$mmToast = (message, position) => {
             if (showToast) {
-                return;// 如果toast还在，则不再执行
+                clearTimeout(time);
+                instance.vm.visible = showToast = false;
+                document.body.removeChild(instance.vm.$el)
+                //return;// 如果toast还在，则不再执行
             }
             if (message) {
                 opt.message = message;//如果有传message，则使用所传的message
@@ -26,7 +26,7 @@ const mmToast = {
             document.body.appendChild(instance.vm.$el);
             instance.vm.visible = showToast = true;
             
-            setTimeout(function () {
+            time = setTimeout(function () {
                 instance.vm.visible = showToast = false;
                 document.body.removeChild(instance.vm.$el)
             }, opt.duration)

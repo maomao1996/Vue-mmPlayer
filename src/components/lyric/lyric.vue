@@ -89,7 +89,7 @@
                 top: 0;
                 width: 201px;
                 height: 180px;
-                background: url("../../assets/img/album_cover_player.png") 0 0 no-repeat;
+                background: url("~assets/img/album_cover_player.png") 0 0 no-repeat;
             }
             img {
                 vertical-align: middle;

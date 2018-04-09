@@ -11,7 +11,7 @@
             return {
                 position: 'center',//默认显示位置
                 message: 'Hello World',
-                duration: 2000,
+                duration: 1500,
                 visible: false,
             }
         },
@@ -34,14 +34,14 @@
         padding: 10px 20px;
         overflow: hidden;
         text-align: center;
-        height: 40px;
+        min-height: 40px;
         line-height: 20px;
         font-size: 14px;
         color: #fff;
         background: rgba(0, 0, 0, .5);
         user-select: none;
         transform: translateX(-50%);
-        &.mm-toast-top {
+        &&-top {
             top: 10%;
         }
         &.mm-toast-center {
@@ -60,7 +60,7 @@
     
     .toast-fade-enter-active {
         will-change: transform;
-        transition: all .3s;
+        transition: all .2s;
     }
     
     .toast-fade-enter-to {

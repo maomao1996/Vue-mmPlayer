@@ -5,9 +5,12 @@
             <div class="mm-dialog-wrapper">
                 <div class="mm-dialog-content">
                     <div class="mm-dialog-head" v-text="headText"></div>
-                    <div class="mm-dialog-text" v-html="bodyText"></div>
+                    <slot>
+                        <div class="mm-dialog-text" v-html="bodyText"></div>
+                    </slot>
                     <div class="mm-dialog-btns">
                         <div class="mm-btn-cancel" v-if="dialogType!==1" v-text="cancelBtnText" @click="cancel"></div>
+                        <slot name="btn"></slot>
                         <div class="mm-btn-confirm" v-text="confirmBtnText" @click="confirm"></div>
                     </div>
                 </div>
@@ -110,7 +113,7 @@
                 }
                 .mm-dialog-text {
                     padding: 20px 15px;
-                    line-height: 20px;
+                    line-height: 22px;
                     font-size: @font_size_medium;
                     color: @dialog_text_color;
                 }
@@ -129,7 +132,7 @@
                             border: 1px solid @btn_color;
                             font-size: @font_size_medium;
                             cursor: pointer;
-                            &:nth-of-type(2) {
+                            &:not(:nth-of-type(1)) {
                                 margin-left: 10px;
                             }
                             &.mm-btn-confirm {
@@ -151,7 +154,7 @@
                                 padding: 10px 0;
                                 border-top: 1px solid @dialog_line_color;
                                 font-size: @font_size_large;
-                                &.mm-btn-confirm {
+                                &:not(:nth-of-type(1)) {
                                     border-left: 1px solid @dialog_line_color;
                                 }
                             }

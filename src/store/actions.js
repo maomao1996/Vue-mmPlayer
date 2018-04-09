@@ -1,4 +1,4 @@
-import {clearHistoryList, setHistoryList, removeHistoryList, setMode} from "../assets/js/storage";
+import {clearHistoryList, setHistoryList, removeHistoryList, setMode, setUserId} from "../assets/js/storage";
 import * as types from "./mutation-types";
 
 function findIndex(list, music) {
@@ -22,7 +22,7 @@ export const selectPlay = function ({commit}, {list, index}) {
 };
 //选择播放（会插入一条到播放列表）
 export const selectAddPlay = function ({commit, state}, music) {
-    let list = state.playlist.slice();
+    let list = [...state.playlist];
     //查询当前播放列表是否有代插入的音乐，并返回其索引值
     let index = findIndex(list, music);
     //当前播放列表有待插入的音乐时，直接改变当前播放音乐的索引值
@@ -70,4 +70,8 @@ export const clearHistory = function ({commit}) {
 //设置播放模式
 export const setPlayMode = function ({commit}, mode) {
     commit(types.SET_PLAYMODE, setMode(mode));
+};
+//设置网易云用户UID
+export const setUid = function ({commit}, uid) {
+    commit(types.SET_UID, setUserId(uid));
 };

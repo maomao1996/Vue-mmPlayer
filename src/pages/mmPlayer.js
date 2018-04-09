@@ -3,10 +3,27 @@ import {playMode} from "assets/js/config";
 const mmPlayerMusic = {
     initAudio(that) {
         const ele = that.audioEle;
+        //开始播放音乐
+        ele.onplay = () => {
+            //console.log('onplaying！')
+            //console.log('onplay！', e)
+            let timer;
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                that.musicReady = true
+            }, 100);
+        };
+        ele.onplaying = () => {
+        
+        };
         //获取当前播放时间
         ele.ontimeupdate = () => {
             that.currentTime = ele.currentTime
         };
+        //暂停音乐播放
+        //ele.onpause = () => {
+        //    that.setPlaying(false)
+        //};
         //当前音乐播放完毕
         ele.onended = () => {
             if (that.mode === playMode.loop) {
@@ -14,15 +31,6 @@ const mmPlayerMusic = {
             } else {
                 that.next()
             }
-        };
-        //开始播放音乐
-        ele.onplay = (e) => {
-            //console.log('onplay！', e)
-            let timer;
-            clearTimeout(timer);
-            timer = setTimeout(() => {
-                that.musicReady = true
-            }, 100);
         };
         //音乐播放出错
         ele.onerror = () => {

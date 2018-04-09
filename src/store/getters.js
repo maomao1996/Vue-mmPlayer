@@ -16,5 +16,5 @@ export const currentMusic = state => {
 };
 //播放历史列表
 export const historyList = state => state.historyList;
-//我喜欢的列表
-export const likeList = state => state.likeList;
+//网易云用户UID
+export const uid = state => state.uid;

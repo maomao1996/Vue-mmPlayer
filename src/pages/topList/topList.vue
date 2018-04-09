@@ -46,6 +46,9 @@
         height: 100%;
         overflow-x: hidden;
         overflow-y: auto;
+        &-head{
+            height: 100px;
+        }
         .list-item {
             float: left;
             width: calc(~'100% / 6');
