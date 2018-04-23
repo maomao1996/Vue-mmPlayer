@@ -26,6 +26,7 @@ const mmPlayerMusic = {
         //};
         //当前音乐播放完毕
         ele.onended = () => {
+            that.lyricIndex = 0;
             if (that.mode === playMode.loop) {
                 that.loop()
             } else {
