@@ -1,18 +1,18 @@
 <template>
     <div class="search">
-        <mm-loading v-model="mmLoadShow" :loadingBgColor="'rgba(0,0,0,.6)'"></mm-loading>
+        <mm-loading v-model="mmLoadShow"/>
         <div class="search-head">
             <span v-for="(item,index) in Artists" :key="index" @click="clickHot(item.name)">{{item.name}}</span>
             <input class="search-input" type="text" placeholder="音乐/歌手" v-model.trim="searchValue"
                    @keyup.enter="onEnter">
         </div>
-        <music-list ref="musicList" :list="list" :listType="2" @select="selectItem" @pullUp="pullUpLoad"></music-list>
+        <music-list ref="musicList" :list="list" :listType="2" @select="selectItem" @pullUp="pullUpLoad"/>
     </div>
 </template>
 
 <script>
     import {mapGetters, mapActions} from 'vuex'
-    import {getTopArtists, search,getMusicDetail} from 'api/music'
+    import {getTopArtists, search,getMusicDetail} from 'api'
     import {createSerach} from 'assets/js/song'
     import MmLoading from 'base/mm-loading/mm-loading'
     import MusicList from 'components/music-list/music-list'
@@ -80,7 +80,7 @@
                         }
                     })
             },
-            //上拉加载
+            //滚动加载事件
             pullUpLoad() {
                 this.mmLoadShow = true;
                 this.page += 1;
@@ -92,7 +92,7 @@
                                 this.mmLoadShow = false;
                                 return
                             }
-                            this.list = this.list.concat(this._formatSongs(res.data.result.songs))
+                            this.list = [...this.list,...this._formatSongs(res.data.result.songs)];
                             this._hideLoad();
                         }
                     })

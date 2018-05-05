@@ -1,13 +1,13 @@
 <template>
     <div class="details">
-        <mm-loading v-model="mmLoadShow" :loadingBgColor="'rgba(0,0,0,.6)'"></mm-loading>
-        <music-list :list="list" @select="selectItem"></music-list>
+        <mm-loading v-model="mmLoadShow"/>
+        <music-list :list="list" @select="selectItem"/>
     </div>
 </template>
 
 <script>
     import {mapActions} from 'vuex'
-    import {topListMm} from 'api/music'
+    import {topListMm} from 'api'
     import MmLoading from 'base/mm-loading/mm-loading'
     import MusicList from 'components/music-list/music-list'
     import {createTopList} from 'assets/js/song'
@@ -26,9 +26,10 @@
             }
         },
         created() {
-            topListMm(this.$route.query.id)
+            topListMm(this.$route.params.id)
                 .then((res) => {
                     this.list = this._formatSongs(res.data.playlist.tracks);
+                    document.title = `${res.data.playlist.name} - mmPlayer在线音乐播放器`;
                     this._hideLoad()
                 })
         },

@@ -4,7 +4,7 @@
         <dl class="user">
             <template v-if="user.userId">
                 <router-link class="user-info" to="/music/userlist" tag="dt">
-                    <img :src="`${user.avatarUrl}?param=100y100`">
+                    <img :src="`${user.avatarUrl}?param=50y50`">
                     <span>{{user.nickname}}</span>
                 </router-link>
                 <dd class="user-btn" @click="openDialog(2)">退出</dd>
@@ -24,17 +24,17 @@
             <div class="mm-dialog-text">
                 <p>1、<a target="_blank" href="http://music.163.com">点我(http://music.163.com)</a>打开网易云音乐官网</p>
                 <p>2、点击页面右上角的“登录”</p>
-                <p>3、点击您的头像，进入个人中心</p>
+                <p>3、点击您的头像，进入我的主页</p>
                 <p>4、复制浏览器地址栏 /user/home?id= 后面的数字（网易云 UID）</p>
             </div>
         </mm-dialog>
         <!--退出-->
-        <mm-dialog ref="outDialog" @confirm="out" bodyText="确定退出当前用户吗？"></mm-dialog>
+        <mm-dialog ref="outDialog" @confirm="out" bodyText="确定退出当前用户吗？"/>
     </header>
 </template>
 
 <script>
-    import {getUserPlaylist} from 'api/music'
+    import {getUserPlaylist} from 'api'
     import {mapGetters, mapActions} from 'vuex'
     import MmDialog from 'base/mm-dialog/mm-dialog'
     

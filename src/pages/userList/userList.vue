@@ -1,6 +1,6 @@
 <template>
     <div class="userList">
-        <mm-loading v-model="mmLoadShow" :loadingBgColor="'rgba(0,0,0,.6)'"></mm-loading>
+        <mm-loading v-model="mmLoadShow"/>
         <template v-if="list.length>0">
             <div class="list-item" v-for="item in list" v-if="item.trackCount>0" :key="item.id" :title="item.name">
                 <router-link :to="{path:'/music/details',query:{id:item.id}}" tag="div" class="userList-item">
@@ -9,13 +9,13 @@
                 </router-link>
             </div>
         </template>
-        <mm-no-result v-else title="啥也没有哦，快去登录看看吧！"></mm-no-result>
+        <mm-no-result v-else title="啥也没有哦，快去登录看看吧！"/>
     </div>
 </template>
 
 <script>
     import {mapGetters} from 'vuex'
-    import {getUserPlaylist} from 'api/music'
+    import {getUserPlaylist} from 'api'
     import MmLoading from 'base/mm-loading/mm-loading'
     import MmNoResult from 'base/mm-no-result/mm-no-result'
     import {loadMixin} from "assets/js/mixin"

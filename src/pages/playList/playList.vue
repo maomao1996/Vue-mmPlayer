@@ -1,18 +1,18 @@
 <template>
     <div class="playList">
-        <mm-loading v-model="mmLoadShow" :loadingBgColor="'rgba(0,0,0,.6)'"></mm-loading>
+        <mm-loading v-model="mmLoadShow"/>
         <music-list :list="playlist" :listType="1" @select="selectItem" @del="deleteItem">
             <div slot="listBtn" class="list-btn">
                 <span @click="$refs.dialog.show()">清空列表</span>
             </div>
         </music-list>
-        <mm-dialog ref="dialog" @confirm="clearList" bodyText="是否清空正在播放列表" confirmBtnText="清空"></mm-dialog>
+        <mm-dialog ref="dialog" @confirm="clearList" bodyText="是否清空正在播放列表" confirmBtnText="清空"/>
     </div>
 </template>
 
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
-    import {topList,topListMm} from 'api/music'
+    import {topList,topListMm} from 'api'
     import MusicList from 'components/music-list/music-list'
     import MmLoading from 'base/mm-loading/mm-loading'
     import MmDialog from 'base/mm-dialog/mm-dialog'

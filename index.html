@@ -8,23 +8,26 @@
     <title>mmPlayer在线音乐播放器</title>
     <meta name="keywords" content="mmPlayer,播放器,在线音乐,在线播放器,音乐播放器,在线音乐播放器,mmPlayer在线音乐播放器"/>
     <meta name="description" content="mmPlayer在线音乐播放器"/>
-    <style media="screen" type="text/css">
-        #appLoading{position:fixed;top:0;left:0;z-index:1314520;width:100%;height:100%;background:rgba(255,255,255,1)}#appLoading.removeAnimate{-webkit-animation:removeAnimate 1s 0s 1 both}@-webkit-keyframes removeAnimate{from{opacity:1}to{opacity:0}}#appLoading img{position:absolute;top:50%;left:50%;width:50px;height:50px;-webkit-transform:translateY(-50%) translateX(-50%);transform:translateY(-50%) translateX(-50%)}
+    <style type="text/css">
+        noscript{position:fixed;top:0;right:0;bottom:0;left:0;z-index:1996520;background:#fff;text-align:center;font-weight:700;font-size:34px;line-height:100px}#appLoading{position:fixed;top:0;left:0;z-index:1996;width:100%;height:100%;background:rgba(255,255,255,1)}#appLoading.removeAnimate{-webkit-animation:removeAnimate 1s 0s 1 both}@-webkit-keyframes removeAnimate{from{opacity:1}to{opacity:0}}#appLoading img{position:absolute;top:50%;left:50%;width:50px;height:50px;-webkit-transform:translateY(-50%) translateX(-50%);transform:translateY(-50%) translateX(-50%)}
     </style>
     <script>
-        (function() {
-            if (!!window.ActiveXObject || "ActiveXObject" in window){
-                window.location="http://music.mtnhao.com/tips.html";
-                return
+        (function () {
+            if (!!window.ActiveXObject || "ActiveXObject" in window) {
+                window.location = "http://music.mtnhao.com/tips.html";
+                return false
             }
         })();
     </script>
 </head>
 <body>
+    <noscript>
+        mmPlayer在线音乐播放器<br/>为了更好的体验请开启script
+    </noscript>
     <div id="appLoading">
         <img src="./static/loading.gif" alt="loading"/>
     </div>
-    <div id="app"></div>
+    <div id="mmPlayer"></div>
     <!-- built files will be auto injected -->
 </body>
 </html>
