@@ -3,30 +3,34 @@ import {playMode} from "assets/js/config";
 const mmPlayerMusic = {
     initAudio(that) {
         const ele = that.audioEle;
+        //音频缓冲事件
+        ele.onprogress = () => {
+            try {
+                if (ele.buffered.length > 0) {
+                    const duration = that.currentMusic.duration;
+                    let buffered = 0;
+                    ele.buffered.end(0);
+                    buffered = ele.buffered.end(0) > duration ? duration : ele.buffered.end(0);
+                    that.currentProgress = buffered / duration;
+                }
+            } catch (e) {
+            
+            }
+        };
         //开始播放音乐
         ele.onplay = () => {
-            //console.log('onplaying！')
-            //console.log('onplay！', e)
             let timer;
             clearTimeout(timer);
             timer = setTimeout(() => {
                 that.musicReady = true
             }, 100);
         };
-        ele.onplaying = () => {
-        
-        };
         //获取当前播放时间
         ele.ontimeupdate = () => {
             that.currentTime = ele.currentTime
         };
-        //暂停音乐播放
-        //ele.onpause = () => {
-        //    that.setPlaying(false)
-        //};
         //当前音乐播放完毕
         ele.onended = () => {
-            that.lyricIndex = 0;
             if (that.mode === playMode.loop) {
                 that.loop()
             } else {
@@ -48,11 +52,10 @@ const mmPlayerMusic = {
             timer = setTimeout(() => {
                 that.setPlaying(true);
             }, 10);
-            //console.log('onstalled ！');
         };
         //将能播放的音乐加入播放历史
         ele.oncanplay = () => {
-            if (that.historyList.length===0||that.currentMusic.id !== that.historyList[0].id) {
+            if (that.historyList.length === 0 || that.currentMusic.id !== that.historyList[0].id) {
                 that.setHistory(that.currentMusic)
             }
         }

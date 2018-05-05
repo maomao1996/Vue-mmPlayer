@@ -1,4 +1,4 @@
-# mmPlayer V1.4.0（2018.04.09）
+# mmPlayer V1.5.0（2018.05.05）
 
 模仿QQ音乐网页版界面，采用flexbox和position布局；
 mmPlayer虽然是响应式，但主要以为PC端为主，移动端只做相应适配（未做歌词显示）；
@@ -8,19 +8,9 @@ mmPlayer虽然是响应式，但主要以为PC端为主，移动端只做相应�
 
 > [在线演示地址](http://music.mtnhao.com)
 
-> [桌面版下载](http://img.mtnhao.com/mmPlayer.zip)
+> [桌面版下载](http://cdn.mtnhao.com/mmPlayer.zip)
 
 ## 如何安装与使用
-
-> 后台服务器
-
-```
-cd mmPlayer/server //进入后台服务器目录
-
-npm install //安装依赖
-
-node app.js //服务端运行 访问 http://localhost:3000
-```
 
 > mmPlayer
 
@@ -34,6 +24,16 @@ npm install //安装依赖
 npm run dev //服务端运行
 
 npm run build  //项目打包
+```
+
+> 后台服务器
+
+```
+cd mmPlayer/server //进入后台服务器目录
+
+npm install //安装依赖
+
+node app.js //服务端运行 访问 http://localhost:3000
 ```
 
 #### 运行mmPlayer后无法获取音乐请检查后台服务器是否启动
@@ -94,6 +94,8 @@ npm run build  //项目打包
 │   │   └── music-list
 │   │        └── music-list.vue                     // 列表组件
 │   ├── pages                                       // 入口主文件
+│   │   ├── comment
+│   │   │   └── comment.vue                         // 评论
 │   │   ├── details
 │   │   │   └── details.vue                         // 排行榜详情
 │   │   ├── historyList
@@ -130,6 +132,7 @@ npm run build  //项目打包
 - 排行榜
 - 搜索
 - 播放历史
+- 查看评论
 - 同步网易云歌单
 
 ## 界面欣赏
@@ -139,8 +142,18 @@ npm run build  //项目打包
 ![搜索](http://img.mukewang.com/5acb5a91000184b219201007.png)
 ![我的歌单](http://img.mukewang.com/5acb5a9a00010cee19201005.png)
 ![我听过的](http://img.mukewang.com/5acb5aa200010ea219201003.png)
+![歌曲评论](http://img.mukewang.com/5aed77f7000198e019201006.png)
 
 ## 更新说明
+
+### V1.5.0（2018.05.05）
+- 新增评论详情功能（网易云音乐最重要的部分不能漏）
+- 新增title提示
+- 新增noscript提示
+- 优化歌词滚动
+- 优化图片大小，提升加载速度
+- 优化歌曲切换时样式错乱
+- 增强模块化
 
 ### V1.4.0（2018.04.09）预期功能全部完成
 
@@ -221,7 +234,7 @@ npm run build  //项目打包
 
 - 个人练手项目（本想先做移动端的，但是发现有很多人都做过，就稍微标新立异做个PC端）
 - 如果您喜欢该作品，您可以点右上角 "Star" 表示支持 谢谢！
-- 后续：SSR版本、移动端版本、其他作品
+- 后续：移动端版本、其他作品
 
 ## License
 

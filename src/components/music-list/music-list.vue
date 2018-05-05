@@ -24,17 +24,18 @@
                 </span>
                     <span class="list-album" v-else>{{item.album}}</span>
                 </div>
-                <slot name="listBtn"></slot>
+                <slot name="listBtn"/>
             </div>
         </template>
-        <mm-no-result v-else title="弄啥呢，怎么啥也没有！！！"></mm-no-result>
+        <mm-no-result v-else title="弄啥呢，怎么啥也没有！！！"/>
     </div>
 </template>
 
 <script>
     import {debounce} from 'assets/js/util'
-    import {getMusicUrl} from 'api/music'
+    import {getMusicUrl} from 'api'
     import {mapGetters, mapMutations} from 'vuex'
+    import {addZero} from 'assets/js/util'
     import MmNoResult from 'base/mm-no-result/mm-no-result'
     
     export default {
@@ -58,7 +59,7 @@
         },
         data() {
             return {
-                lockUp: true,//是否锁定上拉加载事件,默认锁定
+                lockUp: true,//是否锁定滚动加载事件,默认锁定
             }
         },
         computed: {
@@ -127,7 +128,7 @@
                 let other = value % 3600;
                 let minutes = Math.floor(other / 60);
                 let seconds = Math.floor(other % 60);
-                return (minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds < 10 ? '0' + seconds : seconds)
+                return `${addZero(minutes)}:${addZero(seconds)}`
             }
         }
     }
@@ -135,6 +136,7 @@
 
 <style lang="less" scoped>
     @import "~assets/css/var";
+    @import "~assets/css/mixin";
     
     .list-header {
         border-bottom: 1px solid @list_head_line_color;
@@ -176,7 +178,7 @@
             color: #fff;
             .list-num {
                 font-size: 0;
-                background: url("../../assets/img/wave.gif") no-repeat center center;
+                background: url("~assets/img/wave.gif") no-repeat center center;
             }
         }
         &:hover {
@@ -238,7 +240,7 @@
                     width: 36px;
                     height: 36px;
                     margin-right: 10px;
-                    background-image: url("../../assets/img/icon_list_menu.png");
+                    background-image: url("~assets/img/icon_list_menu.png");
                     background-repeat: no-repeat;
                     cursor: pointer;
                 }
@@ -265,9 +267,7 @@
         .list-artist, .list-album {
             display: block;
             width: 150px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            .no-wrap();
         }
         .list-time {
             display: block;
@@ -280,7 +280,7 @@
                 left: 0;
                 width: 36px;
                 height: 36px;
-                background-image: url("../../assets/img/icon_list_menu.png");
+                background-image: url("~assets/img/icon_list_menu.png");
                 background-repeat: no-repeat;
                 background-position: -80px -160px;
                 cursor: pointer;

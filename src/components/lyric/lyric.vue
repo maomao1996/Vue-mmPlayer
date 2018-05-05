@@ -3,12 +3,16 @@
         <!--封面-->
         <dl class="music-info">
             <dt>
-                <img :src="musicPicUrl">
+                <img :src="musicPicUrl" />
             </dt>
             <template v-if="currentMusic.id">
                 <dd>歌曲名：{{currentMusic.name}}</dd>
                 <dd>歌手名：{{currentMusic.singer}}</dd>
                 <dd>专辑名：{{currentMusic.album}}</dd>
+            </template>
+            <template v-else>
+                <dd>mmPlayer在线音乐播放器</dd>
+                <dd><a class="github" target="_blank" href="https://github.com/maomao1996">茂茂</a></dd>
             </template>
         </dl>
         <!--歌词-->
@@ -50,18 +54,24 @@
             }
         },
         mounted() {
+            window.addEventListener('resize', () => {
+                clearTimeout(this.resizeTimer);
+                this.resizeTimer = setTimeout(() => {
+                    let height = this.$refs.musicLyric.offsetHeight;
+                    this.top = Math.floor(height / 34 / 2)
+                }, 60)
+            });
             this.$nextTick(() => {
                 let height = this.$refs.musicLyric.offsetHeight;
                 this.top = Math.floor(height / 34 / 2)
-                //console.log(this.top)
             })
         },
         computed: {
             musicPicUrl() {
-                return this.currentMusic.id ? this.currentMusic.image : require('../../assets/img/player_cover.png')
+                return this.currentMusic.id ? `${this.currentMusic.image}?param=200y200` : require('../../assets/img/player_cover.png')
             },
             lyricTop() {
-                return `transform :translate3d(0px, ${-34*(this.lyricIndex-this.top)}px, 0px)`
+                return `transform :translate3d(0, ${-34*(this.lyricIndex-this.top)}px, 0)`
             },
             ...mapGetters([
                 'currentMusic'
@@ -72,6 +82,7 @@
 
 <style lang="less" scoped>
     @import "~assets/css/var";
+    @import "~assets/css/mixin";
     
     .music-info {
         padding-bottom: 20px;
@@ -100,9 +111,11 @@
         dd {
             height: 30px;
             line-height: 30px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            .no-wrap();
+            .github {
+                padding-left: 25px;
+                background: url("~assets/img/github.png") no-repeat center left / contain;
+            }
         }
     }
     
@@ -122,9 +135,7 @@
             font-size: @font_size_small;
             transform: translate3d(0, 0, 0);
             transition: transform .6s ease-out;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
+            .no-wrap();
             .on {
                 color: @lyric_color_active;
             }

@@ -5,12 +5,12 @@
                 <span @click="$refs.dialog.show()">清空列表</span>
             </div>
         </music-list>
-        <mm-dialog ref="dialog" @confirm="clearList" bodyText="是否清空播放历史列表" confirmBtnText="清空"></mm-dialog>
+        <mm-dialog ref="dialog" @confirm="clearList" bodyText="是否清空播放历史列表" confirmBtnText="清空"/>
     </div>
 </template>
 
 <script>
-    import {topListMm} from 'api/music'
+    import {topListMm} from 'api'
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import MusicList from 'components/music-list/music-list'
     import MmDialog from 'base/mm-dialog/mm-dialog'

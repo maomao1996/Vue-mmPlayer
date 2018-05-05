@@ -9,7 +9,6 @@ import App from './App'
 
 //网络请求
 import axios from 'axios'
-
 Vue.prototype.$http = axios;
 
 //优化移动端300ms点击延迟
@@ -17,12 +16,22 @@ import fastclick from 'fastclick'
 
 fastclick.attach(document.body);
 
-import mmToast from 'base/mm-toast/index.js'
+import mmToast from 'base/mm-toast'
 
 Vue.use(mmToast);
 
 //引入样式
 import '@/assets/css/index.less'
+
+const redirectList = ['/music/details', '/music/comment'];
+router.beforeEach((to, from, next) => {
+    if (redirectList.includes(to.path)) {
+        next('/')
+    } else {
+        document.title = to.meta.title && `${to.meta.title} - mmPlayer在线音乐播放器` || 'mmPlayer在线音乐播放器';
+        next()
+    }
+});
 
 const isDebug_mode = process.env.NODE_ENV !== 'production';
 Vue.config.silent = isDebug_mode;
@@ -41,7 +50,7 @@ console.info(`%c${mmPlayer}`, `color:blue`);
 
 /* eslint-disable no-new */
 new Vue({
-    el: '#app',
+    el: '#mmPlayer',
     store,
     router,
     components: {App},

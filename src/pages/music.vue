@@ -2,22 +2,21 @@
     <div class="music">
         <div class="music-content">
             <div class="music-left">
-                <music-btn></music-btn>
-                <!--<transition name="">-->
+                <music-btn/>
                 <keep-alive>
-                    <router-view v-if="$route.meta.keepAlive" class="music-list"></router-view>
+                    <router-view v-if="$route.meta.keepAlive" class="music-list"/>
                 </keep-alive>
-                <router-view v-if="!$route.meta.keepAlive" class="music-list"></router-view>
-                <!--</transition>-->
+                <router-view :key="$route.path" v-if="!$route.meta.keepAlive" class="music-list"/>
             </div>
-            <lyric class="music-right" :lyric="lyric" :nolyric="nolyric" :lyricIndex="lyricIndex"></lyric>
+            <lyric class="music-right" :lyric="lyric" :nolyric="nolyric" :lyricIndex="lyricIndex"/>
         </div>
         
         <!--播放器-->
         <div class="music-bar" :class="{disable:!musicReady||!currentMusic.id}">
             <div class="music-bar-btns">
                 <i class="bar-icon btn-prev" title="上一曲 Ctrl + Left" @click="prev"></i>
-                <i class="bar-icon btn-play" :class="{'btn-play-pause':playing}" title="播放暂停 Ctrl + Space" @click="play"></i>
+                <i class="bar-icon btn-play" :class="{'btn-play-pause':playing}" title="播放暂停 Ctrl + Space"
+                   @click="play"></i>
                 <i class="bar-icon btn-next" title="下一曲 Ctrl + Right" @click="next"></i>
             </div>
             <div class="music-music">
@@ -25,14 +24,13 @@
                 <div class="music-bar-time" v-if="currentMusic.id">{{currentTime | format}}/{{currentMusic.duration |
                     formatDuration}}
                 </div>
-                <mm-progress class="music-progress" :percent="percentMusic"
-                             @percentChange="progressMusic"></mm-progress>
+                <mm-progress class="music-progress" :percent="percentMusic" :percentProgress="currentProgress" @percentChange="progressMusic"/>
             </div>
-            <i class="bar-icon" :class="modeClass" :title="modeTitle" @click="modeChange"></i>
+            <i class="bar-icon btn-mode" :class="modeClass" :title="modeTitle" @click="modeChange"></i>
+            <i class="bar-icon btn-comment" @click="openComment"></i>
             <div class="music-bar-volume" title="音量加减 [Ctrl+Up/Down]">
                 <i class="bar-icon btn-volume" :class="{'btn-volume-no':isMute}" @click="switchMute"></i>
-                <mm-progress @percentChange="volumeChange"
-                             :percent="volume"></mm-progress>
+                <mm-progress @percentChange="volumeChange" :percent="volume"/>
             </div>
         </div>
         
@@ -43,9 +41,9 @@
 </template>
 
 <script>
-    import {getLyric} from 'api/music'
+    import {getLyric} from 'api'
     import mmPlayerMusic from './mmPlayer'
-    import {randomSortArray} from 'assets/js/util'
+    import {randomSortArray, addZero, parseLyric} from 'assets/js/util'
     import {playMode} from "assets/js/config"
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import MusicBtn from 'components/music-btn/music-btn'
@@ -65,6 +63,7 @@
             return {
                 musicReady: false,//是否可以使用播放器
                 currentTime: 0,//当前播放时间
+                currentProgress: 0,//当前缓冲进度
                 lyric: [],//歌词
                 nolyric: false,//是否有歌词
                 lyricIndex: 0,//当前播放歌词下标
@@ -80,7 +79,7 @@
         },
         computed: {
             picUrl() {
-                return this.currentMusic.id && this.currentMusic.image ? `background-image:url(${this.currentMusic.image})` : ''
+                return this.currentMusic.id && this.currentMusic.image ? `background-image:url(${this.currentMusic.image}?param=300y300)` : ''
             },
             modeClass() {
                 switch (this.mode) {
@@ -108,7 +107,8 @@
                 }
             },
             percentMusic() {
-                return this.currentTime && this.currentMusic.duration ? this.currentTime / this.currentMusic.duration : 0
+                const duration = this.currentMusic.duration;
+                return this.currentTime && duration ? this.currentTime / duration : 0
             },
             ...mapGetters([
                 'audioEle',
@@ -131,12 +131,12 @@
                     return
                 }
                 this.audioEle.src = newMusic.url;
+                //重置相关参数
+                this.lyricIndex = this.currentTime = this.percentMusic = this.currentProgress = 0;
                 try {
-                    this.audioEle.play().catch(function (e) {
-                    });
+                    this.audioEle.play().catch(function (e) {});
                 }
-                catch (e) {
-                }
+                catch (e) {}
                 this.$nextTick(() => {
                     this._getLyric(newMusic.id);
                 })
@@ -162,10 +162,6 @@
             },
         },
         methods: {
-            //player(){
-            //    this.audioEle.src = 'https://music.163.com/song/media/outer/url?id=29771462.mp3';
-            //    //this.audioEle.play()
-            //},
             //按键事件
             keyDown() {
                 document.onkeydown = e => {
@@ -196,8 +192,6 @@
                         case 79://切换播放模式Ctrl + O
                             this.modeChange();
                             break
-                        //default :
-                        //    console.log(e)
                     }
                 }
             },
@@ -221,7 +215,7 @@
                 this.musicReady = false
             },
             //播放暂停
-            play(e) {
+            play() {
                 if (!this.musicReady) {
                     return
                 }
@@ -292,6 +286,14 @@
                 });
                 this.setCurrentIndex(index)
             },
+            //打开音乐评论
+            openComment() {
+                if (!this.currentMusic.id) {
+                    this.$mmToast('还没有播放歌曲哦！');
+                    return false
+                }
+                this.$router.push(`/music/comment/${this.currentMusic.id}`)
+            },
             //修改音量大小
             volumeChange(percent) {
                 percent === 0 ? this.isMute = true : this.isMute = false;
@@ -316,7 +318,6 @@
                         }
                         this.audioEle.play();
                     }
-                    //console.log(parseLyric(res.data.lrc.lyric))
                 })
             },
             ...mapMutations({
@@ -334,38 +335,15 @@
             format(value) {
                 let minute = Math.floor(value / 60);
                 let second = Math.floor(value % 60);
-                return `${minute < 10 ? '0' + minute : minute}:${second < 10 ? '0' + second : second}`
+                return `${addZero(minute)}:${addZero(second)}`
             },
             formatDuration(value) {
                 let other = value % 3600;
                 let minutes = Math.floor(other / 60);
                 let seconds = Math.floor(other % 60);
-                return (minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds < 10 ? '0' + seconds : seconds)
+                return addZero(minutes) + ':' + addZero(seconds)
             }
         }
-    }
-    
-    //歌词解析
-    function parseLyric(lrc) {
-        let lyrics = lrc.split("\n");
-        let lrcObj = [];
-        for (let i = 0; i < lyrics.length; i++) {
-            let lyric = decodeURIComponent(lyrics[i]);
-            let timeReg = /\[\d*:\d*((\.|\:)\d*)*\]/g;
-            let timeRegExpArr = lyric.match(timeReg);
-            if (!timeRegExpArr) continue;
-            let clause = lyric.replace(timeReg, '');
-            for (let k = 0, h = timeRegExpArr.length; k < h; k++) {
-                let t = timeRegExpArr[k];
-                let min = Number(String(t.match(/\[\d*/i)).slice(1)),
-                    sec = Number(String(t.match(/\:\d*/i)).slice(1));
-                let time = min * 60 + sec;
-                if (clause !== '') {
-                    lrcObj.push({time: time, text: clause})
-                }
-            }
-        }
-        return lrcObj;
     }
 </script>
 
@@ -455,11 +433,11 @@
                     height: 15px;
                     padding-right: 80px;
                     line-height: 15px;
-                    text-overflow:ellipsis;
-                    overflow:hidden;
-                    display:-webkit-box;
-                    -webkit-line-clamp:1;
-                    -webkit-box-orient:vertical;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 1;
+                    -webkit-box-orient: vertical;
                 }
                 .music-bar-time {
                     position: absolute;
@@ -491,20 +469,28 @@
                 margin-left: 20px;
                 background-position: 0 -232px;
             }
+            .btn-comment {
+                width: 24px;
+                height: 24px;
+                margin-left: 20px;
+                background-position: 0 -400px;
+            }
             .music-bar-volume {
                 position: relative;
                 margin-left: 20px;
+                .btn-volume {
+                    width: 26px;
+                    height: 21px;
+                    background-position: 0 -144px;
+                    &.btn-volume-no {
+                        background-position: 0 -182px;
+                    }
+                }
                 @media (min-width: 768px) {
                     width: 150px;
                     .btn-volume {
                         position: absolute;
                         top: -4px;
-                        width: 26px;
-                        height: 21px;
-                        background-position: 0 -144px;
-                        &.btn-volume-no {
-                            background-position: 0 -182px;
-                        }
                     }
                     .mmProgress {
                         margin-left: 30px;
@@ -514,14 +500,6 @@
                     top: 2px;
                     width: 26px;
                     height: 21px;
-                    .btn-volume {
-                        width: 26px;
-                        height: 21px;
-                        background-position: 0 -144px;
-                        &.btn-volume-no {
-                            background-position: 0 -182px;
-                        }
-                    }
                 }
             }
         }
@@ -542,7 +520,7 @@
         
         .mmPlayer-bg {
             z-index: -2;
-            background-image: url("http://img.mtnhao.com/bg.jpg");
+            background-image: url("http://cdn.mtnhao.com/music/bg.jpg");
             background-repeat: no-repeat;
             background-size: cover;
             background-position: 50%;
@@ -566,15 +544,12 @@
             
             .music-content .music-left {
                 .music-list {
-                    font-size: 14px;
+                    font-size: @font_size_medium;
                 }
             }
             
             .music-bar {
-                .music-bar-info span {
-                    display: none;
-                }
-                .music-bar-volume .mmProgress {
+                .music-bar-info span ,.music-bar-volume .mmProgress{
                     display: none;
                 }
             }
@@ -593,19 +568,21 @@
                     padding-left: 0;
                     order: 1
                 }
-                & > i.bar-icon {
+                & > i.btn-mode {
                     position: absolute;
                     top: 44px;
                     left: 5px;
                     margin: 0;
                 }
-                .music-bar-volume {
+                .btn-comment {
                     position: absolute;
                     top: 45px;
                     right: 5px;
                     width: 26px;
                     height: 21px;
-                    margin: 0;
+                }
+                .music-bar-volume {
+                    display: none;
                 }
             }
         }

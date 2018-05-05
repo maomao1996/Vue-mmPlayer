@@ -1,11 +1,11 @@
 <template>
     <div id="app">
         <!--主体-->
-        <mm-header></mm-header>
-        <router-view class="router-view"></router-view>
+        <mm-header/>
+        <router-view class="router-view"/>
         
         <!--更新说明-->
-        <mm-dialog ref="versionDialog" :dialogType="1" headText="更新提示" :bodyText="versionBody"></mm-dialog>
+        <mm-dialog ref="versionDialog" :dialogType="1" headText="更新提示" :bodyText="versionBody"/>
         
         <!--播放器-->
         <audio ref="mmPlayer"></audio>
@@ -64,17 +64,12 @@
             versionBody() {
                 return `<div class="mm-dialog-text text-left">
 版本号：${pkg.version}<br/>
-1、 新增同步网易云歌单功能<br>
-2、 新增快捷键控制<br>
-&nbsp;&nbsp;- 上一曲 Ctrl + Left<br>
-&nbsp;&nbsp;- 播放暂停 Ctrl + Space<br>
-&nbsp;&nbsp;- 下一曲 Ctrl + Right<br>
-&nbsp;&nbsp;- 切换播放模式 Ctrl + O<br>
-&nbsp;&nbsp;- 音量加 Ctrl + Up<br>
-&nbsp;&nbsp;- 音量减 Ctrl + Down<br>
-3、 修复safari和安卓UC不能播放的问题<br>
-4、 优化url失效问题和音乐无法播放的提示<br>
-5、 优化移动端样式兼容
+1、 新增评论详情功能<br>
+2、 新增title提示<br>
+3、 新增歌曲缓冲进度<br>
+4、 优化歌词滚动<br>
+5、 优化图片大小，提升加载速度<br>
+6、 优化歌曲切换时样式错乱
 </div>`
             }
         },

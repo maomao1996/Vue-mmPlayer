@@ -1,6 +1,7 @@
 <template>
 	<div class="mmProgress" ref="mmProgress" @click="barClick">
         <div class="mmProgress-bar"></div>
+        <div class="mmProgress-outer" ref="mmPercentProgress"></div>
         <div class="mmProgress-inner" ref="mmProgressInner">
             <div class="mmProgress-dot" @mousedown="barDown" @touchstart.prevent="barDown"></div>
         </div>
@@ -17,7 +18,7 @@
                     status: false,
                     startX: 0,
                     left: 0,
-                },
+                }
             }
         },
         props: {
@@ -25,6 +26,10 @@
                 type: [Number],
                 default: 0
             },
+            percentProgress: {
+                type: [Number],
+                default: 0
+            }
         },
         mounted(){
             this.$nextTick(() => {
@@ -72,7 +77,7 @@
                 let endX = e.clientX || e.touches[0].pageX;
                 let dist = endX - this.move.startX;
                 let offsetWidth = Math.min(this.$refs.mmProgress.clientWidth - dotWidth,Math.max(0,this.move.left + dist));
-                this.moveSilde(offsetWidth)
+                this.moveSilde(offsetWidth);
                 this.commitPercent()
             },
             //鼠标/触摸释放事件
@@ -94,13 +99,15 @@
         },
         watch:{
             percent(newPercent) {
-                //console.log("newPercent",newPercent)
                 if (newPercent >= 0 && !this.move.status) {
-                    //console.log("newPercent",newPercent)
                     const barWidth = this.$refs.mmProgress.clientWidth - dotWidth;
                     const offsetWidth = newPercent * barWidth;
                     this.moveSilde(offsetWidth)
                 }
+            },
+            percentProgress(newValue){
+                let offsetWidth = this.$refs.mmProgress.clientWidth * newValue;
+                this.$refs.mmPercentProgress.style.width = `${offsetWidth}px`
             }
         },
         beforeDestroy () {
@@ -116,10 +123,21 @@
         padding: 5px;
         user-select: none;
         cursor: pointer;
+        overflow: hidden;
         .mmProgress-bar {
             height: 2px;
             width: 100%;
             background: @bar_color;
+        }
+        .mmProgress-outer {
+            position: absolute;
+            top: 50%;
+            left: 5px;
+            display: inline-block;
+            width: 0;
+            height: 2px;
+            margin-top: -1px;
+            background: rgba(255,255,255,.2);
         }
         .mmProgress-inner {
             position: absolute;

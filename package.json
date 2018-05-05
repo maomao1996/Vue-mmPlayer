@@ -1,8 +1,8 @@
 {
   "name": "mmplayer",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Online music player",
-  "author": "maomao1996",
+  "author": "maomao1996 <1714487678@qq.com",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
