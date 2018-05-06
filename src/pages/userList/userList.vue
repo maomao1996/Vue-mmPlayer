@@ -3,7 +3,7 @@
         <mm-loading v-model="mmLoadShow"/>
         <template v-if="list.length>0">
             <div class="list-item" v-for="item in list" v-if="item.trackCount>0" :key="item.id" :title="item.name">
-                <router-link :to="{path:'/music/details',query:{id:item.id}}" tag="div" class="userList-item">
+                <router-link :to="{path:`/music/details/${item.id}`}" tag="div" class="userList-item">
                     <img class="cover-img" :src="item.coverImgUrl+'?param=200y200'">
                     <h3 class="name">{{item.name}}</h3>
                 </router-link>
