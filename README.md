@@ -4,11 +4,15 @@
 mmPlayer虽然是响应式，但主要以为PC端为主，移动端只做相应适配（未做歌词显示）；
 只做主流浏览器兼容（对IE说拜拜，想想以前做项目还要兼容IE7，都是泪啊！！！）
 
-> api：一个开源的[网易云音乐 NodeJS 版 API](https://binaryify.github.io/NeteaseCloudMusicApi)（有api才有动力写！！！）
+> #### api：一个开源的[网易云音乐 NodeJS 版 API](https://binaryify.github.io/NeteaseCloudMusicApi)（有api才有动力写！！！）
 
-> [在线演示地址](http://music.mtnhao.com)
+> #### [在线演示地址](http://music.mtnhao.com)
 
-> [桌面版下载](http://cdn.mtnhao.com/mmPlayer.zip)
+> #### [桌面版下载](http://cdn.mtnhao.com/mmPlayer.zip)
+
+> #### [React移动端版本（高仿网易云音乐）](https://github.com/maomao1996/react-music)
+
+> #### [交流QQ群：529940193](http://shang.qq.com/wpa/qunwpa?idkey=f8be1b627a89108ccfda9308720d2a4d0eb3306f253c5d3e8d58452e20b91129)
 
 ## 如何安装与使用
 
