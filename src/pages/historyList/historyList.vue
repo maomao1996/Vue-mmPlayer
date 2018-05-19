@@ -1,4 +1,5 @@
 <template>
+    <!--我听过的（播放历史）-->
     <div class="historyList">
         <music-list :list="historyList" :listType="1" @select="selectItem" @del="deleteItem">
             <div slot="listBtn" class="list-btn">
@@ -29,16 +30,19 @@
             ])
         },
         methods: {
+            // 清空列表事件
             clearList() {
                 this.clearHistory();
                 this.$mmToast('列表清空成功')
             },
+            // 播放事件
             selectItem(item,index){
                 this.selectPlay({
                     list: this.historyList,
                     index
                 })
             },
+            // 删除事件
             deleteItem(index){
                 let list = [...this.historyList];
                 list.splice(index,1);

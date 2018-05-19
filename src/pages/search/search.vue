@@ -1,4 +1,5 @@
 <template>
+    <!--搜索-->
     <div class="search">
         <mm-loading v-model="mmLoadShow"/>
         <div class="search-head">
@@ -49,6 +50,7 @@
             }
         },
         created() {
+            // 获取热门歌手
             getTopArtists(0, 5)
                 .then(res => {
                     if (res.data.code === 200) {
@@ -58,10 +60,12 @@
                 })
         },
         methods: {
+            // 点击热门歌手
             clickHot(name) {
                 this.searchValue = name;
                 this.onEnter()
             },
+            // 搜索事件
             onEnter() {
                 if (this.searchValue.replace(/(^\s+)|(\s+$)/g, "") === '') {
                     this.$mmToast('搜索内容不能为空！');
@@ -103,6 +107,7 @@
                 music.image = image;
                 this.selectAddPlay(music)
             },
+            // 获取歌曲详情
             _getMusicDetail(id){
                 return getMusicDetail(id)
                     .then(res => {
@@ -111,6 +116,7 @@
                         }
                     })
             },
+            // 歌曲数据处理
             _formatSongs(list) {
                 let ret = [];
                 list.forEach((item) => {

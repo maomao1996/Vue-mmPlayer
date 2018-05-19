@@ -1,4 +1,5 @@
 <template>
+    <!--正在播放-->
     <div class="playList">
         <mm-loading v-model="mmLoadShow"/>
         <music-list :list="playlist" :listType="1" @select="selectItem" @del="deleteItem">
@@ -56,10 +57,12 @@
             ])
         },
         methods: {
+            // 清空列表事件
             clearList() {
                 this.clearPlayList();
                 this.$mmToast('列表清空成功')
             },
+            // 播放暂停事件
             selectItem(item, index) {
                 if (item.id === this.currentMusic.id && !this.playing){
                     this.setPlaying(true);
@@ -68,12 +71,14 @@
                     this.setPlaying(true)
                 }
             },
+            // 删除事件
             deleteItem(index) {
                 let list = [...this.playlist];
                 list.splice(index, 1);
                 this.removerPlayListItem({list, index});
                 this.$mmToast('删除成功')
             },
+            // 歌曲数据处理
             _formatSongs(list) {
                 let ret = [];
                 list.forEach((item) => {

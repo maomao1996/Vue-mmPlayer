@@ -1,7 +1,9 @@
 <template>
+    <!--评论-->
     <div class="comment">
         <mm-loading v-model="mmLoadShow"/>
         <dl v-if="hotComments.length > 0" class="comment-list" @scroll="listScroll($event)">
+            <!--精彩评论-->
             <dt class="comment-title">精彩评论</dt>
             <dd class="comment-item" v-for="item in hotComments" :key="item.commentId">
                 <img class="comment-item-pic" :src="`${item.user.avatarUrl}?param=50y50`">
@@ -14,6 +16,7 @@
                     <span class="comment-opt-liked">{{item.likedCount}}</span>
                 </div>
             </dd>
+            <!--最新评论-->
             <dt class="comment-title">最新评论（{{total}}）</dt>
             <dd class="comment-item" v-for="item in commentList" :key="item.commentId">
                 <a class="comment-item-pic" target="_blank"
@@ -51,11 +54,11 @@
         },
         data() {
             return {
-                lockUp: true,//是否锁定滚动加载事件,默认锁定
-                page: 0,//分页
-                hotComments: [],
-                commentList: [],
-                total: null
+                lockUp: true,// 是否锁定滚动加载事件,默认锁定
+                page: 0,// 分页
+                hotComments: [],// 精彩评论
+                commentList: [],// 最新评论
+                total: null,// 评论总数
             }
         },
         watch: {
@@ -69,6 +72,7 @@
             this.initData()
         },
         methods: {
+            // 初始化数据
             initData() {
                 getComment(this.$route.params.id, this.page)
                 .then(res => {
@@ -106,6 +110,7 @@
             }
         },
         filters: {
+            // 格式化时间
             format(time) {
                 let formatTime;
                 const date = new Date(time);

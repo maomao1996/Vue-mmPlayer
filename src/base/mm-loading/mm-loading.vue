@@ -1,4 +1,5 @@
 <template>
+    <!--加载动画-->
     <div class="mm-loading" v-show="value" :style="{backgroundColor:loadingBgColor}">
         <div class="mm-loading-content">
             <svg class="circular" viewBox="25 25 50 50">
@@ -12,10 +13,12 @@
     export default {
         name: "mm-loading",
         props: {
+            // 是否显示
             value: {
                 type: Boolean,
                 default: true
             },
+            // 加载动画背景颜色
             loadingBgColor: {
                 type: String
             }

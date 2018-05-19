@@ -1,4 +1,5 @@
 <template>
+    <!--进度条拖动-->
 	<div class="mmProgress" ref="mmProgress" @click="barClick">
         <div class="mmProgress-bar"></div>
         <div class="mmProgress-outer" ref="mmPercentProgress"></div>
@@ -15,17 +16,19 @@
         data(){
 		    return {
                 move: {
-                    status: false,
-                    startX: 0,
-                    left: 0,
+                    status: false, // 是否可拖动
+                    startX: 0, // 记录最开始点击的X坐标
+                    left: 0, // 记录当前已经移动的距离
                 }
             }
         },
         props: {
+		    // 进度值一
             percent: {
                 type: [Number],
                 default: 0
             },
+            // 进度值二（歌曲缓冲进度用）
             percentProgress: {
                 type: [Number],
                 default: 0
