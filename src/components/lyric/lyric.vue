@@ -35,14 +35,17 @@
     export default {
         name: "lyric",
         props: {
+            // 歌词数据
             lyric: {
                 type: Array,
                 default: []
             },
+            // 是否无歌词
             nolyric: {
                 type: Boolean,
                 default: false
             },
+            // 当前歌词下标
             lyricIndex: {
                 type: Number,
                 default: 0
@@ -50,21 +53,8 @@
         },
         data() {
             return {
-                top: 0
+                top: 0 // 歌词居中
             }
-        },
-        mounted() {
-            window.addEventListener('resize', () => {
-                clearTimeout(this.resizeTimer);
-                this.resizeTimer = setTimeout(() => {
-                    let height = this.$refs.musicLyric.offsetHeight;
-                    this.top = Math.floor(height / 34 / 2)
-                }, 60)
-            });
-            this.$nextTick(() => {
-                let height = this.$refs.musicLyric.offsetHeight;
-                this.top = Math.floor(height / 34 / 2)
-            })
         },
         computed: {
             musicPicUrl() {
@@ -76,6 +66,20 @@
             ...mapGetters([
                 'currentMusic'
             ])
+        },
+        mounted() {
+            window.addEventListener('resize', () => {
+                clearTimeout(this.resizeTimer);
+                this.resizeTimer = setTimeout(() => this.clacTop(), 60)
+            });
+            this.$nextTick(() => this.clacTop())
+        },
+        methods: {
+            // 计算歌词居中的 top值
+            clacTop(){
+                let height = this.$refs.musicLyric.offsetHeight;
+                this.top = Math.floor(height / 34 / 2)
+            }
         }
     }
 </script>

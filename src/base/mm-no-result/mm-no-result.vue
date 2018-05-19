@@ -1,4 +1,5 @@
 <template>
+    <!--暂无数据提示-->
 	<div class="mm-no-result">
         <p class="mm-no-result-text">{{title}}</p>
 	</div>
@@ -8,6 +9,7 @@
 	export default {
 		name: "mm-no-result",
         props: {
+		    // 无数据提示文本
             title: {
                 type: String,
                 default: ''

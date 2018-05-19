@@ -1,4 +1,5 @@
 <template>
+    <!--我的歌单-->
     <div class="userList">
         <mm-loading v-model="mmLoadShow"/>
         <template v-if="list.length>0">
@@ -61,6 +62,7 @@
             }
         },
         methods: {
+            // 获取我的歌单详情
             _getUserPlaylist(uid) {
                 getUserPlaylist(uid)
                     .then(res => {

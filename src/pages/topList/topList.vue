@@ -1,4 +1,5 @@
 <template>
+    <!--排行榜-->
     <div class="topList">
         <mm-loading v-model="mmLoadShow"/>
         <div class="list-item" v-for="(item,index) in list" :key="index" :title="item.name+item.updateFrequency">
@@ -27,6 +28,7 @@
             }
         },
         created() {
+            // 获取排行榜列表
             getToplistDetail().then( (res) => {
                 if(res.status === 200) {
                     this.list = res.data.list;

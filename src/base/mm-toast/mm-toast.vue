@@ -1,4 +1,5 @@
 <template>
+    <!--弹出层提示-->
     <transition name="toast-fade">
         <div v-show="visible" class="mm-toast" :class="positionClasss">{{message}}</div>
     </transition>
@@ -9,10 +10,10 @@
         name: "mm-toast",
         data() {
             return {
-                position: 'center',//默认显示位置
-                message: 'Hello World',
-                duration: 1500,
-                visible: false,
+                position: 'center',// 默认显示位置
+                message: '',// 默认显示文本
+                duration: 1500, // 显示时间, 毫秒
+                visible: false, // 是否显示
             }
         },
         computed: {

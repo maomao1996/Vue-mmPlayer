@@ -31,18 +31,22 @@
                 type: Number,
                 default: 0
             },
+            // 标题文本
             headText: {
                 type: String,
                 default: '提示'
             },
+            // 内容文本（可以是html）
             bodyText: {
                 type: String,
                 default: ''
             },
+            // 取消按钮文本
             cancelBtnText: {
                 type: String,
                 default: '取消'
             },
+            // 确定按钮文本
             confirmBtnText: {
                 type: String,
                 default: '确定'
@@ -50,20 +54,24 @@
         },
         data(){
             return {
-                dialogShow: false
+                dialogShow: false //是否显示对话框
             }
         },
         methods: {
+            // 显示事件
             show() {
                 this.dialogShow = true;
             },
+            // 隐藏事件
             hide() {
                 this.dialogShow = false;
             },
+            // 取消事件
             cancel() {
                 this.hide();
                 this.$emit('cancel')
             },
+            // 确定事件
             confirm() {
                 this.hide();
                 this.$emit('confirm')

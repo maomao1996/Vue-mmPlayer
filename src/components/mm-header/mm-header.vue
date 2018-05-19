@@ -1,4 +1,5 @@
 <template>
+    <!--头部-->
     <header class="mm-header">
         <h1 class="header">mmPlayer在线音乐播放器</h1>
         <dl class="user">
@@ -45,8 +46,8 @@
         },
         data() {
             return {
-                user: {},
-                uidValue: ''
+                user: {}, // 用户数据
+                uidValue: '', // 记录用户 UID
             }
         },
         computed: {
@@ -56,6 +57,7 @@
             this.uid && this._getUserPlaylist(this.uid)
         },
         methods: {
+            // 打开对话框
             openDialog(key) {
                 switch (key) {
                     case 0:
@@ -70,11 +72,13 @@
                         break
                 }
             },
+            // 退出登录
             out() {
                 this.user = {};
                 this.setUid(null);
                 this.$mmToast('退出成功！')
             },
+            // 登录
             login() {
                 if (this.uidValue === '') {
                     this.$mmToast('UID不能为空');
@@ -82,6 +86,7 @@
                 }
                 this._getUserPlaylist(this.uidValue)
             },
+            // 获取用户数据
             _getUserPlaylist(uid) {
                 getUserPlaylist(uid)
                     .then(res => {

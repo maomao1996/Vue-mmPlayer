@@ -1,4 +1,5 @@
 <template>
+    <!--选项-->
     <div class="music-btn">
         <router-link to="/music/playlist" tag="span">正在播放</router-link>
         <router-link to="/music/toplist" tag="span">排行榜</router-link>

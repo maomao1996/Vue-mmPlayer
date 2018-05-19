@@ -1,4 +1,5 @@
 <template>
+    <!--歌单详情-->
     <div class="details">
         <mm-loading v-model="mmLoadShow"/>
         <music-list :list="list" @select="selectItem"/>
@@ -26,6 +27,7 @@
             }
         },
         created() {
+            // 获取歌单详情
             topListMm(this.$route.params.id)
                 .then((res) => {
                     this.list = this._formatSongs(res.data.playlist.tracks);
@@ -34,12 +36,14 @@
                 })
         },
         methods: {
+            // 播放暂停事件
             selectItem(item, index) {
                 this.selectPlay({
                     list: this.list,
                     index
                 })
             },
+            // 歌曲数据处理
             _formatSongs(list) {
                 let ret = [];
                 list.forEach((item) => {

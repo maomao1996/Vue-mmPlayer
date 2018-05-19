@@ -1,4 +1,5 @@
 <template>
+    <!--歌曲列表-->
     <div class="musicList">
         <template v-if="list.length>0">
             <div class="list-item list-header">
@@ -44,6 +45,7 @@
             MmNoResult
         },
         props: {
+            // 歌曲数据
             list: {
                 type: Array,
                 default: []
@@ -81,6 +83,7 @@
             }
         },
         methods: {
+            // 滚动事件
             listScroll(e) {
                 if (this.listType !== 2) {
                     return
@@ -96,9 +99,11 @@
                     this.$emit('pullUp')//触发滚动加载事件
                 }
             },
+            // 回到顶部
             scrollTop() {
                 this.$refs.listContent.scrollTop = 0;
             },
+            // 播放暂停事件
             selectItem(item, index, e) {
                 if (e && /list-menu-icon-del/.test(e.target.className)) {
                     return
@@ -116,6 +121,7 @@
                         }
                     });
             },
+            // 删除事件
             deleteItem(index) {
                 this.$emit('del', index)//触发删除事件
             },

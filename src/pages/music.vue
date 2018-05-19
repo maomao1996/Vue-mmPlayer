@@ -280,6 +280,7 @@
                 this.resetCurrentIndex(list);
                 this.setPlaylist(list);
             },
+            // 修改当前歌曲索引
             resetCurrentIndex(list) {
                 const index = list.findIndex(item => {
                     return item.id === this.currentMusic.id
