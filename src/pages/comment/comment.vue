@@ -158,7 +158,6 @@
             overflow-x: hidden;
             overflow-y: auto;
             .comment-title {
-                position: sticky;
                 height: 34px;
                 line-height: 34px;
                 padding: 10px 0;
