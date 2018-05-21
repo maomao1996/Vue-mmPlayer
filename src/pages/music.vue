@@ -20,11 +20,17 @@
                 <i class="bar-icon btn-next" title="下一曲 Ctrl + Right" @click="next"></i>
             </div>
             <div class="music-music">
-                <div class="music-bar-info">{{currentMusic.name}}<span> - {{currentMusic.singer}}</span></div>
+                <div class="music-bar-info">
+                    <template v-if="currentMusic&&currentMusic.id">
+                        {{currentMusic.name}}<span> - {{currentMusic.singer}}</span>
+                    </template>
+                    <template v-else>欢迎使用mmPlayer在线音乐播放器</template>
+                </div>
                 <div class="music-bar-time" v-if="currentMusic.id">{{currentTime | format}}/{{currentMusic.duration |
                     formatDuration}}
                 </div>
-                <mm-progress class="music-progress" :percent="percentMusic" :percentProgress="currentProgress" @percentChange="progressMusic"/>
+                <mm-progress class="music-progress" :percent="percentMusic" :percentProgress="currentProgress"
+                             @percentChange="progressMusic"/>
             </div>
             <i class="bar-icon btn-mode" :class="modeClass" :title="modeTitle" @click="modeChange"></i>
             <i class="bar-icon btn-comment" @click="openComment"></i>
@@ -35,7 +41,7 @@
         </div>
         
         <!--遮罩-->
-        <div class="mmPlayer-bg" :style="picUrl"></div>
+        <div class="mmPlayer-bg" :style="{backgroundImage: picUrl}"></div>
         <div class="mmPlayer-mask"></div>
     </div>
 </template>
@@ -44,7 +50,7 @@
     import {getLyric} from 'api'
     import mmPlayerMusic from './mmPlayer'
     import {randomSortArray, addZero, parseLyric} from 'assets/js/util'
-    import {playMode} from "assets/js/config"
+    import {playMode, defaultBG} from "assets/js/config"
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import MusicBtn from 'components/music-btn/music-btn'
     import Lyric from 'components/lyric/lyric'
@@ -79,7 +85,7 @@
         },
         computed: {
             picUrl() {
-                return this.currentMusic.id && this.currentMusic.image ? `background-image:url(${this.currentMusic.image}?param=300y300)` : ''
+                return this.currentMusic.id && this.currentMusic.image ? `url(${this.currentMusic.image}?param=300y300)` : `url(${defaultBG})`
             },
             modeClass() {
                 switch (this.mode) {
@@ -134,9 +140,11 @@
                 //重置相关参数
                 this.lyricIndex = this.currentTime = this.percentMusic = this.currentProgress = 0;
                 try {
-                    this.audioEle.play().catch(function (e) {});
+                    this.audioEle.play().catch(function (e) {
+                    });
                 }
-                catch (e) {}
+                catch (e) {
+                }
                 this.$nextTick(() => {
                     this._getLyric(newMusic.id);
                 })
@@ -315,7 +323,7 @@
                             this.nolyric = true
                         } else {
                             this.nolyric = false;
-                            this.lyric = parseLyric(res.data.lrc.lyric)
+                            parseLyric(res.data.lrc.lyric)
                         }
                         this.audioEle.play();
                     }
@@ -493,6 +501,7 @@
                         position: absolute;
                         top: -4px;
                     }
+                    
                     .mmProgress {
                         margin-left: 30px;
                     }
@@ -521,7 +530,6 @@
         
         .mmPlayer-bg {
             z-index: -2;
-            background-image: url("http://cdn.mtnhao.com/music/bg.jpg");
             background-repeat: no-repeat;
             background-size: cover;
             background-position: 50%;
@@ -550,7 +558,7 @@
             }
             
             .music-bar {
-                .music-bar-info span ,.music-bar-volume .mmProgress{
+                .music-bar-info span, .music-bar-volume .mmProgress {
                     display: none;
                 }
             }

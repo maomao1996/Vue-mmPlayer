@@ -50,6 +50,18 @@ app.use("/artist/desc", require("./router/artists_desc"));
 //艺术家-mv
 app.use("/artist/mv", require("./router/artists_mv"));
 
+// 收藏歌手
+app.use("/artist/sub", require("./router/artist_sub"));
+
+// 取消收藏歌手
+app.use("/artist/unsub", require("./router/artist_unsub"));
+
+// 已关注歌手
+app.use("/artist/sublist", require("./router/artist_sublist"));
+
+// 歌手分类
+app.use("/artist/list", require("./router/artist_list"));
+
 // 获取 banner
 app.use("/banner", require("./router/banner"));
 
@@ -84,6 +96,8 @@ app.use("/dj/sub", require("./router/dj_sub"));
 app.use("/dj/catelist", require("./router/dj_catelist"));
 
 app.use("/dj/hot", require("./router/dj_hot"));
+
+app.use("/dj/sublist", require("./router/dj_sublist"));
 
 // 精选电台
 app.use("/dj/recommend", require("./router/dj_recommend"));
@@ -158,9 +172,17 @@ app.use("/playlist/detail", require("./router/playlist_detail"));
 //收藏单曲到歌单,从歌单删除歌曲 op=del,add;pid=歌单id,tracks=歌曲id
 app.use("/playlist/tracks", require("./router/playlist_tracks"));
 
+// 热门歌单分类
 app.use("/playlist/hot", require("./router/playlist_hot"));
 
+// 全部歌单分类
 app.use("/playlist/catlist", require("./router/playlist_catlist"));
+
+// 新建歌单
+app.use("/playlist/create", require("./router/playlist_create"));
+
+// 收藏/取消收藏歌单
+app.use("/playlist/subscribe", require("./router/playlist_subscribe"));
 
 //推荐节目
 app.use("/program/recommend", require("./router/program_recommend"));
@@ -178,6 +200,9 @@ app.use("/resource/like", require("./router/resource_like"));
 
 // 搜索
 app.use("/search", require("./router/search"));
+
+// 热搜
+app.use("/search/hot", require("./router/search_hot.js"));
 
 //搜索 multimatch
 app.use("/search/multimatch", require("./router/search_multimatch"));
@@ -256,6 +281,18 @@ app.use("/user/follows", require("./router/user_follows"));
 app.use("/user/subcount", require("./router/user_subcount"));
 
 app.use("/user/record", require("./router/user_playrecord"));
+
+app.use("/user/update", require("./router/user_update"));
+
+app.use("/send/text", require("./router/send_text"));
+
+app.use("/send/playlist", require("./router/send_playlist"));
+
+app.use("/playlist/create", require("./router/playlist_create"));
+
+app.use("/playlist/subscribe", require("./router/playlist_subscribe"));
+
+app.use("/playlist/update", require("./router/playlist_update"));
 
 const port = process.env.PORT || 3000;
 

@@ -1,5 +1,5 @@
 import axios from 'axios'
-const URL = 'http://localhost:3000';
+import {URL, defaultLimit} from 'assets/js/config'
 
 //排行榜榜单
 export function getToplistDetail() {
@@ -27,19 +27,25 @@ export function topListMm(id) {
 }
 
 //搜索
-export function search(keywords, page = 0) {
+export function search(keywords, page = 0, limit = defaultLimit) {
     const url = `${URL}/search`;
     return axios.get(url, {
         params: {
-            offset: page * 50,
-            limit: 50,
+            offset: page * limit,
+            limit: limit,
             keywords
         }
     })
 }
 
+//热搜
+export function searchHot() {
+    const url = `${URL}/search/hot`;
+    return axios.get(url)
+}
+
 //热门歌手
-export function getTopArtists(offset = 0, limit = 50) {
+export function getTopArtists(offset = 0, limit = defaultLimit) {
     const url = `${URL}/top/artists`;
     return axios.get(url, {
         params: {
@@ -90,12 +96,12 @@ export function getLyric(id) {
 }
 
 //获取音乐评论
-export function getComment(id, page) {
+export function getComment(id, page, limit = defaultLimit) {
     const url = `${URL}/comment/music`;
     return axios.get(url, {
         params: {
-            offset: page * 20,
-            limit: 20,
+            offset: page * limit,
+            limit: limit,
             id
         }
     })
