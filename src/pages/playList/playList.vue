@@ -13,17 +13,18 @@
 
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
-    import {topList,topListMm} from 'api'
+    import {topList, topListMm} from 'api'
     import MusicList from 'components/music-list/music-list'
     import MmLoading from 'base/mm-loading/mm-loading'
     import MmDialog from 'base/mm-dialog/mm-dialog'
+    import {defaultSheetId} from 'assets/js/config'
     import {createTopList} from 'assets/js/song'
     import {loadMixin} from "assets/js/mixin";
     
     export default {
         name: "play-list",
         mixins: [loadMixin],
-        data(){
+        data() {
             return {
                 show: false,
             }
@@ -38,15 +39,14 @@
                 this.mmLoadShow = false;
                 return
             }
-            //topListMm(942225439)
-            topList(1)
-                .then((res) => {
-                    if (res.status === 200) {
-                        let list = this._formatSongs(res.data.playlist.tracks);
-                        this.setPlaylist({list});
-                        this._hideLoad()
-                    }
-                })
+            topList(defaultSheetId)
+            .then((res) => {
+                if (res.status === 200) {
+                    let list = this._formatSongs(res.data.playlist.tracks);
+                    this.setPlaylist({list});
+                    this._hideLoad()
+                }
+            })
         },
         computed: {
             ...mapGetters([
@@ -64,7 +64,7 @@
             },
             // 播放暂停事件
             selectItem(item, index) {
-                if (item.id === this.currentMusic.id && !this.playing){
+                if (item.id === this.currentMusic.id && !this.playing) {
                     this.setPlaying(true);
                 } else {
                     this.setCurrentIndex(index);

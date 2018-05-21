@@ -36,36 +36,4 @@ describe("测试登录是否正常", () => {
             err => done(err)
         );
     });
-
-    it("邮箱登录 code 应该等于200", done => {
-        const email = "换成你的163网易邮箱";
-        const password = "换成你的密码";
-        const cookie = "";
-        const md5sum = crypto.createHash("md5");
-        md5sum.update(password);
-        const data = {
-            username: email,
-            password: md5sum.digest("hex"),
-            rememberLogin: "true"
-        };
-
-        createWebAPIRequest(
-            "music.163.com",
-            "/weapi/login",
-            "POST",
-            data,
-            cookie,
-            (music_req, cookie) => {
-                const result = JSON.parse(music_req);
-                console.log({
-                    loginType: result.loginType,
-                    code: result.code,
-                    account: result.account
-                });
-                assert(result.code === 200);
-                done();
-            },
-            err => done(err)
-        );
-    });
 });

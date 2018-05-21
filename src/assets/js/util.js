@@ -1,24 +1,33 @@
-//随机排序数组 https://github.com/jashkenas/underscore/blob/master/underscore.js
-function random(min, max) {
-    if (max == null) {
-        max = min;
-        min = 0;
+//随机排序数组/洗牌函数 https://github.com/lodash/lodash/blob/master/shuffle.js
+function copyArray(source, array) {
+    let index = -1;
+    const length = source.length;
+    
+    array || (array = new Array(length));
+    while (++index < length) {
+        array[index] = source[index]
     }
-    return min + Math.floor(Math.random() * (max - min + 1));
+    return array
 }
 
-export const randomSortArray = function (arr) {
-    let length = arr.length,
-        shuffled = Array(length);
-    for (let index = 0, rand; index < length; index++) {
-        rand = random(0, index);
-        if (rand !== index) shuffled[index] = shuffled[rand];
-        shuffled[rand] = arr[index];
+export const randomSortArray = function shuffle(array) {
+    const length = array == null ? 0 : array.length;
+    if (!length) {
+        return []
     }
-    return shuffled;
-    
+    let index = -1;
+    const lastIndex = length - 1;
+    const result = copyArray(array);
+    while (++index < length) {
+        const rand = index + Math.floor(Math.random() * (lastIndex - index + 1));
+        const value = result[rand];
+        result[rand] = result[index];
+        result[index] = value
+    }
+    return result
 };
 
+// 防抖函数
 export function debounce(func, delay) {
     let timer;
     return function (...args) {

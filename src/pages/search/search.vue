@@ -3,7 +3,8 @@
     <div class="search">
         <mm-loading v-model="mmLoadShow"/>
         <div class="search-head">
-            <span v-for="(item,index) in Artists" :key="index" @click="clickHot(item.name)">{{item.name}}</span>
+            <span v-for="(item,index) in Artists.slice(0,5)" :key="index"
+                  @click="clickHot(item.first)">{{item.first}}</span>
             <input class="search-input" type="text" placeholder="音乐/歌手" v-model.trim="searchValue"
                    @keyup.enter="onEnter">
         </div>
@@ -13,7 +14,7 @@
 
 <script>
     import {mapGetters, mapActions} from 'vuex'
-    import {getTopArtists, search,getMusicDetail} from 'api'
+    import {search, searchHot, getMusicDetail} from 'api'
     import {createSerach} from 'assets/js/song'
     import MmLoading from 'base/mm-loading/mm-loading'
     import MusicList from 'components/music-list/music-list'
@@ -28,7 +29,7 @@
         },
         data() {
             return {
-                Artists: [],//热门搜索歌手数组
+                Artists: [],//热搜数组
                 list: [],//搜索数组
                 page: 0,//分页
                 lockUp: true,//是否锁定上拉加载事件,默认锁定
@@ -41,26 +42,26 @@
             ])
         },
         watch: {
-            list(newList,oldList){
-                if(newList.length !==oldList.length){
+            list(newList, oldList) {
+                if (newList.length !== oldList.length) {
                     this.lockUp = false
-                }else if(newList[newList.length-1].id !== oldList.length>0&&oldList[oldList.length-1].id){
+                } else if (newList[newList.length - 1].id !== oldList.length > 0 && oldList[oldList.length - 1].id) {
                     this.lockUp = false
                 }
             }
         },
         created() {
-            // 获取热门歌手
-            getTopArtists(0, 5)
-                .then(res => {
-                    if (res.data.code === 200) {
-                        this.Artists = res.data.artists;
-                        this._hideLoad()
-                    }
-                })
+            // 获取热搜
+            searchHot()
+            .then(res => {
+                if (res.data.code === 200) {
+                    this.Artists = res.data.result.hots;
+                    this.mmLoadShow = false
+                }
+            })
         },
         methods: {
-            // 点击热门歌手
+            // 点击热搜
             clickHot(name) {
                 this.searchValue = name;
                 this.onEnter()
@@ -77,29 +78,29 @@
                     this.$refs.musicList.scrollTop();
                 }
                 search(this.searchValue)
-                    .then(res => {
-                        if (res.data.code === 200) {
-                            this.list = this._formatSongs(res.data.result.songs);
-                            this._hideLoad()
-                        }
-                    })
+                .then(res => {
+                    if (res.data.code === 200) {
+                        this.list = this._formatSongs(res.data.result.songs);
+                        this._hideLoad()
+                    }
+                })
             },
             //滚动加载事件
             pullUpLoad() {
                 this.mmLoadShow = true;
                 this.page += 1;
                 search(this.searchValue, this.page)
-                    .then(res => {
-                        if (res.data.code === 200) {
-                            if(!res.data.result.songs){
-                                this.$mmToast('没有更多歌曲啦！');
-                                this.mmLoadShow = false;
-                                return
-                            }
-                            this.list = [...this.list,...this._formatSongs(res.data.result.songs)];
-                            this._hideLoad();
+                .then(res => {
+                    if (res.data.code === 200) {
+                        if (!res.data.result.songs) {
+                            this.$mmToast('没有更多歌曲啦！');
+                            this.mmLoadShow = false;
+                            return
                         }
-                    })
+                        this.list = [...this.list, ...this._formatSongs(res.data.result.songs)];
+                        this._hideLoad();
+                    }
+                })
             },
             //播放歌曲
             async selectItem(music) {
@@ -108,13 +109,13 @@
                 this.selectAddPlay(music)
             },
             // 获取歌曲详情
-            _getMusicDetail(id){
+            _getMusicDetail(id) {
                 return getMusicDetail(id)
-                    .then(res => {
-                        if(res.data.code === 200){
-                            return res.data.songs[0].al.picUrl
-                        }
-                    })
+                .then(res => {
+                    if (res.data.code === 200) {
+                        return res.data.songs[0].al.picUrl
+                    }
+                })
             },
             // 歌曲数据处理
             _formatSongs(list) {
@@ -144,17 +145,18 @@
         .search-head {
             display: flex;
             height: 40px;
-            padding: 10px;
-            background: rgba(0, 0, 0, .2);
+            padding: 10px 15px;
+            overflow: hidden;
+            background: @search_bg_coloe;
             span {
                 line-height: 40px;
-                margin: 0 10px;
+                margin-right: 15px;
                 cursor: pointer;
                 &:hover {
                     color: @text_color_active;
                 }
                 @media (max-width: 640px) {
-                    &{
+                    & {
                         display: none;
                     }
                 }
@@ -163,7 +165,6 @@
                 flex: 1;
                 height: 40px;
                 box-sizing: border-box;
-                margin: 0 10px;
                 padding: 0 15px;
                 border: 1px solid @btn_color;
                 outline: 0;
