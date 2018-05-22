@@ -323,7 +323,7 @@
                             this.nolyric = true
                         } else {
                             this.nolyric = false;
-                            parseLyric(res.data.lrc.lyric)
+                            this.lyric = parseLyric(res.data.lrc.lyric)
                         }
                         this.audioEle.play();
                     }
