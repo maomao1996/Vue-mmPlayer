@@ -8,10 +8,10 @@
 
 <script>
     import {mapActions} from 'vuex'
-    import {topListMm} from 'api'
+    import {getPlaylistDetail} from 'api'
     import MmLoading from 'base/mm-loading/mm-loading'
     import MusicList from 'components/music-list/music-list'
-    import {createTopList} from 'assets/js/song'
+    import formatSongs from 'assets/js/song'
     import {loadMixin} from "assets/js/mixin"
     
     export default {
@@ -28,12 +28,14 @@
         },
         created() {
             // 获取歌单详情
-            topListMm(this.$route.params.id)
-                .then((res) => {
-                    this.list = this._formatSongs(res.data.playlist.tracks);
-                    document.title = `${res.data.playlist.name} - mmPlayer在线音乐播放器`;
+            getPlaylistDetail(this.$route.params.id)
+            .then((res) => {
+                if (res.data.code === 200) {
+                    this.list = formatSongs(res.data.result.tracks);
+                    document.title = `${res.data.result.name} - mmPlayer在线音乐播放器`;
                     this._hideLoad()
-                })
+                }
+            })
         },
         methods: {
             // 播放暂停事件
@@ -42,17 +44,6 @@
                     list: this.list,
                     index
                 })
-            },
-            // 歌曲数据处理
-            _formatSongs(list) {
-                let ret = [];
-                list.forEach((item) => {
-                    const musicData = item;
-                    if (musicData.id) {
-                        ret.push(createTopList(musicData))
-                    }
-                });
-                return ret
             },
             ...mapActions([
                 'selectPlay'

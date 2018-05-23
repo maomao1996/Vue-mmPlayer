@@ -1,6 +1,6 @@
 {
   "name": "mmplayer",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Online music player",
   "author": "maomao1996 <1714487678@qq.com>",
   "private": true,
@@ -13,6 +13,7 @@
     "axios": "^0.17.1",
     "fastclick": "^1.0.6",
     "vue": "^2.5.2",
+    "vue-lazyload": "^1.2.3",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },

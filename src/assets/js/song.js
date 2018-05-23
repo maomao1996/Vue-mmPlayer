@@ -6,8 +6,8 @@ function filterSinger(singers) {
     return arr.join('/')
 }
 
-export default class Song {
-    constructor({id, name, singer, album, image,duration, url}) {
+export class Song {
+    constructor({id, name, singer, album, image, duration, url}) {
         this.id = id;
         this.name = name;
         this.singer = singer;
@@ -18,14 +18,14 @@ export default class Song {
     }
 }
 
-export function createSerach(music) {
+export function createPlayList(music) {
     return new Song({
         id: music.id,
         name: music.name,
-        singer: music.artists.length>0 && filterSinger(music.artists),
+        singer: music.artists.length > 0 && filterSinger(music.artists),
         album: music.album.name,
-        image: null,
-        duration: music.duration/1000,
+        image: music.album.picUrl || null,
+        duration: music.duration / 1000,
         url: `https://music.163.com/song/media/outer/url?id=${music.id}.mp3`
     })
 }
@@ -41,3 +41,17 @@ export function createTopList(music) {
         url: `https://music.163.com/song/media/outer/url?id=${music.id}.mp3`
     })
 }
+
+// 歌曲数据格式化
+const formatSongs = function formatPlayList(list) {
+    let Songs = [];
+    list.forEach((item) => {
+        const musicData = item;
+        if (musicData.id) {
+            Songs.push(createPlayList(musicData))
+        }
+    });
+    return Songs
+};
+
+export default formatSongs

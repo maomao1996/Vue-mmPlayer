@@ -42,7 +42,7 @@
             topList(defaultSheetId)
             .then((res) => {
                 if (res.status === 200) {
-                    let list = this._formatSongs(res.data.playlist.tracks);
+                    let list = this._formatSongs(res.data.playlist.tracks.slice(0,100));
                     this.setPlaylist({list});
                     this._hideLoad()
                 }

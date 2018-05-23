@@ -5,7 +5,7 @@
         <template v-if="list.length>0">
             <div class="list-item" v-for="item in list" v-if="item.trackCount>0" :key="item.id" :title="item.name">
                 <router-link :to="{path:`/music/details/${item.id}`}" tag="div" class="userList-item">
-                    <img class="cover-img" :src="item.coverImgUrl+'?param=200y200'">
+                    <img class="cover-img" v-lazy="`${item.coverImgUrl}?param=200y200`"/>
                     <h3 class="name">{{item.name}}</h3>
                 </router-link>
             </div>
@@ -16,10 +16,12 @@
 
 <script>
     import {mapGetters} from 'vuex'
+    
     import {getUserPlaylist} from 'api'
+    import {loadMixin} from "assets/js/mixin"
+    
     import MmLoading from 'base/mm-loading/mm-loading'
     import MmNoResult from 'base/mm-no-result/mm-no-result'
-    import {loadMixin} from "assets/js/mixin"
     
     export default {
         name: "play-list",
@@ -94,12 +96,12 @@
         }
         .list-item {
             float: left;
-            width: calc(~'100% / 6');
+            width: calc(~'100% / 7');
             .userList-item {
-                width: 80%;
-                margin: 0 auto 20px;
+                width: 130px;
                 text-align: center;
                 cursor: pointer;
+                margin: 0 auto 20px;
                 &:hover {
                     color: #fff;
                 }
@@ -109,18 +111,21 @@
                     font-size: @font_size_medium;
                     .no-wrap();
                 }
+                @media (max-width: 1100px) {
+                    width: 80%;
+                }
             }
-            @media (max-width: 1400px) {
+            @media (max-width: 1500px) {
+                width: calc(~'100% / 6')
+            }
+            @media (max-width: 1400px) , (max-width: 960px) {
                 width: calc(~'100% / 5');
             }
-            @media (max-width: 1280px) {
+            @media (max-width: 1280px) , (max-width: 768px) {
                 width: calc(~'100% / 4');
             }
-            @media (max-width: 1100px) {
+            @media (max-width: 540px) {
                 width: calc(~'100% / 3');
-            }
-            @media (max-width: 960px) and (min-width: 768px) {
-                width: calc(~'100% / 4');
             }
         }
     }

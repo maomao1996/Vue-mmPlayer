@@ -6,7 +6,7 @@
             <!--精彩评论-->
             <dt class="comment-title">精彩评论</dt>
             <dd class="comment-item" v-for="item in hotComments" :key="item.commentId">
-                <img class="comment-item-pic" :src="`${item.user.avatarUrl}?param=50y50`">
+                <img class="comment-item-pic" v-lazy="`${item.user.avatarUrl}?param=50y50`"/>
                 <h2 class="comment-item-title">
                     <a target="_blank" :href="`http://music.163.com/#/user/home?id=${item.user.userId}`">{{item.user.nickname}}</a>
                 </h2>
@@ -21,7 +21,7 @@
             <dd class="comment-item" v-for="item in commentList" :key="item.commentId">
                 <a class="comment-item-pic" target="_blank"
                    :href="`http://music.163.com/#/user/home?id=${item.user.userId}`">
-                    <img class="cover-img" :src="`${item.user.avatarUrl}?param=50y50`">
+                    <img class="cover-img" v-lazy="`${item.user.avatarUrl}?param=50y50`"/>
                 </a>
                 <h2 class="comment-item-title">
                     <a target="_blank" :href="`http://music.163.com/#/user/home?id=${item.user.userId}`">{{item.user.nickname}}</a>
@@ -223,7 +223,7 @@
                         line-height: 20px;
                         background-image: url("~assets/img/comment.png");
                         background-repeat: no-repeat;
-                        background-position: -25px -25px;
+                        background-size: contain;
                     }
                 }
             }

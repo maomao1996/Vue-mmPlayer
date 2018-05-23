@@ -15,7 +15,7 @@
 <script>
     import {mapGetters, mapActions} from 'vuex'
     import {search, searchHot, getMusicDetail} from 'api'
-    import {createSerach} from 'assets/js/song'
+    import formatSongs from 'assets/js/song'
     import MmLoading from 'base/mm-loading/mm-loading'
     import MusicList from 'components/music-list/music-list'
     import {loadMixin} from "assets/js/mixin";
@@ -80,7 +80,7 @@
                 search(this.searchValue)
                 .then(res => {
                     if (res.data.code === 200) {
-                        this.list = this._formatSongs(res.data.result.songs);
+                        this.list = formatSongs(res.data.result.songs);
                         this._hideLoad()
                     }
                 })
@@ -97,7 +97,7 @@
                             this.mmLoadShow = false;
                             return
                         }
-                        this.list = [...this.list, ...this._formatSongs(res.data.result.songs)];
+                        this.list = [...this.list, ...formatSongs(res.data.result.songs)];
                         this._hideLoad();
                     }
                 })
@@ -116,17 +116,6 @@
                         return res.data.songs[0].al.picUrl
                     }
                 })
-            },
-            // 歌曲数据处理
-            _formatSongs(list) {
-                let ret = [];
-                list.forEach((item) => {
-                    const musicData = item;
-                    if (musicData.id) {
-                        ret.push(createSerach(musicData))
-                    }
-                });
-                return ret
             },
             ...mapActions([
                 'selectAddPlay'
