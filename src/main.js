@@ -6,22 +6,27 @@ import Vue from 'vue'
 import store from './store'
 import router from './router'
 import App from './App'
+import axios from 'axios'
+import fastclick from 'fastclick'
+import mmToast from 'base/mm-toast'
+import VueLazyload from 'vue-lazyload'
+
+import '@/assets/css/index.less'
 
 //网络请求
-import axios from 'axios'
 Vue.prototype.$http = axios;
 
 //优化移动端300ms点击延迟
-import fastclick from 'fastclick'
-
 fastclick.attach(document.body);
 
-import mmToast from 'base/mm-toast'
-
+//弹出层
 Vue.use(mmToast);
 
-//引入样式
-import '@/assets/css/index.less'
+//懒加载
+Vue.use(VueLazyload, {
+    preLoad: 1,
+    loading: require('assets/img/default.png')
+});
 
 const redirectList = ['/music/details', '/music/comment'];
 router.beforeEach((to, from, next) => {

@@ -2,7 +2,7 @@
     <!--选项-->
     <div class="music-btn">
         <router-link to="/music/playlist" tag="span">正在播放</router-link>
-        <router-link to="/music/toplist" tag="span">排行榜</router-link>
+        <router-link to="/music/toplist" tag="span">推荐</router-link>
         <router-link to="/music/search" tag="span">搜索</router-link>
         <router-link class="none-414" to="/music/userlist" tag="span">我的歌单</router-link>
         <router-link to="/music/historylist" tag="span">我听过的</router-link>

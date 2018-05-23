@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {URL, defaultLimit} from 'assets/js/config'
 
-//排行榜榜单
+//排行榜列表
 export function getToplistDetail() {
     const url = `${URL}/toplist/detail`;
     return axios.get(url)
@@ -17,8 +17,24 @@ export function topList(idx) {
     })
 }
 
+//推荐歌单
+export function getPersonalized() {
+    const url = `${URL}/personalized`;
+    return axios.get(url)
+}
+
+// 歌单详情
 export function topListMm(id) {
     const url = `${URL}/toplist/detail/mm`;
+    return axios.get(url, {
+        params: {
+            id
+        }
+    })
+}
+
+export function getPlaylistDetail(id) {
+    const url = `${URL}/playlist/detail`;
     return axios.get(url, {
         params: {
             id
@@ -42,17 +58,6 @@ export function search(keywords, page = 0, limit = defaultLimit) {
 export function searchHot() {
     const url = `${URL}/search/hot`;
     return axios.get(url)
-}
-
-//热门歌手
-export function getTopArtists(offset = 0, limit = defaultLimit) {
-    const url = `${URL}/top/artists`;
-    return axios.get(url, {
-        params: {
-            offset,
-            limit
-        }
-    })
 }
 
 //获取用户歌单详情
