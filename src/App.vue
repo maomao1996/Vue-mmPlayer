@@ -2,11 +2,14 @@
     <div id="app">
         <!--主体-->
         <mm-header/>
-        <router-view class="router-view"/>
-        
+        <router-view class="router-view" />
+
         <!--更新说明-->
-        <mm-dialog ref="versionDialog" :dialogType="1" headText="更新提示" :bodyText="versionBody"/>
-        
+        <mm-dialog ref="versionDialog"
+                   :dialogType="1"
+                   headText="更新提示"
+                   :bodyText="versionBody" />
+
         <!--播放器-->
         <audio ref="mmPlayer"></audio>
     </div>
@@ -14,7 +17,10 @@
 
 <script>
     const pkg = require('../package.json');
-    import {mapMutations} from 'vuex'
+    import {mapMutations,mapActions} from 'vuex'
+    import {topList} from 'api'
+    import {defaultSheetId} from 'assets/js/config'
+    import {createTopList} from 'assets/js/song'
     import MmHeader from 'components/mm-header/mm-header'
     import MmDialog from 'base/mm-dialog/mm-dialog'
     import {getVersion, setVersion} from "assets/js/storage";
@@ -25,6 +31,15 @@
             MmHeader, MmDialog
         },
         created() {
+            //获取正在播放列表
+            topList(defaultSheetId)
+            .then((res) => {
+                if (res.status === 200) {
+                    let list = this._formatSongs(res.data.playlist.tracks.slice(0,100));
+                    this.setPlaylist({list})
+                }
+            })
+
             //设置title
             let OriginTitile = document.title, titleTime;
             document.addEventListener('visibilitychange', function () {
@@ -64,20 +79,30 @@
             versionBody() {
                 return `<div class="mm-dialog-text text-left">
 版本号：${pkg.version}<br/>
-1、 新增评论详情功能<br>
-2、 新增title提示<br>
-3、 新增歌曲缓冲进度<br>
-4、 新增热门歌单<br>
-5、 新增图片懒加载<br>
-6、 修改热搜展示数据<br>
-7、 优化已知问题
+1、 修复列表只有一首歌时的 BUG<br>
+2、 去除无关请求操作<br>
+3、 优化请求播放列表逻辑
 </div>`
             }
         },
         methods: {
+            // 歌曲数据处理
+            _formatSongs(list) {
+                let ret = [];
+                list.forEach((item) => {
+                    const musicData = item;
+                    if (musicData.id) {
+                        ret.push(createTopList(musicData))
+                    }
+                });
+                return ret
+            },
             ...mapMutations({
                 setAudioele: 'SET_AUDIOELE'
             }),
+            ...mapActions([
+                'setPlaylist'
+            ])
         }
     }
 </script>
