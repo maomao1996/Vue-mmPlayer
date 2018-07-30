@@ -1,18 +1,18 @@
-# mmPlayer V1.5.2（2018.05.23）
+# mmPlayer V1.5.3（2018.07.30）
 
 模仿QQ音乐网页版界面，采用flexbox和position布局；
 mmPlayer虽然是响应式，但主要以为PC端为主，移动端只做相应适配（未做歌词显示）；
 只做主流浏览器兼容（对IE说拜拜，想想以前做项目还要兼容IE7，都是泪啊！！！）
 
-> #### api：一个开源的[网易云音乐 NodeJS 版 API](https://binaryify.github.io/NeteaseCloudMusicApi)（有api才有动力写！！！）
+> api：一个开源的[网易云音乐 NodeJS 版 API](https://binaryify.github.io/NeteaseCloudMusicApi)（有api才有动力写！！！）
 
-> #### [在线演示地址](http://music.mtnhao.com)
+> [在线演示地址](http://music.mtnhao.com)
 
-> #### [桌面版下载](http://cdn.mtnhao.com/mmPlayer.zip)
+> [桌面版下载](http://cdn.mtnhao.com/mmPlayer.zip)
 
-> #### [React移动端版本（高仿网易云音乐）](https://github.com/maomao1996/react-music)
+> [React移动端版本（高仿网易云音乐）](https://github.com/maomao1996/react-music)
 
-> #### [交流QQ群：529940193](http://shang.qq.com/wpa/qunwpa?idkey=f8be1b627a89108ccfda9308720d2a4d0eb3306f253c5d3e8d58452e20b91129)
+> [交流QQ群：529940193](http://shang.qq.com/wpa/qunwpa?idkey=f8be1b627a89108ccfda9308720d2a4d0eb3306f253c5d3e8d58452e20b91129)
 
 ## 如何安装与使用
 
@@ -168,6 +168,11 @@ PC端界面自我感觉还行， 就是移动端界面总觉得怪怪的，奈�
 ![移动端二](https://user-gold-cdn.xitu.io/2018/5/18/1637315a6cdc532a?w=2934&h=1653&f=png&s=1442389)
 
 ## 更新说明
+
+### V1.5.3（2018.07.30）
+- 修复列表只有一首歌时的 BUG
+- 去除无关请求操作
+- 优化请求播放列表逻辑
 
 ### V1.5.2（2018.05.23）
 - 新增推荐歌单

@@ -1,29 +1,29 @@
 <template>
     <!--正在播放-->
     <div class="playList">
-        <mm-loading v-model="mmLoadShow"/>
-        <music-list :list="playlist" :listType="1" @select="selectItem" @del="deleteItem">
-            <div slot="listBtn" class="list-btn">
+        <music-list :list="playlist"
+                    :listType="1"
+                    @select="selectItem"
+                    @del="deleteItem">
+            <div slot="listBtn"
+                 class="list-btn">
                 <span @click="$refs.dialog.show()">清空列表</span>
             </div>
         </music-list>
-        <mm-dialog ref="dialog" @confirm="clearList" bodyText="是否清空正在播放列表" confirmBtnText="清空"/>
+        <mm-dialog ref="dialog"
+                   @confirm="clearList"
+                   bodyText="是否清空正在播放列表"
+                   confirmBtnText="清空" />
     </div>
 </template>
 
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
-    import {topList, topListMm} from 'api'
     import MusicList from 'components/music-list/music-list'
-    import MmLoading from 'base/mm-loading/mm-loading'
     import MmDialog from 'base/mm-dialog/mm-dialog'
-    import {defaultSheetId} from 'assets/js/config'
-    import {createTopList} from 'assets/js/song'
-    import {loadMixin} from "assets/js/mixin";
     
     export default {
         name: "play-list",
-        mixins: [loadMixin],
         data() {
             return {
                 show: false,
@@ -31,22 +31,7 @@
         },
         components: {
             MusicList,
-            MmLoading,
             MmDialog
-        },
-        created() {
-            if (this.playlist.length > 0) {
-                this.mmLoadShow = false;
-                return
-            }
-            topList(defaultSheetId)
-            .then((res) => {
-                if (res.status === 200) {
-                    let list = this._formatSongs(res.data.playlist.tracks.slice(0,100));
-                    this.setPlaylist({list});
-                    this._hideLoad()
-                }
-            })
         },
         computed: {
             ...mapGetters([
@@ -78,24 +63,12 @@
                 this.removerPlayListItem({list, index});
                 this.$mmToast('删除成功')
             },
-            // 歌曲数据处理
-            _formatSongs(list) {
-                let ret = [];
-                list.forEach((item) => {
-                    const musicData = item;
-                    if (musicData.id) {
-                        ret.push(createTopList(musicData))
-                    }
-                });
-                return ret
-            },
             ...mapMutations({
                 setPlaying: 'SET_PLAYING',
                 setCurrentIndex: 'SET_CURRENTINDEX',
                 clearPlaylist: 'CLEAR_PLAYLIST'
             }),
             ...mapActions([
-                'setPlaylist',
                 'removerPlayListItem',
                 'clearPlayList'
             ])

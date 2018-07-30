@@ -1,19 +1,27 @@
 <template>
     <!--搜索-->
     <div class="search">
-        <mm-loading v-model="mmLoadShow"/>
+        <mm-loading v-model="mmLoadShow" />
         <div class="search-head">
-            <span v-for="(item,index) in Artists.slice(0,5)" :key="index"
+            <span v-for="(item,index) in Artists.slice(0,5)"
+                  :key="index"
                   @click="clickHot(item.first)">{{item.first}}</span>
-            <input class="search-input" type="text" placeholder="音乐/歌手" v-model.trim="searchValue"
+            <input class="search-input"
+                   type="text"
+                   placeholder="音乐/歌手"
+                   v-model.trim="searchValue"
                    @keyup.enter="onEnter">
         </div>
-        <music-list ref="musicList" :list="list" :listType="2" @select="selectItem" @pullUp="pullUpLoad"/>
+        <music-list ref="musicList"
+                    :list="list"
+                    :listType="2"
+                    @select="selectItem"
+                    @pullUp="pullUpLoad" />
     </div>
 </template>
 
 <script>
-    import {mapGetters, mapActions} from 'vuex'
+    import {mapGetters, mapActions, mapMutations} from 'vuex'
     import {search, searchHot, getMusicDetail} from 'api'
     import formatSongs from 'assets/js/song'
     import MmLoading from 'base/mm-loading/mm-loading'
@@ -104,9 +112,13 @@
             },
             //播放歌曲
             async selectItem(music) {
-                let image = await this._getMusicDetail(music.id);
-                music.image = image;
-                this.selectAddPlay(music)
+                if(this.currentMusic.id !== music.id){
+                    let image = await this._getMusicDetail(music.id);
+                    music.image = image;
+                    this.selectAddPlay(music)
+                } else {
+                    this.setPlaying(true)
+                }
             },
             // 获取歌曲详情
             _getMusicDetail(id) {
@@ -117,6 +129,9 @@
                     }
                 })
             },
+            ...mapMutations({
+                setPlaying: 'SET_PLAYING'
+            }),
             ...mapActions([
                 'selectAddPlay'
             ])
