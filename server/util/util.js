@@ -30,6 +30,17 @@ function randomUserAgent() {
     return userAgentList[num];
 }
 
+function getId() {
+    const len = 32;
+    const chars = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz123456789";
+    const maxlen = chars.length;
+    let rs = "";
+    for (i = 0; i < len; i++) {
+        rs += chars.charAt(Math.floor(Math.random() * maxlen));
+    }
+    return rs;
+}
+
 function createWebAPIRequest(
     host,
     path,
@@ -45,6 +56,10 @@ function createWebAPIRequest(
     else data.csrf_token = "";
     const proxy = cookie.split("__proxy__")[1];
     cookie = cookie.split("__proxy__")[0];
+    if (path === "/weapi/song/enhance/player/url") {
+        const id = getId();
+        cookie = `_ntes_nnid=${id},${Date.now()}; _ntes_nuid=${id};`;
+    }
     const cryptoreq = Encrypt(data);
     const options = {
         url: `http://${host}${path}`,
