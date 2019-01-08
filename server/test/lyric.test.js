@@ -1,25 +1,22 @@
-const assert = require("assert");
-const crypto = require("crypto");
-const { createWebAPIRequest } = require("../util/util");
+const assert = require('assert')
+const request = require('request')
+const host = global.host || 'http://localhost:3000'
 
 describe("测试获取歌词是否正常", () => {
-    it("数据应该有 lrc 字段", done => {
-        const cookie = "";
-        const data = {};
-        const id = 347230;
-        createWebAPIRequest(
-            "music.163.com",
-            "/weapi/song/lyric?os=osx&id=" + id + "&lv=-1&kv=-1&tv=-1",
-            "POST",
-            data,
-            cookie,
-            music_req => {
-                console.log(music_req);
-                assert(typeof JSON.parse(music_req).lrc !== "undefined");
-                done();
-                // res.send(music_req)
-            },
-            err => res.status(502).send("fetch error")
-        );
-    });
-});
+  it("数据应该有 lrc 字段", done => {
+    const qs = {
+      id: 347230
+    }
+
+    request.get({url: `${host}/lyric`,qs: qs}, (err, res, body) => {
+      if (!err && res.statusCode == 200) {
+        body = JSON.parse(body)
+        assert(typeof body.lrc !== "undefined")
+        done()
+      }
+      else{
+        done(err)
+      }
+    })
+  })
+})

@@ -11,7 +11,7 @@
     import {getPlaylistDetail} from 'api'
     import MmLoading from 'base/mm-loading/mm-loading'
     import MusicList from 'components/music-list/music-list'
-    import formatSongs from 'assets/js/song'
+    import {formatTopSongs} from 'assets/js/song'
     import {loadMixin} from "assets/js/mixin"
     
     export default {
@@ -31,8 +31,8 @@
             getPlaylistDetail(this.$route.params.id)
             .then((res) => {
                 if (res.data.code === 200) {
-                    this.list = formatSongs(res.data.result.tracks);
-                    document.title = `${res.data.result.name} - mmPlayer在线音乐播放器`;
+                    this.list = formatTopSongs(res.data.playlist.tracks);
+                    document.title = `${res.data.playlist.name} - mmPlayer在线音乐播放器`;
                     this._hideLoad()
                 }
             })

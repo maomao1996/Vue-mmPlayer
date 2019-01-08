@@ -1,5 +1,5 @@
 // 网络请求地址
-export const URL = 'http://localhost:3000';
+export const URL = 'http://localhost:3000'
 
 /**
  * 默认歌单ID （正在播放列表）
@@ -29,13 +29,13 @@ export const URL = 'http://localhost:3000';
  * 22: 云音乐ACG音乐榜,
  * 23: 云音乐嘻哈榜
  */
-export const defaultSheetId = 1;
+export const defaultSheetId = 1
 
 // 默认分页数量
-export const defaultLimit = 30;
+export const defaultLimit = 30
 
 // 默认背景图
-export const defaultBG = 'http://cdn.mtnhao.com/music/bg.jpg';
+export const defaultBG = 'http://cdn.mtnhao.com/music/bg.jpg'
 
 /**
  * 播放模式
@@ -48,5 +48,5 @@ export const playMode = {
     listLoop: 0,
     order: 1,
     random: 2,
-    loop: 3,
-};
+    loop: 3
+}

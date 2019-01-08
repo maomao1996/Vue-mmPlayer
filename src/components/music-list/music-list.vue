@@ -33,8 +33,7 @@
 </template>
 
 <script>
-    import {debounce} from 'assets/js/util'
-    import {getMusicUrl} from 'api'
+    import {getCheckMusic} from 'api'
     import {mapGetters, mapMutations} from 'vuex'
     import {addZero} from 'assets/js/util'
     import MmNoResult from 'base/mm-no-result/mm-no-result'
@@ -112,14 +111,24 @@
                     this.setPlaying(false);
                     return
                 }
-                getMusicUrl(item.id)
-                    .then(res => {
-                        if (!res.data.data[0].url) {
-                            this.$mmToast('当前音乐无法播放，请播放其他音乐')
-                        } else {
-                            this.$emit('select', item, index)//触发点击播放事件
-                        }
-                    });
+                // getMusicUrl(item.id)
+                // .then(res => {
+                //     if (!res.data.data[0].url) {
+                //         this.$mmToast('当前音乐无法播放，请播放其他音乐')
+                //     } else {
+                //         this.$emit('select', item, index)//触发点击播放事件
+                //     }
+                // });
+                getCheckMusic(item.id)
+                .then(res => {
+                    if (res.data.message !== 'ok') {
+                        this.$mmToast('当前音乐无法播放，请播放其他音乐')
+                    } else {
+                        this.$emit('select', item, index)//触发点击播放事件
+                    }
+                }).catch(error => {
+                    this.$mmToast(error.response.data.message)
+                })
             },
             // 删除事件
             deleteItem(index) {
