@@ -79,9 +79,11 @@
             versionBody() {
                 return `<div class="mm-dialog-text text-left">
 版本号：${pkg.version}<br/>
-1、 修复列表只有一首歌时的 BUG<br>
-2、 去除无关请求操作<br>
-3、 优化请求播放列表逻辑
+1、 修复无法播放问题<br>
+2、 修复歌单详情打开失败问题<br>
+3、 修改音乐是否可用的判断逻辑<br>
+4、 优化登录操作体验，增加回车事件监听<br>
+5、 扩大查看评论者主页点击范围
 </div>`
             }
         },

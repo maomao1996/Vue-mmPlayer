@@ -1,16 +1,16 @@
 import axios from 'axios'
 import {URL, defaultLimit} from 'assets/js/config'
 
+axios.defaults.baseURL = URL
+
 //排行榜列表
 export function getToplistDetail() {
-    const url = `${URL}/toplist/detail`;
-    return axios.get(url)
+    return axios.get('/toplist/detail')
 }
 
 //排行榜详情
 export function topList(idx) {
-    const url = `${URL}/top/list`;
-    return axios.get(url, {
+    return axios.get('/top/list', {
         params: {
             idx
         }
@@ -19,23 +19,12 @@ export function topList(idx) {
 
 //推荐歌单
 export function getPersonalized() {
-    const url = `${URL}/personalized`;
-    return axios.get(url)
+    return axios.get('/personalized')
 }
 
 // 歌单详情
-export function topListMm(id) {
-    const url = `${URL}/toplist/detail/mm`;
-    return axios.get(url, {
-        params: {
-            id
-        }
-    })
-}
-
 export function getPlaylistDetail(id) {
-    const url = `${URL}/playlist/detail`;
-    return axios.get(url, {
+    return axios.get('/playlist/detail', {
         params: {
             id
         }
@@ -44,8 +33,7 @@ export function getPlaylistDetail(id) {
 
 //搜索
 export function search(keywords, page = 0, limit = defaultLimit) {
-    const url = `${URL}/search`;
-    return axios.get(url, {
+    return axios.get('/search', {
         params: {
             offset: page * limit,
             limit: limit,
@@ -56,14 +44,12 @@ export function search(keywords, page = 0, limit = defaultLimit) {
 
 //热搜
 export function searchHot() {
-    const url = `${URL}/search/hot`;
-    return axios.get(url)
+    return axios.get('/search/hot')
 }
 
 //获取用户歌单详情
 export function getUserPlaylist(uid) {
-    const url = `${URL}/user/playlist`;
-    return axios.get(url, {
+    return axios.get('/user/playlist', {
         params: {
             uid
         }
@@ -72,18 +58,25 @@ export function getUserPlaylist(uid) {
 
 //获取歌曲详情
 export function getMusicDetail(ids) {
-    const url = `${URL}/song/detail`;
-    return axios.get(url, {
+    return axios.get('/song/detail', {
         params: {
             ids
         }
     })
 }
 
+//获取音乐是否可以用
+export function getCheckMusic(id) {
+    return axios.get('/check/music', {
+        params: {
+            id
+        }
+    })
+}
+
 //获取音乐地址
 export function getMusicUrl(id) {
-    const url = `${URL}/music/url`;
-    return axios.get(url, {
+    return axios.get('/song/url', {
         params: {
             id
         }
@@ -92,7 +85,7 @@ export function getMusicUrl(id) {
 
 //获取歌词
 export function getLyric(id) {
-    const url = `${URL}/lyric`;
+    const url = '/lyric'
     return axios.get(url, {
         params: {
             id
@@ -102,8 +95,7 @@ export function getLyric(id) {
 
 //获取音乐评论
 export function getComment(id, page, limit = defaultLimit) {
-    const url = `${URL}/comment/music`;
-    return axios.get(url, {
+    return axios.get('/comment/music', {
         params: {
             offset: page * limit,
             limit: limit,

@@ -16,7 +16,7 @@
         <mm-dialog ref="loginDialog" headText="登录" confirmBtnText="登录" cancelBtnText="关闭" @confirm="login">
             <div class="mm-dialog-text">
                 <input class="mm-dialog-input" type="number" autofocus placeholder="请输入您的网易云UID"
-                       v-model.trim="uidValue">
+                       v-model.trim="uidValue" @keyup.enter="login">
             </div>
             <div slot="btn" @click="openDialog(1)">帮助</div>
         </mm-dialog>
@@ -69,6 +69,9 @@
                         break;
                     case 2:
                         this.$refs.outDialog.show();
+                        break;
+                    case 3:
+                        this.$refs.loginDialog.hide();
                         break
                 }
             },
@@ -84,6 +87,7 @@
                     this.$mmToast('UID不能为空');
                     this.openDialog(0)
                 }
+                this.openDialog(3);
                 this._getUserPlaylist(this.uidValue)
             },
             // 获取用户数据

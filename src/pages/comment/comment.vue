@@ -6,10 +6,12 @@
             <!--精彩评论-->
             <dt class="comment-title">精彩评论</dt>
             <dd class="comment-item" v-for="item in hotComments" :key="item.commentId">
-                <img class="comment-item-pic" v-lazy="`${item.user.avatarUrl}?param=50y50`"/>
-                <h2 class="comment-item-title">
-                    <a target="_blank" :href="`http://music.163.com/#/user/home?id=${item.user.userId}`">{{item.user.nickname}}</a>
-                </h2>
+                <a target="_blank" :href="`http://music.163.com/#/user/home?id=${item.user.userId}`">
+                    <img class="comment-item-pic" v-lazy="`${item.user.avatarUrl}?param=50y50`"/>
+                    <h2 class="comment-item-title">
+                        {{item.user.nickname}}
+                    </h2>
+                </a>
                 <p class="comment-item-disc">{{item.content}}</p>
                 <div class="comment-item-opt">
                     <span class="comment-opt-date">{{item.time | format}}</span>
@@ -44,7 +46,7 @@
     import {getComment} from 'api'
     import {addZero} from 'assets/js/util'
     import MmLoading from 'base/mm-loading/mm-loading'
-    import {loadMixin} from "assets/js/mixin";
+    import {loadMixin} from "assets/js/mixin"
     
     export default {
         name: "comment",
