@@ -6,7 +6,7 @@
 
         <!--更新说明-->
         <mm-dialog ref="versionDialog"
-                   :dialogType="1"
+                   type="alert"
                    headText="更新提示"
                    :bodyText="versionBody" />
 

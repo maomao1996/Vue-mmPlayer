@@ -9,7 +9,7 @@
                         <div class="mm-dialog-text" v-html="bodyText"></div>
                     </slot>
                     <div class="mm-dialog-btns">
-                        <div class="mm-btn-cancel" v-if="dialogType!==1" v-text="cancelBtnText" @click="cancel"></div>
+                        <div class="mm-btn-cancel" v-if="dialogType!=='alert'" v-text="cancelBtnText" @click="cancel"></div>
                         <slot name="btn"></slot>
                         <div class="mm-btn-confirm" v-text="confirmBtnText" @click="confirm"></div>
                     </div>
@@ -23,13 +23,10 @@
     export default {
         name: "mm-dialog",
         props: {
-            /**
-             * type 0：Confirm（默认）
-             *      1：Alert
-             */
-            dialogType: {
-                type: Number,
-                default: 0
+            // type：confirm、alert
+            type: {
+                type: String,
+                default: 'confirm'
             },
             // 标题文本
             headText: {
@@ -50,11 +47,38 @@
             confirmBtnText: {
                 type: String,
                 default: '确定'
+            },
+            // Dialog 是否插入至 body 元素下
+            appendToBody: {
+                type: Boolean,
+                default: true
             }
         },
         data(){
             return {
                 dialogShow: false //是否显示对话框
+            }
+        },
+        computed: {
+            dialogType(){
+                return this.type.toLowerCase()
+            }
+        },
+        watch: {
+            dialogShow(val) {
+                if (val && this.appendToBody) {
+                    document.body.appendChild(this.$el)
+                }
+            }
+        },
+        mounted() {
+            if (this.dialogShow && this.appendToBody) {
+                document.body.appendChild(this.$el)
+            }
+        },
+        destroyed() {
+            if (this.appendToBody && this.$el && this.$el.parentNode) {
+                this.$el.parentNode.removeChild(this.$el);
             }
         },
         methods: {
@@ -82,8 +106,10 @@
 
 <style lang="less">
     @import "~assets/css/var";
-    
-    .mm-dialog-box {
+
+    @dialog-prefix-cls: mm-dialog;
+
+    .@{dialog-prefix-cls}-box {
         position: fixed;
         left: 0;
         right: 0;
@@ -92,19 +118,19 @@
         z-index: 1996;
         background-color: @dialog_bg_color;
         user-select: none;
-        &.mm-dialog-fade-enter-active {
+        &.@{dialog-prefix-cls}-fade-enter-active {
             animation: mm-dialog-fadein 0.3s;
-            .mm-dialog-content {
+            .@{dialog-prefix-cls}-content {
                 animation: mm-dialog-zoom 0.3s;
             }
         }
-        .mm-dialog-wrapper {
+        .@{dialog-prefix-cls}-wrapper {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1996;
-            .mm-dialog-content {
+            .@{dialog-prefix-cls}-content {
                 width: 420px;
                 border-radius: 5px;
                 background: @dialog_content_bg_color;
@@ -113,19 +139,19 @@
                     border-radius: 10px;
                     text-align: center;
                 }
-                .mm-dialog-head {
+                .@{dialog-prefix-cls}-head {
                     padding: 15px;
                     padding-bottom: 0;
                     font-size: @font_size_large;
                     color: @text_color_active;
                 }
-                .mm-dialog-text {
+                .@{dialog-prefix-cls}-text {
                     padding: 20px 15px;
                     line-height: 22px;
                     font-size: @font_size_medium;
                     color: @dialog_text_color;
                 }
-                .mm-dialog-btns {
+                .@{dialog-prefix-cls}-btns {
                     display: flex;
                     align-items: center;
                     padding: 0 15px 10px;
