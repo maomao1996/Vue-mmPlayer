@@ -25,7 +25,9 @@
 </script>
 
 <style lang="less">
-    .mm-toast {
+    @prefix-cls: mm-toast;
+    
+    .@{prefix-cls} {
         position: fixed;
         left: 50%;
         z-index: 1996;
@@ -45,11 +47,11 @@
         &&-top {
             top: 10%;
         }
-        &.mm-toast-center {
+        &&-center {
             top: 50%;
             margin-top: -20px;
         }
-        &.mm-toast-bottom {
+        &&-bottom {
             bottom: 10%;
         }
     }

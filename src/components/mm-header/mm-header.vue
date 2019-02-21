@@ -85,7 +85,8 @@
             login() {
                 if (this.uidValue === '') {
                     this.$mmToast('UID不能为空');
-                    this.openDialog(0)
+                    this.openDialog(0);
+                    return
                 }
                 this.openDialog(3);
                 this._getUserPlaylist(this.uidValue)
@@ -172,26 +173,26 @@
                 }
             }
         }
-        .mm-dialog-text {
-            text-align: left;
-            .mm-dialog-input {
-                width: 100%;
-                height: 40px;
-                box-sizing: border-box;
-                padding: 0 15px;
-                border: 1px solid @btn_color;
-                outline: 0;
-                background: transparent;
-                color: @text_color_active;
-                font-size: @font_size_medium;
-                box-shadow: 0 0 1px 0 #fff inset;
-                &::placeholder {
-                    color: @text_color;
-                }
+    }
+    .mm-dialog-text {
+        text-align: left;
+        .mm-dialog-input {
+            width: 100%;
+            height: 40px;
+            box-sizing: border-box;
+            padding: 0 15px;
+            border: 1px solid @btn_color;
+            outline: 0;
+            background: transparent;
+            color: @text_color_active;
+            font-size: @font_size_medium;
+            box-shadow: 0 0 1px 0 #fff inset;
+            &::placeholder {
+                color: @text_color;
             }
-            a:hover {
-                color: #d43c33;
-            }
+        }
+        a:hover {
+            color: #d43c33;
         }
     }
 </style>
