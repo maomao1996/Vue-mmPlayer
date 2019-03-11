@@ -105,8 +105,6 @@
 </script>
 
 <style lang="less">
-    @import "~assets/css/var";
-
     @dialog-prefix-cls: mm-dialog;
 
     .@{dialog-prefix-cls}-box {
