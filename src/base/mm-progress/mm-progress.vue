@@ -120,7 +120,6 @@
 </script>
 
 <style lang="less">
-    @import "~assets/css/var";
 	.mmProgress {
         position: relative;
         padding: 5px;

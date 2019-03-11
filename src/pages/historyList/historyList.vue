@@ -61,8 +61,6 @@
 </script>
 
 <style lang="less" scoped>
-    @import "~assets/css/var";
-    
     .historyList {
         width: 100%;
         height: 100%;

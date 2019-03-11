@@ -58,7 +58,14 @@ exports.cssLoaders = function (options) {
   return {
     css: generateLoaders(),
     postcss: generateLoaders(),
-    less: generateLoaders('less'),
+    less: generateLoaders('less').concat(
+      {
+        loader: 'style-resources-loader',
+        options: {
+          patterns: path.resolve(__dirname, '../src/assets/css/var.less')
+         }
+      }
+    ),
     sass: generateLoaders('sass', { indentedSyntax: true }),
     scss: generateLoaders('sass'),
     stylus: generateLoaders('stylus'),

@@ -140,8 +140,6 @@
 </script>
 
 <style lang="less" scoped>
-    @import "~assets/css/var";
-    
     .search {
         position: relative;
         width: 100%;

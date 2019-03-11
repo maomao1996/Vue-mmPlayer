@@ -77,8 +77,6 @@
 </script>
 
 <style lang="less">
-    @import "~assets/css/var";
-    
     .playList {
         position: relative;
         width: 100%;

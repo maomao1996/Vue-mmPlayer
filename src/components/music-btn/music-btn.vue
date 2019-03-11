@@ -14,8 +14,6 @@
 </script>
 
 <style lang="less" scoped>
-    @import "~assets/css/var";
-    
     .music-btn {
         width: 100%;
         height: 60px;

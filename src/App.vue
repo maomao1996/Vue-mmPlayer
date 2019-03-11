@@ -110,8 +110,6 @@
 </script>
 
 <style lang="less">
-    @import "~assets/css/var";
-    
     #app {
         position: relative;
         width: 100%;

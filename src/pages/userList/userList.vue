@@ -82,7 +82,6 @@
 </script>
 
 <style lang="less" scoped>
-    @import "~assets/css/var";
     @import "~assets/css/mixin";
     
     .userList {

@@ -382,8 +382,6 @@
 </script>
 
 <style lang="less">
-    @import "~assets/css/var";
-    
     .music {
         padding: 75px 25px 25px 25px;
         width: 100%;

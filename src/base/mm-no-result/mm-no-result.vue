@@ -19,7 +19,6 @@
 </script>
 
 <style lang="less">
-    @import "~assets/css/var";
     .mm-no-result {
         display: flex;
         justify-content: center;
