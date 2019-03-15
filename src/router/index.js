@@ -53,6 +53,12 @@ const routes = [
                 meta: {
                     title: '评论详情'
                 }
+            },{
+                path:'/music/sync',
+                component: () =>import('pages/sync/sync'),
+                meta:{
+                    title:'音乐同步'
+                }
             }
         ]
     }

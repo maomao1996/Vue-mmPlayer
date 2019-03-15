@@ -11,8 +11,8 @@
                 <dd>专辑名：{{currentMusic.album}}</dd>
             </template>
             <template v-else>
-                <dd>mmPlayer在线音乐播放器</dd>
-                <dd><a class="github" target="_blank" href="https://github.com/maomao1996">茂茂</a></dd>
+                <dd>恋人相隔两地却戴着一个耳机!</dd>
+                <dd><a class="github" target="_blank" href="https://github.com/egdw">恶搞大王</a></dd>
             </template>
         </dl>
         <!--歌词-->
@@ -31,7 +31,7 @@
 
 <script>
     import {mapGetters} from 'vuex'
-    
+
     export default {
         name: "lyric",
         props: {
@@ -86,7 +86,7 @@
 
 <style lang="less" scoped>
     @import "~assets/css/mixin";
-    
+
     .music-info {
         padding-bottom: 20px;
         text-align: center;
@@ -121,7 +121,7 @@
             }
         }
     }
-    
+
     /*歌词部分*/
     .music-lyric {
         position: absolute;

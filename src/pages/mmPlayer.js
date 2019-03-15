@@ -14,7 +14,7 @@ const mmPlayerMusic = {
                     that.currentProgress = buffered / duration;
                 }
             } catch (e) {
-            
+
             }
         };
         //开始播放音乐

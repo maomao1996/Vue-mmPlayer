@@ -17,6 +17,7 @@
   "dependencies": {
     "apicache": "^1.2.1",
     "express": "^4.16.3",
+    "nodejs-websocket": "^1.7.2",
     "request": "^2.85.0"
   },
   "devDependencies": {

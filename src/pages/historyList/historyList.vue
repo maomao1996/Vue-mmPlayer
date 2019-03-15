@@ -14,7 +14,7 @@
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import MusicList from 'components/music-list/music-list'
     import MmDialog from 'base/mm-dialog/mm-dialog'
-    
+
     export default {
         name: "history-list",
         components: {

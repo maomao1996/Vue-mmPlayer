@@ -1,7 +1,7 @@
 <template>
     <!--头部-->
     <header class="mm-header">
-        <h1 class="header">mmPlayer在线音乐播放器</h1>
+        <h1 class="header">同步音乐</h1>
         <dl class="user">
             <template v-if="user.userId">
                 <router-link class="user-info" to="/music/userlist" tag="dt">
@@ -19,6 +19,7 @@
                        v-model.trim="uidValue" @keyup.enter="login">
             </div>
             <div slot="btn" @click="openDialog(1)">帮助</div>
+
         </mm-dialog>
         <!--帮助-->
         <mm-dialog ref="helpDialog" headText="登录帮助" confirmBtnText="去登录" cancelBtnText="关闭" @confirm="openDialog(0)">
@@ -38,7 +39,7 @@
     import {getUserPlaylist} from 'api'
     import {mapGetters, mapActions} from 'vuex'
     import MmDialog from 'base/mm-dialog/mm-dialog'
-    
+
     export default {
         name: "mm-header",
         components: {
