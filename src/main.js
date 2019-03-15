@@ -46,10 +46,10 @@ Vue.config.productionTip = isDebug_mode;
 
 // 版权信息
 const pkg = require('../package.json');
-window.mmPlayer = window.mmplayer = `欢迎使用 mmPlayer!
+window.mmPlayer = window.mmplayer = `欢迎使用 同步音乐!
 当前版本为：V${pkg.version}
-作者：茂茂
-Github：https://github.com/maomao1996/Vue-mmPlayer
+作者：恶搞大王
+Github：https://github.com/egdw
 歌曲来源于网易云音乐 (http://music.163.com)`;
 console.info(`%c${mmPlayer}`, `color:blue`);
 
