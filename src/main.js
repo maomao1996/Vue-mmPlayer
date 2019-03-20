@@ -10,6 +10,7 @@ import axios from 'axios'
 import fastclick from 'fastclick'
 import mmToast from 'base/mm-toast'
 import VueLazyload from 'vue-lazyload'
+import {VERSION} from './config'
 
 import '@/assets/css/index.less'
 
@@ -45,9 +46,8 @@ Vue.config.devtools = isDebug_mode;
 Vue.config.productionTip = isDebug_mode;
 
 // 版权信息
-const pkg = require('../package.json');
 window.mmPlayer = window.mmplayer = `欢迎使用 mmPlayer!
-当前版本为：V${pkg.version}
+当前版本为：V${VERSION}
 作者：茂茂
 Github：https://github.com/maomao1996/Vue-mmPlayer
 歌曲来源于网易云音乐 (http://music.163.com)`;

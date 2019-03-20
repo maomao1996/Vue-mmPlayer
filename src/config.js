@@ -1,6 +1,9 @@
 // 网络请求地址
 export const URL = 'http://localhost:3000'
 
+// 版本号
+export const VERSION = '1.5.4'
+
 /**
  * 默认歌单ID （正在播放列表）
  * @type {number}

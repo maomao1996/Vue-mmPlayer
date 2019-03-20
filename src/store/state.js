@@ -1,4 +1,4 @@
-import {playMode} from "assets/js/config";
+import {playMode} from "@/config";
 import {getHistoryList, getMode, getUserId} from "assets/js/storage";
 
 const state = {
