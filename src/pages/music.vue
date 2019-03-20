@@ -75,7 +75,7 @@
     import {getLyric} from 'api'
     import mmPlayerMusic from './mmPlayer'
     import {randomSortArray, addZero, parseLyric} from 'assets/js/util'
-    import {playMode, defaultBG} from "assets/js/config"
+    import {playMode, defaultBG} from "@/config"
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import MusicBtn from 'components/music-btn/music-btn'
     import Lyric from 'components/lyric/lyric'

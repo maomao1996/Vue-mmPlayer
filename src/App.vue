@@ -16,10 +16,9 @@
 </template>
 
 <script>
-    const pkg = require('../package.json');
     import {mapMutations,mapActions} from 'vuex'
     import {topList} from 'api'
-    import {defaultSheetId} from 'assets/js/config'
+    import {defaultSheetId, VERSION} from '@/config'
     import {createTopList} from 'assets/js/song'
     import MmHeader from 'components/mm-header/mm-header'
     import MmDialog from 'base/mm-dialog/mm-dialog'
@@ -62,14 +61,14 @@
                 document.querySelector('#appLoading').classList.add("removeAnimate");
                 setTimeout(() => {
                     document.body.removeChild(document.getElementById('appLoading'));
-                    let version = getVersion(), newVersion = pkg.version;
+                    let version = getVersion();
                     if (version !== null) {
-                        setVersion(newVersion);
-                        if (version !== newVersion) {
+                        setVersion(VERSION);
+                        if (version !== VERSION) {
                             this.$refs.versionDialog.show()
                         }
                     } else {
-                        setVersion(newVersion);
+                        setVersion(VERSION);
                         this.$refs.versionDialog.show()
                     }
                 }, 500)
@@ -78,7 +77,7 @@
         computed: {
             versionBody() {
                 return `<div class="mm-dialog-text text-left">
-版本号：${pkg.version}<br/>
+版本号：${VERSION}<br/>
 1、 修复无法播放问题<br>
 2、 修复歌单详情打开失败问题<br>
 3、 修改音乐是否可用的判断逻辑<br>

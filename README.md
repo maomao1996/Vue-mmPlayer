@@ -41,7 +41,7 @@ node app.js //服务端运行 访问 http://localhost:3000
 ```
 
 #### 运行 mmPlayer 后无法获取音乐请检查后台服务器是否启动
-#### assets/js/config 的 url 地址要和后台服务器地址一致
+#### src/config 的 URL 地址要和后台服务器地址一致
 
 ## 技术栈
 
@@ -73,7 +73,6 @@ node app.js //服务端运行 访问 http://localhost:3000
 │   │   │   └── var.less                            // 样式变量（字体大小、字体颜色、背景颜色）
 │   │   ├── img                                     // 静态图片目录
 │   │   └── js                                      // 数据交互目录
-│   │        ├── config.js                          // 基本配置
 │   │        ├── mixin.js                           // 组件混合
 │   │        ├── song.js                            // 数据处理
 │   │        ├── storage.js                         // localstorage配置
@@ -125,6 +124,7 @@ node app.js //服务端运行 访问 http://localhost:3000
 │   │   ├── mutation-types.js                       // 定义常量mutations名
 │        └── state.js                               // 配置state
 │   ├── App.vue                                     // 根组件
+│   ├── config.js                                   // 基本配置
 │   └── main.js                                     // 入口主文件
 ├── static                                          // 静态资源文件目录
 └── index.html                                      // 入口html文件

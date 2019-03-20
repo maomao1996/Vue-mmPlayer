@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {URL, defaultLimit} from 'assets/js/config'
+import {URL, defaultLimit} from '@/config'
 
 axios.defaults.baseURL = URL
 
