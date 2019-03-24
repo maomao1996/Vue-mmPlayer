@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <span class="list-artist">{{item.singer}}</span>
-                    <span class="list-time" v-if="listType === 1">{{item.duration | formatDuration}}
+                    <span class="list-time" v-if="listType === 1">{{(item.duration % 3600) | format}}
                     <i class="list-menu-icon-del" @click.stop="deleteItem(index)"></i>
                 </span>
                     <span class="list-album" v-else>{{item.album}}</span>
@@ -35,7 +35,7 @@
 <script>
     import {getCheckMusic} from 'api'
     import {mapGetters, mapMutations} from 'vuex'
-    import {addZero} from 'assets/js/util'
+    import {format} from 'assets/js/util'
     import MmNoResult from 'base/mm-no-result/mm-no-result'
     
     export default {
@@ -81,25 +81,25 @@
                 }
             }
         },
+        activated() {
+            this.scrollTop && (this.$refs.listContent.scrollTop = this.scrollTop)
+        },
         methods: {
             // 滚动事件
             listScroll(e) {
-                if (this.listType !== 2) {
+                const scrollTop = e.target.scrollTop;
+                this.scrollTop = scrollTop;
+                if (this.listType !== 2 || this.lockUp) {
                     return
                 }
-                if (this.lockUp) {
-                    return
-                }
-                let scrollTop = e.target.scrollTop,
-                    scrollHeight = e.target.scrollHeight,
-                    height = e.target.offsetHeight;
-                if (scrollTop + height >= scrollHeight) {
+                const {scrollHeight, offsetHeight} = e.target;
+                if (scrollTop + offsetHeight >= scrollHeight - 50) {
                     this.lockUp = true;//锁定滚动加载
                     this.$emit('pullUp')//触发滚动加载事件
                 }
             },
             // 回到顶部
-            scrollTop() {
+            scrollTo() {
                 this.$refs.listContent.scrollTop = 0;
             },
             // 播放暂停事件
@@ -107,8 +107,8 @@
                 if (e && /list-menu-icon-del/.test(e.target.className)) {
                     return
                 }
-                if (item.id === this.currentMusic.id && this.playing) {
-                    this.setPlaying(false);
+                if (this.currentMusic.id && item.id === this.currentMusic.id) {
+                    this.setPlaying(!this.playing);
                     return
                 }
                 // getMusicUrl(item.id)
@@ -139,12 +139,7 @@
             })
         },
         filters: {
-            formatDuration(value) {
-                let other = value % 3600;
-                let minutes = Math.floor(other / 60);
-                let seconds = Math.floor(other % 60);
-                return `${addZero(minutes)}:${addZero(seconds)}`
-            }
+            format
         }
     }
 </script>
@@ -155,6 +150,7 @@
     .list-header {
         border-bottom: 1px solid @list_head_line_color;
         color: @text_color_active;
+        
         .list-name {
             padding-left: 40px;
         }
@@ -184,49 +180,61 @@
         border-bottom: 1px solid @list_item_line_color;
         line-height: 50px;
         overflow: hidden;
+        
         &.list-item-no {
             justify-content: center;
             align-items: center;
         }
+        
         &.on {
             color: #fff;
+            
             .list-num {
                 font-size: 0;
                 background: url("~assets/img/wave.gif") no-repeat center center;
             }
         }
+        
         &:hover {
             .list-name {
                 padding-right: 80px;
+                
                 .list-menu {
                     display: block;
                 }
             }
         }
+        
         &:not([class*="list-header"]):hover {
             .list-name {
                 padding-right: 80px;
+                
                 .list-menu {
                     display: block;
                 }
             }
+            
             .list-time {
                 font-size: 0;
+                
                 .list-menu-icon-del {
                     display: block;
                 }
             }
         }
+        
         .list-num {
             display: block;
             width: 30px;
             margin-right: 10px;
             text-align: center;
         }
+        
         .list-name {
             position: relative;
             flex: 1;
             box-sizing: border-box;
+            
             & > span {
                 text-overflow: ellipsis;
                 overflow: hidden;
@@ -234,6 +242,7 @@
                 -webkit-line-clamp: 1;
                 -webkit-box-orient: vertical;
             }
+            
             small {
                 margin-left: 5px;
                 font-size: 12px;
@@ -241,6 +250,7 @@
             }
             
             /*hover菜单*/
+            
             .list-menu {
                 display: none;
                 position: absolute;
@@ -249,6 +259,7 @@
                 height: 36px;
                 font-size: 0;
                 transform: translateY(-50%);
+                
                 span, a {
                     display: inline-block;
                     width: 36px;
@@ -258,35 +269,44 @@
                     background-repeat: no-repeat;
                     cursor: pointer;
                 }
+                
                 .list-menu-icon-play {
                     background-position: -80px 0;
+                    
                     &.on {
                         background-position: -80px -200px;
+                        
                         &:hover {
                             background-position: -120px -200px;
                         }
                     }
+                    
                     &:hover {
                         background-position: -120px 0;
                     }
                 }
+                
                 .list-menu-icon-down {
                     background-position: -80px -120px;
+                    
                     &:hover {
                         background-position: -120px -120px;
                     }
                 }
             }
         }
+        
         .list-artist, .list-album {
             display: block;
             width: 150px;
             .no-wrap();
         }
+        
         .list-time {
             display: block;
             width: 60px;
             position: relative;
+            
             .list-menu-icon-del {
                 display: none;
                 position: absolute;
@@ -299,6 +319,7 @@
                 background-position: -80px -160px;
                 cursor: pointer;
                 transform: translateY(-50%);
+                
                 &:hover {
                     background-position: -120px -160px;
                 }
@@ -317,6 +338,7 @@
             .list-name .list-menu {
                 display: block;
             }
+            
             .list-artist, .list-album {
                 width: 20%;
             }
@@ -328,6 +350,7 @@
             .list-artist {
                 width: 80px;
             }
+            
             .list-album, .list-time {
                 display: none;
             }

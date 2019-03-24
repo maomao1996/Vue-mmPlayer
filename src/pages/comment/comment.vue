@@ -92,10 +92,8 @@
                 if (this.lockUp) {
                     return
                 }
-                let scrollTop = e.target.scrollTop,
-                    scrollHeight = e.target.scrollHeight,
-                    height = e.target.offsetHeight;
-                if (scrollTop + height >= scrollHeight) {
+                const {scrollTop, scrollHeight, offsetHeight} = e.target;
+                if (scrollTop + offsetHeight >= scrollHeight - 100) {
                     this.lockUp = true;//锁定滚动加载
                     this.page += 1;
                     this.pullUp()//触发滚动加载事件
@@ -128,7 +126,7 @@
                 if (newTime.getDate() === dateObj.date && diff < 60000) {
                     formatTime = '刚刚'
                 } else if (newTime.getDate() === dateObj.date && 60000 < diff && diff < 3600000) {
-                    formatTime = `${Math.floor(diff / 60000) }分钟前`
+                    formatTime = `${Math.floor(diff / 60000)}分钟前`
                 } else if (newTime.getDate() === dateObj.date && 3600000 < diff && diff < 86400000) {
                     formatTime = `${addZero(dateObj.hours)}:${addZero(dateObj.minutes)}`
                 } else if (newTime.getDate() !== dateObj.date && diff < 86400000) {

@@ -37,8 +37,7 @@
             ...mapGetters([
                 'playing',
                 'playlist',
-                'currentMusic',
-                'audioEle'
+                'currentMusic'
             ])
         },
         methods: {
@@ -49,9 +48,7 @@
             },
             // 播放暂停事件
             selectItem(item, index) {
-                if (item.id === this.currentMusic.id && !this.playing) {
-                    this.setPlaying(true);
-                } else {
+                if (item.id !== this.currentMusic.id) {
                     this.setCurrentIndex(index);
                     this.setPlaying(true)
                 }

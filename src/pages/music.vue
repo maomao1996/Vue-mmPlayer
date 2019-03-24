@@ -5,18 +5,18 @@
                 <music-btn/>
                 <keep-alive>
                     <router-view v-if="$route.meta.keepAlive"
-                                 class="music-list" />
+                                 class="music-list"/>
                 </keep-alive>
                 <router-view :key="$route.path"
                              v-if="!$route.meta.keepAlive"
-                             class="music-list" />
+                             class="music-list"/>
             </div>
             <lyric class="music-right"
                    :lyric="lyric"
                    :nolyric="nolyric"
-                   :lyricIndex="lyricIndex" />
+                   :lyricIndex="lyricIndex"/>
         </div>
-
+        
         <!--播放器-->
         <div class="music-bar"
              :class="{disable:!musicReady||!currentMusic.id}">
@@ -41,12 +41,12 @@
                     <template v-else>欢迎使用mmPlayer在线音乐播放器</template>
                 </div>
                 <div class="music-bar-time"
-                     v-if="currentMusic.id">{{currentTime | format}}/{{currentMusic.duration | formatDuration}}
+                     v-if="currentMusic.id">{{currentTime | format}}/{{(currentMusic.duration % 3600) | format}}
                 </div>
                 <mm-progress class="music-progress"
                              :percent="percentMusic"
                              :percentProgress="currentProgress"
-                             @percentChange="progressMusic" />
+                             @percentChange="progressMusic"/>
             </div>
             <i class="bar-icon btn-mode"
                :class="modeClass"
@@ -60,10 +60,10 @@
                    :class="{'btn-volume-no':isMute}"
                    @click="switchMute"></i>
                 <mm-progress @percentChange="volumeChange"
-                             :percent="volume" />
+                             :percent="volume"/>
             </div>
         </div>
-
+        
         <!--遮罩-->
         <div class="mmPlayer-bg"
              :style="{backgroundImage: picUrl}"></div>
@@ -74,7 +74,7 @@
 <script>
     import {getLyric} from 'api'
     import mmPlayerMusic from './mmPlayer'
-    import {randomSortArray, addZero, parseLyric} from 'assets/js/util'
+    import {randomSortArray, parseLyric, format} from 'assets/js/util'
     import {playMode, defaultBG} from "@/config"
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import MusicBtn from 'components/music-btn/music-btn'
@@ -101,12 +101,6 @@
                 isMute: false,//是否静音
                 volume: 1,//默认音量大小
             }
-        },
-        mounted() {
-            this.$nextTick(() => {
-                mmPlayerMusic.initAudio(this);
-                this.keyDown()
-            })
         },
         computed: {
             picUrl() {
@@ -194,9 +188,15 @@
                 this.lyricIndex = lyricIndex;
             },
         },
+        mounted() {
+            this.$nextTick(() => {
+                mmPlayerMusic.initAudio(this);
+                this.initKeyDown()
+            })
+        },
         methods: {
             //按键事件
-            keyDown() {
+            initKeyDown() {
                 document.onkeydown = e => {
                     switch (e.ctrlKey && e.keyCode) {
                         case 32://播放暂停Ctrl + Space
@@ -301,8 +301,6 @@
                 let list = [];
                 switch (mode) {
                     case playMode.listLoop:
-                        list = this.orderList;
-                        break;
                     case playMode.order:
                         list = this.orderList;
                         break;
@@ -366,17 +364,7 @@
         },
         filters: {
             //时间格式化
-            format(value) {
-                let minute = Math.floor(value / 60);
-                let second = Math.floor(value % 60);
-                return `${addZero(minute)}:${addZero(second)}`
-            },
-            formatDuration(value) {
-                let other = value % 3600;
-                let minutes = Math.floor(other / 60);
-                let seconds = Math.floor(other % 60);
-                return addZero(minutes) + ':' + addZero(seconds)
-            }
+            format
         }
     }
 </script>

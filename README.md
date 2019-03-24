@@ -1,4 +1,4 @@
-# mmPlayer V1.5.4（2019.01.08）
+# mmPlayer V1.5.5（2019.03.24）
 
 模仿QQ音乐网页版界面，采用 flexbox 和 position 布局；
 mmPlayer 虽然是响应式，但主要以为 PC 端为主，移动端只做相应适配（未做歌词显示）；
@@ -150,24 +150,30 @@ PC端界面自我感觉还行， 就是移动端界面总觉得怪怪的，奈�
 ### PC
 
 #### 正在播放
-![正在播放](https://user-gold-cdn.xitu.io/2018/5/17/1636bc3d8cb660c8?w=1920&h=1006&f=png&s=643864)
+![正在播放](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/1.jpg)
 #### 排行榜
-![排行榜](https://user-gold-cdn.xitu.io/2018/5/17/1636bc3d8e6ff8e6?w=1920&h=1006&f=png&s=871255)
+![排行榜](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/2.jpg)
 #### 搜索
-![搜索](https://user-gold-cdn.xitu.io/2018/5/17/1636bc3d8d19a51f?w=1920&h=1007&f=png&s=629351)
+![搜索](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/3.jpg)
 #### 我的歌单
-![我的歌单](https://user-gold-cdn.xitu.io/2018/5/17/1636bc3d8e9c9182?w=1920&h=1005&f=png&s=1296698)
+![我的歌单](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/4.jpg)
 #### 我听过的
-![我听过的](https://user-gold-cdn.xitu.io/2018/5/17/1636bc3d8ea461ee?w=1920&h=1003&f=png&s=646239)
+![我听过的](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/5.jpg)
 #### 歌曲评论
-![歌曲评论](https://user-gold-cdn.xitu.io/2018/5/17/1636bc3d8edbd1b0?w=1920&h=1006&f=png&s=675028)
+![歌曲评论](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/6.jpg)
 
 ### 移动端
 
-![移动端一](https://user-gold-cdn.xitu.io/2018/5/18/1637315324ff1e07?w=2934&h=1653&f=png&s=1109772)
-![移动端二](https://user-gold-cdn.xitu.io/2018/5/18/1637315a6cdc532a?w=2934&h=1653&f=png&s=1442389)
+![移动端一](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/7.jpg)
+![移动端二](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/8.jpg)
 
 ## 更新说明
+
+### V1.5.5（2019.03.24）
+- 修改 Vue 构建版本
+- 优化滚动体验，缓存滚动位置
+- 优化暂停 / 播放逻辑，减少重复请求
+- 优化代码，提高复用
 
 ### V1.5.4（2019.01.08）
 - 更新后台服务器
@@ -195,8 +201,8 @@ PC端界面自我感觉还行， 就是移动端界面总觉得怪怪的，奈�
 
 ### V1.5.0（2018.05.05）
 - 新增评论详情功能（网易云音乐最重要的部分不能漏）
-- 新增title提示
-- 新增noscript提示
+- 新增 title 提示
+- 新增 noscript 提示
 - 优化歌词滚动
 - 优化图片大小，提升加载速度
 - 优化歌曲切换时样式错乱
@@ -212,8 +218,8 @@ PC端界面自我感觉还行， 就是移动端界面总觉得怪怪的，奈�
     - 切换播放模式 Ctrl + O
     - 音量加 Ctrl + Up
     - 音量减 Ctrl + Down
-- 修复safari和安卓UC不能播放的问题
-- 优化url失效问题和音乐无法播放的提示
+- 修复 safari 和安卓 UC 不能播放的问题
+- 优化 url 失效问题和音乐无法播放的提示
 - 优化移动端下的样式兼容
 
 ### V1.3.2（2018.03.19）
@@ -236,13 +242,13 @@ PC端界面自我感觉还行， 就是移动端界面总觉得怪怪的，奈�
 - 新增随机播放、列表循环、单曲循环、顺序播放功能
 - 新增清空正在播放列表功能
 - 新增清空列表的提示
-- 新增版权信息（控制台输入mmPlayer）
+- 新增版权信息（控制台输入 mmPlayer ）
 - 增加背景滤镜的模糊度和透明度
 - 增加浏览器访问的限制（兼容主流浏览器，最好全是用chrome，哈哈）
-- 整合music-list组件
-- CSS的@import使用 ~ 代替相对路径（原理：css-loader会把把非根路径的url解释为相对路径，加~前缀才会解释成模块路径）
-- 优化Safari下不能滚动和不能播放的问题
-- 优化移动端300ms点击延迟
+- 整合 music-list 组件
+- CSS的 @import 使用 ~ 代替相对路径（原理：css-loader会把把非根路径的url解释为相对路径，加~前缀才会解释成模块路径）
+- 优化 Safari 下不能滚动和不能播放的问题
+- 优化移动端 300ms 点击延迟
 - 优化当播放列表只有一首歌时，点击上（下）一曲导致播放失败的问题
 - 优化重复插入音乐的问题
 - 优化暂停后播放下一首播放状态图标不改变的问题
@@ -250,27 +256,27 @@ PC端界面自我感觉还行， 就是移动端界面总觉得怪怪的，奈�
 ### V1.2.1（2018.03.01）
 - 优化正在播放列表第一次加载
 - 优化删除歌曲
-- 优化Vuex模块
-- 优化加载loading
+- 优化 Vuex 模块
+- 优化加载 loading
 - 优化移动端适配
 - 提高代码复用性
 
 ### V1.2.0（2018.02.28）
 - 新增搜索功能
 - 新增歌曲删除功能（播放历史列表）
-- 使用ES6的class对数据进行二次处理
+- 使用 ES6 的 class 对数据进行二次处理
 - 优化歌词居中显示
 - 优化播放可能出现的错误
 
 ### V1.1.0（2018.02.09）
 - 新增我听过的（播放历史）
 - 整合公用列表组件
-- 新增mmToast插件
-- 整合字体大小、颜色相关CSS
+- 新增 mmToast 插件
+- 整合字体大小、颜色相关 CSS
 - 优化清空正在播放列表功能
 
 ### V1.0.0（2018.02.05）
-- 发布正式版（因为一系列原因，mmPlayer V1.0.0版本在试用版的基础上进行了重构了，并引入了Vue-Router和Vuex
+- 发布正式版（因为一系列原因，mmPlayer V1.0.0版本在试用版的基础上进行了重构了，并引入了 Vue-Router 和 Vuex
 - 当前播放歌曲高亮（感觉一个小GIF还不够）
 - 优化快速切歌导致歌曲播放失败的问题
 - 进度条拖动适配移动端
