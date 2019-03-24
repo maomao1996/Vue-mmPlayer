@@ -1,7 +1,7 @@
 <template>
     <!--头部-->
     <header class="mm-header">
-        <h1 class="header">mmPlayer在线音乐播放器</h1>
+        <h1 class="header"><a href="https://github.com/maomao1996/Vue-mmPlayer" target="_blank">mmPlayer在线音乐播放器</a></h1>
         <dl class="user">
             <template v-if="user.userId">
                 <router-link class="user-info" to="/music/userlist" tag="dt">

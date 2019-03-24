@@ -83,7 +83,7 @@
                 this.mmLoadShow = true;
                 this.page = 0;
                 if (this.list.length > 0) {
-                    this.$refs.musicList.scrollTop();
+                    this.$refs.musicList.scrollTo();
                 }
                 search(this.searchValue)
                 .then(res => {
@@ -112,13 +112,9 @@
             },
             //播放歌曲
             async selectItem(music) {
-                if(this.currentMusic.id !== music.id){
-                    let image = await this._getMusicDetail(music.id);
-                    music.image = image;
-                    this.selectAddPlay(music)
-                } else {
-                    this.setPlaying(true)
-                }
+                let image = await this._getMusicDetail(music.id);
+                music.image = image;
+                this.selectAddPlay(music)
             },
             // 获取歌曲详情
             _getMusicDetail(id) {
