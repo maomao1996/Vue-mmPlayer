@@ -9,7 +9,7 @@
     <meta name="keywords" content="mmPlayer,播放器,在线音乐,在线播放器,音乐播放器,在线音乐播放器,mmPlayer在线音乐播放器"/>
     <meta name="description" content="mmPlayer在线音乐播放器"/>
     <style type="text/css">
-        noscript{position:fixed;top:0;right:0;bottom:0;left:0;z-index:1996520;background:#fff;text-align:center;font-weight:700;font-size:34px;line-height:100px}#appLoading{position:fixed;top:0;left:0;z-index:1996;width:100%;height:100%;background:rgba(255,255,255,1)}#appLoading.removeAnimate{-webkit-animation:removeAnimate 1s 0s 1 both}@-webkit-keyframes@-webkit-keyframes removeAnimate{from{opacity:1}to{opacity:0}}#appLoading img{position:absolute;top:50%;left:50%;width:50px;height:50px;-webkit-transform:translateY(-50%) translateX(-50%);transform:translateY(-50%) translateX(-50%)}
+        noscript{position:fixed;top:0;right:0;bottom:0;left:0;z-index:1996520;background:#fff;text-align:center;font-weight:700;font-size:34px;line-height:100px}#appLoading{position:fixed;top:0;left:0;z-index:1996;width:100%;height:100%;background:rgba(255,255,255,1)}#appLoading.removeAnimate{-webkit-animation:removeAnimate 1s 0s 1 both;animation:removeAnimate 1s 0s 1 both}@-webkit-keyframes removeAnimate{from{opacity:1}to{opacity:0}}@keyframes removeAnimate{from{opacity:1}to{opacity:0}}#appLoading img{position:absolute;top:50%;left:50%;width:50px;height:50px;-webkit-transform:translateY(-50%) translateX(-50%);transform:translateY(-50%) translateX(-50%)}
     </style>
     <script>
         (function () {
@@ -19,8 +19,10 @@
             }
         })();
     </script>
+    <% if(htmlWebpackPlugin.options.env.NODE_ENV === '"production"'){ %>
     <script>
         var _hmt = _hmt || [];
+        window._hmt = _hmt;
         (function() {
             var hm = document.createElement("script");
             hm.src = "https://hm.baidu.com/hm.js?71e62b6d09afa9deac7bfa5c60ad06dd";
@@ -28,6 +30,7 @@
             s.parentNode.insertBefore(hm, s);
         })();
     </script>
+    <% } %>
 </head>
 <body>
     <noscript>
