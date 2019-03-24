@@ -3,7 +3,7 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
-const isDebug_mode = process.env.NODE_ENV !== 'production';
+const debug = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   dev: {
@@ -51,7 +51,7 @@ module.exports = {
      * Source Maps
      */
 
-    productionSourceMap: isDebug_mode,
+    productionSourceMap: debug,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',
 
