@@ -36,11 +36,11 @@ router.beforeEach((to, from, next) => {
     }
 });
 
-const isDebug_mode = process.env.NODE_ENV !== 'production';
-Vue.config.silent = isDebug_mode;
-Vue.config.debug = isDebug_mode;
-Vue.config.devtools = isDebug_mode;
-Vue.config.productionTip = isDebug_mode;
+const debug = process.env.NODE_ENV !== 'production';
+Vue.config.silent = debug;
+Vue.config.debug = debug;
+Vue.config.devtools = debug;
+Vue.config.productionTip = debug;
 
 // 版权信息
 window.mmPlayer = window.mmplayer = `欢迎使用 mmPlayer!
@@ -55,6 +55,5 @@ new Vue({
     el: '#mmPlayer',
     store,
     router,
-    components: {App},
-    template: '<App/>'
+    render: h => h(App)
 })
