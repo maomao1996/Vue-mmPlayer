@@ -6,16 +6,12 @@ import Vue from 'vue'
 import store from './store'
 import router from './router'
 import App from './App'
-import axios from 'axios'
 import fastclick from 'fastclick'
 import mmToast from 'base/mm-toast'
 import VueLazyload from 'vue-lazyload'
 import {VERSION} from './config'
 
 import '@/assets/css/index.less'
-
-//网络请求
-Vue.prototype.$http = axios;
 
 //优化移动端300ms点击延迟
 fastclick.attach(document.body);
@@ -31,8 +27,9 @@ Vue.use(VueLazyload, {
 
 const redirectList = ['/music/details', '/music/comment'];
 router.beforeEach((to, from, next) => {
+    window._hmt && to.path && window._hmt.push(['_trackPageview', '/#' + to.fullPath]);
     if (redirectList.includes(to.path)) {
-        next('/')
+        next()
     } else {
         document.title = to.meta.title && `${to.meta.title} - mmPlayer在线音乐播放器` || 'mmPlayer在线音乐播放器';
         next()
