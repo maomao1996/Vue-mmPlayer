@@ -22,7 +22,13 @@
     import {createTopList} from 'assets/js/song'
     import MmHeader from 'components/mm-header/mm-header'
     import MmDialog from 'base/mm-dialog/mm-dialog'
-    import {getVersion, setVersion} from "assets/js/storage";
+    import {getVersion, setVersion} from "assets/js/storage"
+    
+    const VERSIONBODY = `<div class="mm-dialog-text text-left">
+版本号：${VERSION}（2019.03.24）<br/>
+1、 优化滚动体验，缓存滚动位置<br>
+2、 优化暂停 / 播放逻辑，减少重复请求
+</div>`;
     
     export default {
         name: "app",
@@ -30,6 +36,9 @@
             MmHeader, MmDialog
         },
         created() {
+            // 设置版本更新信息
+            this.versionBody = VERSIONBODY;
+            
             //获取正在播放列表
             topList(defaultSheetId)
             .then((res) => {
@@ -37,7 +46,7 @@
                     let list = this._formatSongs(res.data.playlist.tracks.slice(0,100));
                     this.setPlaylist({list})
                 }
-            })
+            });
 
             //设置title
             let OriginTitile = document.title, titleTime;
@@ -52,16 +61,20 @@
                     }, 2000);
                 }
             });
+            
             //设置audio元素
             this.$nextTick(() => {
                 this.setAudioele(this.$refs.mmPlayer)
             });
-            //首次加载完成移除动画
-            if (document.querySelector('#appLoading')) {
-                document.querySelector('#appLoading').classList.add("removeAnimate");
-                setTimeout(() => {
-                    document.body.removeChild(document.getElementById('appLoading'));
-                    let version = getVersion();
+            
+            //首次加载完成后移除动画
+            const loadDOM = document.querySelector('#appLoading');
+            if (loadDOM) {
+                const animationendFunc = function () {
+                    loadDOM.removeEventListener('animationend', animationendFunc);
+                    loadDOM.removeEventListener('webkitAnimationEnd', animationendFunc);
+                    document.body.removeChild(loadDOM);
+                    const version = getVersion();
                     if (version !== null) {
                         setVersion(VERSION);
                         if (version !== VERSION) {
@@ -71,16 +84,10 @@
                         setVersion(VERSION);
                         this.$refs.versionDialog.show()
                     }
-                }, 500)
-            }
-        },
-        computed: {
-            versionBody() {
-                return `<div class="mm-dialog-text text-left">
-版本号：${VERSION}（2019.03.24）<br/>
-1、 优化滚动体验，缓存滚动位置<br>
-2、 优化暂停 / 播放逻辑，减少重复请求
-</div>`
+                }.bind(this);
+                loadDOM.addEventListener('animationend', animationendFunc);
+                loadDOM.addEventListener('webkitAnimationEnd', animationendFunc);
+                loadDOM.classList.add('removeAnimate')
             }
         },
         methods: {

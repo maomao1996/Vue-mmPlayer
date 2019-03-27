@@ -28,9 +28,9 @@ mmPlayer 虽然是响应式，但主要以为 PC 端为主，移动端只做相�
 > mmPlayer
 
 ```
-git clone https://github.com/maomao1996/Vue-mmPlayer.git  //下载mmPlayer
+git clone https://github.com/maomao1996/Vue-mmPlayer.git  //下载 mmPlayer
 
-cd mmPlayer //进入mmPlayer播放器目录
+cd mmPlayer //进入 mmPlayer 播放器目录
 
 npm install //安装依赖
 
@@ -61,7 +61,7 @@ node app.js //服务端运行 访问 http://localhost:3000
 - ES 6 / 7 （JavaScript 语言的下一代标准）
 - Less（CSS预处理器）
 - Axios（网络请求）
-- FastClick（解决移动端300ms点击延迟）
+- FastClick（解决移动端 300ms 点击延迟）
 
 ## 项目布局
 
@@ -253,9 +253,9 @@ PC端界面自我感觉还行， 就是移动端界面总觉得怪怪的，奈�
 - 新增清空列表的提示
 - 新增版权信息（控制台输入 mmPlayer ）
 - 增加背景滤镜的模糊度和透明度
-- 增加浏览器访问的限制（兼容主流浏览器，最好全是用chrome，哈哈）
+- 增加浏览器访问的限制（兼容主流浏览器，最好全是用 chrome，哈哈）
 - 整合 music-list 组件
-- CSS的 @import 使用 ~ 代替相对路径（原理：css-loader会把把非根路径的url解释为相对路径，加~前缀才会解释成模块路径）
+- CSS的 @import 使用 ~ 代替相对路径（原理：css-loader 会把非根路径的 url 解释为相对路径，加~前缀才会解释成模块路径）
 - 优化 Safari 下不能滚动和不能播放的问题
 - 优化移动端 300ms 点击延迟
 - 优化当播放列表只有一首歌时，点击上（下）一曲导致播放失败的问题
