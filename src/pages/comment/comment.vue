@@ -156,6 +156,7 @@
             padding: 0 10px;
             overflow-x: hidden;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             .comment-title {
                 height: 34px;
                 line-height: 34px;
