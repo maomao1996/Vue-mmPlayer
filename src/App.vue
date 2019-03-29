@@ -25,9 +25,10 @@
     import {getVersion, setVersion} from "assets/js/storage"
     
     const VERSIONBODY = `<div class="mm-dialog-text text-left">
-版本号：${VERSION}（2019.03.24）<br/>
+版本号：${VERSION}（2019.03.29）<br/>
 1、 优化滚动体验，缓存滚动位置<br>
-2、 优化暂停 / 播放逻辑，减少重复请求
+2、 优化暂停 / 播放逻辑，减少重复请求<br>
+3、 修复 IOS 下滚动卡顿的情况
 </div>`;
     
     export default {
