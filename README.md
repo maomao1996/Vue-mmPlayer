@@ -1,4 +1,4 @@
-# mmPlayer V1.5.5（2019.03.29）
+# mmPlayer V1.5.6（2019.04.04）
 
 模仿QQ音乐网页版界面，采用 flexbox 和 position 布局；
 mmPlayer 虽然是响应式，但主要以为 PC 端为主，移动端只做相应适配（未做歌词显示）；
@@ -177,6 +177,10 @@ PC端界面自我感觉还行， 就是移动端界面总觉得怪怪的，奈�
 ![移动端二](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/8.jpg)
 
 ## 更新说明
+### V1.5.6（2019.04.04）
+- 升级 Vue 版本
+- 优化脚手架配置
+- 修复 Safari、IOS 微信、安卓 UC不能播放问题
 
 ### V1.5.5（2019.03.29）
 - 修改 Vue 构建版本
