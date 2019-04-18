@@ -66,14 +66,14 @@ node app.js //服务端运行 访问 http://localhost:3000
 ## 项目布局
 
 ```
-├── build                                           // webpack配置文件
-├── config                                          // 项目打包路径
 ├── mmPlayer                                        // 项目打包版本，可直接使用
+├── public                                          // 静态资源目录
+│   └─index.html                                    // 入口html文件
 ├── screenshots                                     // 项目截图
 ├── server                                          // 后台服务器目录
 ├── src                                             // 项目源码目录
 │   ├── api                                         // 数据交互目录
-│   │   └── music.js                                // 获取数据
+│   │   └── index.js                                // 获取数据
 │   ├── assets                                      // 资源目录
 │   │   ├── css                                     // 样式文件目录
 │   │   │   ├── index.less                          // mmPlayer相关基础样式
@@ -82,6 +82,7 @@ node app.js //服务端运行 访问 http://localhost:3000
 │   │   │   └── var.less                            // 样式变量（字体大小、字体颜色、背景颜色）
 │   │   ├── img                                     // 静态图片目录
 │   │   └── js                                      // 数据交互目录
+│   │        ├── hack.js                            // 修改 nextTick 
 │   │        ├── mixin.js                           // 组件混合
 │   │        ├── song.js                            // 数据处理
 │   │        ├── storage.js                         // localstorage配置
@@ -96,6 +97,7 @@ node app.js //服务端运行 访问 http://localhost:3000
 │   │   ├── mm-progress
 │   │   │   └── mm-progress.vue                     // 进度条拖动组件
 │   │   └── mm-toast
+│   │        ├── index.js                           // mm-toast 组件插件化配置
 │   │        └── mm-toast.vue                       // 弹出层提示组件
 │   ├── components                                  // 公共项目组件目录
 │   │   ├── lyric
@@ -117,26 +119,25 @@ node app.js //服务端运行 访问 http://localhost:3000
 │   │   │   └── playList.vue                        // 正在播放
 │   │   ├── search
 │   │   │   └── search.vue                          // 搜索
-│   │   ├── userList
-│   │   │   └── userList.vue                        // 我的歌单
 │   │   ├── topList
 │   │   │   └── topList.vue                         // 排行榜页面
+│   │   ├── userList
+│   │   │   └── userList.vue                        // 我的歌单
 │   │   ├── mmPlayer.js                             // 播放器事相关件绑定
-│   │   └── mmPlayer.vue                            // 播放器主页面
+│   │   └── music.vue                               // 播放器主页面
 │   ├── router
 │   │   └── index.js                                // 路由配置
 │   ├── store                                       // vuex的状态管理
 │   │   ├── actions.js                              // 配置actions
 │   │   ├── getters.js                              // 配置getters
 │   │   ├── index.js                                // 引用vuex，创建store
-│   │   ├── mutations.js                            // 配置mutations
 │   │   ├── mutation-types.js                       // 定义常量mutations名
-│        └── state.js                               // 配置state
+│   │   ├── mutations.js                            // 配置mutations
+│   │   └── state.js                                // 配置state
 │   ├── App.vue                                     // 根组件
 │   ├── config.js                                   // 基本配置
 │   └── main.js                                     // 入口主文件
-├── static                                          // 静态资源文件目录
-└── index.html                                      // 入口html文件
+└── vue.config.js                                   // vue-cli 配置文件
 ```
 
 ## 功能

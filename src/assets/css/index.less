@@ -1,84 +1,85 @@
-@import "reset";
-html, body, #app {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+@import 'reset';
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
-    min-width: 320px;
-    font-family: Arial;
+  min-width: 320px;
+  font-family: Arial;
 }
 
 #app {
-    position: relative;
+  position: relative;
 }
 
 .cover-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 //浮动
 .fl {
-    float: left;
+  float: left;
 }
 
 .fr {
-    float: right;
+  float: right;
 }
 
 .text-left {
-    text-align: left;
+  text-align: left;
 }
 
 .clearfix {
-    &:after {
-        display: block;
-        content: "";
-        clear: both;
-    }
+  &:after {
+    display: block;
+    content: '';
+    clear: both;
+  }
 }
-
 
 //滚动条
 ::-webkit-scrollbar {
-    /*滚动条整体部分，其中的属性有width,height,background,border（就和一个块级元素一样）等*/
-    background-color: rgba(0, 0, 0, .3);
-    width: 5px; //纵向滚动条
-    border-radius: 10px;
+  /*滚动条整体部分，其中的属性有width,height,background,border（就和一个块级元素一样）等*/
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 5px; //纵向滚动条
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-button {
-    /*滚动条两端的按钮。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果。*/
-    display: none;
+  /*滚动条两端的按钮。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果。*/
+  display: none;
 }
 
 ::-webkit-scrollbar-track {
-    /*外层轨道。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果。*/
-    display: none;
-    //background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
+  /*外层轨道。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果。*/
+  display: none;
+  //background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-track-piece {
-    /*内层轨道，滚动条中间部分（除去）。*/
-    //background-color: rgba(255, 255, 255, .1);
-    border-radius: 10px;
+  /*内层轨道，滚动条中间部分（除去）。*/
+  //background-color: rgba(255, 255, 255, .1);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-    /*滚动条里面可以拖动的那部分*/
-    background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 10px;
+  /*滚动条里面可以拖动的那部分*/
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-corner {
-    border-radius: 10px;
+  border-radius: 10px;
 }
 
 ::-webkit-resizer {
-    /*定义右下角拖动块的样式*/
-    border-radius: 10px;
+  /*定义右下角拖动块的样式*/
+  border-radius: 10px;
 }
