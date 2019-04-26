@@ -30,23 +30,25 @@ mmPlayer 虽然是响应式，但主要以为 PC 端为主，移动端只做相�
 ```
 git clone https://github.com/maomao1996/Vue-mmPlayer.git  //下载 mmPlayer
 
-cd mmPlayer //进入 mmPlayer 播放器目录
+cd mmPlayer // 进入 mmPlayer 播放器目录
 
-npm install //安装依赖
+npm install // 安装依赖
 
-npm run dev //服务端运行
+npm run dev // 服务端运行
 
-npm run build  //项目打包
+npm run build  // 项目打包
 ```
 
 > 后台服务器
 
+[网易云音乐 NodeJS 版 API](https://binaryify.github.io/NeteaseCloudMusicApi)
+
 ```
-cd mmPlayer/server //进入后台服务器目录
+下载 NeteaseCloudMusicApi
 
-npm install //安装依赖
+npm install // 安装依赖
 
-node app.js //服务端运行 访问 http://localhost:3000
+node app.js // 服务端运行 访问 http://localhost:3000
 ```
 
 #### 运行 mmPlayer 后无法获取音乐请检查后台服务器是否启动
@@ -65,12 +67,13 @@ node app.js //服务端运行 访问 http://localhost:3000
 
 ## 项目布局
 
-```
+<details>
+<summary>展开查看</summary>
+<pre><code>.
 ├── mmPlayer                                        // 项目打包版本，可直接使用
 ├── public                                          // 静态资源目录
 │   └─index.html                                    // 入口html文件
 ├── screenshots                                     // 项目截图
-├── server                                          // 后台服务器目录
 ├── src                                             // 项目源码目录
 │   ├── api                                         // 数据交互目录
 │   │   └── index.js                                // 获取数据
@@ -138,7 +141,8 @@ node app.js //服务端运行 访问 http://localhost:3000
 │   ├── config.js                                   // 基本配置
 │   └── main.js                                     // 入口主文件
 └── vue.config.js                                   // vue-cli 配置文件
-```
+</code></pre>
+</details>
 
 ## 功能
 
