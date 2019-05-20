@@ -1,22 +1,12 @@
 <template>
   <!--正在播放-->
   <div class="playList">
-    <music-list
-      :list="playlist"
-      :listType="1"
-      @select="selectItem"
-      @del="deleteItem"
-    >
+    <music-list :list="playlist" :listType="1" @select="selectItem" @del="deleteItem">
       <div slot="listBtn" class="list-btn">
         <span @click="$refs.dialog.show()">清空列表</span>
       </div>
     </music-list>
-    <mm-dialog
-      ref="dialog"
-      @confirm="clearList"
-      bodyText="是否清空正在播放列表"
-      confirmBtnText="清空"
-    />
+    <mm-dialog ref="dialog" @confirm="clearList" bodyText="是否清空正在播放列表" confirmBtnText="清空"/>
   </div>
 </template>
 
@@ -27,7 +17,7 @@ import MmDialog from 'base/mm-dialog/mm-dialog'
 
 export default {
   name: 'play-list',
-  data () {
+  data() {
     return {
       show: false
     }
@@ -41,23 +31,24 @@ export default {
   },
   methods: {
     // 清空列表事件
-    clearList () {
+    clearList() {
       this.clearPlayList()
       this.$mmToast('列表清空成功')
     },
     // 播放暂停事件
-    selectItem (item, index) {
+    selectItem(item, index) {
+
+      window._CloudMusic.play(index)
+
       if (item.id !== this.currentMusic.id) {
         this.setCurrentIndex(index)
         this.setPlaying(true)
       }
     },
     // 删除事件
-    deleteItem (index) {
-      let list = [...this.playlist]
-      list.splice(index, 1)
-      this.removerPlayListItem({ list, index })
-      this.$mmToast('删除成功')
+    deleteItem(index) {
+      alert("如果加上这个功能，我还要改很多代码，所以不能用")
+      
     },
     ...mapMutations({
       setPlaying: 'SET_PLAYING',

@@ -41,11 +41,12 @@ export default {
     MmLoading,
     MusicList
   },
-  data () {
+  data() {
     return {
       Artists: [], // 热搜数组
       list: [], // 搜索数组
       page: 0, // 分页
+      searchValue: "",
       lockUp: true // 是否锁定上拉加载事件,默认锁定
     }
   },
@@ -53,7 +54,7 @@ export default {
     ...mapGetters(['playing', 'currentMusic'])
   },
   watch: {
-    list (newList, oldList) {
+    list(newList, oldList) {
       if (newList.length !== oldList.length) {
         this.lockUp = false
       } else if (
@@ -63,7 +64,7 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     // 获取热搜
     searchHot().then(res => {
       if (res.data.code === 200) {
@@ -74,12 +75,12 @@ export default {
   },
   methods: {
     // 点击热搜
-    clickHot (name) {
+    clickHot(name) {
       this.searchValue = name
       this.onEnter()
     },
     // 搜索事件
-    onEnter () {
+    onEnter() {
       if (this.searchValue.replace(/(^\s+)|(\s+$)/g, '') === '') {
         this.$mmToast('搜索内容不能为空！')
         return
@@ -97,7 +98,7 @@ export default {
       })
     },
     // 滚动加载事件
-    pullUpLoad () {
+    pullUpLoad() {
       this.mmLoadShow = true
       this.page += 1
       search(this.searchValue, this.page).then(res => {
@@ -113,13 +114,13 @@ export default {
       })
     },
     // 播放歌曲
-    async selectItem (music) {
+    async selectItem(music) {
       let image = await this._getMusicDetail(music.id)
       music.image = image
       this.selectAddPlay(music)
     },
     // 获取歌曲详情
-    _getMusicDetail (id) {
+    _getMusicDetail(id) {
       return getMusicDetail(id).then(res => {
         if (res.data.code === 200) {
           return res.data.songs[0].al.picUrl

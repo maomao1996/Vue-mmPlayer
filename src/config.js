@@ -1,5 +1,5 @@
 // 网络请求地址
-export const URL = 'http://localhost:3000'
+export const URL = 'https://api.jiluxinqing.com/api/music'
 
 // 版本号
 export const VERSION = '1.5.6'

@@ -4,24 +4,100 @@
     <mm-header/>
     <router-view class="router-view"/>
     <!--更新说明-->
-    <mm-dialog
+    <!-- <mm-dialog
       ref="versionDialog"
       type="alert"
       headText="更新提示"
       :bodyText="versionBody"
-    />
+    />-->
     <!--播放器-->
     <audio ref="mmPlayer"></audio>
   </div>
 </template>
 
 <script>
+window._CloudMusic = {
+  props: null,
+  setProps(props) {
+    this.props = props
+  },
+  get state() {
+    try {
+      return window.parent.hass.states['cloudmusic.playlist']
+    } catch (ex) {
+      return {}
+    }
+  },
+  get attr() {
+    try {
+      return window.parent.hass.states['cloudmusic.playlist'].attributes
+    } catch (ex) {
+      return {}
+    }
+  },
+  exec(args) {
+    try {
+      console.log(args.cmd)
+      let hass = window.parent.hass
+      hass.callService("cloudmusic", "exec", args);
+    } catch (ex) {
+      console.log(ex)
+    }
+  },
+  action(cmd) {
+    this.exec({ cmd: cmd })
+  },
+  play(index) {
+    this.exec({ cmd: 'index', index: index })
+  },
+  loadlist(playList, currentIndex) {
+    try {
+      let pl = []
+      playList.forEach(ele => {
+        pl.push({
+          song: ele.name,
+          singer: ele.singer,
+          ...ele
+        })
+      })
+      if (pl.length > 0) {
+        window._CloudMusic.exec({
+          cmd: 'load',
+          playlist: JSON.stringify(pl),
+          index: currentIndex
+        })
+      }
+    } catch (ex) {
+      console.log(ex)
+    }
+
+  },
+  update(hass) {
+    //console.log('接收的值', hass)
+    try {
+      let props = window._CloudMusic.props
+      if (props) {
+        let attr = window._CloudMusic.state.attributes
+        console.log(attr)
+        let playList = JSON.parse(attr.playlist)
+        if (playList.length > 0) {
+          props.setCurrentIndex(attr.index)
+        }
+        props.setPlaying(attr.status == 'playing' || attr.status == 'play')
+      }
+    } catch (ex) {
+      //console.error(ex)
+    }
+  }
+}
+
+
 import { mapMutations, mapActions } from 'vuex'
 import { topList } from 'api'
 import { defaultSheetId, VERSION } from '@/config'
 import { createTopList } from 'assets/js/song'
 import MmHeader from 'components/mm-header/mm-header'
-import MmDialog from 'base/mm-dialog/mm-dialog'
+
 import { getVersion, setVersion } from 'assets/js/storage'
 
 const VERSIONBODY = `<div class="mm-dialog-text text-left">
@@ -35,20 +111,28 @@ const VERSIONBODY = `<div class="mm-dialog-text text-left">
 export default {
   name: 'app',
   components: {
-    MmHeader,
-    MmDialog
+    MmHeader
   },
-  created () {
+  created() {
     // 设置版本更新信息
     this.versionBody = VERSIONBODY
 
     // 获取正在播放列表
-    topList(defaultSheetId).then(res => {
-      if (res.status === 200) {
-        let list = this._formatSongs(res.data.playlist.tracks.slice(0, 100))
-        this.setPlaylist({ list })
-      }
-    })
+    // topList(defaultSheetId).then(res => {
+    //   if (res.status === 200) {
+    //     let list = this._formatSongs(res.data.playlist.tracks.slice(0, 100))
+    //     this.setPlaylist({ list })
+    //   }
+    // })
+
+    let attr = window._CloudMusic.attr
+    let list = JSON.parse(attr.playlist)
+    if (list.length > 0) {
+      this.setPlaylist({ list })
+      this.setCurrentIndex(attr.index)
+      this.setPlaying(attr.status == 'playing' || attr.status == 'play')
+    }
+        console.log('init')
 
     // 设置title
     let OriginTitile = document.title
@@ -95,7 +179,7 @@ export default {
   },
   methods: {
     // 歌曲数据处理
-    _formatSongs (list) {
+    _formatSongs(list) {
       let ret = []
       list.forEach(item => {
         const musicData = item
@@ -106,7 +190,9 @@ export default {
       return ret
     },
     ...mapMutations({
-      setAudioele: 'SET_AUDIOELE'
+      setAudioele: 'SET_AUDIOELE',
+      setCurrentIndex: 'SET_CURRENTINDEX',
+      setPlaying: 'SET_PLAYING'
     }),
     ...mapActions(['setPlaylist'])
   }
