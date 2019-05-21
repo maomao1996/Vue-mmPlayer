@@ -75,9 +75,13 @@ export default {
   },
   data() {
     window._CloudMusic.setProps(this)
-    let attr = window._CloudMusic.state.attributes
+    let attr = window._CloudMusic.attr
+    let musicReady = false
+    if (attr) {
+      musicReady = attr.status == 'playing' || attr.status == 'play'
+    }
     return {
-      musicReady: attr.status == 'playing' || attr.status == 'play', // 是否可以使用播放器
+      musicReady: musicReady, // 是否可以使用播放器
       currentTime: 0, // 当前播放时间
       currentProgress: 0, // 当前缓冲进度
       lyric: [], // 歌词

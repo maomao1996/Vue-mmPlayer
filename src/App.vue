@@ -25,14 +25,14 @@ window._CloudMusic = {
     try {
       return window.parent.hass.states['cloudmusic.playlist']
     } catch (ex) {
-      return {}
+      return "[]"
     }
   },
   get attr() {
     try {
       return window.parent.hass.states['cloudmusic.playlist'].attributes
     } catch (ex) {
-      return {}
+      return null
     }
   },
   exec(args) {
@@ -126,13 +126,15 @@ export default {
     // })
 
     let attr = window._CloudMusic.attr
-    let list = JSON.parse(attr.playlist)
-    if (list.length > 0) {
-      this.setPlaylist({ list })
-      this.setCurrentIndex(attr.index)
-      this.setPlaying(attr.status == 'playing' || attr.status == 'play')
+    if (attr) {
+      console.log(attr)
+      let list = JSON.parse(attr.playlist)
+      if (list.length > 0) {
+        this.setPlaylist({ list })
+        this.setCurrentIndex(attr.index)
+        this.setPlaying(attr.status == 'playing' || attr.status == 'play')
+      }
     }
-        console.log('init')
 
     // 设置title
     let OriginTitile = document.title
@@ -161,16 +163,16 @@ export default {
         loadDOM.removeEventListener('animationend', animationendFunc)
         loadDOM.removeEventListener('webkitAnimationEnd', animationendFunc)
         document.body.removeChild(loadDOM)
-        const version = getVersion()
-        if (version !== null) {
-          setVersion(VERSION)
-          if (version !== VERSION) {
-            this.$refs.versionDialog.show()
-          }
-        } else {
-          setVersion(VERSION)
-          this.$refs.versionDialog.show()
-        }
+        // const version = getVersion()
+        // if (version !== null) {
+        //   setVersion(VERSION)
+        //   if (version !== VERSION) {
+        //     this.$refs.versionDialog.show()
+        //   }
+        // } else {
+        //   setVersion(VERSION)
+        //   this.$refs.versionDialog.show()
+        // }
       }.bind(this)
       loadDOM.addEventListener('animationend', animationendFunc)
       loadDOM.addEventListener('webkitAnimationEnd', animationendFunc)
