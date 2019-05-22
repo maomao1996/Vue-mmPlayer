@@ -62,7 +62,7 @@ window.cloudMusic = window._CloudMusic = {
       if (list.length > 0) {
         store.dispatch('setPlaylist', { list })
         store.commit('SET_CURRENTINDEX', attr.index)
-        store.commit('SET_PLAYING', this.status.isPlaying)
+        store.commit('SET_PLAYING', attr.isPlaying)
       }
     }
   },
