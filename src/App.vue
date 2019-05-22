@@ -16,82 +16,6 @@
 </template>
 
 <script>
-window._CloudMusic = {
-  props: null,
-  setProps(props) {
-    this.props = props
-  },
-  get state() {
-    try {
-      return window.parent.hass.states['cloudmusic.playlist']
-    } catch (ex) {
-      return "[]"
-    }
-  },
-  get attr() {
-    try {
-      return window.parent.hass.states['cloudmusic.playlist'].attributes
-    } catch (ex) {
-      return null
-    }
-  },
-  exec(args) {
-    try {
-      console.log(args.cmd)
-      let hass = window.parent.hass
-      hass.callService("cloudmusic", "exec", args);
-    } catch (ex) {
-      console.log(ex)
-    }
-  },
-  action(cmd) {
-    this.exec({ cmd: cmd })
-  },
-  play(index) {
-    this.exec({ cmd: 'index', index: index })
-  },
-  loadlist(playList, currentIndex) {
-    try {
-      let pl = []
-      playList.forEach(ele => {
-        pl.push({
-          song: ele.name,
-          singer: ele.singer,
-          ...ele
-        })
-      })
-      if (pl.length > 0) {
-        window._CloudMusic.exec({
-          cmd: 'load',
-          playlist: JSON.stringify(pl),
-          index: currentIndex
-        })
-      }
-    } catch (ex) {
-      console.log(ex)
-    }
-
-  },
-  update(hass) {
-    //console.log('接收的值', hass)
-    try {
-      let props = window._CloudMusic.props
-      if (props) {
-        let attr = window._CloudMusic.state.attributes
-        console.log(attr)
-        let playList = JSON.parse(attr.playlist)
-        if (playList.length > 0) {
-          props.setCurrentIndex(attr.index)
-        }
-        props.setPlaying(attr.status == 'playing' || attr.status == 'play')
-      }
-    } catch (ex) {
-      //console.error(ex)
-    }
-  }
-}
-
-
 import { mapMutations, mapActions } from 'vuex'
 import { topList } from 'api'
 import { defaultSheetId, VERSION } from '@/config'
@@ -99,6 +23,7 @@ import { createTopList } from 'assets/js/song'
 import MmHeader from 'components/mm-header/mm-header'
 
 import { getVersion, setVersion } from 'assets/js/storage'
+import { setTimeout, clearTimeout } from 'timers';
 
 const VERSIONBODY = `<div class="mm-dialog-text text-left">
 版本号：${VERSION}（2019.04.04）<br/>
@@ -124,17 +49,6 @@ export default {
     //     this.setPlaylist({ list })
     //   }
     // })
-
-    let attr = window._CloudMusic.attr
-    if (attr) {
-      console.log(attr)
-      let list = JSON.parse(attr.playlist)
-      if (list.length > 0) {
-        this.setPlaylist({ list })
-        this.setCurrentIndex(attr.index)
-        this.setPlaying(attr.status == 'playing' || attr.status == 'play')
-      }
-    }
 
     // 设置title
     let OriginTitile = document.title

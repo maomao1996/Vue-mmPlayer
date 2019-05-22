@@ -38,7 +38,10 @@ export default {
     // 播放暂停事件
     selectItem(item, index) {
 
-      window._CloudMusic.play(index)
+      window.cloudMusic.exec({
+        cmd: 'index',
+        index: index
+      })
 
       if (item.id !== this.currentMusic.id) {
         this.setCurrentIndex(index)
@@ -48,7 +51,7 @@ export default {
     // 删除事件
     deleteItem(index) {
       alert("如果加上这个功能，我还要改很多代码，所以不能用")
-      
+
     },
     ...mapMutations({
       setPlaying: 'SET_PLAYING',

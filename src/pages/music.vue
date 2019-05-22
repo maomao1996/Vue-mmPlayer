@@ -74,14 +74,8 @@ export default {
     MmProgress
   },
   data() {
-    window._CloudMusic.setProps(this)
-    let attr = window._CloudMusic.attr
-    let musicReady = false
-    if (attr) {
-      musicReady = attr.status == 'playing' || attr.status == 'play'
-    }
     return {
-      musicReady: musicReady, // 是否可以使用播放器
+      musicReady: window.cloudMusic.status.isPlaying, // 是否可以使用播放器
       currentTime: 0, // 当前播放时间
       currentProgress: 0, // 当前缓冲进度
       lyric: [], // 歌词
@@ -208,7 +202,7 @@ export default {
     },
     // 上一曲
     prev() {
-      window._CloudMusic.action('prev')
+      window.cloudMusic.exec({ cmd: 'prev' })
       if (!this.musicReady) {
         return
       }
@@ -228,7 +222,7 @@ export default {
     },
     // 播放暂停
     play() {
-      window._CloudMusic.action(this.playing ? 'pause' : 'play')
+      window.cloudMusic.exec({ cmd: this.playing ? 'pause' : 'play' })
       if (!this.musicReady) {
         return
       }
@@ -236,7 +230,7 @@ export default {
     },
     // 下一曲
     next() {
-      window._CloudMusic.action('next')
+      window.cloudMusic.exec({ cmd: 'next' })
       if (!this.musicReady) {
         return
       }
@@ -314,6 +308,7 @@ export default {
     // 修改音量大小
     volumeChange(percent) {
       percent === 0 ? (this.isMute = true) : (this.isMute = false)
+      window.cloudMusic.setVolume(percent)
       this.volume = percent
       this.audioEle.volume = percent
     },
