@@ -74,8 +74,11 @@ export default {
     MmProgress
   },
   data() {
+    let isPlaying = false
+    if(window.cloudMusic.attr) isPlaying = window.cloudMusic.attr.isPlaying
+
     return {
-      musicReady: window.cloudMusic.status.isPlaying, // 是否可以使用播放器
+      musicReady: isPlaying, // 是否可以使用播放器
       currentTime: 0, // 当前播放时间
       currentProgress: 0, // 当前缓冲进度
       lyric: [], // 歌词

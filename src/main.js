@@ -58,7 +58,7 @@ window.cloudMusic = window._CloudMusic = {
   ready() {
     let attr = this.attr
     if (attr) {
-      let list = JSON.parse(attr.playlist)
+      let list = attr.playlist
       if (list.length > 0) {
         store.dispatch('setPlaylist', { list })
         store.commit('SET_CURRENTINDEX', attr.index)
@@ -71,18 +71,12 @@ window.cloudMusic = window._CloudMusic = {
   },
   get attr() {
     try {
-      return this.hass.states['cloudmusic.playlist'].attributes
+      let attributes = this.hass.states['cloudmusic.playlist'].attributes
+      attributes.playlist = JSON.parse(attributes.playlist)
+      attributes['isPlaying'] = attributes.status == 'playing' || attributes.status == 'play'
+      return attributes
     } catch (ex) {
       return null
-    }
-  },
-  get status() {
-    let isPlaying = false
-    if (this.attr) {
-      isPlaying = this.attr.status == 'playing' || this.attr.status == 'play'
-    }
-    return {
-      isPlaying
     }
   },
   exec(args) {
@@ -97,15 +91,11 @@ window.cloudMusic = window._CloudMusic = {
   update(hass) {
     //console.log('接收的值', hass)
     try {
-      let props = window._CloudMusic.props
-      if (props) {
-        let attr = window._CloudMusic.state.attributes
-        console.log(attr)
-        let playList = JSON.parse(attr.playlist)
-        if (playList.length > 0) {
-          store.commit('SET_CURRENTINDEX', attr.index)
+      if (this.attr) {
+        if (this.attr.playlist.length > 0) {
+          store.commit('SET_CURRENTINDEX', this.attr.index)
         }
-        props.setPlaying(attr.status == 'playing' || attr.status == 'play')
+        store.commit('SET_PLAYING', this.attr.isPlaying)
       }
     } catch (ex) {
       //console.error(ex)
@@ -114,40 +104,41 @@ window.cloudMusic = window._CloudMusic = {
   //设置音量
   timer: null,
   setVolume(volume) {
-    if (this.timer != null) {
-      clearTimeout(this.timer)
-    }
-    this.timer = setTimeout(() => {
-      if (this.hass) {
+    if (this.hass) {
+      if (this.timer != null) {
+        clearTimeout(this.timer)
+      }
+      this.timer = setTimeout(() => {
         this.hass.callService("media_player", "volume_set", {
           entity_id: "media_player.vlc",
           volume_level: volume.toFixed(1)
         });
-      }
-      console.log(volume.toFixed(1))
-    }, 1000)
+        console.log(volume.toFixed(1))
+      }, 1000)
+    }
   },
   loadlist(playList, currentIndex) {
-    try {
-      let pl = []
-      playList.forEach(ele => {
-        pl.push({
-          song: ele.name,
-          singer: ele.singer,
-          ...ele
+    if (this.hass) {
+      try {
+        let pl = []
+        playList.forEach(ele => {
+          pl.push({
+            song: ele.name,
+            singer: ele.singer,
+            ...ele
+          })
         })
-      })
-      if (pl.length > 0) {
-        window.cloudMusic.exec({
-          cmd: 'load',
-          playlist: JSON.stringify(pl),
-          index: currentIndex
-        })
+        if (pl.length > 0) {
+          this.exec({
+            cmd: 'load',
+            playlist: JSON.stringify(pl),
+            index: currentIndex
+          })
+        }
+      } catch (ex) {
+        console.log(ex)
       }
-    } catch (ex) {
-      console.log(ex)
     }
-
   }
 }
 
