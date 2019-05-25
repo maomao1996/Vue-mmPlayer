@@ -72,10 +72,13 @@ window.cloudMusic = window._CloudMusic = {
   get attr() {
     try {
       let attributes = this.hass.states['cloudmusic.playlist'].attributes
-      attributes.playlist = JSON.parse(attributes.playlist)
+      if(typeof attributes.playlist === 'string'){
+        attributes.playlist = JSON.parse(attributes.playlist)
+      }
       attributes['isPlaying'] = attributes.status == 'playing' || attributes.status == 'play'
       return attributes
     } catch (ex) {
+      console.log(ex)
       return null
     }
   },
