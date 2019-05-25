@@ -48,13 +48,8 @@ Github：https://github.com/maomao1996/Vue-mmPlayer
 歌曲来源于网易云音乐 (http://music.163.com)`
 console.info(`%c${window.mmplayer}`, `color:blue`)
 
-
-
-
-
-
 // 网易云音乐插件
-window.cloudMusic = window._CloudMusic = {
+window.cloudMusic = {
   ready() {
     let attr = this.attr
     if (attr) {
@@ -67,18 +62,18 @@ window.cloudMusic = window._CloudMusic = {
     }
   },
   get hass() {
-    return window.parent.hass
+    return window.parent.hass || {}
   },
   get attr() {
     try {
       let attributes = this.hass.states['cloudmusic.playlist'].attributes
-      if(typeof attributes.playlist === 'string'){
+      if (typeof attributes.playlist === 'string') {
         attributes.playlist = JSON.parse(attributes.playlist)
       }
       attributes['isPlaying'] = attributes.status == 'playing' || attributes.status == 'play'
       return attributes
     } catch (ex) {
-      console.log(ex)
+      //console.log(ex)
       return null
     }
   },
@@ -146,13 +141,6 @@ window.cloudMusic = window._CloudMusic = {
 }
 
 window.cloudMusic.ready()
-
-
-
-
-
-
-
 
 
 /* eslint-disable no-new */
