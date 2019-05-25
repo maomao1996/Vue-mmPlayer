@@ -140,7 +140,7 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
-  overflow: hidden;
+  overflow: auto;
   text-align: center;
   -webkit-mask-image: linear-gradient(
     to bottom,

@@ -2,26 +2,49 @@
   <div class="music">
     <div class="music-content">
       <div class="music-left">
-        <music-btn/>
+        <music-btn />
         <keep-alive>
-          <router-view v-if="$route.meta.keepAlive" class="music-list"/>
+          <router-view
+            v-if="$route.meta.keepAlive"
+            class="music-list"
+          />
         </keep-alive>
-        <router-view :key="$route.path" v-if="!$route.meta.keepAlive" class="music-list"/>
+        <router-view
+          :key="$route.path"
+          v-if="!$route.meta.keepAlive"
+          class="music-list"
+        />
       </div>
-      <lyric class="music-right" :lyric="lyric" :nolyric="nolyric" :lyricIndex="lyricIndex"/>
+      <lyric
+        class="music-right"
+        :lyric="lyric"
+        :nolyric="nolyric"
+        :lyricIndex="lyricIndex"
+      />
     </div>
 
     <!--播放器-->
-    <div class="music-bar" :class="{disable:!musicReady||!currentMusic.id}">
+    <div
+      class="music-bar"
+      :class="{disable:!musicReady||!currentMusic.id}"
+    >
       <div class="music-bar-btns">
-        <i class="bar-icon btn-prev" title="上一曲 Ctrl + Left" @click="prev"></i>
+        <i
+          class="bar-icon btn-prev"
+          title="上一曲 Ctrl + Left"
+          @click="prev"
+        ></i>
         <i
           class="bar-icon btn-play"
           :class="{'btn-play-pause':playing}"
           title="播放暂停 Ctrl + Space"
           @click="play"
         ></i>
-        <i class="bar-icon btn-next" title="下一曲 Ctrl + Right" @click="next"></i>
+        <i
+          class="bar-icon btn-next"
+          title="下一曲 Ctrl + Right"
+          @click="next"
+        ></i>
       </div>
       <div class="music-music">
         <div class="music-bar-info">
@@ -42,40 +65,69 @@
           @percentChange="progressMusic"
         />
       </div>
-      <i class="bar-icon btn-mode" :class="modeClass" :title="modeTitle" @click="modeChange"></i>
-      <i class="bar-icon btn-comment" @click="openComment"></i>
-      <div class="music-bar-volume" title="音量加减 [Ctrl+Up/Down]">
-        <i class="bar-icon btn-volume" :class="{'btn-volume-no':isMute}" @click="switchMute"></i>
-        <mm-progress @percentChange="volumeChange" :percent="volume"/>
+      <i
+        class="bar-icon btn-mode"
+        :class="modeClass"
+        :title="modeTitle"
+        @click="modeChange"
+      ></i>
+      <i
+        class="bar-icon btn-comment"
+        @click="openComment"
+      ></i>
+      <div
+        class="music-bar-volume"
+        title="音量加减 [Ctrl+Up/Down]"
+      >
+        <i
+          class="bar-icon btn-volume"
+          :class="{'btn-volume-no':isMute}"
+          @click="switchMute"
+        ></i>
+        <mm-progress
+          @percentChange="volumeChange"
+          :percent="volume"
+        />
       </div>
     </div>
 
     <!--遮罩-->
-    <div class="mmPlayer-bg" :style="{backgroundImage: picUrl}"></div>
+    <div
+      class="mmPlayer-bg"
+      :style="{backgroundImage: picUrl}"
+    ></div>
     <div class="mmPlayer-mask"></div>
   </div>
 </template>
 
 <script>
-import { getLyric } from 'api'
-import mmPlayerMusic from './mmPlayer'
-import { randomSortArray, parseLyric, format } from 'assets/js/util'
-import { playMode, defaultBG } from '@/config'
-import { mapGetters, mapMutations, mapActions } from 'vuex'
-import MusicBtn from 'components/music-btn/music-btn'
-import Lyric from 'components/lyric/lyric'
-import MmProgress from 'base/mm-progress/mm-progress'
+import { getLyric } from "api";
+import mmPlayerMusic from "./mmPlayer";
+import { randomSortArray, parseLyric, format } from "assets/js/util";
+import { playMode, defaultBG } from "@/config";
+import { mapGetters, mapMutations, mapActions } from "vuex";
+import MusicBtn from "components/music-btn/music-btn";
+import Lyric from "components/lyric/lyric";
+import MmProgress from "base/mm-progress/mm-progress";
 
 export default {
-  name: 'music',
+  name: "music",
   components: {
     Lyric,
     MusicBtn,
     MmProgress
   },
   data() {
-    let isPlaying = false
-    if(window.cloudMusic.attr) isPlaying = window.cloudMusic.attr.isPlaying
+    let isPlaying = false;
+    let attr = window.cloudMusic.attr;
+    if (attr) {
+      isPlaying = attr.isPlaying;
+      if (attr.playlist.length > 0) {
+        this.$nextTick(() => {
+          this._getLyric(attr.playlist[attr.index].id);
+        });
+      }
+    }
 
     return {
       musicReady: isPlaying, // 是否可以使用播放器
@@ -86,88 +138,88 @@ export default {
       lyricIndex: 0, // 当前播放歌词下标
       isMute: false, // 是否静音
       volume: 1 // 默认音量大小
-    }
+    };
   },
   computed: {
     picUrl() {
       return this.currentMusic.id && this.currentMusic.image
         ? `url(${this.currentMusic.image}?param=300y300)`
-        : `url(${defaultBG})`
+        : `url(${defaultBG})`;
     },
     modeClass() {
       return {
-        [playMode.listLoop]: 'mode-listLoop',
-        [playMode.order]: 'mode-order',
-        [playMode.random]: 'mode-random',
-        [playMode.loop]: 'mode-loop'
-      }[this.mode]
+        [playMode.listLoop]: "mode-listLoop",
+        [playMode.order]: "mode-order",
+        [playMode.random]: "mode-random",
+        [playMode.loop]: "mode-loop"
+      }[this.mode];
     },
     modeTitle() {
-      const key = 'Ctrl + O'
+      const key = "Ctrl + O";
       return {
         [playMode.listLoop]: `列表循环 ${key}`,
         [playMode.order]: `顺序播放 ${key}`,
         [playMode.random]: `随机播放 ${key}`,
         [playMode.loop]: `单曲循环 ${key}`
-      }[this.mode]
+      }[this.mode];
     },
     percentMusic() {
-      const duration = this.currentMusic.duration
-      return this.currentTime && duration ? this.currentTime / duration : 0
+      const duration = this.currentMusic.duration;
+      return this.currentTime && duration ? this.currentTime / duration : 0;
     },
     ...mapGetters([
-      'audioEle',
-      'mode',
-      'playing',
-      'playlist',
-      'orderList',
-      'currentIndex',
-      'currentMusic',
-      'historyList'
+      "audioEle",
+      "mode",
+      "playing",
+      "playlist",
+      "orderList",
+      "currentIndex",
+      "currentMusic",
+      "historyList"
     ])
   },
   watch: {
     currentMusic(newMusic, oldMusic) {
       if (!newMusic.id) {
-        this.lyric = []
-        return
+        this.lyric = [];
+        return;
       }
       if (newMusic.id === oldMusic.id) {
-        return
+        return;
       }
       //this.audioEle.src = newMusic.url
       // 重置相关参数
-      this.lyricIndex = this.currentTime = this.currentProgress = 0
-      this.audioEle.play()
+      this.lyricIndex = this.currentTime = this.currentProgress = 0;
+      this.audioEle.play();
       this.$nextTick(() => {
-        this._getLyric(newMusic.id)
-      })
+        this._getLyric(newMusic.id);
+      });
     },
     playing(newPlaying) {
-      const audio = this.audioEle
+      const audio = this.audioEle;
       this.$nextTick(() => {
-        newPlaying ? audio.play() : audio.pause()
-        this.musicReady = true
-      })
+        newPlaying ? audio.play() : audio.pause();
+        this.musicReady = true;
+      });
     },
     currentTime(newTime) {
       if (this.nolyric) {
-        return
+        return;
       }
-      let lyricIndex = 0
+      let lyricIndex = 0;
       for (let i = 0; i < this.lyric.length; i++) {
         if (newTime > this.lyric[i].time) {
-          lyricIndex = i
+          lyricIndex = i;
         }
       }
-      this.lyricIndex = lyricIndex
+      this.lyricIndex = lyricIndex;
     }
   },
   mounted() {
     this.$nextTick(() => {
-      mmPlayerMusic.initAudio(this)
-      this.initKeyDown()
-    })
+      mmPlayerMusic.initAudio(this);
+      this.initKeyDown();
+    });
   },
   methods: {
     // 按键事件
@@ -175,178 +227,177 @@ export default {
       document.onkeydown = e => {
         switch (e.ctrlKey && e.keyCode) {
           case 32: // 播放暂停Ctrl + Space
-            this.play()
-            break
+            this.play();
+            break;
           case 37: // 上一曲Ctrl + Left
-            this.prev()
-            break
+            this.prev();
+            break;
           case 38: // 音量加Ctrl + Up
-            let plus = Number((this.volume += 0.1).toFixed(1))
+            let plus = Number((this.volume += 0.1).toFixed(1));
             if (plus > 1) {
-              plus = 1
+              plus = 1;
             }
-            this.volumeChange(plus)
-            break
+            this.volumeChange(plus);
+            break;
           case 39: // 下一曲Ctrl + Right
-            this.next()
-            break
+            this.next();
+            break;
           case 40: // 音量减Ctrl + Down
-            let reduce = Number((this.volume -= 0.1).toFixed(1))
+            let reduce = Number((this.volume -= 0.1).toFixed(1));
             if (reduce < 0) {
-              reduce = 0
+              reduce = 0;
             }
-            this.volumeChange(reduce)
-            break
+            this.volumeChange(reduce);
+            break;
           case 79: // 切换播放模式Ctrl + O
-            this.modeChange()
-            break
+            this.modeChange();
+            break;
         }
-      }
+      };
     },
     // 上一曲
     prev() {
-      window.cloudMusic.exec({ cmd: 'prev' })
+      window.cloudMusic.exec({ cmd: "prev" });
       if (!this.musicReady) {
-        return
+        return;
       }
       if (this.playlist.length === 1) {
-        this.loop()
+        this.loop();
       } else {
-        let index = this.currentIndex - 1
+        let index = this.currentIndex - 1;
         if (index < 0) {
-          index = this.playlist.length - 1
+          index = this.playlist.length - 1;
         }
-        this.setCurrentIndex(index)
+        this.setCurrentIndex(index);
         if (!this.playing && this.musicReady) {
-          this.setPlaying(true)
+          this.setPlaying(true);
         }
       }
-
     },
     // 播放暂停
     play() {
-      window.cloudMusic.exec({ cmd: this.playing ? 'pause' : 'play' })
+      window.cloudMusic.exec({ cmd: this.playing ? "pause" : "play" });
       if (!this.musicReady) {
-        return
+        return;
       }
-      this.setPlaying(!this.playing)
+      this.setPlaying(!this.playing);
     },
     // 下一曲
     next() {
-      window.cloudMusic.exec({ cmd: 'next' })
+      window.cloudMusic.exec({ cmd: "next" });
       if (!this.musicReady) {
-        return
+        return;
       }
       if (
         this.playlist.length - 1 === this.currentIndex &&
         this.mode === playMode.order
       ) {
-        this.setCurrentIndex(-1)
-        this.setPlaying(false)
-        return
+        this.setCurrentIndex(-1);
+        this.setPlaying(false);
+        return;
       }
       if (this.playlist.length === 1) {
-        this.loop()
+        this.loop();
       } else {
-        let index = this.currentIndex + 1
+        let index = this.currentIndex + 1;
         if (index === this.playlist.length) {
-          index = 0
+          index = 0;
         }
         if (!this.playing && this.musicReady) {
-          this.setPlaying(true)
+          this.setPlaying(true);
         }
-        this.setCurrentIndex(index)
+        this.setCurrentIndex(index);
       }
     },
     // 循环
     loop() {
-      this.audioEle.currentTime = 0
-      this.audioEle.play()
-      this.setPlaying(true)
+      this.audioEle.currentTime = 0;
+      this.audioEle.play();
+      this.setPlaying(true);
       if (this.lyric.length > 0) {
-        this.lyricIndex = 0
+        this.lyricIndex = 0;
       }
     },
     // 修改音乐进度
     progressMusic(percent) {
-      this.audioEle.currentTime = this.currentMusic.duration * percent
+      this.audioEle.currentTime = this.currentMusic.duration * percent;
     },
     // 切换播放顺序
     modeChange() {
-      alert("如果加上这个功能，我还要改很多代码，所以不能用")
-      return
-      const mode = (this.mode + 1) % 4
-      this.setPlayMode(mode)
+      alert("如果加上这个功能，我还要改很多代码，所以不能用");
+      return;
+      const mode = (this.mode + 1) % 4;
+      this.setPlayMode(mode);
       if (mode === playMode.loop) {
-        return
+        return;
       }
-      let list = []
+      let list = [];
       switch (mode) {
         case playMode.listLoop:
         case playMode.order:
-          list = this.orderList
-          break
+          list = this.orderList;
+          break;
         case playMode.random:
-          list = randomSortArray(this.orderList)
-          break
+          list = randomSortArray(this.orderList);
+          break;
       }
-      this.resetCurrentIndex(list)
-      this.setPlaylist(list)
+      this.resetCurrentIndex(list);
+      this.setPlaylist(list);
     },
     // 修改当前歌曲索引
     resetCurrentIndex(list) {
       const index = list.findIndex(item => {
-        return item.id === this.currentMusic.id
-      })
-      this.setCurrentIndex(index)
+        return item.id === this.currentMusic.id;
+      });
+      this.setCurrentIndex(index);
     },
     // 打开音乐评论
     openComment() {
       if (!this.currentMusic.id) {
-        this.$mmToast('还没有播放歌曲哦！')
-        return false
+        this.$mmToast("还没有播放歌曲哦！");
+        return false;
       }
-      this.$router.push(`/music/comment/${this.currentMusic.id}`)
+      this.$router.push(`/music/comment/${this.currentMusic.id}`);
     },
     // 修改音量大小
     volumeChange(percent) {
-      percent === 0 ? (this.isMute = true) : (this.isMute = false)
-      window.cloudMusic.setVolume(percent)
-      this.volume = percent
-      this.audioEle.volume = percent
+      percent === 0 ? (this.isMute = true) : (this.isMute = false);
+      window.cloudMusic.setVolume(percent);
+      this.volume = percent;
+      this.audioEle.volume = percent;
     },
     // 是否静音
     switchMute() {
-      const audio = this.audioEle
-      this.isMute = !this.isMute
-      this.isMute ? (audio.volume = 0) : (audio.volume = this.volume)
+      const audio = this.audioEle;
+      this.isMute = !this.isMute;
+      this.isMute ? (audio.volume = 0) : (audio.volume = this.volume);
     },
     // 获取歌词
     _getLyric(id) {
       getLyric(id).then(res => {
         if (res.status === 200) {
           if (res.data.nolyric) {
-            this.nolyric = true
+            this.nolyric = true;
           } else {
-            this.nolyric = false
-            this.lyric = parseLyric(res.data.lrc.lyric)
+            this.nolyric = false;
+            this.lyric = parseLyric(res.data.lrc.lyric);
           }
-          this.audioEle.play()
+          //this.audioEle.play();
         }
-      })
+      });
     },
     ...mapMutations({
-      setPlaying: 'SET_PLAYING',
-      setPlaylist: 'SET_PLAYLIST',
-      setCurrentIndex: 'SET_CURRENTINDEX'
+      setPlaying: "SET_PLAYING",
+      setPlaylist: "SET_PLAYLIST",
+      setCurrentIndex: "SET_CURRENTINDEX"
     }),
-    ...mapActions(['setHistory', 'setPlayMode'])
+    ...mapActions(["setHistory", "setPlayMode"])
   },
   filters: {
     // 时间格式化
     format
   }
-}
+};
 </script>
 
 <style lang="less">
@@ -361,13 +412,13 @@ export default {
   .music-content {
     display: flex;
     width: 100%;
-    height: calc(~'100% - 80px');
+    height: calc(~"100% - 80px");
     .music-left {
       flex: 1;
       height: 100%;
       overflow: hidden;
       .music-list {
-        height: calc(~'100% - 60px');
+        height: calc(~"100% - 60px");
       }
     }
     .music-right {
@@ -391,7 +442,7 @@ export default {
     }
     .bar-icon {
       display: block;
-      background-image: url('~assets/img/player.png');
+      background-image: url("~assets/img/player.png");
       cursor: pointer;
     }
     .music-bar-btns {
