@@ -226,7 +226,7 @@ export default {
         if (timer != null) clearInterval(timer);
         let attr = window.cloudMusic.attr;
         if (attr && attr.isPlaying) {
-          let media_position = attr["media_position"];
+          let media_position = attr["media_position"] + 1;
           timer = setInterval(() => {
             media_position += 1;
             this.currentTime = media_position;
