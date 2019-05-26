@@ -118,10 +118,13 @@ export default {
     MmProgress
   },
   data() {
-    let isPlaying = false;
+    let musicReady = false,
+      volume = 1;
     let attr = window.cloudMusic.attr;
     if (attr) {
-      isPlaying = attr.isPlaying;
+      musicReady = attr.isPlaying;
+      volume = attr.volume_level || 1;
+      //console.log(musicReady,volume);
       if (attr.playlist.length > 0) {
         this.$nextTick(() => {
           this._getLyric(attr.playlist[attr.index].id);
@@ -130,14 +133,14 @@ export default {
     }
 
     return {
-      musicReady: isPlaying, // 是否可以使用播放器
+      musicReady: musicReady, // 是否可以使用播放器
       currentTime: 0, // 当前播放时间
       currentProgress: 0, // 当前缓冲进度
       lyric: [], // 歌词
       nolyric: false, // 是否有歌词
       lyricIndex: 0, // 当前播放歌词下标
       isMute: false, // 是否静音
-      volume: 1 // 默认音量大小
+      volume: volume // 默认音量大小
     };
   },
   computed: {
@@ -218,6 +221,18 @@ export default {
   mounted() {
     this.$nextTick(() => {
       mmPlayerMusic.initAudio(this);
+      let timer = null;
+      setInterval(() => {
+        if (timer != null) clearInterval(timer);
+        let attr = window.cloudMusic.attr;
+        if (attr && attr.isPlaying) {
+          let media_position = attr["media_position"];
+          timer = setInterval(() => {
+            media_position += 1;
+            this.currentTime = media_position;
+          }, 1000);
+        }
+      }, 12000);
       this.initKeyDown();
     });
   },

@@ -25,21 +25,6 @@ Vue.use(VueLazyload, {
   loading: require('assets/img/default.png')
 })
 
-const redirectList = ['/music/details', '/music/comment']
-router.beforeEach((to, from, next) => {
-  window._hmt &&
-    to.path &&
-    window._hmt.push(['_trackPageview', '/#' + to.fullPath])
-  if (redirectList.includes(to.path)) {
-    next()
-  } else {
-    document.title =
-      (to.meta.title && `${to.meta.title} - mmPlayer在线音乐播放器`) ||
-      'mmPlayer在线音乐播放器'
-    next()
-  }
-})
-
 // 版权信息
 window.mmPlayer = window.mmplayer = `欢迎使用 mmPlayer!
 当前版本为：V${VERSION}
@@ -47,6 +32,7 @@ window.mmPlayer = window.mmplayer = `欢迎使用 mmPlayer!
 Github：https://github.com/maomao1996/Vue-mmPlayer
 歌曲来源于网易云音乐 (http://music.163.com)`
 console.info(`%c${window.mmplayer}`, `color:blue`)
+
 
 // 网易云音乐插件
 window.cloudMusic = {
@@ -66,11 +52,15 @@ window.cloudMusic = {
   },
   get attr() {
     try {
-      let attributes = this.hass.states['cloudmusic.playlist'].attributes
-      if (typeof attributes.playlist === 'string') {
-        attributes.playlist = JSON.parse(attributes.playlist)
+      let attributes = this.hass.states['media_player.clv'].attributes
+      if (typeof attributes.media_playlist === 'string') {
+        attributes.playlist = JSON.parse(attributes.media_playlist)
+      } else {
+        attributes.playlist = attributes.media_playlist || []
       }
-      attributes['isPlaying'] = attributes.status == 'playing' || attributes.status == 'play'
+      attributes['index'] = attributes.playlist.findIndex((ele, index) =>
+        attributes.source == ((index + 1) + '.' + ele.song + ' - ' + ele.singer))
+      attributes['isPlaying'] = this.hass.states['media_player.clv'].state == 'playing'
       return attributes
     } catch (ex) {
       //console.log(ex)
@@ -79,15 +69,39 @@ window.cloudMusic = {
   },
   exec(args) {
     try {
+      let media_args = {
+        entity_id: "media_player.clv"
+      }
+      let media_action = 'play_media'
       //console.log(args.cmd)
-      this.hass.callService("cloudmusic", "exec", args);
+      if (args.cmd == 'prev') {
+        media_action = 'media_previous_track'
+      } else if (args.cmd == 'next') {
+        media_action = 'media_next_track'
+      } else if (args.cmd == 'index') {
+        media_args['media_content_id'] = args.index
+        media_args['media_content_type'] = 'music_load'
+      } else if (args.cmd == 'play') {
+        media_action = 'media_play'
+      } else if (args.cmd == 'pause') {
+        media_action = 'media_pause'
+      } else if (args.cmd == 'load') {
+        media_args['media_content_id'] = JSON.stringify({
+          index: args.index,
+          list: args.playlist
+        })
+        media_args['media_content_type'] = 'music_playlist'
+      } else if (args.cmd == 'volume') {
+        media_action = 'volume_set'
+        media_args['volume_level'] = parseFloat(args.index)
+      }
+      this.hass.callService("media_player", media_action, media_args);
     } catch (ex) {
       console.log(ex)
     }
   },
   //状态更新
-  update(hass) {
-    //console.log('接收的值', hass)
+  update() {    
     try {
       if (this.attr) {
         if (this.attr.playlist.length > 0) {
@@ -107,11 +121,10 @@ window.cloudMusic = {
         clearTimeout(this.timer)
       }
       this.timer = setTimeout(() => {
-        this.hass.callService("media_player", "volume_set", {
-          entity_id: "media_player.vlc",
-          volume_level: volume.toFixed(1)
-        });
-        console.log(volume.toFixed(1))
+        this.exec({
+          cmd: 'volume',
+          index: volume.toFixed(1)
+        })
       }, 1000)
     }
   },
@@ -119,7 +132,7 @@ window.cloudMusic = {
     if (this.hass) {
       try {
         let pl = []
-        playList.forEach(ele => {
+        playList.forEach((ele, index) => {
           pl.push({
             song: ele.name,
             singer: ele.singer,
