@@ -2,49 +2,26 @@
   <div class="music">
     <div class="music-content">
       <div class="music-left">
-        <music-btn />
+        <music-btn/>
         <keep-alive>
-          <router-view
-            v-if="$route.meta.keepAlive"
-            class="music-list"
-          />
+          <router-view v-if="$route.meta.keepAlive" class="music-list"/>
         </keep-alive>
-        <router-view
-          :key="$route.path"
-          v-if="!$route.meta.keepAlive"
-          class="music-list"
-        />
+        <router-view :key="$route.path" v-if="!$route.meta.keepAlive" class="music-list"/>
       </div>
-      <lyric
-        class="music-right"
-        :lyric="lyric"
-        :nolyric="nolyric"
-        :lyricIndex="lyricIndex"
-      />
+      <lyric class="music-right" :lyric="lyric" :nolyric="nolyric" :lyricIndex="lyricIndex"/>
     </div>
 
     <!--播放器-->
-    <div
-      class="music-bar"
-      :class="{disable:!musicReady||!currentMusic.id}"
-    >
+    <div class="music-bar" :class="{disable:!musicReady||!currentMusic.id}">
       <div class="music-bar-btns">
-        <i
-          class="bar-icon btn-prev"
-          title="上一曲 Ctrl + Left"
-          @click="prev"
-        ></i>
+        <i class="bar-icon btn-prev" title="上一曲 Ctrl + Left" @click="prev"></i>
         <i
           class="bar-icon btn-play"
           :class="{'btn-play-pause':playing}"
           title="播放暂停 Ctrl + Space"
           @click="play"
         ></i>
-        <i
-          class="bar-icon btn-next"
-          title="下一曲 Ctrl + Right"
-          @click="next"
-        ></i>
+        <i class="bar-icon btn-next" title="下一曲 Ctrl + Right" @click="next"></i>
       </div>
       <div class="music-music">
         <div class="music-bar-info">
@@ -65,37 +42,16 @@
           @percentChange="progressMusic"
         />
       </div>
-      <i
-        class="bar-icon btn-mode"
-        :class="modeClass"
-        :title="modeTitle"
-        @click="modeChange"
-      ></i>
-      <i
-        class="bar-icon btn-comment"
-        @click="openComment"
-      ></i>
-      <div
-        class="music-bar-volume"
-        title="音量加减 [Ctrl+Up/Down]"
-      >
-        <i
-          class="bar-icon btn-volume"
-          :class="{'btn-volume-no':isMute}"
-          @click="switchMute"
-        ></i>
-        <mm-progress
-          @percentChange="volumeChange"
-          :percent="volume"
-        />
+      <i class="bar-icon btn-mode" :class="modeClass" :title="modeTitle" @click="modeChange"></i>
+      <i class="bar-icon btn-comment" @click="openComment"></i>
+      <div class="music-bar-volume" title="音量加减 [Ctrl+Up/Down]">
+        <i class="bar-icon btn-volume" :class="{'btn-volume-no':isMute}" @click="switchMute"></i>
+        <mm-progress @percentChange="volumeChange" :percent="volume"/>
       </div>
     </div>
 
     <!--遮罩-->
-    <div
-      class="mmPlayer-bg"
-      :style="{backgroundImage: picUrl}"
-    ></div>
+    <div class="mmPlayer-bg" :style="{backgroundImage: picUrl}"></div>
     <div class="mmPlayer-mask"></div>
   </div>
 </template>
@@ -221,18 +177,22 @@ export default {
   mounted() {
     this.$nextTick(() => {
       mmPlayerMusic.initAudio(this);
-      let timer = null;
-      setInterval(() => {
-        if (timer != null) clearInterval(timer);
-        let attr = window.cloudMusic.attr;
-        if (attr && attr.isPlaying) {
-          let media_position = attr["media_position"] + 1;
-          timer = setInterval(() => {
-            media_position += 1;
-            this.currentTime = media_position;
-          }, 1000);
-        }
-      }, 12000);
+
+      let attr = window.cloudMusic.attr;
+      if (attr) {
+        let step = 0, position = attr["media_position"]
+        //进度条
+        setInterval(() => {
+          if (step == 11) {
+            position = attr["media_position"]
+            step = 0
+          }
+          position += 1
+          this.currentTime = position;
+          step++
+        }, 1000)
+      }
+
       this.initKeyDown();
     });
   },
