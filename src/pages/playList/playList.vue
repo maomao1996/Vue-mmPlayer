@@ -38,7 +38,7 @@ export default {
     // 播放暂停事件
     selectItem(item, index) {
 
-      window.cloudMusic.exec({
+      window.clv.exec({
         cmd: 'index',
         index: index
       })

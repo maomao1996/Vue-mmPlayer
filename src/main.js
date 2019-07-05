@@ -31,129 +31,123 @@ window.mmPlayer = window.mmplayer = `欢迎使用 mmPlayer!
 作者：茂茂
 Github：https://github.com/maomao1996/Vue-mmPlayer
 歌曲来源于网易云音乐 (http://music.163.com)`
-console.info(`%c${window.mmplayer}`, `color:blue`)
+//console.info(`%c${window.mmplayer}`, `color:blue`)
 
 
 // 网易云音乐插件
-window.cloudMusic = {
+window.clv = {
+  get hass() {
+    return new Promise(async (resolve, reject) => {
+      let res = await top.window.hassConnection
+      if (res == null) {
+        reject("请在Home Assistant中使用")
+        return
+      }
+      let conn = res.conn
+      let _clv = conn._ent.state['media_player.clv']
+      let o = Object.create(null)
+      let attr = _clv.attributes
+      if (typeof attr.media_playlist === 'string') {
+        attr.playlist = JSON.parse(attr.media_playlist)
+      } else {
+        attr.playlist = attr.media_playlist || []
+      }
+      attr['index'] = attr.playlist.findIndex((ele, index) =>
+        attr.source == ((index + 1) + '.' + ele.song + ' - ' + ele.singer))
+      o.attr = attr
+      o.isReady = ['playing', 'paused'].includes(_clv.state)
+      o.isPlaying = _clv.state == 'playing'
+      o.state = _clv.state
+      o.call = (service_data, service = 'play_media', domain = 'media_player') => {
+        conn.socket.send(JSON.stringify({
+          id: Date.now(),
+          type: "call_service",
+          domain,
+          service,
+          service_data
+        }))
+      }
+      resolve(o)
+    })
+  },
   ready() {
-    let attr = this.attr
-    if (attr) {
+    this.hass.then(({ attr, isPlaying }) => {
       let list = attr.playlist
       if (list.length > 0) {
         store.dispatch('setPlaylist', { list })
         store.commit('SET_CURRENTINDEX', attr.index)
-        store.commit('SET_PLAYING', attr.isPlaying)
+        store.commit('SET_PLAYING', isPlaying)
       }
-    }
-  },
-  get hass() {
-    return window.parent.hass || {}
-  },
-  get attr() {
-    try {
-      let attributes = this.hass.states['media_player.clv'].attributes
-      if (typeof attributes.media_playlist === 'string') {
-        attributes.playlist = JSON.parse(attributes.media_playlist)
-      } else {
-        attributes.playlist = attributes.media_playlist || []
-      }
-      attributes['index'] = attributes.playlist.findIndex((ele, index) =>
-        attributes.source == ((index + 1) + '.' + ele.song + ' - ' + ele.singer))
-      attributes['isPlaying'] = this.hass.states['media_player.clv'].state == 'playing'
-      return attributes
-    } catch (ex) {
-      //console.log(ex)
-      return null
-    }
+    })
   },
   exec(args) {
-    try {
-      let media_args = {
-        entity_id: "media_player.clv"
-      }
-      let media_action = 'play_media'
-      //console.log(args.cmd)
-      if (args.cmd == 'prev') {
-        media_action = 'media_previous_track'
-      } else if (args.cmd == 'next') {
-        media_action = 'media_next_track'
-      } else if (args.cmd == 'index') {
-        media_args['media_content_id'] = args.index
-        media_args['media_content_type'] = 'music_load'
-      } else if (args.cmd == 'play') {
-        media_action = 'media_play'
-      } else if (args.cmd == 'pause') {
-        media_action = 'media_pause'
-      } else if (args.cmd == 'load') {
-        media_args['media_content_id'] = JSON.stringify({
-          index: args.index,
-          list: args.playlist
-        })
-        media_args['media_content_type'] = 'music_playlist'
-      } else if (args.cmd == 'volume') {
-        media_action = 'volume_set'
-        media_args['volume_level'] = parseFloat(args.index)
-      }
-      this.hass.callService("media_player", media_action, media_args);
-    } catch (ex) {
-      console.log(ex)
+    let media_args = {
+      entity_id: "media_player.clv"
     }
-  },
-  //状态更新
-  update() {    
-    try {
-      if (this.attr) {
-        if (this.attr.playlist.length > 0) {
-          store.commit('SET_CURRENTINDEX', this.attr.index)
-        }
-        store.commit('SET_PLAYING', this.attr.isPlaying)
-      }
-    } catch (ex) {
-      //console.error(ex)
+    let media_action = 'play_media'
+    if (args.cmd == 'prev') {
+      media_action = 'media_previous_track'
+    } else if (args.cmd == 'next') {
+      media_action = 'media_next_track'
+    } else if (args.cmd == 'index') {
+      media_args['media_content_id'] = args.index
+      media_args['media_content_type'] = 'music_load'
+    } else if (args.cmd == 'play') {
+      media_action = 'media_play'
+    } else if (args.cmd == 'pause') {
+      media_action = 'media_pause'
+    } else if (args.cmd == 'load') {
+      media_args['media_content_id'] = JSON.stringify({
+        index: args.index,
+        list: args.playlist
+      })
+      media_args['media_content_type'] = 'music_playlist'
+    } else if (args.cmd == 'volume') {
+      media_action = 'volume_set'
+      media_args['volume_level'] = parseFloat(args.index)
     }
+    this.hass.then(({ call }) => {
+      call(media_args, media_action, "media_player");
+    })
   },
   //设置音量
   timer: null,
   setVolume(volume) {
-    if (this.hass) {
-      if (this.timer != null) {
-        clearTimeout(this.timer)
-      }
-      this.timer = setTimeout(() => {
-        this.exec({
-          cmd: 'volume',
-          index: volume.toFixed(1)
-        })
-      }, 1000)
+
+    if (this.timer != null) {
+      clearTimeout(this.timer)
     }
+    this.timer = setTimeout(() => {
+      this.exec({
+        cmd: 'volume',
+        index: volume.toFixed(1)
+      })
+    }, 1000)
+
   },
   loadlist(playList, currentIndex) {
-    if (this.hass) {
-      try {
-        let pl = []
-        playList.forEach((ele, index) => {
-          pl.push({
-            song: ele.name,
-            singer: ele.singer,
-            ...ele
-          })
-        })
-        if (pl.length > 0) {
-          this.exec({
-            cmd: 'load',
-            playlist: JSON.stringify(pl),
-            index: currentIndex
-          })
-        }
-      } catch (ex) {
-        console.log(ex)
-      }
+
+
+    let pl = []
+    playList.forEach((ele, index) => {
+      pl.push({
+        song: ele.name,
+        singer: ele.singer,
+        ...ele
+      })
+    })
+    if (pl.length > 0) {
+      this.exec({
+        cmd: 'load',
+        playlist: JSON.stringify(pl),
+        index: currentIndex
+      })
     }
+
   }
 }
 
-window.cloudMusic.ready()
+window.clv.ready()
 
 
 /* eslint-disable no-new */

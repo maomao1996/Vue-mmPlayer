@@ -2,26 +2,49 @@
   <div class="music">
     <div class="music-content">
       <div class="music-left">
-        <music-btn/>
+        <music-btn />
         <keep-alive>
-          <router-view v-if="$route.meta.keepAlive" class="music-list"/>
+          <router-view
+            v-if="$route.meta.keepAlive"
+            class="music-list"
+          />
         </keep-alive>
-        <router-view :key="$route.path" v-if="!$route.meta.keepAlive" class="music-list"/>
+        <router-view
+          :key="$route.path"
+          v-if="!$route.meta.keepAlive"
+          class="music-list"
+        />
       </div>
-      <lyric class="music-right" :lyric="lyric" :nolyric="nolyric" :lyricIndex="lyricIndex"/>
+      <lyric
+        class="music-right"
+        :lyric="lyric"
+        :nolyric="nolyric"
+        :lyricIndex="lyricIndex"
+      />
     </div>
 
     <!--播放器-->
-    <div class="music-bar" :class="{disable:!musicReady||!currentMusic.id}">
+    <div
+      class="music-bar"
+      :class="{disable:!musicReady||!currentMusic.id}"
+    >
       <div class="music-bar-btns">
-        <i class="bar-icon btn-prev" title="上一曲 Ctrl + Left" @click="prev"></i>
+        <i
+          class="bar-icon btn-prev"
+          title="上一曲 Ctrl + Left"
+          @click="prev"
+        ></i>
         <i
           class="bar-icon btn-play"
           :class="{'btn-play-pause':playing}"
           title="播放暂停 Ctrl + Space"
           @click="play"
         ></i>
-        <i class="bar-icon btn-next" title="下一曲 Ctrl + Right" @click="next"></i>
+        <i
+          class="bar-icon btn-next"
+          title="下一曲 Ctrl + Right"
+          @click="next"
+        ></i>
       </div>
       <div class="music-music">
         <div class="music-bar-info">
@@ -42,16 +65,37 @@
           @percentChange="progressMusic"
         />
       </div>
-      <i class="bar-icon btn-mode" :class="modeClass" :title="modeTitle" @click="modeChange"></i>
-      <i class="bar-icon btn-comment" @click="openComment"></i>
-      <div class="music-bar-volume" title="音量加减 [Ctrl+Up/Down]">
-        <i class="bar-icon btn-volume" :class="{'btn-volume-no':isMute}" @click="switchMute"></i>
-        <mm-progress @percentChange="volumeChange" :percent="volume"/>
+      <i
+        class="bar-icon btn-mode"
+        :class="modeClass"
+        :title="modeTitle"
+        @click="modeChange"
+      ></i>
+      <i
+        class="bar-icon btn-comment"
+        @click="openComment"
+      ></i>
+      <div
+        class="music-bar-volume"
+        title="音量加减 [Ctrl+Up/Down]"
+      >
+        <i
+          class="bar-icon btn-volume"
+          :class="{'btn-volume-no':isMute}"
+          @click="switchMute"
+        ></i>
+        <mm-progress
+          @percentChange="volumeChange"
+          :percent="volume"
+        />
       </div>
     </div>
 
     <!--遮罩-->
-    <div class="mmPlayer-bg" :style="{backgroundImage: picUrl}"></div>
+    <div
+      class="mmPlayer-bg"
+      :style="{backgroundImage: picUrl}"
+    ></div>
     <div class="mmPlayer-mask"></div>
   </div>
 </template>
@@ -74,29 +118,15 @@ export default {
     MmProgress
   },
   data() {
-    let musicReady = false,
-      volume = 1;
-    let attr = window.cloudMusic.attr;
-    if (attr) {
-      musicReady = attr.isPlaying;
-      volume = attr.volume_level || 1;
-      //console.log(musicReady,volume);
-      if (attr.playlist.length > 0) {
-        this.$nextTick(() => {
-          this._getLyric(attr.playlist[attr.index].id);
-        });
-      }
-    }
-
     return {
-      musicReady: musicReady, // 是否可以使用播放器
+      musicReady: false, // 是否可以使用播放器
       currentTime: 0, // 当前播放时间
       currentProgress: 0, // 当前缓冲进度
       lyric: [], // 歌词
       nolyric: false, // 是否有歌词
       lyricIndex: 0, // 当前播放歌词下标
       isMute: false, // 是否静音
-      volume: volume // 默认音量大小
+      volume: 1 // 默认音量大小
     };
   },
   computed: {
@@ -175,28 +205,65 @@ export default {
     }
   },
   mounted() {
-    this.$nextTick(() => {
-      mmPlayerMusic.initAudio(this);
+    window.clv.hass
+      .then(({ attr, isPlaying, isReady }) => {
+        this.musicReady = isReady;
+        this.volume = attr.volume_level || 1;
+        if (attr.playlist.length > 0) {
+          this.$nextTick(() => {
+            this._getLyric(attr.playlist[attr.index].id);
+            //歌词进度条
+            let media_position = Math.ceil(attr.media_position);
+            let position = media_position;
+            setInterval(() => {
+              window.clv.hass.then(({ attr, isPlaying }) => {
+                if (isPlaying) {
+                  let _media_position = Math.ceil(attr.media_position);
+                  //时间还未更新时+1
+                  if (media_position != _media_position) {
+                    position = media_position = _media_position;
+                  } else {
+                    position += 1;
+                  }
+                  this.currentTime = position;
+                }
+                //当标题不一样时，更新设置
+                this.setCurrentIndex(attr.index);
+                this.setPlaying(isPlaying);
+                //设置自动高度
+                this.setDOM();
+              });
+            }, 1000);
+          });
+        }
 
-      let attr = window.cloudMusic.attr;
-      if (attr) {
-        let step = 0, position = attr["media_position"]
-        //进度条
-        setInterval(() => {
-          if (step == 11) {
-            position = attr["media_position"]
-            step = 0
-          }
-          position += 1
-          this.currentTime = position;
-          step++
-        }, 1000)
-      }
-
-      this.initKeyDown();
-    });
+        this.setDOM();
+      })
+      .finally(() => {
+        this.$nextTick(() => {
+          mmPlayerMusic.initAudio(this);
+          this.initKeyDown();
+        });
+      });
   },
   methods: {
+    setDOM() {
+      try {
+        let ha_card = top.document.body
+          .querySelector("home-assistant")
+          .shadowRoot.querySelector("home-assistant-main")
+          .shadowRoot.querySelector("ha-panel-lovelace")
+          .shadowRoot.querySelector("hui-root")
+          .shadowRoot.querySelector("#view hui-iframe-card")
+          .shadowRoot.querySelector("ha-card");
+        //console.log(ha_card)
+        ha_card.style = "height:calc(100vh - 112px)";
+        let root = ha_card.querySelector("#root");
+        root.style = "height:100%; padding-top:0;";
+      } catch (ex) {
+        //console.log(ex);
+      }
+    },
     // 按键事件
     initKeyDown() {
       document.onkeydown = e => {
@@ -232,7 +299,7 @@ export default {
     },
     // 上一曲
     prev() {
-      window.cloudMusic.exec({ cmd: "prev" });
+      window.clv.exec({ cmd: "prev" });
       if (!this.musicReady) {
         return;
       }
@@ -251,7 +318,7 @@ export default {
     },
     // 播放暂停
     play() {
-      window.cloudMusic.exec({ cmd: this.playing ? "pause" : "play" });
+      window.clv.exec({ cmd: this.playing ? "pause" : "play" });
       if (!this.musicReady) {
         return;
       }
@@ -259,7 +326,7 @@ export default {
     },
     // 下一曲
     next() {
-      window.cloudMusic.exec({ cmd: "next" });
+      window.clv.exec({ cmd: "next" });
       if (!this.musicReady) {
         return;
       }
@@ -337,7 +404,7 @@ export default {
     // 修改音量大小
     volumeChange(percent) {
       percent === 0 ? (this.isMute = true) : (this.isMute = false);
-      window.cloudMusic.setVolume(percent);
+      window.clv.setVolume(percent);
       this.volume = percent;
       this.audioEle.volume = percent;
     },
@@ -354,8 +421,13 @@ export default {
           if (res.data.nolyric) {
             this.nolyric = true;
           } else {
-            this.nolyric = false;
-            this.lyric = parseLyric(res.data.lrc.lyric);
+            if (res.data.lrc) {
+              this.nolyric = false;
+              this.lyric = parseLyric(res.data.lrc.lyric);
+            } else {
+              this.nolyric = true;
+              this.lyric = [];
+            }
           }
           //this.audioEle.play();
         }

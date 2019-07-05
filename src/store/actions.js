@@ -21,8 +21,8 @@ export const setPlaylist = function ({ commit }, { list }) {
 
 // 选择播放（会更新整个播放列表）
 export const selectPlay = function ({ commit }, { list, index }) {
-
-  window.cloudMusic.loadlist(list,index)
+  
+  window.clv.loadlist(list,index)
 
   commit(types.SET_PLAYLIST, list)
   commit(types.SET_ORDERLIST, list)
@@ -35,7 +35,7 @@ export const selectAddPlay = function ({ commit, state }, music) {
   // 查询当前播放列表是否有代插入的音乐，并返回其索引值
   let index = findIndex(list, music)
 
-  window.cloudMusic.loadlist(list,index)
+  window.clv.loadlist(list,index)
 
 
   // 当前播放列表有待插入的音乐时，直接改变当前播放音乐的索引值

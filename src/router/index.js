@@ -28,6 +28,18 @@ const routes = [
         }
       },
       {
+        path: '/music/fm', // 我的歌单
+        component: () => import('pages/fm/fm'),
+        meta: {
+          title: '电台',
+          keepAlive: true
+        }
+      },
+      {
+        path: '/music/fmlist/:id', // 音乐详情列表
+        component: () => import('pages/fm/fmlist')
+      },
+      {
         path: '/music/toplist', // 排行榜列表
         component: () => import('pages/topList/topList'),
         meta: {
