@@ -77,8 +77,23 @@ const routes = [
   }
 ]
 
-export default new Router({
+
+let router = new Router({
   linkActiveClass: 'active',
   linkExactActiveClass: 'active',
   routes
 })
+
+
+router.onError((error) => {
+  const pattern = /Loading chunk chunk-([0-9a-zA-Z])+ failed/g;
+  const isChunkLoadFailed = error.message.match(pattern);
+  if (isChunkLoadFailed) {
+    fetch(`config.json?r=${Date.now()}`).then(res=>res.json()).then(res=>{
+      console.log('版本更新', res.ver)
+      location.href = `${location.pathname}?v=${res.ver}${location.hash}`
+    })
+  }
+});
+
+export default router

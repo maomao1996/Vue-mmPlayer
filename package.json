@@ -6,7 +6,7 @@
   "author": "小猪猪 qq：635147515",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build && node 1.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
