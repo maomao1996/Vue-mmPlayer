@@ -3,7 +3,7 @@
   "version": "1.5.6",
   "private": true,
   "description": "Online music player",
-  "author": "maomao1996 <1714487678@qq.com>",
+  "author": "小猪猪 qq：635147515",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
