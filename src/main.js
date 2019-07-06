@@ -44,7 +44,8 @@ window.clv = {
         return
       }
       let conn = res.conn
-      let _clv = conn._ent.state['media_player.clv']
+      let musicEntity = Object.keys(conn._ent.state).find(key => key.indexOf('media_player.cloud_music_') === 0)
+      let _clv = conn._ent.state[musicEntity]
       let o = Object.create(null)
       let attr = _clv.attributes
       if (typeof attr.media_playlist === 'string') {
@@ -55,6 +56,7 @@ window.clv = {
       attr['index'] = attr.playlist.findIndex((ele, index) =>
         attr.source == ((index + 1) + '.' + ele.song + ' - ' + ele.singer))
       o.attr = attr
+      o.id = musicEntity
       o.isReady = ['playing', 'paused'].includes(_clv.state)
       o.isPlaying = _clv.state == 'playing'
       o.state = _clv.state
@@ -81,32 +83,32 @@ window.clv = {
     })
   },
   exec(args) {
-    let media_args = {
-      entity_id: "media_player.clv"
-    }
-    let media_action = 'play_media'
-    if (args.cmd == 'prev') {
-      media_action = 'media_previous_track'
-    } else if (args.cmd == 'next') {
-      media_action = 'media_next_track'
-    } else if (args.cmd == 'index') {
-      media_args['media_content_id'] = args.index
-      media_args['media_content_type'] = 'music_load'
-    } else if (args.cmd == 'play') {
-      media_action = 'media_play'
-    } else if (args.cmd == 'pause') {
-      media_action = 'media_pause'
-    } else if (args.cmd == 'load') {
-      media_args['media_content_id'] = JSON.stringify({
-        index: args.index,
-        list: args.playlist
-      })
-      media_args['media_content_type'] = 'music_playlist'
-    } else if (args.cmd == 'volume') {
-      media_action = 'volume_set'
-      media_args['volume_level'] = parseFloat(args.index)
-    }
-    this.hass.then(({ call }) => {
+    this.hass.then(({ call, id }) => {
+      let media_args = {
+        entity_id: id
+      }
+      let media_action = 'play_media'
+      if (args.cmd == 'prev') {
+        media_action = 'media_previous_track'
+      } else if (args.cmd == 'next') {
+        media_action = 'media_next_track'
+      } else if (args.cmd == 'index') {
+        media_args['media_content_id'] = args.index
+        media_args['media_content_type'] = 'music_load'
+      } else if (args.cmd == 'play') {
+        media_action = 'media_play'
+      } else if (args.cmd == 'pause') {
+        media_action = 'media_pause'
+      } else if (args.cmd == 'load') {
+        media_args['media_content_id'] = JSON.stringify({
+          index: args.index,
+          list: args.playlist
+        })
+        media_args['media_content_type'] = 'music_playlist'
+      } else if (args.cmd == 'volume') {
+        media_action = 'volume_set'
+        media_args['volume_level'] = parseFloat(args.index)
+      }
       call(media_args, media_action, "media_player");
     })
   },

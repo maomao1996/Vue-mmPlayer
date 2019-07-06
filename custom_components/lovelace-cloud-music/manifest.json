@@ -1,0 +1,10 @@
+{
+  "domain": "lovelace-cloud-music",
+  "name": "lovelace-cloud-music",
+  "documentation": "https://www.home-assistant.io/components/vlc",
+  "requirements": [
+    "python-vlc==1.1.2"
+  ],
+  "dependencies": [],
+  "codeowners": []
+}
