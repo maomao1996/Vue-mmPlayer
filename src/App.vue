@@ -21,6 +21,7 @@ import { topList } from "api";
 import { defaultSheetId, VERSION } from "@/config";
 import { createTopList } from "assets/js/song";
 import MmHeader from "components/mm-header/mm-header";
+import MmDialog from "base/mm-dialog/mm-dialog";
 
 import { getVersion, setVersion } from "assets/js/storage";
 import { setTimeout, clearTimeout } from "timers";
@@ -28,7 +29,13 @@ import { setTimeout, clearTimeout } from "timers";
 export default {
   name: "app",
   components: {
-    MmHeader
+    MmHeader,
+    MmDialog
+  },
+  data() {
+    return {
+      versionBody: ""
+    };
   },
   created() {
     // 获取正在播放列表
