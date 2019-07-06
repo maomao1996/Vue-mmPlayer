@@ -44,7 +44,7 @@ window.clv = {
         return
       }
       let conn = res.conn
-      let musicEntity = Object.keys(conn._ent.state).find(key => key.indexOf('media_player.cloud_music_') === 0)
+      let musicEntity = Object.keys(conn._ent.state).find(key => key.indexOf('media_player.yun_yin_le') === 0)
       console.log(musicEntity)
       let _clv = conn._ent.state[musicEntity]
       let o = Object.create(null)
