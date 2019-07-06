@@ -86,9 +86,12 @@ let router = new Router({
 
 
 fetch(`config.json?r=${Date.now()}`).then(res => res.json()).then(res => {
-  const link = `${location.pathname}?v=${res.ver}${location.hash}`
-  alert(`版本更新，请使用更新后的链接：${link}`)
-  location.href = link
+  const link = `${location.pathname}?ver=${res.ver}${location.hash}`
+  //如果链接中不含这个，则提示使用这个
+  if (location.href.indexOf(res.ver) < 0) {
+    alert(`版本更新，请使用复制这个链接使用：${link}`)
+    location.href = link
+  }
 })
 
 export default router
