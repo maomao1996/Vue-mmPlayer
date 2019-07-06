@@ -64,7 +64,7 @@ PC端界面自我感觉还行， 就是移动端界面总觉得怪怪的，奈�
 ### PC
 
 #### 选择媒体插件
-![选择媒体插件](https://raw.githubusercontent.com/shaonianzhentan/lovelace-cloud-music/master/screenshots/select_mode.jpg)
+![选择媒体插件](https://raw.githubusercontent.com/shaonianzhentan/lovelace-cloud-music/master/screenshots/select_mode.png)
 #### 正在播放
 ![正在播放](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/1.jpg)
 #### 排行榜
