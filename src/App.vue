@@ -9,6 +9,7 @@
       type="alert"
       headText="更新提示"
       :bodyText="versionBody"
+      @confirm="confirmUpdate"
     />
     <!--播放器-->
     <audio ref="mmPlayer"></audio>
@@ -34,6 +35,7 @@ export default {
   },
   data() {
     return {
+      updateLink:'',
       versionBody: ""
     };
   },
@@ -82,9 +84,12 @@ export default {
             if (location.href.indexOf(res.ver) < 0) {
               this.versionBody = `<div class="mm-dialog-text text-left">
 版本更新 （${res.ver}）<br/>
-更新后的链接：${link} <br/>
+更新后的链接（请复制下面的链接使用）：<br/>
+<a href='${link}' target='_blank'>${link}</a> <br/><br/>
+更新功能： <br/>
 1、 全面更新播放插件，支持所有媒体播放组件
 </div>`;
+              this.updateLink = link;
               this.$refs.versionDialog.show();
             }
           });
@@ -105,6 +110,11 @@ export default {
     }
   },
   methods: {
+    confirmUpdate(){
+      if(this.updateLink){
+        location.href = this.updateLink
+      }
+    },
     // 歌曲数据处理
     _formatSongs(list) {
       let ret = [];
