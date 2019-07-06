@@ -6,6 +6,7 @@ function resolve (dir) {
 
 module.exports = {
   publicPath: '',
+  productionSourceMap: process.env.NODE_ENV === 'production' ? false : true,
   chainWebpack (config) {
     config.resolve.alias
       .set('api', resolve('src/api'))
