@@ -19,7 +19,7 @@
 
 > 前端配置
 
-1.建议使用[HACS安装](https://github.com/custom-components/hacs)
+1.（建议）使用[HACS安装](https://github.com/custom-components/hacs)
 
 在HACS里输入：https://github.com/shaonianzhentan/lovelace-cloud-music 即可安装成功
 
