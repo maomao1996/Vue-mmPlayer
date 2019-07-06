@@ -20,11 +20,15 @@
 > 前端配置
 
 1.建议使用[HACS安装](https://github.com/custom-components/hacs)
+
 在HACS里输入：https://github.com/shaonianzhentan/lovelace-cloud-music 即可安装成功
+
 安装成功后的访问路径：/community_plugin/lovelace-cloud-music/index.html
 
 2.自定义安装
+
 将本项目的dist复制到HASS的www下的文件夹
+
 然后通过/local/dist/index.html 访问（这里的dist可以自行修改）
 
 > 后台插件配置

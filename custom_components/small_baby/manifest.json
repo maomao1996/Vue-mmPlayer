@@ -1,0 +1,8 @@
+{
+  "domain": "small_baby",
+  "name": "小宝贝",
+  "documentation": "https://www.home-assistant.io/components/vlc",
+  "requirements": [],
+  "dependencies": [],
+  "codeowners": []
+}
