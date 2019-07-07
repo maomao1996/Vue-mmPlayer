@@ -41,9 +41,12 @@ panel_custom:
     sidebar_title: 云音乐
     sidebar_icon: mdi:music
     url_path: lovelace-cloud-music
+    embed_iframe: true
     # 只能使用通过HACS安装的路径
     js_url: /community_plugin/lovelace-cloud-music/cloud-music.js
-    embed_iframe: true
+    # 配置URL路径
+    config:
+      url: /community_plugin/lovelace-cloud-music/index.html
 
 ```
 
