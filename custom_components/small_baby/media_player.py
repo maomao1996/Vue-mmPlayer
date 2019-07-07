@@ -185,7 +185,8 @@ class VlcDevice(MediaPlayerDevice):
     def set_volume_level(self, volume):
         """Set volume level, range 0..1."""
         #self._vlc.audio_set_volume(int(volume * 100))
-        self.call('volume_set', {volume: volume})
+        _LOGGER.info('设置音量：%s', volume)
+        self.call('volume_set', {"volume": volume})
         #self._volume = volume
 
     def media_play(self):
@@ -230,6 +231,8 @@ class VlcDevice(MediaPlayerDevice):
                 music_info = self.music_playlist[index]
                 source_list.append(str(index + 1) + '.' + music_info['song'] + ' - ' + music_info['singer'])
             self._source_list = source_list
+            #初始化源播放器
+            self.media_stop()
             _LOGGER.info('绑定数据源：%s', self._source_list)
         elif media_type == 'music_playlist':
             _LOGGER.info('初始化播放列表')
@@ -245,6 +248,8 @@ class VlcDevice(MediaPlayerDevice):
                 music_info = self.music_playlist[index]
                 source_list.append(str(index + 1) + '.' + music_info['song'] + ' - ' + music_info['singer'])
             self._source_list = source_list
+            #初始化源播放器
+            self.media_stop()
         else:
             _LOGGER.error(
                 "不受支持的媒体类型 %s",media_type)
@@ -321,10 +326,12 @@ class VlcDevice(MediaPlayerDevice):
               dict['media_content_type'] = info['type']
            if 'volume' in info:
               dict['volume_level'] = info['volume']
+        
         #调用服务
-        result = self._hass.services.call('media_player', action, dict)
-        _LOGGER.info('调用服务%s', result)
-    
+        _LOGGER.info('调用服务：%s', action)
+        _LOGGER.info(dict)
+        self._hass.services.call('media_player', action, dict)
+            
     def music_load(self):
         if self.music_playlist == None:
            _LOGGER.info('结束播放，没有播放列表')
