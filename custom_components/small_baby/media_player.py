@@ -74,7 +74,7 @@ class VlcDevice(MediaPlayerDevice):
         _LOGGER.info('源播放器状态 %s，云音乐状态：%s', self._media.state, self._state)
         
         # 如果当前是播放状态，并且【源播放器的播放位置】等于 结束值，说明需要一曲
-        if self._state == STATE_PLAYING and  self.media_duration == self._media.attributes['media_position']:
+        if self._state == STATE_PLAYING and  self.media_duration - 1 <= self._media.attributes['media_position']:
             _LOGGER.info('播放器更新 下一曲')
             self.media_next_track()
         
@@ -331,6 +331,8 @@ class VlcDevice(MediaPlayerDevice):
         _LOGGER.info('调用服务：%s', action)
         _LOGGER.info(dict)
         self._hass.services.call('media_player', action, dict)
+        #更新源播放器
+        self._hass.services.call('homeassistant', 'update_entity', {"entity_id": self._sound_mode})
             
     def music_load(self):
         if self.music_playlist == None:
