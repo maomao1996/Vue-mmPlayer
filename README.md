@@ -31,6 +31,23 @@
 
 然后通过/local/dist/index.html 访问（这里的dist可以自行修改）
 
+3.左侧栏配置（只能在HACS安装时才能使用以下配置）
+
+在configuration.yaml中配置以下内容，会在左侧栏显示
+```
+panel_custom:
+  # 请勿修改name的值
+  - name: react-panel
+    sidebar_title: 云音乐
+    sidebar_icon: mdi:music
+    url_path: lovelace-cloud-music
+    # 只能使用通过HACS安装的路径
+    js_url: /community_plugin/lovelace-cloud-music/cloud-music.js
+    embed_iframe: true
+
+```
+
+
 > 后台插件配置
 
 将本项目custom_components里的内容，放到HASS的custom_components文件夹中
