@@ -6,8 +6,11 @@ let config = {
 }
 fs.writeFileSync('./dist/config.json', JSON.stringify(config))
 
+/*
 let content = fs.readFileSync('./template.js', 'utf-8')
 
 fs.writeFileSync('./dist/cloud-music.js',
   content.replace('custom-localhost', `/community_plugin/lovelace-cloud-music/index.html?ver=${config.ver}`))
+*/
 
+fs.copyFileSync('./template.js', './dist/cloud-music.js')
