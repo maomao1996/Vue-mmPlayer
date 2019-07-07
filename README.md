@@ -104,7 +104,7 @@ PC端界面自我感觉还行， 就是移动端界面总觉得怪怪的，奈�
 ![移动端二](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/8.jpg)
 
 ## 更新说明
-### V1.0.1（2019.07.06）
+### V0.0.1（2019.07.06）
 - 解决后台播放支持全部媒体插件的功能
 
 ## 其他说明
