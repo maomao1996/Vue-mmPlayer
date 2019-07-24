@@ -16,17 +16,10 @@ module.exports = {
       .set('components', resolve('src/components'))
       .set('pages', resolve('src/pages'))
     config.plugin('html').tap(args => {
-      Object.assign(
-        args[0].minify,
-        isEnvProduction
-          ? {
-            // 压缩 js
-            minifyJS: true,
-            // 压缩 css
-            minifyCSS: true
-          }
-          : undefined
-      )
+      if (isEnvProduction) {
+        args[0].minify.minifyJS = true
+        args[0].minify.minifyCSS = true
+      }
       args[0].NODE_ENV = process.env.NODE_ENV
       return args
     })

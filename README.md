@@ -34,7 +34,7 @@ cd mmPlayer // 进入 mmPlayer 播放器目录
 
 npm install // 安装依赖
 
-npm run dev // 服务端运行
+npm run serve // 运行 mmPlayer
 
 npm run build  // 项目打包
 ```
