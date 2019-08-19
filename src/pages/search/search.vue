@@ -1,7 +1,7 @@
 <template>
   <!--搜索-->
   <div class="search">
-    <mm-loading v-model="mmLoadShow"/>
+    <mm-loading v-model="mmLoadShow" />
     <div class="search-head">
       <span
         v-for="(item,index) in Artists.slice(0,5)"
@@ -14,7 +14,7 @@
         placeholder="音乐/歌手"
         v-model.trim="searchValue"
         @keyup.enter="onEnter"
-      >
+      />
     </div>
     <music-list
       ref="musicList"
@@ -43,6 +43,7 @@ export default {
   },
   data () {
     return {
+      searchValue: '', // 搜索关键词
       Artists: [], // 热搜数组
       list: [], // 搜索数组
       page: 0, // 分页
@@ -98,17 +99,14 @@ export default {
     },
     // 滚动加载事件
     pullUpLoad () {
-      this.mmLoadShow = true
       this.page += 1
       search(this.searchValue, this.page).then(res => {
         if (res.data.code === 200) {
           if (!res.data.result.songs) {
             this.$mmToast('没有更多歌曲啦！')
-            this.mmLoadShow = false
             return
           }
           this.list = [...this.list, ...formatSongs(res.data.result.songs)]
-          this._hideLoad()
         }
       })
     },

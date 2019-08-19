@@ -2,9 +2,9 @@
   <div class="music">
     <div class="music-content">
       <div class="music-left">
-        <music-btn/>
+        <music-btn />
         <keep-alive>
-          <router-view v-if="$route.meta.keepAlive" class="music-list"/>
+          <router-view v-if="$route.meta.keepAlive" class="music-list" />
         </keep-alive>
         <router-view
           :key="$route.path"
@@ -64,7 +64,7 @@
           :class="{'btn-volume-no':isMute}"
           @click="switchMute"
         ></i>
-        <mm-progress @percentChange="volumeChange" :percent="volume"/>
+        <mm-progress @percentChange="volumeChange" :percent="volume" />
       </div>
     </div>
 
@@ -78,7 +78,7 @@
 import { getLyric } from 'api'
 import mmPlayerMusic from './mmPlayer'
 import { randomSortArray, parseLyric, format } from 'assets/js/util'
-import { playMode, defaultBG } from '@/config'
+import { playMode, defaultBG, defaultVolume } from '@/config'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import MusicBtn from 'components/music-btn/music-btn'
 import Lyric from 'components/lyric/lyric'
@@ -100,7 +100,7 @@ export default {
       nolyric: false, // 是否有歌词
       lyricIndex: 0, // 当前播放歌词下标
       isMute: false, // 是否静音
-      volume: 1 // 默认音量大小
+      volume: defaultVolume // 默认音量大小
     }
   },
   computed: {
@@ -182,6 +182,7 @@ export default {
     this.$nextTick(() => {
       mmPlayerMusic.initAudio(this)
       this.initKeyDown()
+      this.volumeChange(defaultVolume)
     })
   },
   methods: {
