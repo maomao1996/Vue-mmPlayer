@@ -8,10 +8,10 @@
       name="viewport"
       content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"
     />
-    <title>mmPlayer在线音乐播放器</title>
+    <title>mmPlayer 在线音乐播放器</title>
     <meta
       name="keywords"
-      content="mmPlayer,播放器,在线音乐,在线播放器,音乐播放器,在线音乐播放器,mmPlayer在线音乐播放器"
+      content="mmPlayer,播放器,在线音乐,在线播放器,音乐播放器,在线音乐播放器,mmPlayer 在线音乐播放器"
     />
     <meta name="description" content="mmPlayer在线音乐播放器" />
     <style type="text/css">
@@ -35,18 +35,78 @@
         z-index: 1996;
         width: 100%;
         height: 100%;
+        font-size: 20px;
         background: rgba(255, 255, 255, 1);
       }
       #appLoading.removeAnimate {
-        -webkit-animation: removeAnimate 0.3s 0s 1 both;
-        animation: removeAnimate 0.3s 0s 1 both;
+        animation: removeAnimate 0.3s 0.5s 1 both;
       }
-      @-webkit-keyframes removeAnimate {
-        from {
-          opacity: 1;
+      #appLoading .loader {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 5em;
+        height: 5em;
+        transform: translate(-50%, -50%) rotate(165deg);
+      }
+      #appLoading .loader::before,
+      #appLoading .loader::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: block;
+        width: 1em;
+        height: 1em;
+        border-radius: 0.5em;
+        transform: translate(-50%, -50%);
+      }
+      #appLoading .loader::before {
+        animation: before 2s infinite;
+      }
+      #appLoading .loader::after {
+        animation: after 2s infinite;
+      }
+      @keyframes before {
+        0% {
+          width: 1em;
+          box-shadow: 2em -1em rgba(225, 20, 98, 0.75),
+            -2em 1em rgba(111, 202, 220, 0.75);
         }
-        to {
-          opacity: 0;
+        35% {
+          width: 5em;
+          box-shadow: 0 -1em rgba(225, 20, 98, 0.75),
+            0 1em rgba(111, 202, 220, 0.75);
+        }
+        70% {
+          width: 1em;
+          box-shadow: -2em -1em rgba(225, 20, 98, 0.75),
+            2em 1em rgba(111, 202, 220, 0.75);
+        }
+        100% {
+          box-shadow: 2em -1em rgba(225, 20, 98, 0.75),
+            -2em 1em rgba(111, 202, 220, 0.75);
+        }
+      }
+      @keyframes after {
+        0% {
+          height: 1em;
+          box-shadow: 1em 2em rgba(61, 184, 143, 0.75),
+            -1em -2em rgba(233, 169, 32, 0.75);
+        }
+        35% {
+          height: 5em;
+          box-shadow: 1em 0 rgba(61, 184, 143, 0.75),
+            -1em 0 rgba(233, 169, 32, 0.75);
+        }
+        70% {
+          height: 1em;
+          box-shadow: 1em -2em rgba(61, 184, 143, 0.75),
+            -1em 2em rgba(233, 169, 32, 0.75);
+        }
+        100% {
+          box-shadow: 1em 2em rgba(61, 184, 143, 0.75),
+            -1em -2em rgba(233, 169, 32, 0.75);
         }
       }
       @keyframes removeAnimate {
@@ -56,15 +116,6 @@
         to {
           opacity: 0;
         }
-      }
-      #appLoading img {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 50px;
-        height: 50px;
-        -webkit-transform: translateY(-50%) translateX(-50%);
-        transform: translateY(-50%) translateX(-50%);
       }
     </style>
     <script>
@@ -90,10 +141,10 @@
   </head>
   <body>
     <noscript>
-      mmPlayer在线音乐播放器<br />为了更好的体验请开启script
+      mmPlayer 在线音乐播放器<br />为了更好的体验请开启 script
     </noscript>
     <div id="appLoading">
-      <img src="./loading.gif" alt="loading" />
+      <div class="loader"></div>
     </div>
     <div id="mmPlayer"></div>
     <!-- built files will be auto injected -->

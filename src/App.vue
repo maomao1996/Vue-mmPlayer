@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <!--主体-->
-    <mm-header/>
-    <router-view class="router-view"/>
+    <mm-header />
+    <router-view class="router-view" />
     <!--更新说明-->
     <mm-dialog
       ref="versionDialog"
@@ -25,11 +25,11 @@ import MmDialog from 'base/mm-dialog/mm-dialog'
 import { getVersion, setVersion } from 'assets/js/storage'
 
 const VERSIONBODY = `<div class="mm-dialog-text text-left">
-版本号：${VERSION}（2019.04.04）<br/>
-1、 优化滚动体验，缓存滚动位置<br>
-2、 优化暂停 / 播放逻辑，减少重复请求<br>
-3、 修复 IOS 下滚动卡顿的情况<br>
-4、 修复 Safari、IOS 微信、安卓 UC不能播放问题
+版本号：${VERSION}（2019.08.19）<br/>
+1、 增加默认背景图随机展示<br>
+2、 调整默认音量<br>
+3、 优化首屏加载动画样式<br>
+4、 优化 load 遮罩颜色
 </div>`
 
 export default {
