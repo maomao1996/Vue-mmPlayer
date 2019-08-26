@@ -1,4 +1,5 @@
 @import 'reset';
+@import 'var';
 html,
 body,
 #app {
@@ -29,6 +30,18 @@ body {
 
 .fr {
   float: right;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.hover {
+  color: @text_color;
+  cursor: pointer;
+  &:hover {
+    color: @text_color_active;
+  }
 }
 
 .text-left {
