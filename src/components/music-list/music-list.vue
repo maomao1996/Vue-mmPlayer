@@ -20,27 +20,30 @@
           <div class="list-name">
             <span>{{item.name}}</span>
             <div class="list-menu">
-              <span
-                class="list-menu-icon-play"
-                :class="{'on':playing&&currentMusic.id===item.id}"
+              <mm-icon
+                class="hover"
+                :type="getPlayIconType(item)"
+                :size="40"
                 @click.stop="selectItem(item,index)"
-              ></span>
+              ></mm-icon>
             </div>
           </div>
           <span class="list-artist">{{item.singer}}</span>
           <span class="list-time" v-if="listType === 1">
             {{(item.duration % 3600) | format}}
-            <i
-              class="list-menu-icon-del"
+            <mm-icon
+              class="hover list-menu-icon-del"
+              type="delete-mini"
+              :size="40"
               @click.stop="deleteItem(index)"
-            ></i>
+            ></mm-icon>
           </span>
           <span class="list-album" v-else>{{item.album}}</span>
         </div>
-        <slot name="listBtn"/>
+        <slot name="listBtn" />
       </div>
     </template>
-    <mm-no-result v-else title="弄啥呢，怎么啥也没有！！！"/>
+    <mm-no-result v-else title="弄啥呢，怎么啥也没有！！！" />
   </div>
 </template>
 
@@ -147,6 +150,14 @@ export default {
       //     this.$mmToast(error.response.data.message)
       // })
     },
+    // 获取播放状态 type
+    getPlayIconType ({ id: itemId }) {
+      const {
+        playing,
+        currentMusic: { id }
+      } = this
+      return playing && id === itemId ? 'pause-mini' : 'play-mini'
+    },
     // 删除事件
     deleteItem (index) {
       this.$emit('del', index) // 触发删除事件
@@ -170,6 +181,7 @@ export default {
 
   .list-name {
     padding-left: 40px;
+    user-select: none;
   }
 }
 
@@ -273,52 +285,23 @@ export default {
       position: absolute;
       top: 50%;
       right: 10px;
-      height: 36px;
+      height: 40px;
       font-size: 0;
       transform: translateY(-50%);
-
-      span,
-      a {
-        display: inline-block;
-        width: 36px;
-        height: 36px;
-        margin-right: 10px;
-        background-image: url('~assets/img/icon_list_menu.png');
-        background-repeat: no-repeat;
-        cursor: pointer;
-      }
-
-      .list-menu-icon-play {
-        background-position: -80px 0;
-
-        &.on {
-          background-position: -80px -200px;
-
-          &:hover {
-            background-position: -120px -200px;
-          }
-        }
-
-        &:hover {
-          background-position: -120px 0;
-        }
-      }
-
-      .list-menu-icon-down {
-        background-position: -80px -120px;
-
-        &:hover {
-          background-position: -120px -120px;
-        }
-      }
     }
   }
 
   .list-artist,
   .list-album {
     display: block;
-    width: 150px;
+    width: 300px;
     .no-wrap();
+    @media (max-width: 1440px) {
+      width: 200px;
+    }
+    @media (max-width: 1200px) {
+      width: 150px;
+    }
   }
 
   .list-time {
@@ -331,17 +314,7 @@ export default {
       position: absolute;
       top: 50%;
       left: 0;
-      width: 36px;
-      height: 36px;
-      background-image: url('~assets/img/icon_list_menu.png');
-      background-repeat: no-repeat;
-      background-position: -80px -160px;
-      cursor: pointer;
       transform: translateY(-50%);
-
-      &:hover {
-        background-position: -120px -160px;
-      }
     }
   }
 }

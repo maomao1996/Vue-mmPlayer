@@ -3,7 +3,7 @@
     <!--封面-->
     <dl class="music-info">
       <dt>
-        <img :src="musicPicUrl">
+        <img :src="musicPicUrl" />
       </dt>
       <template v-if="currentMusic.id">
         <dd>歌曲名：{{currentMusic.name}}</dd>
@@ -13,11 +13,9 @@
       <template v-else>
         <dd>mmPlayer在线音乐播放器</dd>
         <dd>
-          <a
-            class="github"
-            target="_blank"
-            href="https://github.com/maomao1996"
-          >茂茂</a>
+          <a class="hover" target="_blank" href="https://github.com/maomao1996">
+            <mm-icon type="github" :size="14"></mm-icon>&nbsp;茂茂
+          </a>
         </dd>
       </template>
     </dl>
@@ -69,7 +67,7 @@ export default {
   computed: {
     musicPicUrl () {
       return this.currentMusic.id
-        ? `${this.currentMusic.image}?param=200y200`
+        ? `${this.currentMusic.image}?param=300y300`
         : require('../../assets/img/player_cover.png')
     },
     lyricTop () {
@@ -88,7 +86,12 @@ export default {
   methods: {
     // 计算歌词居中的 top值
     clacTop () {
-      let height = this.$refs.musicLyric.offsetHeight
+      const dom = this.$refs.musicLyric
+      const { display = '' } = window.getComputedStyle(dom)
+      if (display === 'none') {
+        return
+      }
+      const height = dom.offsetHeight
       this.top = Math.floor(height / 34 / 2)
     }
   }
@@ -126,10 +129,6 @@ export default {
     height: 30px;
     line-height: 30px;
     .no-wrap();
-    .github {
-      padding-left: 25px;
-      background: url('~assets/img/github.png') no-repeat center left / contain;
-    }
   }
 }
 

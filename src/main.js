@@ -8,6 +8,7 @@ import router from './router'
 import App from './App'
 import fastclick from 'fastclick'
 import mmToast from 'base/mm-toast'
+import Icon from 'base/mm-icon/mm-icon'
 import VueLazyload from 'vue-lazyload'
 import { VERSION } from './config'
 
@@ -19,11 +20,17 @@ fastclick.attach(document.body)
 // 弹出层
 Vue.use(mmToast)
 
+// icon 组件
+Vue.component(Icon.name, Icon)
+
 // 懒加载
 Vue.use(VueLazyload, {
   preLoad: 1,
   loading: require('assets/img/default.png')
 })
+
+// 访问版本统计
+window._hmt && window._hmt.push(['_setCustomVar', 1, 'version', VERSION, 1])
 
 const redirectList = ['/music/details', '/music/comment']
 router.beforeEach((to, from, next) => {

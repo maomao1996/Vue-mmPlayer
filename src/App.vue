@@ -25,11 +25,12 @@ import MmDialog from 'base/mm-dialog/mm-dialog'
 import { getVersion, setVersion } from 'assets/js/storage'
 
 const VERSIONBODY = `<div class="mm-dialog-text text-left">
-版本号：${VERSION}（2019.08.19）<br/>
-1、 增加默认背景图随机展示<br>
-2、 调整默认音量<br>
-3、 优化首屏加载动画样式<br>
-4、 优化 load 遮罩颜色
+版本号：${VERSION}（2019.08.26）<br/>
+1、 采用新版图标<br>
+2、 优化歌词滚动处理<br>
+3、 修复推荐页面样式问题<br>
+4、 调整封面图分辨率<br>
+5、 启动 2.0 版本（不再适配移动端）
 </div>`
 
 export default {
@@ -71,12 +72,13 @@ export default {
     })
 
     // 首次加载完成后移除动画
-    const loadDOM = document.querySelector('#appLoading')
+    let loadDOM = document.querySelector('#appLoading')
     if (loadDOM) {
       const animationendFunc = function () {
         loadDOM.removeEventListener('animationend', animationendFunc)
         loadDOM.removeEventListener('webkitAnimationEnd', animationendFunc)
         document.body.removeChild(loadDOM)
+        loadDOM = null
         const version = getVersion()
         if (version !== null) {
           setVersion(VERSION)

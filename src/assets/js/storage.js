@@ -1,21 +1,24 @@
+import { defaultVolume } from '@/config'
+
+const _storage = window.localStorage
 const storage = {
-  get (key, defa = []) {
-    if (window.localStorage) {
-      return localStorage.getItem(key)
-        ? Array.isArray(defa)
-          ? JSON.parse(localStorage.getItem(key))
-          : localStorage.getItem(key)
-        : defa
+  get (key, data = []) {
+    if (_storage) {
+      return _storage.getItem(key)
+        ? Array.isArray(data)
+          ? JSON.parse(_storage.getItem(key))
+          : _storage.getItem(key)
+        : data
     }
   },
   set (key, val) {
-    if (window.localStorage) {
-      localStorage.setItem(key, val)
+    if (_storage) {
+      _storage.setItem(key, val)
     }
   },
   clear (key) {
-    if (window.localStorage) {
-      localStorage.removeItem(key)
+    if (_storage) {
+      _storage.removeItem(key)
     }
   }
 }
@@ -102,11 +105,27 @@ export function setUserId (uid) {
 const VERSION_KEY = '__mmPlayer_version__'
 // 获取版本号
 export function getVersion () {
-  let getVersion = storage.get(VERSION_KEY, null)
-  return Array.isArray(getVersion) ? null : getVersion
+  let version = storage.get(VERSION_KEY, null)
+  return Array.isArray(version) ? null : version
 }
 // 修改版本号
 export function setVersion (version) {
   storage.set(VERSION_KEY, version)
   return version
+}
+
+/**
+ * 音量
+ * @type VOLUME_KEY：key值
+ */
+const VOLUME_KEY = '__mmPlayer_volume__'
+// 获取音量
+export function getVolume () {
+  const volume = storage.get(VOLUME_KEY, defaultVolume)
+  return Number(volume)
+}
+// 修改音量
+export function setVolume (volume) {
+  storage.set(VOLUME_KEY, volume)
+  return volume
 }

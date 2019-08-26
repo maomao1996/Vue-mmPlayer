@@ -1,7 +1,7 @@
 <template>
   <!--评论-->
   <div class="comment">
-    <mm-loading v-model="mmLoadShow"/>
+    <mm-loading v-model="mmLoadShow" />
     <dl
       v-if="hotComments.length > 0"
       class="comment-list"
@@ -21,13 +21,16 @@
           <img
             class="comment-item-pic"
             v-lazy="`${item.user.avatarUrl}?param=50y50`"
-          >
+          />
           <h2 class="comment-item-title">{{item.user.nickname}}</h2>
         </a>
         <p class="comment-item-disc">{{item.content}}</p>
         <div class="comment-item-opt">
           <span class="comment-opt-date">{{item.time | format}}</span>
-          <span class="comment-opt-liked">{{item.likedCount}}</span>
+          <span class="comment-opt-liked">
+            <mm-icon type="good"></mm-icon>
+            {{item.likedCount}}
+          </span>
         </div>
       </dd>
       <!--最新评论-->
@@ -42,7 +45,7 @@
           target="_blank"
           :href="`http://music.163.com/#/user/home?id=${item.user.userId}`"
         >
-          <img class="cover-img" v-lazy="`${item.user.avatarUrl}?param=50y50`">
+          <img class="cover-img" v-lazy="`${item.user.avatarUrl}?param=50y50`" />
         </a>
         <h2 class="comment-item-title">
           <a
@@ -64,10 +67,10 @@
         </div>
         <div class="comment-item-opt">
           <span class="comment-opt-date">{{item.time | format}}</span>
-          <span
-            class="comment-opt-liked"
-            v-if="item.likedCount>0"
-          >{{item.likedCount}}</span>
+          <span class="comment-opt-liked" v-if="item.likedCount>0">
+            <mm-icon type="good"></mm-icon>
+            {{item.likedCount}}
+          </span>
         </div>
       </dd>
     </dl>
@@ -256,12 +259,8 @@ export default {
         }
         .comment-opt-liked {
           display: inline-block;
-          padding-left: 23px;
           height: 20px;
           line-height: 20px;
-          background-image: url('~assets/img/comment.png');
-          background-repeat: no-repeat;
-          background-size: contain;
         }
       }
     }

@@ -1,7 +1,7 @@
 <template>
   <!--排行榜-->
   <div class="topList">
-    <mm-loading v-model="mmLoadShow"/>
+    <mm-loading v-model="mmLoadShow" />
     <template v-if="!mmLoadShow">
       <div class="topList-head">云音乐特色榜</div>
       <div class="topList-content">
@@ -16,7 +16,12 @@
             tag="div"
             class="topList-item"
           >
-            <img class="cover-img" v-lazy="`${item.coverImgUrl}?param=200y200`">
+            <div class="topList-img">
+              <img
+                class="cover-img"
+                v-lazy="`${item.coverImgUrl}?param=300y300`"
+              />
+            </div>
             <h3 class="name">{{item.name}}</h3>
           </router-link>
         </div>
@@ -34,7 +39,9 @@
             tag="div"
             class="topList-item"
           >
-            <img class="cover-img" v-lazy="`${item.picUrl}?param=200y200`">
+            <div class="topList-img">
+              <img class="cover-img" v-lazy="`${item.picUrl}?param=300y300`" />
+            </div>
             <h3 class="name">{{item.name}}</h3>
           </router-link>
         </div>
@@ -54,13 +61,13 @@ export default {
   components: {
     MmLoading
   },
-  data () {
+  data() {
     return {
       list: [], // 云音乐特色榜
       hotList: [] // 热门歌单
     }
   },
-  created () {
+  created() {
     // 获取排行榜列表
     const _getToplistDetail = getToplistDetail().then(res => {
       if (res.data.code === 200) {
@@ -142,6 +149,17 @@ export default {
     }
     @media (max-width: 540px) {
       width: calc(~'100% / 3');
+    }
+    .topList-img {
+      position: relative;
+      padding-top: 100%;
+      width: 100%;
+      height: 0;
+      .cover-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
     }
   }
 }

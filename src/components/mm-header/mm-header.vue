@@ -5,12 +5,12 @@
       <a
         href="https://github.com/maomao1996/Vue-mmPlayer"
         target="_blank"
-      >mmPlayer在线音乐播放器</a>
+      >mmPlayer 在线音乐播放器</a>
     </h1>
     <dl class="user">
       <template v-if="user.userId">
         <router-link class="user-info" to="/music/userlist" tag="dt">
-          <img :src="`${user.avatarUrl}?param=50y50`">
+          <img class="avatar" :src="`${user.avatarUrl}?param=50y50`" />
           <span>{{user.nickname}}</span>
         </router-link>
         <dd class="user-btn" @click="openDialog(2)">退出</dd>
@@ -30,10 +30,10 @@
           class="mm-dialog-input"
           type="number"
           autofocus
-          placeholder="请输入您的网易云UID"
+          placeholder="请输入您的网易云 UID"
           v-model.trim="uidValue"
           @keyup.enter="login"
-        >
+        />
       </div>
       <div slot="btn" @click="openDialog(1)">帮助</div>
     </mm-dialog>
@@ -59,7 +59,7 @@
       </div>
     </mm-dialog>
     <!--退出-->
-    <mm-dialog ref="outDialog" @confirm="out" bodyText="确定退出当前用户吗？"/>
+    <mm-dialog ref="outDialog" @confirm="out" bodyText="确定退出当前用户吗？" />
   </header>
 </template>
 
@@ -113,7 +113,7 @@ export default {
     // 登录
     login () {
       if (this.uidValue === '') {
-        this.$mmToast('UID不能为空')
+        this.$mmToast('UID 不能为空')
         this.openDialog(0)
         return
       }
@@ -126,13 +126,13 @@ export default {
         if (res.data.code === 200) {
           this.uidValue = ''
           if (res.data.playlist.length === 0 || !res.data.playlist[0].creator) {
-            this.$mmToast(`未查询找UID为 ${uid} 的用户信息`)
+            this.$mmToast(`未查询找 UID 为 ${uid} 的用户信息`)
             return
           }
           this.setUid(uid)
           this.user = res.data.playlist[0].creator
           setTimeout(() => {
-            this.$mmToast(`${this.user.nickname} 欢迎使用`)
+            this.$mmToast(`${this.user.nickname} 欢迎使用 mmPlayer`)
           }, 200)
         }
       })
@@ -158,14 +158,14 @@ export default {
     color: @text_color_active;
     font-size: @font_size_large;
     @media (max-width: 768px) {
-      padding-left: 20px;
+      padding-left: 15px;
       text-align: left;
     }
   }
   .user {
     position: absolute;
     top: 50%;
-    right: 20px;
+    right: 15px;
     line-height: 30px;
     text-align: right;
     transform: translateY(-50%);
@@ -173,13 +173,14 @@ export default {
       float: left;
       margin-right: 15px;
       cursor: pointer;
-      img {
+      .avatar {
         width: 30px;
         height: 30px;
         border-radius: 90px;
         vertical-align: middle;
       }
       span {
+        margin-left: 10px;
         color: @text_color_active;
       }
     }
