@@ -1,12 +1,12 @@
 <template>
   <!--我的歌单-->
   <div class="userList">
-    <mm-loading v-model="mmLoadShow"/>
+    <mm-loading v-model="mmLoadShow" />
     <template v-if="list.length>0">
       <div
-        class="list-item"
         v-for="item in formatList"
         :key="item.id"
+        class="list-item"
         :title="item.name"
       >
         <router-link
@@ -14,12 +14,12 @@
           tag="div"
           class="userList-item"
         >
-          <img class="cover-img" v-lazy="`${item.coverImgUrl}?param=200y200`">
-          <h3 class="name">{{item.name}}</h3>
+          <img v-lazy="`${item.coverImgUrl}?param=200y200`" class="cover-img">
+          <h3 class="name">{{ item.name }}</h3>
         </router-link>
       </div>
     </template>
-    <mm-no-result v-else title="啥也没有哦，快去登录看看吧！"/>
+    <mm-no-result v-else title="啥也没有哦，快去登录看看吧！" />
   </div>
 </template>
 
@@ -33,25 +33,25 @@ import MmLoading from 'base/mm-loading/mm-loading'
 import MmNoResult from 'base/mm-no-result/mm-no-result'
 
 export default {
-  name: 'play-list',
-  mixins: [loadMixin],
+  name: 'PlayList',
   components: {
     MmLoading,
     MmNoResult
   },
-  data () {
+  mixins: [loadMixin],
+  data() {
     return {
       list: [] // 列表
     }
   },
   computed: {
-    formatList () {
+    formatList() {
       return this.list.filter(item => item.trackCount > 0)
     },
     ...mapGetters(['uid'])
   },
   watch: {
-    uid (newUid) {
+    uid(newUid) {
       if (newUid) {
         this.mmLoadShow = true
         this._getUserPlaylist(newUid)
@@ -60,14 +60,14 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     if (!this.uid) {
       this.mmLoadShow = false
     } else {
       this._getUserPlaylist(this.uid)
     }
   },
-  activated () {
+  activated() {
     if (this.uid && this.list.length === 0) {
       this.mmLoadShow = true
       this._getUserPlaylist(this.uid)
@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     // 获取我的歌单详情
-    _getUserPlaylist (uid) {
+    _getUserPlaylist(uid) {
       getUserPlaylist(uid).then(res => {
         if (res.data.code === 200) {
           if (res.data.playlist.length === 0) {

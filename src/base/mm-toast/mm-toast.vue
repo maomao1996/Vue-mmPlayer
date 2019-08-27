@@ -1,14 +1,14 @@
 <template>
   <!--弹出层提示-->
   <transition name="toast-fade">
-    <div v-show="visible" class="mm-toast" :class="positionClasss">{{message}}</div>
+    <div v-show="visible" class="mm-toast" :class="positionClasss">{{ message }}</div>
   </transition>
 </template>
 
 <script>
 export default {
-  name: 'mm-toast',
-  data () {
+  name: 'MmToast',
+  data() {
     return {
       position: 'center', // 默认显示位置
       message: '', // 默认显示文本
@@ -17,7 +17,7 @@ export default {
     }
   },
   computed: {
-    positionClasss () {
+    positionClasss() {
       return 'mm-toast-' + this.position
     }
   }

@@ -6,9 +6,9 @@
       <div class="topList-head">云音乐特色榜</div>
       <div class="topList-content">
         <div
-          class="list-item"
           v-for="(item,index) in list"
           :key="index"
+          class="list-item"
           :title="item.name+item.updateFrequency"
         >
           <router-link
@@ -18,20 +18,20 @@
           >
             <div class="topList-img">
               <img
-                class="cover-img"
                 v-lazy="`${item.coverImgUrl}?param=300y300`"
-              />
+                class="cover-img"
+              >
             </div>
-            <h3 class="name">{{item.name}}</h3>
+            <h3 class="name">{{ item.name }}</h3>
           </router-link>
         </div>
       </div>
       <div class="topList-head">热门歌单</div>
       <div class="topList-content">
         <div
-          class="list-item"
           v-for="(item,index) in hotList"
           :key="index"
+          class="list-item"
           :title="item.name+item.updateFrequency"
         >
           <router-link
@@ -40,9 +40,9 @@
             class="topList-item"
           >
             <div class="topList-img">
-              <img class="cover-img" v-lazy="`${item.picUrl}?param=300y300`" />
+              <img v-lazy="`${item.picUrl}?param=300y300`" class="cover-img">
             </div>
-            <h3 class="name">{{item.name}}</h3>
+            <h3 class="name">{{ item.name }}</h3>
           </router-link>
         </div>
       </div>
@@ -56,11 +56,11 @@ import MmLoading from 'base/mm-loading/mm-loading'
 import { loadMixin } from 'assets/js/mixin'
 
 export default {
-  name: 'play-list',
-  mixins: [loadMixin],
+  name: 'PlayList',
   components: {
     MmLoading
   },
+  mixins: [loadMixin],
   data() {
     return {
       list: [], // 云音乐特色榜

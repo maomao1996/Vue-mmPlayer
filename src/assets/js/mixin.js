@@ -8,7 +8,7 @@ export const listMixin = {
     ...mapGetters(['playing', 'currentMusic'])
   },
   methods: {
-    selectItem (item, index) {
+    selectItem(item, index) {
       if (item.id === this.currentMusic.id && this.playing) {
         this.setPlaying(false)
       } else {
@@ -30,13 +30,13 @@ export const listMixin = {
  * @type {{data(): *, methods: {_hideLoad(): void}}}
  */
 export const loadMixin = {
-  data () {
+  data() {
     return {
       mmLoadShow: true // loading状态
     }
   },
   methods: {
-    _hideLoad () {
+    _hideLoad() {
       let timer
       clearTimeout(timer)
       timer = setTimeout(() => {

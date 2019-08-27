@@ -1,6 +1,6 @@
 const path = require('path')
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
@@ -8,7 +8,7 @@ const isEnvProduction = process.env.NODE_ENV === 'production'
 
 module.exports = {
   publicPath: '',
-  chainWebpack (config) {
+  chainWebpack(config) {
     config.resolve.alias
       .set('api', resolve('src/api'))
       .set('assets', resolve('src/assets'))

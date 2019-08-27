@@ -10,37 +10,37 @@
       </div>
       <div ref="listContent" class="list-content" @scroll="listScroll($event)">
         <div
-          class="list-item"
-          :class="{'on':playing&&currentMusic.id===item.id}"
           v-for="(item,index) in list"
           :key="item.id"
+          class="list-item"
+          :class="{'on':playing&&currentMusic.id===item.id}"
           @dblclick="selectItem(item,index,$event)"
         >
           <span class="list-num" v-text="index+1"></span>
           <div class="list-name">
-            <span>{{item.name}}</span>
+            <span>{{ item.name }}</span>
             <div class="list-menu">
               <mm-icon
                 class="hover"
                 :type="getPlayIconType(item)"
                 :size="40"
                 @click.stop="selectItem(item,index)"
-              ></mm-icon>
+              />
             </div>
           </div>
-          <span class="list-artist">{{item.singer}}</span>
-          <span class="list-time" v-if="listType === 1">
-            {{(item.duration % 3600) | format}}
+          <span class="list-artist">{{ item.singer }}</span>
+          <span v-if="listType === 1" class="list-time">
+            {{ (item.duration % 3600) | format }}
             <mm-icon
               class="hover list-menu-icon-del"
               type="delete-mini"
               :size="40"
               @click.stop="deleteItem(index)"
-            ></mm-icon>
+            />
           </span>
-          <span class="list-album" v-else>{{item.album}}</span>
+          <span v-else class="list-album">{{ item.album }}</span>
         </div>
-        <slot name="listBtn" />
+        <slot name="listBtn"></slot>
       </div>
     </template>
     <mm-no-result v-else title="弄啥呢，怎么啥也没有！！！" />
@@ -54,9 +54,12 @@ import { format } from 'assets/js/util'
 import MmNoResult from 'base/mm-no-result/mm-no-result'
 
 export default {
-  name: 'music-list',
+  name: 'MusicList',
   components: {
     MmNoResult
+  },
+  filters: {
+    format
   },
   props: {
     // 歌曲数据
@@ -73,7 +76,7 @@ export default {
       default: 0
     }
   },
-  data () {
+  data() {
     return {
       lockUp: true // 是否锁定滚动加载事件,默认锁定
     }
@@ -82,7 +85,7 @@ export default {
     ...mapGetters(['playing', 'currentMusic'])
   },
   watch: {
-    list (newList, oldList) {
+    list(newList, oldList) {
       if (this.listType !== 2) {
         return
       }
@@ -95,12 +98,12 @@ export default {
       }
     }
   },
-  activated () {
+  activated() {
     this.scrollTop && (this.$refs.listContent.scrollTop = this.scrollTop)
   },
   methods: {
     // 滚动事件
-    listScroll (e) {
+    listScroll(e) {
       const scrollTop = e.target.scrollTop
       this.scrollTop = scrollTop
       if (this.listType !== 2 || this.lockUp) {
@@ -113,11 +116,11 @@ export default {
       }
     },
     // 回到顶部
-    scrollTo () {
+    scrollTo() {
       this.$refs.listContent.scrollTop = 0
     },
     // 播放暂停事件
-    selectItem (item, index, e) {
+    selectItem(item, index, e) {
       if (e && /list-menu-icon-del/.test(e.target.className)) {
         return
       }
@@ -151,7 +154,7 @@ export default {
       // })
     },
     // 获取播放状态 type
-    getPlayIconType ({ id: itemId }) {
+    getPlayIconType({ id: itemId }) {
       const {
         playing,
         currentMusic: { id }
@@ -159,15 +162,12 @@ export default {
       return playing && id === itemId ? 'pause-mini' : 'play-mini'
     },
     // 删除事件
-    deleteItem (index) {
+    deleteItem(index) {
       this.$emit('del', index) // 触发删除事件
     },
     ...mapMutations({
       setPlaying: 'SET_PLAYING'
     })
-  },
-  filters: {
-    format
   }
 }
 </script>

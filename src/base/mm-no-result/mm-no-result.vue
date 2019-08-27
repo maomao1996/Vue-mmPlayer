@@ -1,13 +1,13 @@
 <template>
   <!--暂无数据提示-->
   <div class="mm-no-result">
-    <p class="mm-no-result-text">{{title}}</p>
+    <p class="mm-no-result-text">{{ title }}</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'mm-no-result',
+  name: 'MmNoResult',
   props: {
     // 无数据提示文本
     title: {

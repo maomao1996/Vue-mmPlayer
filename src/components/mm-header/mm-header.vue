@@ -10,8 +10,8 @@
     <dl class="user">
       <template v-if="user.userId">
         <router-link class="user-info" to="/music/userlist" tag="dt">
-          <img class="avatar" :src="`${user.avatarUrl}?param=50y50`" />
-          <span>{{user.nickname}}</span>
+          <img class="avatar" :src="`${user.avatarUrl}?param=50y50`">
+          <span>{{ user.nickname }}</span>
         </router-link>
         <dd class="user-btn" @click="openDialog(2)">退出</dd>
       </template>
@@ -20,29 +20,29 @@
     <!--登录-->
     <mm-dialog
       ref="loginDialog"
-      headText="登录"
-      confirmBtnText="登录"
-      cancelBtnText="关闭"
+      head-text="登录"
+      confirm-btn-text="登录"
+      cancel-btn-text="关闭"
       @confirm="login"
     >
       <div class="mm-dialog-text">
         <input
+          v-model.trim="uidValue"
           class="mm-dialog-input"
           type="number"
           autofocus
           placeholder="请输入您的网易云 UID"
-          v-model.trim="uidValue"
           @keyup.enter="login"
-        />
+        >
       </div>
       <div slot="btn" @click="openDialog(1)">帮助</div>
     </mm-dialog>
     <!--帮助-->
     <mm-dialog
       ref="helpDialog"
-      headText="登录帮助"
-      confirmBtnText="去登录"
-      cancelBtnText="关闭"
+      head-text="登录帮助"
+      confirm-btn-text="去登录"
+      cancel-btn-text="关闭"
       @confirm="openDialog(0)"
     >
       <div class="mm-dialog-text">
@@ -59,7 +59,7 @@
       </div>
     </mm-dialog>
     <!--退出-->
-    <mm-dialog ref="outDialog" @confirm="out" bodyText="确定退出当前用户吗？" />
+    <mm-dialog ref="outDialog" body-text="确定退出当前用户吗？" @confirm="out" />
   </header>
 </template>
 
@@ -69,11 +69,11 @@ import { mapGetters, mapActions } from 'vuex'
 import MmDialog from 'base/mm-dialog/mm-dialog'
 
 export default {
-  name: 'mm-header',
+  name: 'MmHeader',
   components: {
     MmDialog
   },
-  data () {
+  data() {
     return {
       user: {}, // 用户数据
       uidValue: '' // 记录用户 UID
@@ -82,12 +82,12 @@ export default {
   computed: {
     ...mapGetters(['uid'])
   },
-  created () {
+  created() {
     this.uid && this._getUserPlaylist(this.uid)
   },
   methods: {
     // 打开对话框
-    openDialog (key) {
+    openDialog(key) {
       switch (key) {
         case 0:
           this.$refs.loginDialog.show()
@@ -105,13 +105,13 @@ export default {
       }
     },
     // 退出登录
-    out () {
+    out() {
       this.user = {}
       this.setUid(null)
       this.$mmToast('退出成功！')
     },
     // 登录
-    login () {
+    login() {
       if (this.uidValue === '') {
         this.$mmToast('UID 不能为空')
         this.openDialog(0)
@@ -121,7 +121,7 @@ export default {
       this._getUserPlaylist(this.uidValue)
     },
     // 获取用户数据
-    _getUserPlaylist (uid) {
+    _getUserPlaylist(uid) {
       getUserPlaylist(uid).then(res => {
         if (res.data.code === 200) {
           this.uidValue = ''

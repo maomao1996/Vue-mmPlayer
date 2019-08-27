@@ -4,7 +4,7 @@ let instance
 let showToast = false
 let time // 存储toast显示状态
 const mmToast = {
-  install (Vue, options = {}) {
+  install(Vue, options = {}) {
     let opt = TempToast.data() // 获取组件中的默认配置
     Object.assign(opt, options) // 合并配置
     Vue.prototype.$mmToast = (message, position) => {
@@ -28,7 +28,7 @@ const mmToast = {
       document.body.appendChild(instance.vm.$el)
       instance.vm.visible = showToast = true
 
-      time = setTimeout(function () {
+      time = setTimeout(function() {
         instance.vm.visible = showToast = false
         document.body.removeChild(instance.vm.$el)
       }, opt.duration)

@@ -1,25 +1,26 @@
 <template>
   <!--对话框-->
   <transition name="mm-dialog-fade">
-    <div class="mm-dialog-box" v-show="dialogShow">
+    <div v-show="dialogShow" class="mm-dialog-box">
       <div class="mm-dialog-wrapper">
         <div class="mm-dialog-content">
           <div class="mm-dialog-head" v-text="headText"></div>
           <slot>
+            <!-- eslint-disable-next-line vue/no-v-html -->
             <div class="mm-dialog-text" v-html="bodyText"></div>
           </slot>
           <div class="mm-dialog-btns">
             <div
-              class="mm-btn-cancel"
               v-if="dialogType!=='alert'"
-              v-text="cancelBtnText"
+              class="mm-btn-cancel"
               @click="cancel"
+              v-text="cancelBtnText"
             ></div>
             <slot name="btn"></slot>
             <div
               class="mm-btn-confirm"
-              v-text="confirmBtnText"
               @click="confirm"
+              v-text="confirmBtnText"
             ></div>
           </div>
         </div>
@@ -30,7 +31,7 @@
 
 <script>
 export default {
-  name: 'mm-dialog',
+  name: 'MmDialog',
   props: {
     // type：confirm、alert
     type: {
@@ -63,49 +64,49 @@ export default {
       default: true
     }
   },
-  data () {
+  data() {
     return {
       dialogShow: false // 是否显示对话框
     }
   },
   computed: {
-    dialogType () {
+    dialogType() {
       return this.type.toLowerCase()
     }
   },
   watch: {
-    dialogShow (val) {
+    dialogShow(val) {
       if (val && this.appendToBody) {
         document.body.appendChild(this.$el)
       }
     }
   },
-  mounted () {
+  mounted() {
     if (this.dialogShow && this.appendToBody) {
       document.body.appendChild(this.$el)
     }
   },
-  destroyed () {
+  destroyed() {
     if (this.appendToBody && this.$el && this.$el.parentNode) {
       this.$el.parentNode.removeChild(this.$el)
     }
   },
   methods: {
     // 显示事件
-    show () {
+    show() {
       this.dialogShow = true
     },
     // 隐藏事件
-    hide () {
+    hide() {
       this.dialogShow = false
     },
     // 取消事件
-    cancel () {
+    cancel() {
       this.hide()
       this.$emit('cancel')
     },
     // 确定事件
-    confirm () {
+    confirm() {
       this.hide()
       this.$emit('confirm')
     }

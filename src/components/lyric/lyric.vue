@@ -3,33 +3,33 @@
     <!--封面-->
     <dl class="music-info">
       <dt>
-        <img :src="musicPicUrl" />
+        <img :src="musicPicUrl">
       </dt>
       <template v-if="currentMusic.id">
-        <dd>歌曲名：{{currentMusic.name}}</dd>
-        <dd>歌手名：{{currentMusic.singer}}</dd>
-        <dd>专辑名：{{currentMusic.album}}</dd>
+        <dd>歌曲名：{{ currentMusic.name }}</dd>
+        <dd>歌手名：{{ currentMusic.singer }}</dd>
+        <dd>专辑名：{{ currentMusic.album }}</dd>
       </template>
       <template v-else>
         <dd>mmPlayer在线音乐播放器</dd>
         <dd>
           <a class="hover" target="_blank" href="https://github.com/maomao1996">
-            <mm-icon type="github" :size="14"></mm-icon>&nbsp;茂茂
+            <mm-icon type="github" :size="14" />&nbsp;茂茂
           </a>
         </dd>
       </template>
     </dl>
     <!--歌词-->
-    <div class="music-lyric" ref="musicLyric">
+    <div ref="musicLyric" class="music-lyric">
       <div class="music-lyric-items" :style="lyricTop">
         <p v-if="!currentMusic.id">还没有播放音乐哦！</p>
         <p v-else-if="nolyric">暂无歌词！</p>
         <template v-else-if="lyric.length>0">
           <p
-            :class="{on:lyricIndex===index}"
             v-for="(item,index) in lyric"
             :key="index"
-          >{{item.text}}</p>
+            :class="{on:lyricIndex===index}"
+          >{{ item.text }}</p>
         </template>
         <p v-else>歌词加载失败！</p>
       </div>
@@ -41,7 +41,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'lyric',
+  name: 'Lyric',
   props: {
     // 歌词数据
     lyric: {
@@ -59,24 +59,24 @@ export default {
       default: 0
     }
   },
-  data () {
+  data() {
     return {
       top: 0 // 歌词居中
     }
   },
   computed: {
-    musicPicUrl () {
+    musicPicUrl() {
       return this.currentMusic.id
         ? `${this.currentMusic.image}?param=300y300`
         : require('../../assets/img/player_cover.png')
     },
-    lyricTop () {
+    lyricTop() {
       return `transform :translate3d(0, ${-34 *
         (this.lyricIndex - this.top)}px, 0)`
     },
     ...mapGetters(['currentMusic'])
   },
-  mounted () {
+  mounted() {
     window.addEventListener('resize', () => {
       clearTimeout(this.resizeTimer)
       this.resizeTimer = setTimeout(() => this.clacTop(), 60)
@@ -85,7 +85,7 @@ export default {
   },
   methods: {
     // 计算歌词居中的 top值
-    clacTop () {
+    clacTop() {
       const dom = this.$refs.musicLyric
       const { display = '' } = window.getComputedStyle(dom)
       if (display === 'none') {
