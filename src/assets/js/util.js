@@ -1,5 +1,5 @@
 // 随机排序数组/洗牌函数 https://github.com/lodash/lodash/blob/master/shuffle.js
-function copyArray (source, array) {
+function copyArray(source, array) {
   let index = -1
   const length = source.length
   array || (array = new Array(length))
@@ -9,7 +9,7 @@ function copyArray (source, array) {
   return array
 }
 
-export const randomSortArray = function shuffle (array) {
+export const randomSortArray = function shuffle(array) {
   const length = array == null ? 0 : array.length
   if (!length) {
     return []
@@ -27,9 +27,9 @@ export const randomSortArray = function shuffle (array) {
 }
 
 // 防抖函数
-export function debounce (func, delay) {
+export function debounce(func, delay) {
   let timer
-  return function (...args) {
+  return function(...args) {
     if (timer) {
       clearTimeout(timer)
     }
@@ -40,12 +40,12 @@ export function debounce (func, delay) {
 }
 
 // 补0函数
-export function addZero (s) {
+export function addZero(s) {
   return s < 10 ? '0' + s : s
 }
 
 // 歌词解析
-export function parseLyric (lrc) {
+export function parseLyric(lrc) {
   let lyrics = lrc.split('\n')
   let lrcObj = []
   for (let i = 0; i < lyrics.length; i++) {
@@ -68,7 +68,7 @@ export function parseLyric (lrc) {
 }
 
 // 时间格式化
-export function format (value) {
+export function format(value) {
   let minute = Math.floor(value / 60)
   let second = Math.floor(value % 60)
   return `${addZero(minute)}:${addZero(second)}`

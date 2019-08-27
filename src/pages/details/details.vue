@@ -1,8 +1,8 @@
 <template>
   <!--歌单详情-->
   <div class="details">
-    <mm-loading v-model="mmLoadShow"/>
-    <music-list :list="list" @select="selectItem"/>
+    <mm-loading v-model="mmLoadShow" />
+    <music-list :list="list" @select="selectItem" />
   </div>
 </template>
 
@@ -15,18 +15,18 @@ import { formatTopSongs } from 'assets/js/song'
 import { loadMixin } from 'assets/js/mixin'
 
 export default {
-  name: 'detail',
-  mixins: [loadMixin],
+  name: 'Detail',
   components: {
     MmLoading,
     MusicList
   },
-  data () {
+  mixins: [loadMixin],
+  data() {
     return {
       list: [] // 列表
     }
   },
-  created () {
+  created() {
     // 获取歌单详情
     getPlaylistDetail(this.$route.params.id).then(res => {
       if (res.data.code === 200) {
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     // 播放暂停事件
-    selectItem (item, index) {
+    selectItem(item, index) {
       this.selectPlay({
         list: this.list,
         index

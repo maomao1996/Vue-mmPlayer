@@ -7,8 +7,8 @@
           <router-view v-if="$route.meta.keepAlive" class="music-list" />
         </keep-alive>
         <router-view
-          :key="$route.path"
           v-if="!$route.meta.keepAlive"
+          :key="$route.path"
           class="music-list"
         />
       </div>
@@ -16,7 +16,7 @@
         class="music-right"
         :lyric="lyric"
         :nolyric="nolyric"
-        :lyricIndex="lyricIndex"
+        :lyric-index="lyricIndex"
       />
     </div>
 
@@ -29,13 +29,13 @@
           :size="36"
           title="上一曲 Ctrl + Left"
           @click="prev"
-        ></mm-icon>
+        />
         <div
           class="control-play pointer"
           title="播放暂停 Ctrl + Space"
           @click="play"
         >
-          <mm-icon :type="playing? 'pause' : 'play'" :size="24"></mm-icon>
+          <mm-icon :type="playing ? 'pause' : 'play'" :size="24" />
         </div>
         <mm-icon
           class="pointer"
@@ -43,24 +43,24 @@
           :size="36"
           title="下一曲 Ctrl + Right"
           @click="next"
-        ></mm-icon>
+        />
       </div>
       <div class="music-music">
         <div class="music-bar-info">
           <template v-if="currentMusic&&currentMusic.id">
-            {{currentMusic.name}}
-            <span>- {{currentMusic.singer}}</span>
+            {{ currentMusic.name }}
+            <span>- {{ currentMusic.singer }}</span>
           </template>
           <template v-else>欢迎使用mmPlayer在线音乐播放器</template>
         </div>
         <div
-          class="music-bar-time"
           v-if="currentMusic.id"
-        >{{currentTime | format}}/{{(currentMusic.duration % 3600) | format}}</div>
+          class="music-bar-time"
+        >{{ currentTime | format }}/{{ (currentMusic.duration % 3600) | format }}</div>
         <mm-progress
           class="music-progress"
           :percent="percentMusic"
-          :percentProgress="currentProgress"
+          :percent-progress="currentProgress"
           @percentChange="progressMusic"
         />
       </div>
@@ -72,7 +72,7 @@
         :title="getModeIconTitle()"
         :size="30"
         @click="modeChange"
-      ></mm-icon>
+      />
 
       <!-- 评论 -->
       <mm-icon
@@ -80,11 +80,11 @@
         type="comment"
         :size="30"
         @click="openComment"
-      ></mm-icon>
+      />
 
       <!-- 音量控制 -->
       <div class="music-bar-volume" title="音量加减 [Ctrl + Up / Down]">
-        <volume :volume="volume" @volumeChange="volumeChange"></volume>
+        <volume :volume="volume" @volumeChange="volumeChange" />
       </div>
     </div>
 
@@ -108,14 +108,18 @@ import Lyric from 'components/lyric/lyric'
 import Volume from 'components/volume/volume'
 
 export default {
-  name: 'music',
+  name: 'Music',
   components: {
     MmProgress,
     MusicBtn,
     Lyric,
     Volume
   },
-  data () {
+  filters: {
+    // 时间格式化
+    format
+  },
+  data() {
     const volume = getVolume()
     return {
       musicReady: false, // 是否可以使用播放器
@@ -129,12 +133,12 @@ export default {
     }
   },
   computed: {
-    picUrl () {
+    picUrl() {
       return this.currentMusic.id && this.currentMusic.image
         ? `url(${this.currentMusic.image}?param=300y300)`
         : `url(${defaultBG})`
     },
-    percentMusic () {
+    percentMusic() {
       const duration = this.currentMusic.duration
       return this.currentTime && duration ? this.currentTime / duration : 0
     },
@@ -150,7 +154,7 @@ export default {
     ])
   },
   watch: {
-    currentMusic (newMusic, oldMusic) {
+    currentMusic(newMusic, oldMusic) {
       if (!newMusic.id) {
         this.lyric = []
         return
@@ -166,14 +170,14 @@ export default {
         this._getLyric(newMusic.id)
       })
     },
-    playing (newPlaying) {
+    playing(newPlaying) {
       const audio = this.audioEle
       this.$nextTick(() => {
         newPlaying ? audio.play() : audio.pause()
         this.musicReady = true
       })
     },
-    currentTime (newTime) {
+    currentTime(newTime) {
       if (this.nolyric) {
         return
       }
@@ -186,7 +190,7 @@ export default {
       this.lyricIndex = lyricIndex
     }
   },
-  mounted () {
+  mounted() {
     this.$nextTick(() => {
       mmPlayerMusic.initAudio(this)
       this.initKeyDown()
@@ -195,7 +199,7 @@ export default {
   },
   methods: {
     // 按键事件
-    initKeyDown () {
+    initKeyDown() {
       document.onkeydown = e => {
         switch (e.ctrlKey && e.keyCode) {
           case 32: // 播放暂停Ctrl + Space
@@ -228,7 +232,7 @@ export default {
       }
     },
     // 上一曲
-    prev () {
+    prev() {
       if (!this.musicReady) {
         return
       }
@@ -247,14 +251,14 @@ export default {
       }
     },
     // 播放暂停
-    play () {
+    play() {
       if (!this.musicReady) {
         return
       }
       this.setPlaying(!this.playing)
     },
     // 下一曲
-    next () {
+    next() {
       if (!this.musicReady) {
         return
       }
@@ -281,7 +285,7 @@ export default {
       }
     },
     // 循环
-    loop () {
+    loop() {
       this.audioEle.currentTime = 0
       this.audioEle.play()
       this.setPlaying(true)
@@ -290,11 +294,11 @@ export default {
       }
     },
     // 修改音乐进度
-    progressMusic (percent) {
+    progressMusic(percent) {
       this.audioEle.currentTime = this.currentMusic.duration * percent
     },
     // 切换播放顺序
-    modeChange () {
+    modeChange() {
       const mode = (this.mode + 1) % 4
       this.setPlayMode(mode)
       if (mode === playMode.loop) {
@@ -314,14 +318,14 @@ export default {
       this.setPlaylist(list)
     },
     // 修改当前歌曲索引
-    resetCurrentIndex (list) {
+    resetCurrentIndex(list) {
       const index = list.findIndex(item => {
         return item.id === this.currentMusic.id
       })
       this.setCurrentIndex(index)
     },
     // 打开音乐评论
-    openComment () {
+    openComment() {
       if (!this.currentMusic.id) {
         this.$mmToast('还没有播放歌曲哦！')
         return false
@@ -329,14 +333,14 @@ export default {
       this.$router.push(`/music/comment/${this.currentMusic.id}`)
     },
     // 修改音量大小
-    volumeChange (percent) {
+    volumeChange(percent) {
       percent === 0 ? (this.isMute = true) : (this.isMute = false)
       this.volume = percent
       this.audioEle.volume = percent
       setVolume(percent)
     },
     // 获取播放模式 icon
-    getModeIconType () {
+    getModeIconType() {
       return {
         [playMode.listLoop]: 'loop',
         [playMode.order]: 'sequence',
@@ -345,7 +349,7 @@ export default {
       }[this.mode]
     },
     // 获取播放模式 title
-    getModeIconTitle () {
+    getModeIconTitle() {
       const key = 'Ctrl + O'
       return {
         [playMode.listLoop]: `列表循环 ${key}`,
@@ -355,7 +359,7 @@ export default {
       }[this.mode]
     },
     // 获取歌词
-    _getLyric (id) {
+    _getLyric(id) {
       getLyric(id).then(res => {
         if (res.status === 200) {
           if (res.data.nolyric) {
@@ -374,10 +378,6 @@ export default {
       setCurrentIndex: 'SET_CURRENTINDEX'
     }),
     ...mapActions(['setHistory', 'setPlayMode'])
-  },
-  filters: {
-    // 时间格式化
-    format
   }
 }
 </script>

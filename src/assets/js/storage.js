@@ -2,7 +2,7 @@ import { defaultVolume } from '@/config'
 
 const _storage = window.localStorage
 const storage = {
-  get (key, data = []) {
+  get(key, data = []) {
     if (_storage) {
       return _storage.getItem(key)
         ? Array.isArray(data)
@@ -11,12 +11,12 @@ const storage = {
         : data
     }
   },
-  set (key, val) {
+  set(key, val) {
     if (_storage) {
       _storage.setItem(key, val)
     }
   },
-  clear (key) {
+  clear(key) {
     if (_storage) {
       _storage.removeItem(key)
     }
@@ -31,12 +31,12 @@ const storage = {
 const HISTORYLIST_KEY = '__mmPlayer_historyList__'
 const HistoryListMAX = 200
 // 获取播放历史
-export function getHistoryList () {
+export function getHistoryList() {
   return storage.get(HISTORYLIST_KEY)
 }
 
 // 更新播放历史
-export function setHistoryList (music) {
+export function setHistoryList(music) {
   let list = storage.get(HISTORYLIST_KEY)
   const index = list.findIndex(item => {
     return item.id === music.id
@@ -56,13 +56,13 @@ export function setHistoryList (music) {
 }
 
 // 删除一条播放历史
-export function removeHistoryList (music) {
+export function removeHistoryList(music) {
   storage.set(HISTORYLIST_KEY, JSON.stringify(music))
   return music
 }
 
 // 清空播放历史
-export function clearHistoryList () {
+export function clearHistoryList() {
   storage.clear(HISTORYLIST_KEY)
   return []
 }
@@ -74,11 +74,11 @@ export function clearHistoryList () {
  */
 const MODE_KEY = '__mmPlayer_mode__'
 // 获取播放模式
-export function getMode () {
+export function getMode() {
   return storage.get(MODE_KEY, null)
 }
 // 修改播放模式
-export function setMode (mode) {
+export function setMode(mode) {
   storage.set(MODE_KEY, mode)
   return mode
 }
@@ -89,11 +89,11 @@ export function setMode (mode) {
  */
 const USERID_KEY = '__mmPlayer_userID__'
 // 获取用户uid
-export function getUserId () {
+export function getUserId() {
   return Number(storage.get(USERID_KEY, null))
 }
 // 修改用户uid
-export function setUserId (uid) {
+export function setUserId(uid) {
   storage.set(USERID_KEY, uid)
   return uid
 }
@@ -104,12 +104,12 @@ export function setUserId (uid) {
  */
 const VERSION_KEY = '__mmPlayer_version__'
 // 获取版本号
-export function getVersion () {
+export function getVersion() {
   let version = storage.get(VERSION_KEY, null)
   return Array.isArray(version) ? null : version
 }
 // 修改版本号
-export function setVersion (version) {
+export function setVersion(version) {
   storage.set(VERSION_KEY, version)
   return version
 }
@@ -120,12 +120,12 @@ export function setVersion (version) {
  */
 const VOLUME_KEY = '__mmPlayer_volume__'
 // 获取音量
-export function getVolume () {
+export function getVolume() {
   const volume = storage.get(VOLUME_KEY, defaultVolume)
   return Number(volume)
 }
 // 修改音量
-export function setVolume (volume) {
+export function setVolume(volume) {
   storage.set(VOLUME_KEY, volume)
   return volume
 }

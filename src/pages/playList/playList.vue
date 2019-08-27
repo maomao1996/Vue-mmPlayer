@@ -3,7 +3,7 @@
   <div class="playList">
     <music-list
       :list="playlist"
-      :listType="1"
+      :list-type="1"
       @select="selectItem"
       @del="deleteItem"
     >
@@ -13,9 +13,9 @@
     </music-list>
     <mm-dialog
       ref="dialog"
+      body-text="是否清空正在播放列表"
+      confirm-btn-text="清空"
       @confirm="clearList"
-      bodyText="是否清空正在播放列表"
-      confirmBtnText="清空"
     />
   </div>
 </template>
@@ -26,34 +26,34 @@ import MusicList from 'components/music-list/music-list'
 import MmDialog from 'base/mm-dialog/mm-dialog'
 
 export default {
-  name: 'play-list',
-  data () {
-    return {
-      show: false
-    }
-  },
+  name: 'PlayList',
   components: {
     MusicList,
     MmDialog
+  },
+  data() {
+    return {
+      show: false
+    }
   },
   computed: {
     ...mapGetters(['playing', 'playlist', 'currentMusic'])
   },
   methods: {
     // 清空列表事件
-    clearList () {
+    clearList() {
       this.clearPlayList()
       this.$mmToast('列表清空成功')
     },
     // 播放暂停事件
-    selectItem (item, index) {
+    selectItem(item, index) {
       if (item.id !== this.currentMusic.id) {
         this.setCurrentIndex(index)
         this.setPlaying(true)
       }
     },
     // 删除事件
-    deleteItem (index) {
+    deleteItem(index) {
       let list = [...this.playlist]
       list.splice(index, 1)
       this.removerPlayListItem({ list, index })

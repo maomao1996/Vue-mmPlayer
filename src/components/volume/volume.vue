@@ -6,11 +6,11 @@
       :type="getVolumeIconType()"
       :size="30"
       @click="handleToggleVolume"
-    ></mm-icon>
+    />
     <div class="volume-progress-wrapper">
       <mm-progress
-        @percentChange="handleVolumeChange"
         :percent="volumeProgress"
+        @percentChange="handleVolumeChange"
       />
     </div>
   </div>
@@ -31,14 +31,14 @@ export default {
     }
   },
   computed: {
-    volumeProgress () {
+    volumeProgress() {
       return this.volume
     },
     isMute: {
-      get () {
+      get() {
         return this.volumeProgress === 0
       },
-      set (newMute) {
+      set(newMute) {
         const volume = newMute ? 0 : this.lastVolume
         if (newMute) {
           this.lastVolume = this.volumeProgress
@@ -48,14 +48,14 @@ export default {
     }
   },
   methods: {
-    getVolumeIconType () {
+    getVolumeIconType() {
       return this.isMute ? 'volume-off' : 'volume'
     },
     // 是否静音
-    handleToggleVolume () {
+    handleToggleVolume() {
       this.isMute = !this.isMute
     },
-    handleVolumeChange (percent) {
+    handleVolumeChange(percent) {
       this.$emit('volumeChange', percent)
     }
   }

@@ -1,7 +1,7 @@
 import { playMode } from '@/config'
 
 const mmPlayerMusic = {
-  initAudio (that) {
+  initAudio(that) {
     const ele = that.audioEle
     // 音频缓冲事件
     ele.onprogress = () => {

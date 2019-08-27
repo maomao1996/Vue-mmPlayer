@@ -1,9 +1,9 @@
 <template>
   <!--进度条拖动-->
-  <div class="mmProgress" ref="mmProgress" @click="barClick">
+  <div ref="mmProgress" class="mmProgress" @click="barClick">
     <div class="mmProgress-bar"></div>
-    <div class="mmProgress-outer" ref="mmPercentProgress"></div>
-    <div class="mmProgress-inner" ref="mmProgressInner">
+    <div ref="mmPercentProgress" class="mmProgress-outer"></div>
+    <div ref="mmProgressInner" class="mmProgress-inner">
       <div
         class="mmProgress-dot"
         @mousedown="barDown"
@@ -16,16 +16,7 @@
 <script>
 const dotWidth = 10
 export default {
-  name: 'mmProgress',
-  data () {
-    return {
-      move: {
-        status: false, // 是否可拖动
-        startX: 0, // 记录最开始点击的X坐标
-        left: 0 // 记录当前已经移动的距离
-      }
-    }
-  },
+  name: 'MmProgress',
   props: {
     // 进度值一
     percent: {
@@ -38,7 +29,29 @@ export default {
       default: 0
     }
   },
-  mounted () {
+  data() {
+    return {
+      move: {
+        status: false, // 是否可拖动
+        startX: 0, // 记录最开始点击的X坐标
+        left: 0 // 记录当前已经移动的距离
+      }
+    }
+  },
+  watch: {
+    percent(newPercent) {
+      if (newPercent >= 0 && !this.move.status) {
+        const barWidth = this.$refs.mmProgress.clientWidth - dotWidth
+        const offsetWidth = newPercent * barWidth
+        this.moveSilde(offsetWidth)
+      }
+    },
+    percentProgress(newValue) {
+      let offsetWidth = this.$refs.mmProgress.clientWidth * newValue
+      this.$refs.mmPercentProgress.style.width = `${offsetWidth}px`
+    }
+  },
+  mounted() {
     this.$nextTick(() => {
       this.bindEvents()
       const barWidth = this.$refs.mmProgress.clientWidth - dotWidth
@@ -46,9 +59,12 @@ export default {
       this.moveSilde(offsetWidth)
     })
   },
+  beforeDestroy() {
+    this.unbindEvents()
+  },
   methods: {
     // 添加绑定事件
-    bindEvents () {
+    bindEvents() {
       document.addEventListener('mousemove', this.barMove)
       document.addEventListener('mouseup', this.barUp)
 
@@ -56,7 +72,7 @@ export default {
       document.addEventListener('touchend', this.barUp)
     },
     // 移除绑定事件
-    unbindEvents () {
+    unbindEvents() {
       document.removeEventListener('mousemove', this.barMove)
       document.removeEventListener('mouseup', this.barUp)
 
@@ -64,7 +80,7 @@ export default {
       document.removeEventListener('touchend', this.barUp)
     },
     // 点击事件
-    barClick (e) {
+    barClick(e) {
       let rect = this.$refs.mmProgress.getBoundingClientRect()
       let offsetWidth = Math.min(
         this.$refs.mmProgress.clientWidth - dotWidth,
@@ -74,13 +90,13 @@ export default {
       this.commitPercent()
     },
     // 鼠标按下事件
-    barDown (e) {
+    barDown(e) {
       this.move.status = true
       this.move.startX = e.clientX || e.touches[0].pageX
       this.move.left = this.$refs.mmProgressInner.clientWidth
     },
     // 鼠标/触摸移动事件
-    barMove (e) {
+    barMove(e) {
       if (!this.move.status) {
         return false
       }
@@ -94,37 +110,21 @@ export default {
       this.commitPercent()
     },
     // 鼠标/触摸释放事件
-    barUp (e) {
+    barUp(e) {
       e.stopPropagation()
       this.move.status = false
       // this.commitPercent()
     },
     // 移动滑块
-    moveSilde (offsetWidth) {
+    moveSilde(offsetWidth) {
       this.$refs.mmProgressInner.style.width = `${offsetWidth}px`
     },
     // 修改percent
-    commitPercent () {
+    commitPercent() {
       let lineWidth = this.$refs.mmProgress.clientWidth - dotWidth
       let percent = this.$refs.mmProgressInner.clientWidth / lineWidth
       this.$emit('percentChange', percent)
     }
-  },
-  watch: {
-    percent (newPercent) {
-      if (newPercent >= 0 && !this.move.status) {
-        const barWidth = this.$refs.mmProgress.clientWidth - dotWidth
-        const offsetWidth = newPercent * barWidth
-        this.moveSilde(offsetWidth)
-      }
-    },
-    percentProgress (newValue) {
-      let offsetWidth = this.$refs.mmProgress.clientWidth * newValue
-      this.$refs.mmPercentProgress.style.width = `${offsetWidth}px`
-    }
-  },
-  beforeDestroy () {
-    this.unbindEvents()
   }
 }
 </script>

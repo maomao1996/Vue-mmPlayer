@@ -13,17 +13,17 @@ export default {
     }
   },
   methods: {
-    getIconCls () {
+    getIconCls() {
       return `icon-${this.type}`
     },
-    getIconStyle () {
+    getIconStyle() {
       return { fontSize: this.size + 'px' }
     },
-    onClick (e) {
+    onClick(e) {
       this.$emit('click', e)
     }
   },
-  render () {
+  render() {
     const Icon = (
       <i
         onClick={this.onClick}

@@ -7,8 +7,8 @@
     <mm-dialog
       ref="versionDialog"
       type="alert"
-      headText="更新提示"
-      :bodyText="versionBody"
+      head-text="更新提示"
+      :body-text="versionBody"
     />
     <!--播放器-->
     <audio ref="mmPlayer"></audio>
@@ -34,12 +34,12 @@ const VERSIONBODY = `<div class="mm-dialog-text text-left">
 </div>`
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
     MmHeader,
     MmDialog
   },
-  created () {
+  created() {
     // 设置版本更新信息
     this.versionBody = VERSIONBODY
 
@@ -54,13 +54,13 @@ export default {
     // 设置title
     let OriginTitile = document.title
     let titleTime
-    document.addEventListener('visibilitychange', function () {
+    document.addEventListener('visibilitychange', function() {
       if (document.hidden) {
         document.title = '死鬼去哪里了！'
         clearTimeout(titleTime)
       } else {
         document.title = '(つェ⊂)咦!又好了!'
-        titleTime = setTimeout(function () {
+        titleTime = setTimeout(function() {
           document.title = OriginTitile
         }, 2000)
       }
@@ -74,7 +74,7 @@ export default {
     // 首次加载完成后移除动画
     let loadDOM = document.querySelector('#appLoading')
     if (loadDOM) {
-      const animationendFunc = function () {
+      const animationendFunc = function() {
         loadDOM.removeEventListener('animationend', animationendFunc)
         loadDOM.removeEventListener('webkitAnimationEnd', animationendFunc)
         document.body.removeChild(loadDOM)
@@ -97,7 +97,7 @@ export default {
   },
   methods: {
     // 歌曲数据处理
-    _formatSongs (list) {
+    _formatSongs(list) {
       let ret = []
       list.forEach(item => {
         const musicData = item

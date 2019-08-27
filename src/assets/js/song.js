@@ -1,4 +1,4 @@
-function filterSinger (singers) {
+function filterSinger(singers) {
   let arr = []
   singers.forEach(item => {
     arr.push(item.name)
@@ -7,7 +7,7 @@ function filterSinger (singers) {
 }
 
 export class Song {
-  constructor ({ id, name, singer, album, image, duration, url }) {
+  constructor({ id, name, singer, album, image, duration, url }) {
     this.id = id
     this.name = name
     this.singer = singer
@@ -18,7 +18,7 @@ export class Song {
   }
 }
 
-export function createPlayList (music) {
+export function createPlayList(music) {
   return new Song({
     id: music.id,
     name: music.name,
@@ -30,7 +30,7 @@ export function createPlayList (music) {
   })
 }
 
-export function createTopList (music) {
+export function createTopList(music) {
   return new Song({
     id: music.id,
     name: music.name,
@@ -43,7 +43,7 @@ export function createTopList (music) {
 }
 
 // 歌曲数据格式化
-const formatSongs = function formatPlayList (list) {
+const formatSongs = function formatPlayList(list) {
   let Songs = []
   list.forEach(item => {
     const musicData = item
@@ -54,7 +54,7 @@ const formatSongs = function formatPlayList (list) {
   return Songs
 }
 
-export const formatTopSongs = function formatTopList (list) {
+export const formatTopSongs = function formatTopList(list) {
   let Songs = []
   list.forEach(item => {
     const musicData = item

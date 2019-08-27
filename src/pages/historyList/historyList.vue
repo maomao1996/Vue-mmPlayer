@@ -3,7 +3,7 @@
   <div class="historyList">
     <music-list
       :list="historyList"
-      :listType="1"
+      :list-type="1"
       @select="selectItem"
       @del="deleteItem"
     >
@@ -13,9 +13,9 @@
     </music-list>
     <mm-dialog
       ref="dialog"
+      body-text="是否清空播放历史列表"
+      confirm-btn-text="清空"
       @confirm="clearList"
-      bodyText="是否清空播放历史列表"
-      confirmBtnText="清空"
     />
   </div>
 </template>
@@ -26,7 +26,7 @@ import MusicList from 'components/music-list/music-list'
 import MmDialog from 'base/mm-dialog/mm-dialog'
 
 export default {
-  name: 'history-list',
+  name: 'HistoryList',
   components: {
     MusicList,
     MmDialog
@@ -36,19 +36,19 @@ export default {
   },
   methods: {
     // 清空列表事件
-    clearList () {
+    clearList() {
       this.clearHistory()
       this.$mmToast('列表清空成功')
     },
     // 播放事件
-    selectItem (item, index) {
+    selectItem(item, index) {
       this.selectPlay({
         list: this.historyList,
         index
       })
     },
     // 删除事件
-    deleteItem (index) {
+    deleteItem(index) {
       let list = [...this.historyList]
       list.splice(index, 1)
       this.removeHistory(list)

@@ -7,19 +7,19 @@
         v-for="(item,index) in Artists.slice(0,5)"
         :key="index"
         @click="clickHot(item.first)"
-      >{{item.first}}</span>
+      >{{ item.first }}</span>
       <input
+        v-model.trim="searchValue"
         class="search-input"
         type="text"
         placeholder="音乐/歌手"
-        v-model.trim="searchValue"
         @keyup.enter="onEnter"
-      />
+      >
     </div>
     <music-list
       ref="musicList"
       :list="list"
-      :listType="2"
+      :list-type="2"
       @select="selectItem"
       @pullUp="pullUpLoad"
     />
@@ -35,13 +35,13 @@ import MusicList from 'components/music-list/music-list'
 import { loadMixin } from 'assets/js/mixin'
 
 export default {
-  name: 'search',
-  mixins: [loadMixin],
+  name: 'Search',
   components: {
     MmLoading,
     MusicList
   },
-  data () {
+  mixins: [loadMixin],
+  data() {
     return {
       searchValue: '', // 搜索关键词
       Artists: [], // 热搜数组
@@ -54,7 +54,7 @@ export default {
     ...mapGetters(['playing', 'currentMusic'])
   },
   watch: {
-    list (newList, oldList) {
+    list(newList, oldList) {
       if (newList.length !== oldList.length) {
         this.lockUp = false
       } else if (
@@ -64,7 +64,7 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     // 获取热搜
     searchHot().then(res => {
       if (res.data.code === 200) {
@@ -75,12 +75,12 @@ export default {
   },
   methods: {
     // 点击热搜
-    clickHot (name) {
+    clickHot(name) {
       this.searchValue = name
       this.onEnter()
     },
     // 搜索事件
-    onEnter () {
+    onEnter() {
       if (this.searchValue.replace(/(^\s+)|(\s+$)/g, '') === '') {
         this.$mmToast('搜索内容不能为空！')
         return
@@ -98,7 +98,7 @@ export default {
       })
     },
     // 滚动加载事件
-    pullUpLoad () {
+    pullUpLoad() {
       this.page += 1
       search(this.searchValue, this.page).then(res => {
         if (res.data.code === 200) {
@@ -111,13 +111,13 @@ export default {
       })
     },
     // 播放歌曲
-    async selectItem (music) {
+    async selectItem(music) {
       let image = await this._getMusicDetail(music.id)
       music.image = image
       this.selectAddPlay(music)
     },
     // 获取歌曲详情
-    _getMusicDetail (id) {
+    _getMusicDetail(id) {
       return getMusicDetail(id).then(res => {
         if (res.data.code === 200) {
           return res.data.songs[0].al.picUrl
