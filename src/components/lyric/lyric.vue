@@ -3,7 +3,7 @@
     <!--封面-->
     <dl class="music-info">
       <dt>
-        <img :src="musicPicUrl">
+        <img :src="musicPicUrl" />
       </dt>
       <template v-if="currentMusic.id">
         <dd>歌曲名：{{ currentMusic.name }}</dd>

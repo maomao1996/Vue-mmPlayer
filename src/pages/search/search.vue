@@ -14,7 +14,7 @@
         type="text"
         placeholder="音乐/歌手"
         @keyup.enter="onEnter"
-      >
+      />
     </div>
     <music-list
       ref="musicList"
