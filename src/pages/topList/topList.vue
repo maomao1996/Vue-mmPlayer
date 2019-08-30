@@ -20,7 +20,7 @@
               <img
                 v-lazy="`${item.coverImgUrl}?param=300y300`"
                 class="cover-img"
-              >
+              />
             </div>
             <h3 class="name">{{ item.name }}</h3>
           </router-link>
@@ -40,7 +40,7 @@
             class="topList-item"
           >
             <div class="topList-img">
-              <img v-lazy="`${item.picUrl}?param=300y300`" class="cover-img">
+              <img v-lazy="`${item.picUrl}?param=300y300`" class="cover-img" />
             </div>
             <h3 class="name">{{ item.name }}</h3>
           </router-link>

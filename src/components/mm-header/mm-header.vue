@@ -10,7 +10,7 @@
     <dl class="user">
       <template v-if="user.userId">
         <router-link class="user-info" to="/music/userlist" tag="dt">
-          <img class="avatar" :src="`${user.avatarUrl}?param=50y50`">
+          <img class="avatar" :src="`${user.avatarUrl}?param=50y50`" />
           <span>{{ user.nickname }}</span>
         </router-link>
         <dd class="user-btn" @click="openDialog(2)">退出</dd>
@@ -33,7 +33,7 @@
           autofocus
           placeholder="请输入您的网易云 UID"
           @keyup.enter="login"
-        >
+        />
       </div>
       <div slot="btn" @click="openDialog(1)">帮助</div>
     </mm-dialog>

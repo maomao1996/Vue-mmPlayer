@@ -14,7 +14,7 @@
           tag="div"
           class="userList-item"
         >
-          <img v-lazy="`${item.coverImgUrl}?param=200y200`" class="cover-img">
+          <img v-lazy="`${item.coverImgUrl}?param=200y200`" class="cover-img" />
           <h3 class="name">{{ item.name }}</h3>
         </router-link>
       </div>

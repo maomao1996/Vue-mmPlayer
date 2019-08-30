@@ -21,7 +21,7 @@
           <img
             v-lazy="`${item.user.avatarUrl}?param=50y50`"
             class="comment-item-pic"
-          >
+          />
           <h2 class="comment-item-title">{{ item.user.nickname }}</h2>
         </a>
         <p class="comment-item-disc">{{ item.content }}</p>
@@ -45,7 +45,7 @@
           target="_blank"
           :href="`http://music.163.com/#/user/home?id=${item.user.userId}`"
         >
-          <img v-lazy="`${item.user.avatarUrl}?param=50y50`" class="cover-img">
+          <img v-lazy="`${item.user.avatarUrl}?param=50y50`" class="cover-img" />
         </a>
         <h2 class="comment-item-title">
           <a

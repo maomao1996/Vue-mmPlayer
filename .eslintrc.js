@@ -22,7 +22,7 @@ module.exports = {
       'error',
       {
         html: {
-          void: 'never',
+          void: 'any',
           normal: 'never',
           component: 'always'
         },
