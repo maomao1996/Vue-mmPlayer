@@ -53,7 +53,7 @@
 <script>
 import { getToplistDetail, getPersonalized } from 'api'
 import MmLoading from 'base/mm-loading/mm-loading'
-import { loadMixin } from 'assets/js/mixin'
+import { loadMixin } from '@/utils/mixin'
 
 export default {
   name: 'PlayList',
@@ -97,8 +97,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '~assets/css/mixin';
-
 .topList {
   position: relative;
   width: 100%;

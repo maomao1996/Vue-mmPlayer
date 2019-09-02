@@ -11,8 +11,8 @@ import { mapActions } from 'vuex'
 import { getPlaylistDetail } from 'api'
 import MmLoading from 'base/mm-loading/mm-loading'
 import MusicList from 'components/music-list/music-list'
-import { formatTopSongs } from 'assets/js/song'
-import { loadMixin } from 'assets/js/mixin'
+import { formatTopSongs } from '@/utils/song'
+import { loadMixin } from '@/utils/mixin'
 
 export default {
   name: 'Detail',

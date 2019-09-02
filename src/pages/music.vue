@@ -97,9 +97,9 @@
 <script>
 import { getLyric } from 'api'
 import mmPlayerMusic from './mmPlayer'
-import { randomSortArray, parseLyric, format } from 'assets/js/util'
+import { randomSortArray, parseLyric, format } from '@/utils/util'
 import { playMode, defaultBG } from '@/config'
-import { getVolume, setVolume } from 'assets/js/storage'
+import { getVolume, setVolume } from '@/utils/storage'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 import MmProgress from 'base/mm-progress/mm-progress'
@@ -383,8 +383,6 @@ export default {
 </script>
 
 <style lang="less">
-@import '~assets/css/mixin';
-
 .music {
   padding: 75px 25px 25px 25px;
   width: 100%;

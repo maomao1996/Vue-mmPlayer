@@ -4,7 +4,7 @@ import {
   removeHistoryList,
   setMode,
   setUserId
-} from '../assets/js/storage'
+} from '@/utils/storage'
 import * as types from './mutation-types'
 
 function findIndex(list, music) {

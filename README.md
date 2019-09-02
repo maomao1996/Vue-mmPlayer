@@ -65,7 +65,7 @@ node app.js // 服务端运行 访问 http://localhost:3000
 - Axios（网络请求）
 - FastClick（解决移动端 300ms 点击延迟）
 
-## 项目布局
+## 项目结构目录图（使用 tree 生成）
 
 <details>
 <summary>展开查看</summary>
@@ -78,18 +78,7 @@ node app.js // 服务端运行 访问 http://localhost:3000
 │   ├── api                                         // 数据交互目录
 │   │   └── index.js                                // 获取数据
 │   ├── assets                                      // 资源目录
-│   │   ├── css                                     // 样式文件目录
-│   │   │   ├── index.less                          // mmPlayer 相关基础样式
-│   │   │   ├── mixin.less                          // 样式混合
-│   │   │   ├── reset.less                          // 样式重置
-│   │   │   └── var.less                            // 样式变量（字体大小、字体颜色、背景颜色）
-│   │   ├── img                                     // 静态图片目录
-│   │   └── js                                      // 数据交互目录
-│   │        ├── hack.js                            // 修改 nextTick 
-│   │        ├── mixin.js                           // 组件混合
-│   │        ├── song.js                            // 数据处理
-│   │        ├── storage.js                         // localstorage 配置
-│   │        └── util.js                            // 公用 js 方法
+│   │   └── img                                     // 静态图片目录
 │   ├── base                                        // 公共基础组件目录
 │   │   ├── mm-dialog
 │   │   │   └── mm-dialog.vue                       // 对话框组件
@@ -141,10 +130,22 @@ node app.js // 服务端运行 访问 http://localhost:3000
 │   │   ├── mutation-types.js                       // 定义常量 mutations 名
 │   │   ├── mutations.js                            // 配置 mutations
 │   │   └── state.js                                // 配置 state
+│   ├── styles                                      // 样式文件目录
+│   │   ├── index.less                              // mmPlayer 相关基础样式
+│   │   ├── mixin.less                              // 样式混合
+│   │   ├── reset.less                              // 样式重置
+│   │   └── var.less                                // 样式变量（字体大小、字体颜色、背景颜色）
+│   ├── js                                          // 数据交互目录
+│   │   ├── hack.js                                 // 修改 nextTick 
+│   │   ├── mixin.js                                // 组件混合
+│   │   ├── song.js                                 // 数据处理
+│   │   ├── storage.js                              // localstorage 配置
+│   │   └── util.js                                 // 公用 js 方法
 │   ├── App.vue                                     // 根组件
 │   ├── config.js                                   // 基本配置
 │   └── main.js                                     // 入口主文件
 └── vue.config.js                                   // vue-cli 配置文件
+
 </code></pre>
 </details>
 

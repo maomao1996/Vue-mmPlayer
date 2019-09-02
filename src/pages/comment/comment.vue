@@ -79,9 +79,9 @@
 
 <script>
 import { getComment } from 'api'
-import { addZero } from 'assets/js/util'
+import { addZero } from '@/utils/util'
 import MmLoading from 'base/mm-loading/mm-loading'
-import { loadMixin } from 'assets/js/mixin'
+import { loadMixin } from '@/utils/mixin'
 
 export default {
   name: 'Comment',
@@ -184,8 +184,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '~assets/css/mixin';
-
 .comment {
   position: relative;
   transform: translate3d(0, 0, 0);

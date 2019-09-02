@@ -27,7 +27,7 @@
 import { mapGetters } from 'vuex'
 
 import { getUserPlaylist } from 'api'
-import { loadMixin } from 'assets/js/mixin'
+import { loadMixin } from '@/utils/mixin'
 
 import MmLoading from 'base/mm-loading/mm-loading'
 import MmNoResult from 'base/mm-no-result/mm-no-result'
@@ -93,8 +93,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '~assets/css/mixin';
-
 .userList {
   position: relative;
   width: 100%;
