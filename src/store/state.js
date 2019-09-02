@@ -1,5 +1,5 @@
 import { playMode } from '@/config'
-import { getHistoryList, getMode, getUserId } from 'assets/js/storage'
+import { getHistoryList, getMode, getUserId } from '@/utils/storage'
 
 const state = {
   audioEle: null, // audio元素

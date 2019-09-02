@@ -1,7 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 // import 'babel-polyfill'
-// import 'assets/js/hack'
+// import '@/utils/hack'
 import Vue from 'vue'
 import store from './store'
 import router from './router'
@@ -12,7 +12,7 @@ import Icon from 'base/mm-icon/mm-icon'
 import VueLazyload from 'vue-lazyload'
 import { VERSION } from './config'
 
-import '@/assets/css/index.less'
+import '@/styles/index.less'
 
 // 优化移动端300ms点击延迟
 fastclick.attach(document.body)

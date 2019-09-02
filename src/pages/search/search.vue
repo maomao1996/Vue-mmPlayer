@@ -29,10 +29,10 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import { search, searchHot, getMusicDetail } from 'api'
-import formatSongs from 'assets/js/song'
+import formatSongs from '@/utils/song'
 import MmLoading from 'base/mm-loading/mm-loading'
 import MusicList from 'components/music-list/music-list'
-import { loadMixin } from 'assets/js/mixin'
+import { loadMixin } from '@/utils/mixin'
 
 export default {
   name: 'Search',

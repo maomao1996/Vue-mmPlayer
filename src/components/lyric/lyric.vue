@@ -99,8 +99,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '~assets/css/mixin';
-
 .music-info {
   padding-bottom: 20px;
   text-align: center;

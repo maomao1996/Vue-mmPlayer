@@ -50,7 +50,7 @@
 <script>
 // import {getCheckMusic} from 'api'
 import { mapGetters, mapMutations } from 'vuex'
-import { format } from 'assets/js/util'
+import { format } from '@/utils/util'
 import MmNoResult from 'base/mm-no-result/mm-no-result'
 
 export default {
@@ -173,8 +173,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '~assets/css/mixin';
-
 .list-header {
   border-bottom: 1px solid @list_head_line_color;
   color: @text_color_active;

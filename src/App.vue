@@ -19,10 +19,10 @@
 import { mapMutations, mapActions } from 'vuex'
 import { topList } from 'api'
 import { defaultSheetId, VERSION } from '@/config'
-import { createTopList } from 'assets/js/song'
+import { createTopList } from '@/utils/song'
 import MmHeader from 'components/mm-header/mm-header'
 import MmDialog from 'base/mm-dialog/mm-dialog'
-import { getVersion, setVersion } from 'assets/js/storage'
+import { getVersion, setVersion } from '@/utils/storage'
 
 const VERSIONBODY = `<div class="mm-dialog-text text-left">
 版本号：${VERSION}（2019.08.26）<br/>
