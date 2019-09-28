@@ -33,7 +33,8 @@ module.exports = {
     'space-before-function-paren': [2, 'never'],
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-sequences': 2
+    'no-sequences': 2,
+    semi: 1
   },
   parserOptions: {
     parser: 'babel-eslint'
