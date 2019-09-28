@@ -99,7 +99,9 @@ export default {
     }
   },
   activated() {
-    this.scrollTop && (this.$refs.listContent.scrollTop = this.scrollTop)
+    this.scrollTop &&
+      this.$refs.listContent &&
+      (this.$refs.listContent.scrollTop = this.scrollTop)
   },
   methods: {
     // 滚动事件

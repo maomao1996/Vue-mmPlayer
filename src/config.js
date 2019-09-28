@@ -2,7 +2,7 @@
 export const URL = 'http://localhost:3000'
 
 // 版本号
-export const VERSION = '1.6.0'
+export const VERSION = '1.6.1'
 
 /**
  * 默认歌单ID （正在播放列表）
@@ -38,7 +38,10 @@ export const defaultSheetId = 1
 export const defaultLimit = 30
 
 // 默认背景图（需自行引入网络图或本地静态图）
-const BG_ARR = []
+const BG_ARR = [
+  'http://cdn.mtnhao.com/music/bg.jpg',
+  'http://cdn.mtnhao.com/music/bg-02.jpg'
+]
 export const defaultBG = BG_ARR[Math.floor(Math.random() * BG_ARR.length)]
 
 // 默认音量
