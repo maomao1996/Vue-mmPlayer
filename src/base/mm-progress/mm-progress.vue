@@ -100,6 +100,7 @@ export default {
       if (!this.move.status) {
         return false
       }
+      e.preventDefault()
       let endX = e.clientX || e.touches[0].pageX
       let dist = endX - this.move.startX
       let offsetWidth = Math.min(
@@ -111,7 +112,6 @@ export default {
     },
     // 鼠标/触摸释放事件
     barUp(e) {
-      e.stopPropagation()
       this.move.status = false
       // this.commitPercent()
     },
