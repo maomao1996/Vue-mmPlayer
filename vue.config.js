@@ -6,6 +6,9 @@ function resolve(dir) {
 
 const isEnvProduction = process.env.NODE_ENV === 'production'
 
+// 注入版本信息
+process.env.VUE_APP_VERSION = require('./package.json').version
+
 module.exports = {
   publicPath: '',
   chainWebpack(config) {
