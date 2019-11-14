@@ -1,8 +1,5 @@
-// 网络请求地址
-export const URL = 'http://localhost:3000'
-
 // 版本号
-export const VERSION = '1.6.1'
+export const VERSION = process.env.VUE_APP_VERSION
 
 /**
  * 默认歌单ID （正在播放列表）

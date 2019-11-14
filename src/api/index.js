@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { URL, defaultLimit } from '@/config'
+import { defaultLimit } from '@/config'
 
-axios.defaults.baseURL = URL
+axios.defaults.baseURL = process.env.VUE_APP_BASE_API_URL
 
 // 排行榜列表
 export function getToplistDetail() {
