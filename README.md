@@ -8,8 +8,6 @@ mmPlayer 虽然是响应式，但主要以 PC 端为主，移动端只做相应�
 
 > [在线演示地址](http://music.mtnhao.com)
 
-> [桌面版下载](http://cdn.mtnhao.com/mmPlayer.zip)
-
 > [React 移动端版本（高仿网易云音乐）](https://github.com/maomao1996/react-music)
 
 > [交流 QQ 群：529940193](http://shang.qq.com/wpa/qunwpa?idkey=f8be1b627a89108ccfda9308720d2a4d0eb3306f253c5d3e8d58452e20b91129)
@@ -31,7 +29,7 @@ mmPlayer 虽然是响应式，但主要以 PC 端为主，移动端只做相应�
 ```
 git clone https://github.com/maomao1996/Vue-mmPlayer.git  //下载 mmPlayer
 
-cd mmPlayer // 进入 mmPlayer 播放器目录
+cd Vue-mmPlayer // 进入 mmPlayer 播放器目录
 
 npm install // 安装依赖
 
@@ -80,6 +78,7 @@ node app.js // 服务端运行 访问 http://localhost:3000
 │   ├── api                                         // 数据交互目录
 │   │   └── index.js                                // 获取数据
 │   ├── assets                                      // 资源目录
+│   │   └── background                              // 启动背景图目录
 │   │   └── img                                     // 静态图片目录
 │   ├── base                                        // 公共基础组件目录
 │   │   ├── mm-dialog

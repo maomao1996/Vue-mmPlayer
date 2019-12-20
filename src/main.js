@@ -29,15 +29,14 @@ Vue.use(VueLazyload, {
   loading: require('assets/img/default.png')
 })
 
+// 访问版本统计
+window._hmt && window._hmt.push(['_setCustomVar', 1, 'version', VERSION, 1])
+
 const redirectList = ['/music/details', '/music/comment']
 router.beforeEach((to, from, next) => {
   window._hmt &&
-    window._hmt.push([
-      '_trackPageview',
-      `'/#'${to.fullPath}${
-        to.fullPath.indexOf('?') < 0 ? '?' : '&'
-      }version=${VERSION}`
-    ])
+    to.path &&
+    window._hmt.push(['_trackPageview', '/#' + to.fullPath])
   if (redirectList.includes(to.path)) {
     next()
   } else {
