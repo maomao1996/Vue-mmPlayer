@@ -21,7 +21,10 @@
     </div>
 
     <!--播放器-->
-    <div class="music-bar" :class="{disable:!musicReady||!currentMusic.id}">
+    <div
+      class="music-bar"
+      :class="{ disable: !musicReady || !currentMusic.id }"
+    >
       <div class="music-bar-btns">
         <mm-icon
           class="pointer"
@@ -47,16 +50,15 @@
       </div>
       <div class="music-music">
         <div class="music-bar-info">
-          <template v-if="currentMusic&&currentMusic.id">
+          <template v-if="currentMusic && currentMusic.id">
             {{ currentMusic.name }}
             <span>- {{ currentMusic.singer }}</span>
           </template>
           <template v-else>欢迎使用mmPlayer在线音乐播放器</template>
         </div>
-        <div
-          v-if="currentMusic.id"
-          class="music-bar-time"
-        >{{ currentTime | format }}/{{ (currentMusic.duration % 3600) | format }}</div>
+        <div v-if="currentMusic.id" class="music-bar-time">
+          {{ currentTime | format }}/{{ currentMusic.duration % 3600 | format }}
+        </div>
         <mm-progress
           class="music-progress"
           :percent="percentMusic"
@@ -89,7 +91,7 @@
     </div>
 
     <!--遮罩-->
-    <div class="mmPlayer-bg" :style="{backgroundImage: picUrl}"></div>
+    <div class="mmPlayer-bg" :style="{ backgroundImage: picUrl }"></div>
     <div class="mmPlayer-mask"></div>
   </div>
 </template>
@@ -526,7 +528,6 @@ export default {
     background-position: 50%;
     filter: blur(12px);
     opacity: 0.7;
-    transform: translateZ(0);
     transition: all 0.8s;
   }
 
