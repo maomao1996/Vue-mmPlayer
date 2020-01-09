@@ -99,7 +99,7 @@
 <script>
 import { getLyric } from 'api'
 import mmPlayerMusic from './mmPlayer'
-import { randomSortArray, parseLyric, format } from '@/utils/util'
+import { randomSortArray, parseLyric, format, silencePromise } from '@/utils/util'
 import { playMode, defaultBG } from '@/config'
 import { getVolume, setVolume } from '@/utils/storage'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
@@ -167,7 +167,7 @@ export default {
       this.audioEle.src = newMusic.url
       // 重置相关参数
       this.lyricIndex = this.currentTime = this.currentProgress = 0
-      this.audioEle.play()
+      silencePromise(this.audioEle.play())
       this.$nextTick(() => {
         this._getLyric(newMusic.id)
       })
@@ -175,7 +175,7 @@ export default {
     playing(newPlaying) {
       const audio = this.audioEle
       this.$nextTick(() => {
-        newPlaying ? audio.play() : audio.pause()
+        newPlaying ? silencePromise(audio.play()) : audio.pause()
         this.musicReady = true
       })
     },
@@ -289,7 +289,7 @@ export default {
     // 循环
     loop() {
       this.audioEle.currentTime = 0
-      this.audioEle.play()
+      silencePromise(this.audioEle.play())
       this.setPlaying(true)
       if (this.lyric.length > 0) {
         this.lyricIndex = 0
@@ -370,7 +370,7 @@ export default {
             this.nolyric = false
             this.lyric = parseLyric(res.data.lrc.lyric)
           }
-          this.audioEle.play()
+          silencePromise(this.audioEle.play())
         }
       })
     },
