@@ -1,4 +1,4 @@
-# mmPlayer V1.6.3（2020.01.09）启动 2.0 版本
+# mmPlayer V1.6.4（2020.02.04）启动 2.0 版本
 
 模仿 QQ 音乐网页版界面，采用 flexbox 和 position 布局；
 mmPlayer 虽然是响应式，但主要以 PC 端为主，移动端只做相应适配（未做歌词显示）；
@@ -200,6 +200,10 @@ PC 端界面自我感觉还行， 就是移动端界面总觉得怪怪的，奈�
 ![移动端二](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/8.jpg)
 
 ## 更新说明
+
+### V1.6.4（2020.02.04）
+
+- 调整默认音量
 
 ### V1.6.3（2020.01.09）
 

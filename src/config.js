@@ -41,7 +41,7 @@ const BG_ARR = requireAll(req)
 export const defaultBG = BG_ARR[Math.floor(Math.random() * BG_ARR.length)]
 
 // 默认音量
-export const defaultVolume = 0.2
+export const defaultVolume = 0.8
 
 /**
  * 播放模式
