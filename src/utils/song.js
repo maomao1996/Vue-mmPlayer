@@ -1,3 +1,5 @@
+import { toHttps } from './util'
+
 function filterSinger(singers) {
   let arr = []
   singers.forEach(item => {
@@ -24,7 +26,7 @@ export function createPlayList(music) {
     name: music.name,
     singer: music.artists.length > 0 && filterSinger(music.artists),
     album: music.album.name,
-    image: music.album.picUrl || null,
+    image: toHttps(music.album.picUrl) || null,
     duration: music.duration / 1000,
     url: `https://music.163.com/song/media/outer/url?id=${music.id}.mp3`
   })
@@ -36,7 +38,7 @@ export function createTopList(music) {
     name: music.name,
     singer: music.ar.length > 0 && filterSinger(music.ar),
     album: music.al.name,
-    image: music.al.picUrl,
+    image: toHttps(music.al.picUrl),
     duration: music.dt / 1000,
     url: `https://music.163.com/song/media/outer/url?id=${music.id}.mp3`
   })

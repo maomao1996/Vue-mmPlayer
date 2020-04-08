@@ -25,7 +25,7 @@ import MmDialog from 'base/mm-dialog/mm-dialog'
 import { getVersion, setVersion } from '@/utils/storage'
 
 const VERSIONBODY = `<div class="mm-dialog-text text-left">
-版本号：${VERSION}（2020.02.04）<br/>
+版本号：${VERSION}（2020.04.09）<br/>
 1、 采用新版图标<br>
 2、 优化歌词滚动<br>
 3、 修复推荐页面样式问题<br>
@@ -33,7 +33,7 @@ const VERSIONBODY = `<div class="mm-dialog-text text-left">
 5、 优化进度条拖动<br>
 6、 修复快速滚动页面空白问题<br>
 7、 调整默认音量<br>
-8、 启动 2.0 版本（不再适配移动端）
+8、 增加对 https 的支持
 </div>`
 
 export default {

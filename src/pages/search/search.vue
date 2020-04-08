@@ -4,10 +4,12 @@
     <mm-loading v-model="mmLoadShow" />
     <div class="search-head">
       <span
-        v-for="(item,index) in Artists.slice(0,5)"
+        v-for="(item, index) in Artists"
         :key="index"
         @click="clickHot(item.first)"
-      >{{ item.first }}</span>
+      >
+        {{ item.first }}
+      </span>
       <input
         v-model.trim="searchValue"
         class="search-input"
@@ -33,6 +35,7 @@ import formatSongs from '@/utils/song'
 import MmLoading from 'base/mm-loading/mm-loading'
 import MusicList from 'components/music-list/music-list'
 import { loadMixin } from '@/utils/mixin'
+import { toHttps } from '@/utils/util'
 
 export default {
   name: 'Search',
@@ -68,7 +71,7 @@ export default {
     // 获取热搜
     searchHot().then(res => {
       if (res.data.code === 200) {
-        this.Artists = res.data.result.hots
+        this.Artists = res.data.result.hots.slice(0, 5)
         this.mmLoadShow = false
       }
     })
@@ -112,8 +115,8 @@ export default {
     },
     // 播放歌曲
     async selectItem(music) {
-      let image = await this._getMusicDetail(music.id)
-      music.image = image
+      const image = await this._getMusicDetail(music.id)
+      music.image = toHttps(image)
       this.selectAddPlay(music)
     },
     // 获取歌曲详情
