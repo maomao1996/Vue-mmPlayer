@@ -92,3 +92,8 @@ export function silencePromise(value) {
     value.then(null, () => {})
   }
 }
+
+// http 链接转化成 https
+export function toHttps(url) {
+  return url.replace('http://', 'https://')
+}
