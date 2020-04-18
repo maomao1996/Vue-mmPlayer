@@ -99,7 +99,12 @@
 <script>
 import { getLyric } from 'api'
 import mmPlayerMusic from './mmPlayer'
-import { randomSortArray, parseLyric, format, silencePromise } from '@/utils/util'
+import {
+  randomSortArray,
+  parseLyric,
+  format,
+  silencePromise
+} from '@/utils/util'
 import { playMode, defaultBG } from '@/config'
 import { getVolume, setVolume } from '@/utils/storage'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
@@ -260,23 +265,27 @@ export default {
       this.setPlaying(!this.playing)
     },
     // 下一曲
-    next() {
+    // 当 flag 为 true 时，表示上一曲播放失败
+    next(flag = false) {
       if (!this.musicReady) {
         return
       }
+      const {
+        playlist: { length }
+      } = this
       if (
-        this.playlist.length - 1 === this.currentIndex &&
-        this.mode === playMode.order
+        (length - 1 === this.currentIndex && this.mode === playMode.order) ||
+        (length === 1 && flag)
       ) {
         this.setCurrentIndex(-1)
         this.setPlaying(false)
         return
       }
-      if (this.playlist.length === 1) {
+      if (length === 1) {
         this.loop()
       } else {
         let index = this.currentIndex + 1
-        if (index === this.playlist.length) {
+        if (index === length) {
           index = 0
         }
         if (!this.playing && this.musicReady) {
