@@ -20,7 +20,7 @@ mmPlayer 虽然是响应式，但主要以 PC 端为主，移动端只做相应�
 
 ## 如何安装与使用
 
-> mmPlayer
+### mmPlayer
 
 ```sh
 # 下载 mmPlayer
@@ -35,11 +35,11 @@ npm install
 # 本地运行 mmPlayer
 npm run serve
 
-# 项目打包
+# 项目打包（）
 npm run build
 ```
 
-> 后台服务器
+### 后台 api 服务
 
 [网易云音乐 NodeJS 版 API](https://binaryify.github.io/NeteaseCloudMusicApi)
 
@@ -50,15 +50,36 @@ git clone https://github.com/Binaryify/NeteaseCloudMusicApi.git
 # 安装依赖
 npm install
 
-# 服务端运行 访问 http://localhost:3000
+# 运行后台 api 服务 访问 http://localhost:3000
 node app.js
 ```
 
-#### 运行 mmPlayer 后无法获取音乐请检查后台服务器是否启动
+### 注意点
 
-#### `.env` 文件的 `VUE_APP_BASE_API_URL` 地址要和后台服务器地址一致
+**运行 mmPlayer 后无法获取音乐请检查后台 `api` 服务是否启动(即控制台请求报404)**
 
-#### 项目打包前 `VUE_APP_BASE_API_URL` 必须修改成线上地址，不能是本地地址
+**线上部署不是直接将整个项目丢到服务器，再去运行 `npm run serve` 命令**
+
+**项目打包前 `VUE_APP_BASE_API_URL` 必须改后台 `api` 服务地址为线上地址，不能是本地地址**
+
+### 关于项目线上部署
+
+最近有不少小伙伴部署出了问题，我在这说明下
+
+- 后台 `api` 服务线上部署
+  - 你需要将 [NeteaseCloudMusicApi](https://binaryify.github.io/NeteaseCloudMusicApi) 下载
+  - 然后将下载的文件上传至服务器
+  - 再通过 `pm2` 去启动服务(`pm2` 安装和相关命令网上有很多，这里不再赘述)
+  - 最后通过服务器 `ip` + 端口号访问验证 `api` 服务是否启动成功
+
+- mmPlayer 线上部署
+  - 首先要注意的是
+  - 先将 `.env` 文件的 `VUE_APP_BASE_API_URL` 修改成上一步启动的后台 `api` 服务地址(服务器 `ip` + 端口号或者你绑定的域名)
+  - 然后先在本地运行 `npm run build` 命令，会打包在生成一个 `dist` 文件
+  - 最后将打包的 `dist` 文件上传到你的网站服务器目录即可
+
+- 其他：[在宝塔面板部署 mmPlayer](https://github.com/maomao1996/Blog/issues/1)（不喜欢写文，可能有点烂不要介意哈）
+- 最后：本人已和谷歌、百度达成合作了，如果还有啥不懂的，以后可以直接谷歌、百度
 
 ## 技术栈
 
@@ -173,6 +194,9 @@ node app.js
 
 PC 端界面自我感觉还行， 就是移动端界面总觉得怪怪的，奈何审美有限，所以又去整了高仿网易云的 `React` 版本（如果小哥哥、小姐姐们有好看的界面，欢迎交流哈）
 
+<details>
+<summary>点击查看</summary>
+
 ### PC
 
 #### 正在播放
@@ -203,6 +227,8 @@ PC 端界面自我感觉还行， 就是移动端界面总觉得怪怪的，奈�
 
 ![移动端一](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/7.jpg)
 ![移动端二](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/8.jpg)
+
+</details>
 
 ## 更新说明
 
