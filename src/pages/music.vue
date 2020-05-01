@@ -64,6 +64,7 @@
           :percent="percentMusic"
           :percent-progress="currentProgress"
           @percentChange="progressMusic"
+          @percentChangeEnd="progressMusicEnd"
         />
       </div>
 
@@ -304,8 +305,12 @@ export default {
         this.lyricIndex = 0
       }
     },
-    // 修改音乐进度
+    // 修改音乐显示时长
     progressMusic(percent) {
+      this.currentTime = this.currentMusic.duration * percent
+    },
+    // 修改音乐进度
+    progressMusicEnd(percent) {
       this.audioEle.currentTime = this.currentMusic.duration * percent
     },
     // 切换播放顺序

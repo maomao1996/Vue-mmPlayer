@@ -87,7 +87,7 @@ export default {
         Math.max(0, e.clientX - rect.left)
       )
       this.moveSilde(offsetWidth)
-      this.commitPercent()
+      this.commitPercent(true)
     },
     // 鼠标按下事件
     barDown(e) {
@@ -112,18 +112,21 @@ export default {
     },
     // 鼠标/触摸释放事件
     barUp(e) {
-      this.move.status = false
-      // this.commitPercent()
+      if (this.move.status) {
+        this.commitPercent(true)
+        this.move.status = false
+      }
     },
     // 移动滑块
     moveSilde(offsetWidth) {
       this.$refs.mmProgressInner.style.width = `${offsetWidth}px`
     },
-    // 修改percent
-    commitPercent() {
-      let lineWidth = this.$refs.mmProgress.clientWidth - dotWidth
-      let percent = this.$refs.mmProgressInner.clientWidth / lineWidth
-      this.$emit('percentChange', percent)
+    // 修改 percent
+    commitPercent(isEnd = false) {
+      const { mmProgress, mmProgressInner } = this.$refs
+      const lineWidth = mmProgress.clientWidth - dotWidth
+      const percent = mmProgressInner.clientWidth / lineWidth
+      this.$emit(isEnd ? 'percentChangeEnd' : 'percentChange', percent)
     }
   }
 }
