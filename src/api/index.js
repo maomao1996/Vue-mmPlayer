@@ -3,6 +3,13 @@ import { defaultLimit } from '@/config'
 
 axios.defaults.baseURL = process.env.VUE_APP_BASE_API_URL
 
+// 添加拦截器，强制将所有http:// 转成 https://
+axios.interceptors.response.use(res => {
+  let data = JSON.stringify(res.data)
+  data = data.replace(/http:\/\//g, 'https://')
+  res.data = JSON.parse(data)
+})
+
 // 排行榜列表
 export function getToplistDetail() {
   return axios.get('/toplist/detail')
