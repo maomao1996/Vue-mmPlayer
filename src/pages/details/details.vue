@@ -13,6 +13,7 @@ import MmLoading from 'base/mm-loading/mm-loading'
 import MusicList from 'components/music-list/music-list'
 import { formatTopSongs } from '@/utils/song'
 import { loadMixin } from '@/utils/mixin'
+import { getMusicDetail } from '../../api'
 
 export default {
   name: 'Detail',
@@ -30,7 +31,14 @@ export default {
     // 获取歌单详情
     getPlaylistDetail(this.$route.params.id).then(res => {
       if (res.data.code === 200) {
-        this.list = formatTopSongs(res.data.playlist.tracks)
+        let ids = ''
+        res.data.playlist.trackIds.forEach(item => {
+          ids += item.id + ','
+        })
+        ids = ids.substring(0, ids.length - 1)
+        getMusicDetail(ids).then(res => {
+          this.list = formatTopSongs(res.data.songs)
+        })
         document.title = `${res.data.playlist.name} - mmPlayer在线音乐播放器`
         this._hideLoad()
       }

@@ -8,6 +8,7 @@ axios.interceptors.response.use(res => {
   let data = JSON.stringify(res.data)
   data = data.replace(/http:\/\//g, 'https://')
   res.data = JSON.parse(data)
+  return res
 })
 
 // 排行榜列表
