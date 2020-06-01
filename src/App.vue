@@ -28,12 +28,10 @@ const VERSIONBODY = `<div class="mm-dialog-text text-left">
 版本号：${VERSION}（${process.env.VUE_APP_UPDATE_TIME}）<br/>
 1、 采用新版图标<br>
 2、 优化歌词滚动<br>
-3、 修复推荐页面样式问题<br>
-4、 调整封面图分辨率<br>
-5、 优化进度条拖动<br>
-6、 修复快速滚动页面空白问题<br>
-7、 调整默认音量<br>
-8、 增加对 https 的支持
+3、 调整默认音量<br>
+4、 优化进度条拖动<br>
+5、 增加对 https 的支持<br>
+6、 修复歌单不完整问题
 </div>`
 
 export default {
