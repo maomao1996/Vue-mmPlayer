@@ -70,6 +70,7 @@
 import { getUserPlaylist } from 'api'
 import { mapGetters, mapActions } from 'vuex'
 import MmDialog from 'base/mm-dialog/mm-dialog'
+import { toHttps } from '@/utils/util'
 
 export default {
   name: 'MmHeader',
@@ -132,8 +133,10 @@ export default {
             this.$mmToast(`未查询找 UID 为 ${uid} 的用户信息`)
             return
           }
+          const creator = res.data.playlist[0].creator
           this.setUid(uid)
-          this.user = res.data.playlist[0].creator
+          creator.avatarUrl = toHttps(creator.avatarUrl)
+          this.user = creator
           setTimeout(() => {
             this.$mmToast(`${this.user.nickname} 欢迎使用 mmPlayer`)
           }, 200)
