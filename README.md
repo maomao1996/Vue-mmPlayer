@@ -208,32 +208,32 @@ PC 端界面自我感觉还行， 就是移动端界面总觉得怪怪的，奈�
 
 #### 正在播放
 
-![正在播放](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/1.jpg)
+![正在播放](https://cdn.jsdelivr.net/gh/maomao1996/Vue-mmPlayer/screenshots/1.jpg)
 
 #### 排行榜
 
-![排行榜](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/2.jpg)
+![排行榜](https://cdn.jsdelivr.net/gh/maomao1996/Vue-mmPlayer/screenshots/2.jpg)
 
 #### 搜索
 
-![搜索](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/3.jpg)
+![搜索](https://cdn.jsdelivr.net/gh/maomao1996/Vue-mmPlayer/screenshots/3.jpg)
 
 #### 我的歌单
 
-![我的歌单](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/4.jpg)
+![我的歌单](https://cdn.jsdelivr.net/gh/maomao1996/Vue-mmPlayer/screenshots/4.jpg)
 
 #### 我听过的
 
-![我听过的](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/5.jpg)
+![我听过的](https://cdn.jsdelivr.net/gh/maomao1996/Vue-mmPlayer/screenshots/5.jpg)
 
 #### 歌曲评论
 
-![歌曲评论](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/6.jpg)
+![歌曲评论](https://cdn.jsdelivr.net/gh/maomao1996/Vue-mmPlayer/screenshots/6.jpg)
 
 ### 移动端
 
-![移动端一](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/7.jpg)
-![移动端二](https://raw.githubusercontent.com/maomao1996/Vue-mmPlayer/master/screenshots/8.jpg)
+![移动端一](https://cdn.jsdelivr.net/gh/maomao1996/Vue-mmPlayer/screenshots/7.jpg)
+![移动端二](https://cdn.jsdelivr.net/gh/maomao1996/Vue-mmPlayer/screenshots/8.jpg)
 
 </details>
 
@@ -441,4 +441,4 @@ PC 端界面自我感觉还行， 就是移动端界面总觉得怪怪的，奈�
 
 ## License
 
-[MIT](https://github.com/maomao1996/Vue-mmPlayer/blob/master/LICENSE)
+[MIT](https://github.com/maomao1996/Vue-mmPlayer/blob/LICENSE)
