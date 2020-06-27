@@ -103,7 +103,6 @@ node app.js
 <details>
 <summary>展开查看</summary>
 <pre><code>
-├── mmPlayer                                        // 项目打包版本，可直接使用
 ├── public                                          // 静态资源目录
 │   └─index.html                                    // 入口 html 文件
 ├── screenshots                                     // 项目截图
