@@ -2,7 +2,7 @@
   <div class="music">
     <div class="music-content">
       <div class="music-left">
-        <music-btn />
+        <music-btn @onClickLyric="handleOpenLyric" />
         <keep-alive>
           <router-view v-if="$route.meta.keepAlive" class="music-list" />
         </keep-alive>
@@ -12,12 +12,15 @@
           class="music-list"
         />
       </div>
-      <lyric
-        class="music-right"
-        :lyric="lyric"
-        :nolyric="nolyric"
-        :lyric-index="lyricIndex"
-      />
+      <div class="music-right" :class="{ show: lyricVisible }">
+        <div class="close-lyric" @click="handleCloseLyric">关闭歌词</div>
+        <lyric
+          ref="lyric"
+          :lyric="lyric"
+          :nolyric="nolyric"
+          :lyric-index="lyricIndex"
+        />
+      </div>
     </div>
 
     <!--播放器-->
@@ -133,6 +136,7 @@ export default {
       musicReady: false, // 是否可以使用播放器
       currentTime: 0, // 当前播放时间
       currentProgress: 0, // 当前缓冲进度
+      lyricVisible: false, // 移动端歌词显示
       lyric: [], // 歌词
       nolyric: false, // 是否有歌词
       lyricIndex: 0, // 当前播放歌词下标
@@ -196,6 +200,9 @@ export default {
         }
       }
       this.lyricIndex = lyricIndex
+    },
+    $route() {
+      this.lyricVisible = false
     }
   },
   mounted() {
@@ -374,6 +381,17 @@ export default {
         [playMode.loop]: `单曲循环 ${key}`
       }[this.mode]
     },
+    // 查看歌词
+    handleOpenLyric() {
+      this.lyricVisible = true
+      this.$nextTick(() => {
+        this.$refs.lyric.clacTop()
+      })
+    },
+    // 关闭歌词
+    handleCloseLyric() {
+      this.lyricVisible = false
+    },
     // 获取歌词
     _getLyric(id) {
       getLyric(id).then(res => {
@@ -423,6 +441,12 @@ export default {
       position: relative;
       width: 310px;
       margin-left: 10px;
+      .close-lyric {
+        position: absolute;
+        top: 0;
+        z-index: 1;
+        cursor: pointer;
+      }
     }
   }
 
@@ -545,10 +569,21 @@ export default {
     transition: all 0.8s;
   }
 
+  @media (min-width: 960px) {
+    .close-lyric {
+      display: none;
+    }
+  }
+
   //当屏幕小于960时
   @media (max-width: 960px) {
     .music-right {
       display: none;
+      &.show {
+        display: block;
+        margin-left: 0;
+        width: 100%;
+      }
     }
   }
   //当屏幕小于768时

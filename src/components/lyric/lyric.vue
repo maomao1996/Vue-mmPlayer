@@ -24,12 +24,14 @@
       <div class="music-lyric-items" :style="lyricTop">
         <p v-if="!currentMusic.id">还没有播放音乐哦！</p>
         <p v-else-if="nolyric">暂无歌词！</p>
-        <template v-else-if="lyric.length>0">
+        <template v-else-if="lyric.length > 0">
           <p
-            v-for="(item,index) in lyric"
+            v-for="(item, index) in lyric"
             :key="index"
-            :class="{on:lyricIndex===index}"
-          >{{ item.text }}</p>
+            :class="{ on: lyricIndex === index }"
+          >
+            {{ item.text }}
+          </p>
         </template>
         <p v-else>歌词加载失败！</p>
       </div>
@@ -139,7 +141,7 @@ export default {
   left: 0;
   overflow: hidden;
   text-align: center;
-  -webkit-mask-image: linear-gradient(
+  mask-image: linear-gradient(
     to bottom,
     rgba(255, 255, 255, 0) 0,
     rgba(255, 255, 255, 0.6) 15%,
@@ -158,6 +160,16 @@ export default {
     .on {
       color: @lyric_color_active;
     }
+  }
+}
+
+// 当屏幕小于 960 时
+@media (max-width: 960px) {
+  .music-info {
+    display: none;
+  }
+  .music-lyric {
+    top: 0;
   }
 }
 </style>
