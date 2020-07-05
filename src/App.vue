@@ -43,10 +43,8 @@ export default {
 
     // 获取正在播放列表
     topList(defaultSheetId).then(res => {
-      if (res.status === 200) {
-        let list = this._formatSongs(res.data.playlist.tracks.slice(0, 100))
-        this.setPlaylist({ list })
-      }
+      const list = this._formatSongs(res.playlist.tracks.slice(0, 100))
+      this.setPlaylist({ list })
     })
 
     // 设置title

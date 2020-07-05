@@ -126,21 +126,19 @@ export default {
     },
     // 获取用户数据
     _getUserPlaylist(uid) {
-      getUserPlaylist(uid).then(res => {
-        if (res.data.code === 200) {
-          this.uidValue = ''
-          if (res.data.playlist.length === 0 || !res.data.playlist[0].creator) {
-            this.$mmToast(`未查询找 UID 为 ${uid} 的用户信息`)
-            return
-          }
-          const creator = res.data.playlist[0].creator
-          this.setUid(uid)
-          creator.avatarUrl = toHttps(creator.avatarUrl)
-          this.user = creator
-          setTimeout(() => {
-            this.$mmToast(`${this.user.nickname} 欢迎使用 mmPlayer`)
-          }, 200)
+      getUserPlaylist(uid).then(({ playlist = [] }) => {
+        this.uidValue = ''
+        if (playlist.length === 0 || !playlist[0].creator) {
+          this.$mmToast(`未查询找 UID 为 ${uid} 的用户信息`)
+          return
         }
+        const creator = playlist[0].creator
+        this.setUid(uid)
+        creator.avatarUrl = toHttps(creator.avatarUrl)
+        this.user = creator
+        setTimeout(() => {
+          this.$mmToast(`${this.user.nickname} 欢迎使用 mmPlayer`)
+        }, 200)
       })
     },
     ...mapActions(['setUid'])

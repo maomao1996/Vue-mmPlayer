@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '@/utils/axios'
 import { defaultLimit } from '@/config'
 
 axios.defaults.baseURL = process.env.VUE_APP_BASE_API_URL

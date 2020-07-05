@@ -2,7 +2,7 @@
   <!--我的歌单-->
   <div class="userList">
     <mm-loading v-model="mmLoadShow" />
-    <template v-if="list.length>0">
+    <template v-if="list.length > 0">
       <div
         v-for="item in formatList"
         :key="item.id"
@@ -10,7 +10,7 @@
         :title="item.name"
       >
         <router-link
-          :to="{path:`/music/details/${item.id}`}"
+          :to="{ path: `/music/details/${item.id}` }"
           tag="div"
           class="userList-item"
         >
@@ -79,13 +79,11 @@ export default {
     // 获取我的歌单详情
     _getUserPlaylist(uid) {
       getUserPlaylist(uid).then(res => {
-        if (res.data.code === 200) {
-          if (res.data.playlist.length === 0) {
-            return
-          }
-          this.list = res.data.playlist
-          this._hideLoad()
+        if (res.playlist.length === 0) {
+          return
         }
+        this.list = res.playlist
+        this._hideLoad()
       })
     }
   }
