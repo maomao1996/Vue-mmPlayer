@@ -395,15 +395,13 @@ export default {
     // 获取歌词
     _getLyric(id) {
       getLyric(id).then(res => {
-        if (res.status === 200) {
-          if (res.data.nolyric) {
-            this.nolyric = true
-          } else {
-            this.nolyric = false
-            this.lyric = parseLyric(res.data.lrc.lyric)
-          }
-          silencePromise(this.audioEle.play())
+        if (res.nolyric) {
+          this.nolyric = true
+        } else {
+          this.nolyric = false
+          this.lyric = parseLyric(res.lrc.lyric)
         }
+        silencePromise(this.audioEle.play())
       })
     },
     ...mapMutations({

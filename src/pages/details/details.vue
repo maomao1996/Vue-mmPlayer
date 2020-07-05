@@ -28,15 +28,13 @@ export default {
   },
   created() {
     // 获取歌单详情
-    getPlaylistDetail(this.$route.params.id).then(res => {
-      if (res.data.code === 200) {
-        document.title = `${res.data.playlist.name} - mmPlayer在线音乐播放器`
-        const ids = res.data.playlist.trackIds.map(v => v.id).toString()
-        getMusicDetail(ids).then(songs => {
-          this.list = formatTopSongs(songs.data.songs)
-          this._hideLoad()
-        })
-      }
+    getPlaylistDetail(this.$route.params.id).then(({ playlist }) => {
+      document.title = `${playlist.name} - mmPlayer在线音乐播放器`
+      const ids = playlist.trackIds.map(v => v.id).toString()
+      getMusicDetail(ids).then(({ songs }) => {
+        this.list = formatTopSongs(songs)
+        this._hideLoad()
+      })
     })
   },
   methods: {

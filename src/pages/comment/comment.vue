@@ -159,13 +159,11 @@ export default {
     // 初始化数据
     initData() {
       getComment(this.$route.params.id, this.page).then(res => {
-        if (res.data.code === 200) {
-          this.hotComments = res.data.hotComments
-          this.commentList = res.data.comments
-          this.total = res.data.total
-          this.lockUp = true
-          this._hideLoad()
-        }
+        this.hotComments = res.hotComments
+        this.commentList = res.comments
+        this.total = res.total
+        this.lockUp = true
+        this._hideLoad()
       })
     },
     // 列表滚动事件
@@ -182,10 +180,8 @@ export default {
     },
     // 滚动加载事件
     pullUp() {
-      getComment(this.$route.params.id, this.page).then(res => {
-        if (res.data.code === 200) {
-          this.commentList = [...this.commentList, ...res.data.comments]
-        }
+      getComment(this.$route.params.id, this.page).then(({ comments }) => {
+        this.commentList = [...this.commentList, ...comments]
       })
     }
   }
