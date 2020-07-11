@@ -6,7 +6,7 @@ mmPlayer 虽然是响应式，但主要以 PC 端为主，移动端只做相应�
 
 > api：一个开源的[网易云音乐 NodeJS 版 API](https://binaryify.github.io/NeteaseCloudMusicApi)（有 api 才有动力写！！！）
 >
-> [在线演示地址](http://music.mtnhao.com)
+> [在线演示地址](https://netease-music.fe-mm.com/)
 >
 > [React 移动端版本（高仿网易云音乐）](https://github.com/maomao1996/react-music)
 >
