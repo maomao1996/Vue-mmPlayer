@@ -22,7 +22,16 @@ mmPlayer 虽然是响应式，但主要以 PC 端为主，移动端只做相应�
 
 本项目仅为前端练手项目，请勿用作商业用途，请勿通过本项目下载盗版歌曲资源，否则后果自负！
 
-## 如何安装与使用
+## 安装与使用
+
+### 检查 node 版本
+
+```sh
+# 查看 node 版本，确保 node 版本高于 12 版本
+node -v
+```
+
+[Node.js 中文网](http://nodejs.cn/)
 
 ### mmPlayer
 
@@ -39,11 +48,11 @@ npm install
 # 本地运行 mmPlayer
 npm run serve
 
-# 项目打包（）
+# 编译打包
 npm run build
 ```
 
-### 后台 api 服务
+### 后台 api 服务（本地开发）
 
 [网易云音乐 NodeJS 版 API](https://binaryify.github.io/NeteaseCloudMusicApi)
 
