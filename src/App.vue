@@ -17,7 +17,7 @@
 
 <script>
 import { mapMutations, mapActions } from 'vuex'
-import { topList } from 'api'
+import { getPlaylistDetail } from 'api'
 import { defaultSheetId, VERSION } from '@/config'
 import { createTopList } from '@/utils/song'
 import MmHeader from 'components/mm-header/mm-header'
@@ -42,8 +42,8 @@ export default {
     this.versionBody = VERSIONBODY
 
     // 获取正在播放列表
-    topList(defaultSheetId).then(res => {
-      const list = this._formatSongs(res.playlist.tracks.slice(0, 100))
+    getPlaylistDetail(defaultSheetId).then(playlist => {
+      const list = playlist.tracks.slice(0, 100)
       this.setPlaylist({ list })
     })
 

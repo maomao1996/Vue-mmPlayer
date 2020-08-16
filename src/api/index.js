@@ -1,20 +1,12 @@
 import axios from '@/utils/axios'
 import { defaultLimit } from '@/config'
+import { formatTopSongs } from '@/utils/song'
 
 axios.defaults.baseURL = process.env.VUE_APP_BASE_API_URL
 
 // 排行榜列表
 export function getToplistDetail() {
   return axios.get('/toplist/detail')
-}
-
-// 排行榜详情
-export function topList(idx) {
-  return axios.get('/top/list', {
-    params: {
-      idx
-    }
-  })
 }
 
 // 推荐歌单
@@ -24,10 +16,30 @@ export function getPersonalized() {
 
 // 歌单详情
 export function getPlaylistDetail(id) {
-  return axios.get('/playlist/detail', {
-    params: {
-      id
-    }
+  return new Promise((resolve, reject) => {
+    axios
+      .get('/playlist/detail', {
+        params: { id }
+      })
+      .then(({ playlist }) => playlist)
+      .then(playlist => {
+        const { trackIds, tracks } = playlist
+        // 过滤完整歌单 如排行榜
+        if (tracks.length === trackIds.length) {
+          playlist.tracks = formatTopSongs(playlist.tracks)
+          resolve(playlist)
+          return
+        }
+        // 限制歌单详情最大 500
+        const ids = trackIds
+          .slice(0, 500)
+          .map(v => v.id)
+          .toString()
+        getMusicDetail(ids).then(({ songs }) => {
+          playlist.tracks = formatTopSongs(songs)
+          resolve(playlist)
+        })
+      })
   })
 }
 
