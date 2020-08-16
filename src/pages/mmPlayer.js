@@ -49,7 +49,7 @@ const mmPlayerMusic = {
         that.$mmToast(toastText)
         that.next(true)
       } else {
-        // eslint-disable-next-line
+        // eslint-disable-next-line no-console
         console.log('重试一次')
         retry -= 1
         ele.url = that.currentMusic.url
