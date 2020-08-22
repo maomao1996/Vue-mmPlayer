@@ -28,7 +28,8 @@ const VERSIONBODY = `<div class="mm-dialog-text text-left">
 版本号：${VERSION}（${process.env.VUE_APP_UPDATE_TIME}）<br/>
 1、 采用新版图标<br>
 2、 移动端增加歌词显示<br>
-3、 增加对 https 的支持
+3、 增加对 https 的支持<br>
+4、 修复背景图白边
 </div>`
 
 export default {
