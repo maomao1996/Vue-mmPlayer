@@ -565,6 +565,7 @@ export default {
     filter: blur(12px);
     opacity: 0.7;
     transition: all 0.8s;
+    transform: scale(1.1);
   }
 
   @media (min-width: 960px) {
