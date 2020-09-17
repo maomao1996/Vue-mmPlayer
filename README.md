@@ -1,7 +1,7 @@
 # mmPlayer
 
 模仿 QQ 音乐网页版界面，采用 `flexbox` 和 `position` 布局；
-mmPlayer 虽然是响应式，但主要以 PC 端为主，移动端只做相应适配（未做歌词显示）；
+mmPlayer 虽然是响应式，但主要以 PC 端为主，移动端只做相应适配；
 只做主流浏览器兼容（对 IE 说拜拜，想想以前做项目还要兼容 IE7 ，都是泪啊！！！）
 
 > api：一个开源的[网易云音乐 NodeJS 版 API](https://binaryify.github.io/NeteaseCloudMusicApi)（有 api 才有动力写！！！）
