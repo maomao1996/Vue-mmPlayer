@@ -9,7 +9,7 @@
           v-for="(item, index) in list"
           :key="index"
           class="list-item"
-          :title="item.name + item.updateFrequency"
+          :title="`${item.name}-${item.updateFrequency}`"
         >
           <router-link
             :to="{ path: `/music/details/${item.id}` }"
@@ -32,7 +32,7 @@
           v-for="(item, index) in hotList"
           :key="index"
           class="list-item"
-          :title="item.name + item.updateFrequency"
+          :title="item.name"
         >
           <router-link
             :to="{ path: `/music/details/${item.id}` }"
