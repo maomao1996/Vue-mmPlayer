@@ -69,11 +69,9 @@ export default {
   },
   created() {
     // 获取热搜
-    searchHot().then(res => {
-      if (res.data.code === 200) {
-        this.Artists = res.data.result.hots.slice(0, 5)
-        this.mmLoadShow = false
-      }
+    searchHot().then(({ result }) => {
+      this.Artists = result.hots.slice(0, 5)
+      this.mmLoadShow = false
     })
   },
   methods: {
@@ -93,39 +91,35 @@ export default {
       if (this.list.length > 0) {
         this.$refs.musicList.scrollTo()
       }
-      search(this.searchValue).then(res => {
-        if (res.data.code === 200) {
-          this.list = formatSongs(res.data.result.songs)
-          this._hideLoad()
-        }
+      search(this.searchValue).then(({ result }) => {
+        this.list = formatSongs(result.songs)
+        this._hideLoad()
       })
     },
     // 滚动加载事件
     pullUpLoad() {
       this.page += 1
-      search(this.searchValue, this.page).then(res => {
-        if (res.data.code === 200) {
-          if (!res.data.result.songs) {
-            this.$mmToast('没有更多歌曲啦！')
-            return
-          }
-          this.list = [...this.list, ...formatSongs(res.data.result.songs)]
+      search(this.searchValue, this.page).then(({ result }) => {
+        if (!result.songs) {
+          this.$mmToast('没有更多歌曲啦！')
+          return
         }
+        this.list = [...this.list, ...formatSongs(result.songs)]
       })
     },
     // 播放歌曲
     async selectItem(music) {
-      const image = await this._getMusicDetail(music.id)
-      music.image = toHttps(image)
-      this.selectAddPlay(music)
+      try {
+        const image = await this._getMusicDetail(music.id)
+        music.image = toHttps(image)
+        this.selectAddPlay(music)
+      } catch (error) {
+        this.$mmToast('哎呀，出错啦~')
+      }
     },
     // 获取歌曲详情
     _getMusicDetail(id) {
-      return getMusicDetail(id).then(res => {
-        if (res.data.code === 200) {
-          return res.data.songs[0].al.picUrl
-        }
-      })
+      return getMusicDetail(id).then(res => res.songs[0].al.picUrl)
     },
     ...mapMutations({
       setPlaying: 'SET_PLAYING'

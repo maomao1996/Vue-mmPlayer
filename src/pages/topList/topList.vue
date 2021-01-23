@@ -6,13 +6,13 @@
       <div class="topList-head">云音乐特色榜</div>
       <div class="topList-content">
         <div
-          v-for="(item,index) in list"
+          v-for="(item, index) in list"
           :key="index"
           class="list-item"
-          :title="item.name+item.updateFrequency"
+          :title="`${item.name}-${item.updateFrequency}`"
         >
           <router-link
-            :to="{path:`/music/details/${item.id}`}"
+            :to="{ path: `/music/details/${item.id}` }"
             tag="div"
             class="topList-item"
           >
@@ -29,13 +29,13 @@
       <div class="topList-head">热门歌单</div>
       <div class="topList-content">
         <div
-          v-for="(item,index) in hotList"
+          v-for="(item, index) in hotList"
           :key="index"
           class="list-item"
-          :title="item.name+item.updateFrequency"
+          :title="item.name"
         >
           <router-link
-            :to="{path:`/music/details/${item.id}`}"
+            :to="{ path: `/music/details/${item.id}` }"
             tag="div"
             class="topList-item"
           >
@@ -68,30 +68,15 @@ export default {
     }
   },
   created() {
-    // 获取排行榜列表
-    const _getToplistDetail = getToplistDetail().then(res => {
-      if (res.data.code === 200) {
-        let list
-        list = res.data.list.filter(item => {
-          if (item.ToplistType) {
-            return item
-          }
-        })
-        return list
-      }
-    })
-    const _getPersonalized = getPersonalized().then(res => {
-      if (res.data.code === 200) {
-        return res.data.result
-      }
-    })
-    Promise.all([_getToplistDetail, _getPersonalized]).then(
-      ([list, hotList]) => {
-        this.list = list
-        this.hotList = hotList.slice()
+    Promise.all([getToplistDetail(), getPersonalized()])
+      .then(([topList, hotList]) => {
+        this.list = topList.list.filter(v => v.ToplistType)
+        this.hotList = hotList.result.slice()
         this._hideLoad()
-      }
-    )
+      })
+      .catch(e => {
+        console.log(e)
+      })
   }
 }
 </script>
