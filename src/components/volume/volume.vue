@@ -10,6 +10,7 @@
     <div class="volume-progress-wrapper">
       <mm-progress
         :percent="volumeProgress"
+        @percentChangeEnd="handleVolumeChange"
         @percentChange="handleVolumeChange"
       />
     </div>
