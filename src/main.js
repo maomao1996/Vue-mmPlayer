@@ -53,7 +53,7 @@ window.mmPlayer = window.mmplayer = `欢迎使用 mmPlayer!
 作者：茂茂
 Github：https://github.com/maomao1996/Vue-mmPlayer
 歌曲来源于网易云音乐 (https://music.163.com)`
-// eslint-disable-next-line
+// eslint-disable-next-line no-console
 console.info(`%c${window.mmplayer}`, `color:blue`)
 
 // eslint-disable-next-line no-new

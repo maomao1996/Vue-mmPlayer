@@ -16,7 +16,7 @@
       >
         <a
           target="_blank"
-          :href="`http://music.163.com/#/user/home?id=${item.user.userId}`"
+          :href="`https://music.163.com/#/user/home?id=${item.user.userId}`"
         >
           <img
             v-lazy="`${item.user.avatarUrl}?param=50y50`"
@@ -43,15 +43,20 @@
         <a
           class="comment-item-pic"
           target="_blank"
-          :href="`http://music.163.com/#/user/home?id=${item.user.userId}`"
+          :href="`https://music.163.com/#/user/home?id=${item.user.userId}`"
         >
-          <img v-lazy="`${item.user.avatarUrl}?param=50y50`" class="cover-img" />
+          <img
+            v-lazy="`${item.user.avatarUrl}?param=50y50`"
+            class="cover-img"
+          />
         </a>
         <h2 class="comment-item-title">
           <a
             target="_blank"
-            :href="`http://music.163.com/#/user/home?id=${item.user.userId}`"
-          >{{ item.user.nickname }}</a>
+            :href="`https://music.163.com/#/user/home?id=${item.user.userId}`"
+          >
+            {{ item.user.nickname }}
+          </a>
         </h2>
         <p class="comment-item-disc">{{ item.content }}</p>
         <div
@@ -61,13 +66,17 @@
         >
           <a
             target="_blank"
-            :href="`http://music.163.com/#/user/home?id=${beReplied.user.userId}`"
-          >{{ beReplied.user.nickname }}</a>
+            :href="
+              `https://music.163.com/#/user/home?id=${beReplied.user.userId}`
+            "
+          >
+            {{ beReplied.user.nickname }}
+          </a>
           ：{{ beReplied.content }}
         </div>
         <div class="comment-item-opt">
           <span class="comment-opt-date">{{ item.time | format }}</span>
-          <span v-if="item.likedCount>0" class="comment-opt-liked">
+          <span v-if="item.likedCount > 0" class="comment-opt-liked">
             <mm-icon type="good" />
             {{ item.likedCount }}
           </span>
@@ -150,13 +159,11 @@ export default {
     // 初始化数据
     initData() {
       getComment(this.$route.params.id, this.page).then(res => {
-        if (res.data.code === 200) {
-          this.hotComments = res.data.hotComments
-          this.commentList = res.data.comments
-          this.total = res.data.total
-          this.lockUp = true
-          this._hideLoad()
-        }
+        this.hotComments = res.hotComments
+        this.commentList = res.comments
+        this.total = res.total
+        this.lockUp = true
+        this._hideLoad()
       })
     },
     // 列表滚动事件
@@ -173,10 +180,8 @@ export default {
     },
     // 滚动加载事件
     pullUp() {
-      getComment(this.$route.params.id, this.page).then(res => {
-        if (res.data.code === 200) {
-          this.commentList = [...this.commentList, ...res.data.comments]
-        }
+      getComment(this.$route.params.id, this.page).then(({ comments }) => {
+        this.commentList = [...this.commentList, ...comments]
       })
     }
   }
