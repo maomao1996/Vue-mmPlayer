@@ -8,7 +8,7 @@
       ref="versionDialog"
       type="alert"
       head-text="更新提示"
-      :body-text="versionBody"
+      :body-text="versionInfo"
     />
     <!--播放器-->
     <audio ref="mmPlayer"></audio>
@@ -24,12 +24,12 @@ import MmHeader from 'components/mm-header/mm-header'
 import MmDialog from 'base/mm-dialog/mm-dialog'
 import { getVersion, setVersion } from '@/utils/storage'
 
-const VERSIONBODY = `<div class="mm-dialog-text text-left">
+const VERSION_INFO = `<div class="mm-dialog-text text-left">
 版本号：${VERSION}（${process.env.VUE_APP_UPDATE_TIME}）<br/>
 1、 采用新版图标<br>
-2、 移动端增加歌词显示<br>
-3、 增加对 https 的支持<br>
-4、 修复背景图白边
+2、 增加移动端歌词显示<br>
+3、 修复背景图白边<br>
+4、 修复音乐进度条点击无效问题
 </div>`
 
 export default {
@@ -40,7 +40,7 @@ export default {
   },
   created() {
     // 设置版本更新信息
-    this.versionBody = VERSIONBODY
+    this.versionInfo = VERSION_INFO
 
     // 获取正在播放列表
     getPlaylistDetail(defaultSheetId).then(playlist => {
