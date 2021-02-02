@@ -181,7 +181,7 @@ node app.js
 │   │   ├── hack.js                                 // 修改 nextTick
 │   │   ├── mixin.js                                // 组件混合
 │   │   ├── song.js                                 // 数据处理
-│   │   ├── storage.js                              // localstorage 配置
+│   │   ├── storage.js                              // localStorage 配置
 │   │   └── util.js                                 // 公用 js 方法
 │   ├── App.vue                                     // 根组件
 │   ├── config.js                                   // 基本配置
@@ -247,13 +247,17 @@ PC 端界面自我感觉还行， 就是移动端界面总觉得怪怪的，奈�
 
 ## 更新说明
 
+### V1.8.1（2021.02.02）
+
+- 修复音乐进度条点击无效问题
+
+<details>
+<summary>查看更多</summary>
+
 ### V1.8.0（2020.08.22）
 
 - 适配最新版后台 api
 - 修复背景图白边
-
-<details>
-<summary>查看更多</summary>
 
 ### V1.7.1（2020.07.11）
 
