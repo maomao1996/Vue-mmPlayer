@@ -465,6 +465,10 @@ PC 端界面自我感觉还行， 就是移动端界面总觉得怪怪的，奈�
 - 后续：移动端版本、其他作品
 - 如有问题请直接在 [Issues](https://github.com/maomao1996/Vue-mmPlayer/issues/new) 中提，或者您发现问题并有非常好的解决方案，欢迎 PR
 
+## 鸣谢
+
+特别感谢 [JetBrains](https://www.jetbrains.com/) 为开源项目提供免费的 [WebStorm](https://www.jetbrains.com/webstorm/) 授权
+
 ## License
 
 [MIT](https://github.com/maomao1996/Vue-mmPlayer/blob/LICENSE)
