@@ -11,7 +11,7 @@
           </slot>
           <div class="mm-dialog-btns">
             <div
-              v-if="dialogType!=='alert'"
+              v-if="dialogType !== 'alert'"
               class="mm-btn-cancel"
               @click="cancel"
               v-text="cancelBtnText"

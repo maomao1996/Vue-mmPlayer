@@ -1,7 +1,9 @@
 <template>
   <!--弹出层提示-->
   <transition name="toast-fade">
-    <div v-show="visible" class="mm-toast" :class="positionClasss">{{ message }}</div>
+    <div v-show="visible" class="mm-toast" :class="positionClasss">
+      {{ message }}
+    </div>
   </transition>
 </template>
 
