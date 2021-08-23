@@ -21,9 +21,13 @@ export function getPlaylistDetail(id) {
       .get('/playlist/detail', {
         params: { id }
       })
-      .then(({ playlist }) => playlist)
+      .then(({ playlist }) => playlist || {})
       .then(playlist => {
         const { trackIds, tracks } = playlist
+        if (!Array.isArray(trackIds)) {
+          reject(new Error('获取歌单详情失败'))
+          return
+        }
         // 过滤完整歌单 如排行榜
         if (tracks.length === trackIds.length) {
           playlist.tracks = formatTopSongs(playlist.tracks)

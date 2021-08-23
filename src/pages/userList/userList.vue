@@ -63,8 +63,6 @@ export default {
   created() {
     if (!this.uid) {
       this.mmLoadShow = false
-    } else {
-      this._getUserPlaylist(this.uid)
     }
   },
   activated() {
@@ -82,7 +80,7 @@ export default {
         if (res.playlist.length === 0) {
           return
         }
-        this.list = res.playlist
+        this.list = res.playlist.slice(1)
         this._hideLoad()
       })
     }
