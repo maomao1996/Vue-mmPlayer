@@ -74,9 +74,7 @@ export default {
         this.hotList = hotList.result.slice()
         this._hideLoad()
       })
-      .catch(e => {
-        console.log(e)
-      })
+      .catch(() => {})
   }
 }
 </script>

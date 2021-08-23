@@ -3,7 +3,7 @@
   <div
     v-show="value"
     class="mm-loading"
-    :style="{backgroundColor:loadingBgColor}"
+    :style="{ backgroundColor: loadingBgColor }"
   >
     <div class="mm-loading-content">
       <svg class="circular" viewBox="25 25 50 50">

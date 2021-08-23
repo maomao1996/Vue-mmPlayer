@@ -1,7 +1,7 @@
 <template>
   <!--歌曲列表-->
   <div class="musicList">
-    <template v-if="list.length>0">
+    <template v-if="list.length > 0">
       <div class="list-item list-header">
         <span class="list-name">歌曲</span>
         <span class="list-artist">歌手</span>
@@ -10,13 +10,13 @@
       </div>
       <div ref="listContent" class="list-content" @scroll="listScroll($event)">
         <div
-          v-for="(item,index) in list"
+          v-for="(item, index) in list"
           :key="item.id"
           class="list-item"
-          :class="{'on':playing&&currentMusic.id===item.id}"
-          @dblclick="selectItem(item,index,$event)"
+          :class="{ on: playing && currentMusic.id === item.id }"
+          @dblclick="selectItem(item, index, $event)"
         >
-          <span class="list-num" v-text="index+1"></span>
+          <span class="list-num" v-text="index + 1"></span>
           <div class="list-name">
             <span>{{ item.name }}</span>
             <div class="list-menu">
@@ -24,13 +24,13 @@
                 class="hover"
                 :type="getPlayIconType(item)"
                 :size="40"
-                @click.stop="selectItem(item,index)"
+                @click.stop="selectItem(item, index)"
               />
             </div>
           </div>
           <span class="list-artist">{{ item.singer }}</span>
           <span v-if="listType === 1" class="list-time">
-            {{ (item.duration % 3600) | format }}
+            {{ item.duration % 3600 | format }}
             <mm-icon
               class="hover list-menu-icon-del"
               type="delete-mini"
