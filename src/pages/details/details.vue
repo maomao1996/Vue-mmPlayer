@@ -27,11 +27,15 @@ export default {
   },
   created() {
     // 获取歌单详情
-    getPlaylistDetail(this.$route.params.id).then(playlist => {
-      document.title = `${playlist.name} - mmPlayer在线音乐播放器`
-      this.list = playlist.tracks
-      this._hideLoad()
-    })
+    getPlaylistDetail(this.$route.params.id)
+      .then(playlist => {
+        document.title = `${playlist.name} - mmPlayer在线音乐播放器`
+        this.list = playlist.tracks
+        this._hideLoad()
+      })
+      .catch(() => {
+        this._hideLoad()
+      })
   },
   methods: {
     // 播放暂停事件
