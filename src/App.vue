@@ -29,7 +29,8 @@ const VERSION_INFO = `<div class="mm-dialog-text text-left">
 1、 采用新版图标<br>
 2、 增加移动端歌词显示<br>
 3、 修复背景图白边<br>
-4、 修复音乐进度条点击无效问题
+4、 修复音乐进度条点击无效问题<br>
+5、 移除我的歌单喜欢的音乐
 </div>`
 
 export default {
