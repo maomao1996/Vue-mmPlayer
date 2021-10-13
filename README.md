@@ -37,7 +37,7 @@ node -v
 
 ```sh
 # 下载 mmPlayer
-git clone https://github.com/maomao1996/Vue-mmPlayer.git
+git clone https://github.com/maomao1996/Vue-mmPlayer
 
 # 进入 mmPlayer 播放器目录
 cd Vue-mmPlayer
@@ -58,7 +58,10 @@ npm run build
 
 ```sh
 # 下载 NeteaseCloudMusicApi
-git clone https://github.com/Binaryify/NeteaseCloudMusicApi.git
+git clone --depth=1 https://github.com/Binaryify/NeteaseCloudMusicApi
+
+# 进入 NeteaseCloudMusicApi 后台服务目录
+cd NeteaseCloudMusicApi
 
 # 安装依赖
 npm install
