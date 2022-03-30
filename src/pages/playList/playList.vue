@@ -3,7 +3,7 @@
   <div class="playList">
     <music-list
       :list="playlist"
-      :list-type="1"
+      list-type="duration"
       @select="selectItem"
       @del="deleteItem"
     >

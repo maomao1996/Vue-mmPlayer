@@ -5,7 +5,7 @@
       <div class="list-item list-header">
         <span class="list-name">歌曲</span>
         <span class="list-artist">歌手</span>
-        <span v-if="listType === 1" class="list-time">时长</span>
+        <span v-if="isDuration" class="list-time">时长</span>
         <span v-else class="list-album">专辑</span>
       </div>
       <div ref="listContent" class="list-content" @scroll="listScroll($event)">
@@ -29,7 +29,7 @@
             </div>
           </div>
           <span class="list-artist">{{ item.singer }}</span>
-          <span v-if="listType === 1" class="list-time">
+          <span v-if="isDuration" class="list-time">
             {{ item.duration % 3600 | format }}
             <mm-icon
               class="hover list-menu-icon-del"
@@ -53,6 +53,13 @@ import { mapGetters, mapMutations } from 'vuex'
 import { format } from '@/utils/util'
 import MmNoResult from 'base/mm-no-result/mm-no-result'
 
+const LIST_TYPE_ALBUM = 'album'
+const LIST_TYPE_DURATION = 'duration'
+const LIST_TYPE_PULLUP = 'pullup'
+
+// 触发滚动加载的阈值
+const THRESHOLD = 100
+
 export default {
   name: 'MusicList',
   components: {
@@ -68,12 +75,14 @@ export default {
       default: () => []
     },
     /**
-     *  0：显示专辑栏目（默认）
-     *  1：显示时长栏目
+     * 列表类型
+     * album: 显示专辑栏目（默认）
+     * duration: 显示时长栏目
+     * pullup: 开启上拉加载
      */
     listType: {
-      type: Number,
-      default: 0
+      type: String,
+      default: LIST_TYPE_ALBUM
     }
   },
   data() {
@@ -82,11 +91,14 @@ export default {
     }
   },
   computed: {
+    isDuration() {
+      return this.listType === LIST_TYPE_DURATION
+    },
     ...mapGetters(['playing', 'currentMusic'])
   },
   watch: {
     list(newList, oldList) {
-      if (this.listType !== 2) {
+      if (this.listType !== LIST_TYPE_PULLUP) {
         return
       }
       if (newList.length !== oldList.length) {
@@ -108,11 +120,11 @@ export default {
     listScroll(e) {
       const scrollTop = e.target.scrollTop
       this.scrollTop = scrollTop
-      if (this.listType !== 2 || this.lockUp) {
+      if (this.listType !== LIST_TYPE_PULLUP || this.lockUp) {
         return
       }
       const { scrollHeight, offsetHeight } = e.target
-      if (scrollTop + offsetHeight >= scrollHeight - 50) {
+      if (scrollTop + offsetHeight >= scrollHeight - THRESHOLD) {
         this.lockUp = true // 锁定滚动加载
         this.$emit('pullUp') // 触发滚动加载事件
       }
