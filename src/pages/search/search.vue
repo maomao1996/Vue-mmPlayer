@@ -21,7 +21,7 @@
     <music-list
       ref="musicList"
       :list="list"
-      :list-type="2"
+      list-type="pullup"
       @select="selectItem"
       @pullUp="pullUpLoad"
     />
@@ -119,7 +119,7 @@ export default {
     },
     // 获取歌曲详情
     _getMusicDetail(id) {
-      return getMusicDetail(id).then(res => res.songs[0].al.picUrl)
+      return getMusicDetail(id).then((res) => res.songs[0].al.picUrl)
     },
     ...mapMutations({
       setPlaying: 'SET_PLAYING'
