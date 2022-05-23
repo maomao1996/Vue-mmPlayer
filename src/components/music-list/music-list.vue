@@ -26,6 +26,18 @@
                 :size="40"
                 @click.stop="selectItem(item, index)"
               />
+              <mm-icon
+                class="hover"
+                type="Downarrow"
+                :size="40"
+                @click.stop="downloadItem(item, index)"
+              />
+              <mm-icon
+                class="hover"
+                type="pro-share"
+                :size="40"
+                @click.stop="shareItem(item, index)"
+              />
             </div>
           </div>
           <span class="list-artist">{{ item.singer }}</span>
@@ -44,13 +56,32 @@
       </div>
     </template>
     <mm-no-result v-else title="弄啥呢，怎么啥也没有！！！" />
+    <!--外链分享-->
+    <mm-dialog
+      ref="shareDialog"
+      head-text="歌曲外链分享"
+      confirm-btn-text="确定"
+      cancel-btn-text="关闭"
+    >
+      <div class="mm-dialog-text">
+        <input
+          v-model.trim="songUrl"
+          class="mm-dialog-input"
+          autofocus
+          @mouseover="selectValue($event)"
+        />
+        <p>*获取到的音乐外链有效期较短，请按需使用。</p>
+      </div>
+    </mm-dialog>
   </div>
 </template>
 
 <script>
 // import {getCheckMusic} from 'api'
+import { getMusicUrl } from 'api'
 import { mapGetters, mapMutations } from 'vuex'
 import { format } from '@/utils/util'
+import MmDialog from 'base/mm-dialog/mm-dialog'
 import MmNoResult from 'base/mm-no-result/mm-no-result'
 
 const LIST_TYPE_ALBUM = 'album'
@@ -63,7 +94,8 @@ const THRESHOLD = 100
 export default {
   name: 'MusicList',
   components: {
-    MmNoResult
+    MmNoResult,
+    MmDialog
   },
   filters: {
     format
@@ -87,7 +119,8 @@ export default {
   },
   data() {
     return {
-      lockUp: true // 是否锁定滚动加载事件,默认锁定
+      lockUp: true, // 是否锁定滚动加载事件,默认锁定
+      songUrl: ''
     }
   },
   computed: {
@@ -166,6 +199,32 @@ export default {
       // }).catch(error => {
       //     this.$mmToast(error.response.data.message)
       // })
+    },
+    // 音乐下载
+    downloadItem(item, index, e) {
+      getMusicUrl(item.id)
+        .then(res => {
+          if (res.data[0].url) {
+            window.open(res.data[0].url)
+          }
+        }).catch(error => {
+          this.$mmToast(error.response.data.message)
+        })
+    },
+    // 音乐外链分享
+    shareItem(item, index, e) {
+      getMusicUrl(item.id)
+        .then(res => {
+          if (res.data[0].url) {
+            this.songUrl = res.data[0].url
+            this.$refs.shareDialog.show()
+          }
+        }).catch(error => {
+          this.$mmToast(error.response.data.message)
+        })
+    },
+    selectValue(e) {
+      e.currentTarget.select()
     },
     // 获取播放状态 type
     getPlayIconType({ id: itemId }) {
