@@ -96,8 +96,19 @@ node app.js
   - 然后先在本地运行 `npm run build` 命令，会打包在生成一个 `dist` 文件
   - 最后将打包的 `dist` 文件上传到你的网站服务器目录即可
 
+- `Docker` 部署
+  - 拉起镜像
+  ```bash
+  # docker pull yaonew/mmplayer
+  ```
+  - 启动容器
+  ```bash
+  # docker run --name mmPlayer -dit -p 80:80 yaonew/mmplayer
+  ```
+
 - 其他：[在宝塔面板部署 mmPlayer](https://github.com/maomao1996/Blog/issues/1)（不喜欢写文，可能有点烂不要介意哈）
 - 最后：本人已和谷歌、百度达成合作了，如果还有啥不懂的，以后可以直接谷歌、百度
+
 
 ## 技术栈
 
