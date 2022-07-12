@@ -54,7 +54,7 @@ export default {
     let titleTime
     document.addEventListener('visibilitychange', function() {
       if (document.hidden) {
-        document.title = '死鬼去哪里了！'
+        document.title = '疯狂的企鹅-nsoft.vip！'
         clearTimeout(titleTime)
       } else {
         document.title = '(つェ⊂)咦!又好了!'
