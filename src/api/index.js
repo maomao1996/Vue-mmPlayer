@@ -119,3 +119,28 @@ export function getComment(id, page, limit = defaultLimit) {
     }
   })
 }
+
+// 手机号登录
+export function phoneLogin({ phone, password }) {
+  return axios.get('/login/cellphone', {
+    params: {
+      phone,
+      password
+    }
+  })
+}
+
+// 邮箱登录
+export function emailLogin({ email, password }) {
+  return axios.post('/login/cellphone', {
+    params: {
+      email,
+      password
+    }
+  })
+}
+
+// 退出登录
+export function logout() {
+  return axios.post('/logout')
+}

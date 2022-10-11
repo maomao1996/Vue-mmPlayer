@@ -14,12 +14,15 @@
         </router-link>
         <dd class="user-btn" @click="openDialog(2)">退出</dd>
       </template>
-      <dd v-else class="user-btn" @click="openDialog(0)">登录</dd>
+      <template v-else>
+        <dd class="user-btn uid-btn" @click="openDialog(0)">UID登录</dd>
+        <dd class="user-btn" @click="openDialog(4)">账号密码登录</dd>
+      </template>
     </dl>
-    <!--登录-->
+    <!--UID 登录-->
     <mm-dialog
       ref="loginDialog"
-      head-text="登录"
+      head-text="UID登录"
       confirm-btn-text="登录"
       cancel-btn-text="关闭"
       @confirm="login"
@@ -36,7 +39,33 @@
       </div>
       <div slot="btn" @click="openDialog(1)">帮助</div>
     </mm-dialog>
-    <!--帮助-->
+    <!--账号密码 登录-->
+    <mm-dialog
+      ref="accountLoginDialog"
+      head-text="账号登录"
+      confirm-btn-text="登录"
+      cancel-btn-text="关闭"
+      @confirm="accountLogin"
+    >
+      <div class="mm-dialog-text">
+        <input
+          v-model.trim="userInfo.account"
+          class="mm-dialog-input account-input"
+          type="text"
+          autofocus
+          placeholder="请输入您的网易云 账号(手机号或邮箱)"
+        />
+        <input
+          v-model.trim="userInfo.password"
+          class="mm-dialog-input"
+          type="text"
+          autofocus
+          placeholder="请输入您的网易云 密码"
+          @keyup.enter="accountLogin"
+        />
+      </div>
+    </mm-dialog>
+    <!--uid登录帮助-->
     <mm-dialog
       ref="helpDialog"
       head-text="登录帮助"
@@ -67,10 +96,10 @@
 </template>
 
 <script>
-import { getUserPlaylist } from 'api'
+import { getUserPlaylist, phoneLogin, emailLogin, logout } from 'api'
 import { mapGetters, mapActions } from 'vuex'
 import MmDialog from 'base/mm-dialog/mm-dialog'
-import { toHttps } from '@/utils/util'
+import { toHttps, isPhone, isEmail } from '@/utils/util'
 
 export default {
   name: 'MmHeader',
@@ -80,7 +109,11 @@ export default {
   data() {
     return {
       user: {}, // 用户数据
-      uidValue: '' // 记录用户 UID
+      uidValue: '', // 记录用户 UID
+      userInfo: {
+        account: '',
+        password: ''
+      }
     }
   },
   computed: {
@@ -106,12 +139,16 @@ export default {
         case 3:
           this.$refs.loginDialog.hide()
           break
+        case 4:
+          this.$refs.accountLoginDialog.show()
+          break
       }
     },
     // 退出登录
     out() {
       this.user = {}
       this.setUid(null)
+      logout()
       this.$mmToast('退出成功！')
     },
     // 登录
@@ -123,6 +160,36 @@ export default {
       }
       this.openDialog(3)
       this._getUserPlaylist(this.uidValue)
+    },
+    // 账号密码登录
+    accountLogin() {
+      const { account, password } = this.userInfo
+      if (account === '') {
+        this.$mmToast('账号 不能为空')
+        this.openDialog(4)
+        return
+      }
+      if (password === '') {
+        this.$mmToast('密码 不能为空')
+        this.openDialog(4)
+        return
+      }
+      if (isPhone(account)) {
+        phoneLogin({ phone: account, password })
+          .then(({ account }) => {
+            this._getUserPlaylist(account.id)
+          })
+        return
+      }
+      if (isEmail(account)) {
+        emailLogin({ phone: account, password })
+          .then(({ account }) => {
+            this._getUserPlaylist(account.id)
+          })
+        return
+      }
+      this.$mmToast('手机号或邮箱格式有误')
+      this.openDialog(4)
     },
     // 获取用户数据
     _getUserPlaylist(uid) {
@@ -173,6 +240,9 @@ export default {
     line-height: 30px;
     text-align: right;
     transform: translateY(-50%);
+    .uid-btn {
+      margin-right: 15px;
+    }
     &-info {
       float: left;
       margin-right: 15px;
@@ -220,6 +290,9 @@ export default {
     box-shadow: 0 0 1px 0 #fff inset;
     &::placeholder {
       color: @text_color;
+    }
+    &.account-input {
+      margin-bottom: 10px;
     }
   }
   a:hover {

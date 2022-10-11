@@ -47,6 +47,13 @@ const routes = [
         }
       },
       {
+        path: '/music/cloud', // 我的云盘
+        component: () => import('pages/cloud/cloud'),
+        meta: {
+          title: '我的云盘'
+        }
+      },
+      {
         path: '/music/search', // 搜索
         component: () => import('pages/search/search'),
         meta: {
