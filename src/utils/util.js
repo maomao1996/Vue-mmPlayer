@@ -105,3 +105,11 @@ export function toHttps(url) {
   }
   return url.replace('http://', 'https://')
 }
+
+export function isPhone(phone) {
+  return /^1\d{10}$/.test(phone)
+}
+
+export function isEmail(email) {
+  return /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(email)
+}

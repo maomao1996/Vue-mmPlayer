@@ -80,7 +80,7 @@ export default {
         if (res.playlist.length === 0) {
           return
         }
-        this.list = res.playlist.slice(1)
+        this.list = res.playlist.slice(0)
         this._hideLoad()
       })
     }

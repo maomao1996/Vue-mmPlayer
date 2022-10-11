@@ -24,10 +24,10 @@ export function createPlayList(music) {
   return new Song({
     id: music.id,
     name: music.name,
-    singer: music.artists.length > 0 && filterSinger(music.artists),
-    album: music.album.name,
-    image: toHttps(music.album.picUrl) || null,
-    duration: music.duration / 1000,
+    singer: (music.artists?.length > 0 || music.ar?.length > 0) && filterSinger(music.artists || music.ar),
+    album: music.album?.name || music.al?.name,
+    image: toHttps(music.album?.picUrl || music.al?.picUrl) || null,
+    duration: (music.duration || music.dt) / 1000,
     url: `https://music.163.com/song/media/outer/url?id=${music.id}.mp3`
   })
 }

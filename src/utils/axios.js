@@ -9,9 +9,12 @@ request.interceptors.response.use(
   response => {
     window.response = response
 
-    if (response.status === 200 && response.data.code === 200) {
+    if (response.status === 200 && (response.data.code === 200 || response.data.data?.code === 200)) {
       return response.data
     }
+    Vue.prototype.$mmToast(
+      response.data?.message || response.data?.msg
+    )
     return Promise.reject(response)
   },
   error => {
