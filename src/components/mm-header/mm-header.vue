@@ -148,6 +148,7 @@ export default {
     out() {
       this.user = {}
       this.setUid(null)
+      localStorage.removeItem('cookie')
       logout()
       this.$mmToast('退出成功！')
     },
@@ -176,14 +177,16 @@ export default {
       }
       if (isPhone(account)) {
         phoneLogin({ phone: account, password })
-          .then(({ account }) => {
+          .then(({ account, cookie }) => {
+            localStorage.setItem('cookie', cookie)
             this._getUserPlaylist(account.id)
           })
         return
       }
       if (isEmail(account)) {
-        emailLogin({ phone: account, password })
-          .then(({ account }) => {
+        emailLogin({ email: account, password })
+          .then(({ account, cookie }) => {
+            localStorage.setItem('cookie', cookie)
             this._getUserPlaylist(account.id)
           })
         return

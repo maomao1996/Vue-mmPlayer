@@ -89,6 +89,9 @@ export default {
     // 计算歌词居中的 top值
     clacTop() {
       const dom = this.$refs.musicLyric
+      if (!dom) {
+        return
+      }
       const { display = '' } = window.getComputedStyle(dom)
       if (display === 'none') {
         return

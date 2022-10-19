@@ -12,6 +12,12 @@ request.interceptors.response.use(
     if (response.status === 200 && (response.data.code === 200 || response.data.data?.code === 200)) {
       return response.data
     }
+
+    if ((response.data.code === 302 || response.data.data?.code === 302)) {
+      Vue.prototype.$mmToast('请使用账号密码登录')
+      return Promise.reject(response)
+    }
+
     Vue.prototype.$mmToast(
       response.data?.message || response.data?.msg
     )

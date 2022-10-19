@@ -9,12 +9,18 @@
     </router-link>
     <span class="show-960" @click="$emit('onClickLyric')">歌词</span>
     <router-link to="/music/historylist" tag="span">我听过的</router-link>
-    <!-- <router-link to="/music/cloud" tag="span">我的云盘</router-link> -->
+    <router-link v-show="uid" to="/music/cloud" tag="span">我的云盘</router-link>
   </div>
 </template>
 
 <script>
-export default {}
+import { mapGetters } from 'vuex'
+export default {
+  name: 'MusicBtn',
+  computed: {
+    ...mapGetters(['uid'])
+  }
+}
 </script>
 
 <style lang="less" scoped>

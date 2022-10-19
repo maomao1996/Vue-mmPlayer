@@ -125,14 +125,15 @@ export function phoneLogin({ phone, password }) {
   return axios.get('/login/cellphone', {
     params: {
       phone,
-      password
+      password,
+      realIP: '116.25.146.177'
     }
   })
 }
 
 // 邮箱登录
 export function emailLogin({ email, password }) {
-  return axios.post('/login/cellphone', {
+  return axios.get('/login/email', {
     params: {
       email,
       password
@@ -143,4 +144,70 @@ export function emailLogin({ email, password }) {
 // 退出登录
 export function logout() {
   return axios.post('/logout')
+}
+
+// 获取云盘歌曲URL
+export function getCloudMusicUrl(id) {
+  return axios({
+    method: 'GET',
+    url: '/song/url',
+    params: { id, timestamp: Date.now(), cookie: encodeURIComponent(localStorage.getItem('cookie') || '') }
+  })
+}
+
+// 获取云盘歌曲详情
+export function getCloudMusicDetail(id) {
+  return axios({
+    method: 'GET',
+    url: '/user/cloud/detail',
+    params: { id, timestamp: Date.now(), cookie: encodeURIComponent(localStorage.getItem('cookie') || '') }
+  })
+}
+
+// 获取云盘歌曲列表
+export function getCloudPlaylist() {
+  return new Promise(async(resolve, reject) => {
+    try {
+      let { data: playlist } = await axios({
+        method: 'POST',
+        url: '/user/cloud',
+        data: { limit: 500, cookie: encodeURIComponent(localStorage.getItem('cookie') || '') },
+        params: { timestamp: Date.now(), realIP: '116.25.146.177' }
+      })
+      if (!Array.isArray(playlist)) {
+        reject(new Error('获取歌单详情失败'))
+        return
+      }
+      if (playlist.length === 0) {
+        reject(new Error('歌单为空'))
+        return
+      }
+      // 限制歌单详情最大 500
+      const ids = playlist
+        .slice(0, 500)
+        .map(v => v.songId)
+        .toString()
+      getCloudMusicDetail(ids)
+      let { data: urlsDetail } = await getCloudMusicUrl(ids)
+      let temp = {}
+      urlsDetail.forEach(({ id, time, url }, index) => {
+        temp = playlist.find(song => song.songId === id)
+        Object.assign(temp, { time, url })
+      })
+      playlist = playlist.map(song => {
+        return {
+          album: song.album,
+          duration: song.time / 1000,
+          id: song.songId,
+          image: `http://p1.music.126.net/aXUPgImt8hhf4cMUZEjP4g==/109951165611417794.jpg?param=40y40`,
+          name: song.songName,
+          singer: song.artist,
+          url: song.url
+        }
+      })
+      resolve(playlist)
+    } catch (error) {
+      reject(error)
+    }
+  })
 }
