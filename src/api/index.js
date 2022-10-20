@@ -2,7 +2,7 @@ import axios from '@/utils/axios'
 import { defaultLimit } from '@/config'
 import { formatTopSongs } from '@/utils/song'
 
-axios.defaults.baseURL = process.env.VUE_APP_BASE_API_URL
+// axios.defaults.baseURL = process.env.VUE_APP_BASE_API_URL
 
 // 排行榜列表
 export function getToplistDetail() {
