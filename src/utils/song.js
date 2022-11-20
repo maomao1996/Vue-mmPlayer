@@ -1,8 +1,11 @@
 import { toHttps } from './util'
 
 function filterSinger(singers) {
+  if (!Array.isArray(singers) || !singers.length) {
+    return ''
+  }
   let arr = []
-  singers.forEach(item => {
+  singers.forEach((item) => {
     arr.push(item.name)
   })
   return arr.join('/')
@@ -24,7 +27,7 @@ export function createPlayList(music) {
   return new Song({
     id: music.id,
     name: music.name,
-    singer: music.artists.length > 0 && filterSinger(music.artists),
+    singer: filterSinger(music.ar || music.artists),
     album: music.album.name,
     image: toHttps(music.album.picUrl) || null,
     duration: music.duration / 1000,
@@ -36,7 +39,7 @@ export function createTopList(music) {
   return new Song({
     id: music.id,
     name: music.name,
-    singer: music.ar.length > 0 && filterSinger(music.ar),
+    singer: filterSinger(music.ar || music.artists),
     album: music.al.name,
     image: toHttps(music.al.picUrl),
     duration: music.dt / 1000,
@@ -47,7 +50,7 @@ export function createTopList(music) {
 // 歌曲数据格式化
 const formatSongs = function formatPlayList(list) {
   let Songs = []
-  list.forEach(item => {
+  list.forEach((item) => {
     const musicData = item
     if (musicData.id) {
       Songs.push(createPlayList(musicData))
@@ -58,7 +61,7 @@ const formatSongs = function formatPlayList(list) {
 
 export const formatTopSongs = function formatTopList(list) {
   let Songs = []
-  list.forEach(item => {
+  list.forEach((item) => {
     const musicData = item
     if (musicData.id) {
       Songs.push(createTopList(musicData))
