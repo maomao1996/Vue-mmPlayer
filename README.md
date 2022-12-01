@@ -469,9 +469,16 @@ PC 端界面自我感觉还行， 就是移动端界面总觉得怪怪的，奈�
 ## 其他说明
 
 - 个人练手项目（本想先做移动端的，但是发现有很多人都做过，就稍微标新立异做个 PC 端）
-- 如果您喜欢该作品，您可以点右上角 "Star" "Fork" 表示支持 谢谢！
-- 后续：移动端版本、其他作品
-- 如有问题请直接在 [Issues](https://github.com/maomao1996/Vue-mmPlayer/issues/new) 中提，或者您发现问题并有非常好的解决方案，欢迎 PR
+- 如有问题请直接在 [Issues](https://github.com/maomao1996/Vue-mmPlayer/issues/new) 中提，或者您发现问题并有非常好的解决方案，欢迎 `PR`
+- 如果您喜欢该作品，您可以点右上角 "Star" 或者打赏犒劳一下表示支持 谢谢！
+
+**支付宝：**
+
+<img src="https://cdn.jsdelivr.net/gh/maomao1996/picture/sponsor/alipay.jpg" width="200" alt="支付宝" />
+
+**微信：**
+
+<img src="https://cdn.jsdelivr.net/gh/maomao1996/picture/sponsor/wechat.jpg" width="200" alt="微信" />
 
 ## 鸣谢
 
