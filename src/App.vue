@@ -19,7 +19,6 @@
 import { mapMutations, mapActions } from 'vuex'
 import { getPlaylistDetail } from 'api'
 import { defaultSheetId, VERSION } from '@/config'
-import { createTopList } from '@/utils/song'
 import MmHeader from 'components/mm-header/mm-header'
 import MmDialog from 'base/mm-dialog/mm-dialog'
 import { getVersion, setVersion } from '@/utils/storage'
@@ -44,7 +43,7 @@ export default {
     this.versionInfo = VERSION_INFO
 
     // 获取正在播放列表
-    getPlaylistDetail(defaultSheetId).then(playlist => {
+    getPlaylistDetail(defaultSheetId).then((playlist) => {
       const list = playlist.tracks.slice(0, 100)
       this.setPlaylist({ list })
     })
@@ -52,13 +51,13 @@ export default {
     // 设置title
     let OriginTitile = document.title
     let titleTime
-    document.addEventListener('visibilitychange', function() {
+    document.addEventListener('visibilitychange', function () {
       if (document.hidden) {
         document.title = '死鬼去哪里了！'
         clearTimeout(titleTime)
       } else {
         document.title = '(つェ⊂)咦!又好了!'
-        titleTime = setTimeout(function() {
+        titleTime = setTimeout(function () {
           document.title = OriginTitile
         }, 2000)
       }
@@ -72,7 +71,7 @@ export default {
     // 首次加载完成后移除动画
     let loadDOM = document.querySelector('#appLoading')
     if (loadDOM) {
-      const animationendFunc = function() {
+      const animationendFunc = function () {
         loadDOM.removeEventListener('animationend', animationendFunc)
         loadDOM.removeEventListener('webkitAnimationEnd', animationendFunc)
         document.body.removeChild(loadDOM)
@@ -94,17 +93,6 @@ export default {
     }
   },
   methods: {
-    // 歌曲数据处理
-    _formatSongs(list) {
-      let ret = []
-      list.forEach(item => {
-        const musicData = item
-        if (musicData.id) {
-          ret.push(createTopList(musicData))
-        }
-      })
-      return ret
-    },
     ...mapMutations({
       setAudioele: 'SET_AUDIOELE'
     }),
