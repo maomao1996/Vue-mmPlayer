@@ -26,10 +26,8 @@ import { getVersion, setVersion } from '@/utils/storage'
 const VERSION_INFO = `<div class="mm-dialog-text text-left">
 版本号：${VERSION}（${process.env.VUE_APP_UPDATE_TIME}）<br/>
 1、 采用新版图标<br>
-2、 增加移动端歌词显示<br>
-3、 修复背景图白边<br>
-4、 修复音乐进度条点击无效问题<br>
-5、 移除我的歌单喜欢的音乐
+2、 修复音乐搜索<br>
+3、 优化滚动条样式
 </div>`
 
 export default {
