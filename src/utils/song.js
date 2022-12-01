@@ -23,51 +23,28 @@ export class Song {
   }
 }
 
-export function createPlayList(music) {
+export function createSong(music) {
+  const album = music.album || music.al || {}
+  const duration = music.duration || music.dt
   return new Song({
     id: music.id,
     name: music.name,
     singer: filterSinger(music.ar || music.artists),
-    album: music.album.name,
-    image: toHttps(music.album.picUrl) || null,
-    duration: music.duration / 1000,
-    url: `https://music.163.com/song/media/outer/url?id=${music.id}.mp3`
-  })
-}
-
-export function createTopList(music) {
-  return new Song({
-    id: music.id,
-    name: music.name,
-    singer: filterSinger(music.ar || music.artists),
-    album: music.al.name,
-    image: toHttps(music.al.picUrl),
-    duration: music.dt / 1000,
+    album: album.name,
+    image: toHttps(album.picUrl) || null,
+    duration: duration / 1000,
     url: `https://music.163.com/song/media/outer/url?id=${music.id}.mp3`
   })
 }
 
 // 歌曲数据格式化
-const formatSongs = function formatPlayList(list) {
-  let Songs = []
+export function formatSongs(list) {
+  const Songs = []
   list.forEach((item) => {
     const musicData = item
     if (musicData.id) {
-      Songs.push(createPlayList(musicData))
+      Songs.push(createSong(musicData))
     }
   })
   return Songs
 }
-
-export const formatTopSongs = function formatTopList(list) {
-  let Songs = []
-  list.forEach((item) => {
-    const musicData = item
-    if (musicData.id) {
-      Songs.push(createTopList(musicData))
-    }
-  })
-  return Songs
-}
-
-export default formatSongs
