@@ -140,11 +140,11 @@ export default {
     z-index: 1996;
     .@{dialog-prefix-cls}-content {
       width: 420px;
-      border-radius: 5px;
+      border-radius: @dialog_border_radius;
       background: @dialog_content_bg_color;
       @media (max-width: 767px) {
         width: 270px;
-        border-radius: 10px;
+        border-radius: @dialog_mobile_border_radius;
         text-align: center;
       }
       .@{dialog-prefix-cls}-head {
@@ -170,7 +170,7 @@ export default {
           div {
             display: block;
             padding: 8px 15px;
-            border-radius: 3px;
+            border-radius: @dialog_btn_mobile_border_radius;
             border: 1px solid @btn_color;
             font-size: @font_size_medium;
             cursor: pointer;

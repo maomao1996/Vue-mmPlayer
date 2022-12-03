@@ -35,7 +35,7 @@ export default {
   z-index: 1996;
   max-width: 80%;
   box-sizing: border-box;
-  border-radius: 5px;
+  border-radius: @border_radius;
   padding: 10px 20px;
   overflow: hidden;
   text-align: center;
