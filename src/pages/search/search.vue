@@ -139,7 +139,7 @@ export default {
     height: 40px;
     padding: 10px 15px;
     overflow: hidden;
-    background: @search_bg_coloe;
+    background: @search_bg_color;
     span {
       line-height: 40px;
       margin-right: 15px;
