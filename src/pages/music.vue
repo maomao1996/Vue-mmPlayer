@@ -1,15 +1,15 @@
 <template>
-  <div class="music">
+  <div class="music flex-col">
     <div class="music-content">
-      <div class="music-left">
+      <div class="music-left flex-col">
         <music-btn @onClickLyric="handleOpenLyric" />
         <keep-alive>
-          <router-view v-if="$route.meta.keepAlive" class="music-list" />
+          <router-view v-if="$route.meta.keepAlive" class="router-view" />
         </keep-alive>
         <router-view
           v-if="!$route.meta.keepAlive"
           :key="$route.path"
-          class="music-list"
+          class="router-view"
         />
       </div>
       <div class="music-right" :class="{ show: lyricVisible }">
@@ -415,6 +415,13 @@ export default {
 </script>
 
 <style lang="less">
+.router-view {
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .music {
   padding: 75px 25px 25px 25px;
   width: 100%;
@@ -425,15 +432,13 @@ export default {
   overflow: hidden;
   .music-content {
     display: flex;
+    flex: 1;
+    overflow: hidden;
     width: 100%;
-    height: calc(~'100% - 80px');
     .music-left {
       flex: 1;
-      height: 100%;
+      width: 100%;
       overflow: hidden;
-      .music-list {
-        height: calc(~'100% - 60px');
-      }
     }
     .music-right {
       position: relative;
@@ -453,9 +458,7 @@ export default {
     display: flex;
     align-items: center;
     width: 100%;
-    height: 80px;
-    box-sizing: border-box;
-    padding-bottom: 15px;
+    padding: 15px 0;
     color: #fff;
     &.disable {
       pointer-events: none;
@@ -584,17 +587,10 @@ export default {
   }
   //当屏幕小于768时
   @media (max-width: 768px) {
-    & {
-      padding: 75px 15px 5px 15px;
-    }
-
-    .music-content .music-left {
-      .music-list {
-        font-size: @font_size_medium;
-      }
-    }
+    padding: 75px 15px 5px 15px;
 
     .music-bar {
+      padding-top: 10px;
       .music-bar-info span,
       .music-bar-volume .mmProgress {
         display: none;
@@ -608,22 +604,23 @@ export default {
       flex-direction: column;
       .music-bar-btns {
         width: 60%;
-        margin-top: 15px;
+        margin-top: 10px;
         order: 2;
       }
       .music-music {
         padding-left: 0;
         order: 1;
       }
-      & > i.mode {
-        position: absolute;
-        top: 40px;
-        left: 5px;
-        margin: 0;
-      }
+      .mode,
       .comment {
         position: absolute;
-        top: 40px;
+        bottom: 20px;
+        margin: 0;
+      }
+      .mode {
+        left: 5px;
+      }
+      .comment {
         right: 5px;
       }
       .music-bar-volume {

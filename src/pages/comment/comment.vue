@@ -190,11 +190,6 @@ export default {
 
 <style lang="less" scoped>
 .comment {
-  position: relative;
-  transform: translate3d(0, 0, 0);
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
   .comment-list {
     height: 100%;
     padding: 0 10px;

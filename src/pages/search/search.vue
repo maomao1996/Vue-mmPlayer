@@ -1,6 +1,6 @@
 <template>
   <!--搜索-->
-  <div class="search">
+  <div class="search flex-col">
     <mm-loading v-model="mmLoadShow" />
     <div class="search-head">
       <span
@@ -18,13 +18,15 @@
         @keyup.enter="onEnter"
       />
     </div>
-    <music-list
-      ref="musicList"
-      :list="list"
-      list-type="pullup"
-      @select="selectItem"
-      @pullUp="pullUpLoad"
-    />
+    <div class="flex-1 overflow-hidden">
+      <music-list
+        ref="musicList"
+        :list="list"
+        list-type="pullup"
+        @select="selectItem"
+        @pullUp="pullUpLoad"
+      />
+    </div>
   </div>
 </template>
 
@@ -131,8 +133,7 @@ export default {
 
 <style lang="less" scoped>
 .search {
-  position: relative;
-  width: 100%;
+  overflow: hidden;
   height: 100%;
   .search-head {
     display: flex;
@@ -168,10 +169,6 @@ export default {
         color: @text_color;
       }
     }
-  }
-  .musicList {
-    width: 100%;
-    height: calc(~'100% - 50px');
   }
 }
 </style>
