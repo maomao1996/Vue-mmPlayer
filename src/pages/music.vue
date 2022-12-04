@@ -476,9 +476,6 @@ export default {
         height: 40px;
         color: #fff;
         background-color: rgba(255, 255, 255, 0.3);
-        .icon-bofang101 {
-          transform: translateX(2px);
-        }
       }
     }
 
