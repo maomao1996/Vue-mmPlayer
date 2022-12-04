@@ -2,7 +2,7 @@
   <div id="app">
     <!--主体-->
     <mm-header />
-    <router-view class="router-view" />
+    <router-view />
     <!--更新说明-->
     <mm-dialog
       ref="versionDialog"
@@ -106,11 +106,6 @@ export default {
   height: 100%;
   color: @text_color;
   font-size: @font_size_medium;
-
-  .router-view {
-    width: 100%;
-    height: 100%;
-  }
 
   audio {
     position: fixed;

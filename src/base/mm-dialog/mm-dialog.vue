@@ -177,9 +177,6 @@ export default {
             &:not(:nth-of-type(1)) {
               margin-left: 10px;
             }
-            &.mm-btn-confirm {
-              border-style: @btn_color_active;
-            }
             &:hover {
               color: @text_color_active;
               border: 1px solid @btn_color_active;
