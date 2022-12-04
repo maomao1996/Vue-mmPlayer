@@ -52,11 +52,7 @@ export default {
 
 <style lang="less" scoped>
 .details {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  .musicList {
-    width: 100%;
+  .music-list {
     height: 100%;
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <!--歌曲列表-->
-  <div class="musicList">
+  <div class="music-list flex-col">
     <template v-if="list.length > 0">
       <div class="list-item list-header">
         <span class="list-name">歌曲</span>
@@ -187,6 +187,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.music-list {
+  height: 100%;
+}
+
 .list-header {
   border-bottom: 1px solid @list_head_line_color;
   color: @text_color_active;
@@ -198,8 +202,7 @@ export default {
 }
 
 .list-content {
-  width: 100%;
-  height: calc(~'100% - 60px');
+  flex: 1;
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -327,6 +330,21 @@ export default {
       top: 50%;
       left: 0;
       transform: translateY(-50%);
+    }
+  }
+}
+
+.list-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  span {
+    padding: 5px 20px;
+    cursor: pointer;
+    user-select: none;
+    &:hover {
+      color: @text_color_active;
     }
   }
 }
