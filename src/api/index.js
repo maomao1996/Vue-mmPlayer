@@ -1,5 +1,5 @@
 import axios from '@/utils/axios'
-import { defaultLimit } from '@/config'
+import { DEFAULT_LIMIT } from '@/config'
 import { formatSongs } from '@/utils/song'
 
 // 排行榜列表
@@ -46,7 +46,7 @@ export function getPlaylistDetail(id) {
 }
 
 // 搜索
-export function search(keywords, page = 0, limit = defaultLimit) {
+export function search(keywords, page = 0, limit = DEFAULT_LIMIT) {
   return axios.get('/search', {
     params: {
       offset: page * limit,
@@ -108,7 +108,7 @@ export function getLyric(id) {
 }
 
 // 获取音乐评论
-export function getComment(id, page, limit = defaultLimit) {
+export function getComment(id, page, limit = DEFAULT_LIMIT) {
   return axios.get('/comment/music', {
     params: {
       offset: page * limit,

@@ -1,24 +1,24 @@
-import { defaultVolume } from '@/config'
+import { MMPLAYER_CONFIG } from '@/config'
 
-const _storage = window.localStorage
+const STORAGE = window.localStorage
 const storage = {
   get(key, data = []) {
-    if (_storage) {
-      return _storage.getItem(key)
+    if (STORAGE) {
+      return STORAGE.getItem(key)
         ? Array.isArray(data)
-          ? JSON.parse(_storage.getItem(key))
-          : _storage.getItem(key)
+          ? JSON.parse(STORAGE.getItem(key))
+          : STORAGE.getItem(key)
         : data
     }
   },
   set(key, val) {
-    if (_storage) {
-      _storage.setItem(key, val)
+    if (STORAGE) {
+      STORAGE.setItem(key, val)
     }
   },
   clear(key) {
-    if (_storage) {
-      _storage.removeItem(key)
+    if (STORAGE) {
+      STORAGE.removeItem(key)
     }
   }
 }
@@ -75,7 +75,7 @@ export function clearHistoryList() {
 const MODE_KEY = '__mmPlayer_mode__'
 // 获取播放模式
 export function getMode() {
-  return storage.get(MODE_KEY, null)
+  return Number(storage.get(MODE_KEY, MMPLAYER_CONFIG.PLAY_MODE))
 }
 // 修改播放模式
 export function setMode(mode) {
@@ -121,7 +121,7 @@ export function setVersion(version) {
 const VOLUME_KEY = '__mmPlayer_volume__'
 // 获取音量
 export function getVolume() {
-  const volume = storage.get(VOLUME_KEY, defaultVolume)
+  const volume = storage.get(VOLUME_KEY, MMPLAYER_CONFIG.VOLUME)
   return Number(volume)
 }
 // 修改音量
