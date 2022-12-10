@@ -109,7 +109,7 @@ import {
   format,
   silencePromise
 } from '@/utils/util'
-import { playMode, defaultBG } from '@/config'
+import { PLAY_MODE, MMPLAYER_CONFIG } from '@/config'
 import { getVolume, setVolume } from '@/utils/storage'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 
@@ -148,7 +148,7 @@ export default {
     picUrl() {
       return this.currentMusic.id && this.currentMusic.image
         ? `url(${this.currentMusic.image}?param=300y300)`
-        : `url(${defaultBG})`
+        : `url(${MMPLAYER_CONFIG.BACKGROUND})`
     },
     percentMusic() {
       const duration = this.currentMusic.duration
@@ -282,7 +282,7 @@ export default {
         playlist: { length }
       } = this
       if (
-        (length - 1 === this.currentIndex && this.mode === playMode.order) ||
+        (length - 1 === this.currentIndex && this.mode === PLAY_MODE.ORDER) ||
         (length === 1 && flag)
       ) {
         this.setCurrentIndex(-1)
@@ -324,16 +324,16 @@ export default {
     modeChange() {
       const mode = (this.mode + 1) % 4
       this.setPlayMode(mode)
-      if (mode === playMode.loop) {
+      if (mode === PLAY_MODE.LOOP) {
         return
       }
       let list = []
       switch (mode) {
-        case playMode.listLoop:
-        case playMode.order:
+        case PLAY_MODE.LIST_LOOP:
+        case PLAY_MODE.ORDER:
           list = this.orderList
           break
-        case playMode.random:
+        case PLAY_MODE.RANDOM:
           list = randomSortArray(this.orderList)
           break
       }
@@ -365,20 +365,20 @@ export default {
     // 获取播放模式 icon
     getModeIconType() {
       return {
-        [playMode.listLoop]: 'loop',
-        [playMode.order]: 'sequence',
-        [playMode.random]: 'random',
-        [playMode.loop]: 'loop-one'
+        [PLAY_MODE.LIST_LOOP]: 'loop',
+        [PLAY_MODE.ORDER]: 'sequence',
+        [PLAY_MODE.RANDOM]: 'random',
+        [PLAY_MODE.LOOP]: 'loop-one'
       }[this.mode]
     },
     // 获取播放模式 title
     getModeIconTitle() {
       const key = 'Ctrl + O'
       return {
-        [playMode.listLoop]: `列表循环 ${key}`,
-        [playMode.order]: `顺序播放 ${key}`,
-        [playMode.random]: `随机播放 ${key}`,
-        [playMode.loop]: `单曲循环 ${key}`
+        [PLAY_MODE.LIST_LOOP]: `列表循环 ${key}`,
+        [PLAY_MODE.ORDER]: `顺序播放 ${key}`,
+        [PLAY_MODE.RANDOM]: `随机播放 ${key}`,
+        [PLAY_MODE.LOOP]: `单曲循环 ${key}`
       }[this.mode]
     },
     // 查看歌词

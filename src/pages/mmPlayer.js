@@ -1,4 +1,4 @@
-import { playMode } from '@/config'
+import { PLAY_MODE } from '@/config'
 
 // 重试次数
 let retry = 1
@@ -33,7 +33,7 @@ const mmPlayerMusic = {
     }
     // 当前音乐播放完毕
     ele.onended = () => {
-      if (that.mode === playMode.loop) {
+      if (that.mode === PLAY_MODE.LOOP) {
         that.loop()
       } else {
         that.next()

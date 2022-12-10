@@ -18,7 +18,7 @@
 <script>
 import { mapMutations, mapActions } from 'vuex'
 import { getPlaylistDetail } from 'api'
-import { defaultSheetId, VERSION } from '@/config'
+import { MMPLAYER_CONFIG, VERSION } from '@/config'
 import MmHeader from 'components/mm-header/mm-header'
 import MmDialog from 'base/mm-dialog/mm-dialog'
 import { getVersion, setVersion } from '@/utils/storage'
@@ -41,7 +41,7 @@ export default {
     this.versionInfo = VERSION_INFO
 
     // 获取正在播放列表
-    getPlaylistDetail(defaultSheetId).then((playlist) => {
+    getPlaylistDetail(MMPLAYER_CONFIG.PLAYLIST_ID).then((playlist) => {
       const list = playlist.tracks.slice(0, 100)
       this.setPlaylist({ list })
     })
