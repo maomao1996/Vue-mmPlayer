@@ -1,5 +1,6 @@
 @import 'reset';
 @import 'var';
+
 html,
 body,
 #app {
@@ -73,13 +74,13 @@ body {
   overflow: hidden;
 }
 
-//滚动条
+/* 滚动条相关样式 */
 ::-webkit-scrollbar {
   /*滚动条整体部分，其中的属性有width,height,background,border（就和一个块级元素一样）等*/
-  background-color: rgba(0, 0, 0, 0.3);
-  width: 5px; // 纵向滚动条
-  height: 5px; // 横向滚动条
-  border-radius: 10px;
+  background-color: @scrollbar_bg;
+  width: @scrollbar_size; // 纵向滚动条
+  height: @scrollbar_size; // 横向滚动条
+  border-radius: @scrollbar_border_radius;
 }
 
 ::-webkit-scrollbar-button {
@@ -91,26 +92,26 @@ body {
   /*外层轨道。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果。*/
   display: none;
   //background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
+  border-radius: @scrollbar_border_radius;
 }
 
 ::-webkit-scrollbar-track-piece {
   /*内层轨道，滚动条中间部分（除去）。*/
   //background-color: rgba(255, 255, 255, .1);
-  border-radius: 10px;
+  border-radius: @scrollbar_border_radius;
 }
 
 ::-webkit-scrollbar-thumb {
   /*滚动条里面可以拖动的那部分*/
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 10px;
+  background-color: @scrollbar_thumb;
+  border-radius: @scrollbar_border_radius;
 }
 
 ::-webkit-scrollbar-corner {
-  border-radius: 10px;
+  border-radius: @scrollbar_border_radius;
 }
 
 ::-webkit-resizer {
   /*定义右下角拖动块的样式*/
-  border-radius: 10px;
+  border-radius: @scrollbar_border_radius;
 }
