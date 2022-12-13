@@ -29,7 +29,7 @@ export const randomSortArray = function shuffle(array) {
 // 防抖函数
 export function debounce(func, delay) {
   let timer
-  return function(...args) {
+  return function (...args) {
     if (timer) {
       clearTimeout(timer)
     }

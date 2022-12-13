@@ -215,7 +215,7 @@ export default {
   methods: {
     // 按键事件
     initKeyDown() {
-      document.onkeydown = e => {
+      document.onkeydown = (e) => {
         switch (e.ctrlKey && e.keyCode) {
           case 32: // 播放暂停Ctrl + Space
             this.play()
@@ -342,7 +342,7 @@ export default {
     },
     // 修改当前歌曲索引
     resetCurrentIndex(list) {
-      const index = list.findIndex(item => {
+      const index = list.findIndex((item) => {
         return item.id === this.currentMusic.id
       })
       this.setCurrentIndex(index)
@@ -394,7 +394,7 @@ export default {
     },
     // 获取歌词
     _getLyric(id) {
-      getLyric(id).then(res => {
+      getLyric(id).then((res) => {
         if (res.nolyric) {
           this.nolyric = true
         } else {

@@ -46,7 +46,7 @@ export default {
   },
   computed: {
     formatList() {
-      return this.list.filter(item => item.trackCount > 0)
+      return this.list.filter((item) => item.trackCount > 0)
     },
     ...mapGetters(['uid'])
   },
@@ -76,7 +76,7 @@ export default {
   methods: {
     // 获取我的歌单详情
     _getUserPlaylist(uid) {
-      getUserPlaylist(uid).then(res => {
+      getUserPlaylist(uid).then((res) => {
         if (res.playlist.length === 0) {
           return
         }

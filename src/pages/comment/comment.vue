@@ -66,9 +66,7 @@
         >
           <a
             target="_blank"
-            :href="
-              `https://music.163.com/#/user/home?id=${beReplied.user.userId}`
-            "
+            :href="`https://music.163.com/#/user/home?id=${beReplied.user.userId}`"
           >
             {{ beReplied.user.nickname }}
           </a>
@@ -158,7 +156,7 @@ export default {
   methods: {
     // 初始化数据
     initData() {
-      getComment(this.$route.params.id, this.page).then(res => {
+      getComment(this.$route.params.id, this.page).then((res) => {
         this.hotComments = res.hotComments
         this.commentList = res.comments
         this.total = res.total

@@ -70,7 +70,7 @@ export default {
   created() {
     Promise.all([getToplistDetail(), getPersonalized()])
       .then(([topList, hotList]) => {
-        this.list = topList.list.filter(v => v.ToplistType)
+        this.list = topList.list.filter((v) => v.ToplistType)
         this.hotList = hotList.result.slice()
         this._hideLoad()
       })

@@ -28,7 +28,7 @@ const mmToast = {
       document.body.appendChild(instance.vm.$el)
       instance.vm.visible = showToast = true
 
-      time = setTimeout(function() {
+      time = setTimeout(function () {
         instance.vm.visible = showToast = false
         document.body.removeChild(instance.vm.$el)
       }, opt.duration)
