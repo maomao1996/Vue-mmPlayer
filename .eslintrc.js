@@ -3,40 +3,41 @@ module.exports = {
   env: {
     node: true
   },
-  extends: ['plugin:vue/recommended', '@vue/standard'],
+  parserOptions: {
+    parser: '@babel/eslint-parser'
+  },
+  extends: [
+    'plugin:vue/recommended',
+    'prettier',
+    'plugin:prettier/recommended'
+  ],
   rules: {
+    'vue/multi-word-component-names': 'off',
     'vue/max-attributes-per-line': [
-      2,
+      'error',
       {
         singleline: 10,
         multiline: {
-          max: 1,
-          allowFirstLine: false
+          max: 1
         }
       }
     ],
     'vue/singleline-html-element-content-newline': 'off',
-    'vue/multiline-html-element-content-newline': 'off',
-    'vue/name-property-casing': ['error', 'PascalCase'],
     'vue/html-self-closing': [
-      'error',
+      'warn',
       {
         html: {
-          void: 'any',
-          normal: 'never',
-          component: 'always'
+          void: 'always',
+          normal: 'never'
         },
-        svg: 'always',
-        math: 'always'
+        svg: 'never',
+        math: 'never'
       }
     ],
-    'space-before-function-paren': 'off',
+    'vue/multiline-html-element-content-newline': 'off',
+    'vue/name-property-casing': ['error', 'PascalCase'],
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-sequences': 2,
-    semi: 1
-  },
-  parserOptions: {
-    parser: 'babel-eslint'
+    'no-sequences': 2
   }
 }
