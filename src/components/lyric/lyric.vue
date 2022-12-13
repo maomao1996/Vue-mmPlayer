@@ -73,8 +73,9 @@ export default {
         : require('../../assets/img/player_cover.png')
     },
     lyricTop() {
-      return `transform :translate3d(0, ${-34 *
-        (this.lyricIndex - this.top)}px, 0)`
+      return `transform :translate3d(0, ${
+        -34 * (this.lyricIndex - this.top)
+      }px, 0)`
     },
     ...mapGetters(['currentMusic'])
   },

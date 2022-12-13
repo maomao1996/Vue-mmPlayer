@@ -61,5 +61,5 @@ new Vue({
   el: '#mmPlayer',
   store,
   router,
-  render: h => h(App)
+  render: (h) => h(App)
 })
