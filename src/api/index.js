@@ -1,7 +1,7 @@
 import axios from '@/utils/axios'
 import { DEFAULT_LIMIT } from '@/config'
 import { formatSongs } from '@/utils/song'
-
+import qs from 'qs'
 // 排行榜列表
 export function getToplistDetail() {
   return axios.get('/toplist/detail')
@@ -10,6 +10,44 @@ export function getToplistDetail() {
 // 推荐歌单
 export function getPersonalized() {
   return axios.get('/personalized')
+}
+
+export function getRandomPlaylistDetail() {
+  const param = {
+    limit: 100,
+    method: 'list',
+    library: 'shared',
+    api: 'SYNO.AudioStation.Song',
+    additional: 'song_tag,song_audio,song_rating',
+    sort_by: 'random',
+    version: 3
+  }
+  const url = `/webapi/AudioStation/song.cgi?${qs.stringify(param)}`
+  return axios.get(url)
+}
+export function loginSYNO(username, password) {
+  const param = {
+    api: 'SYNO.API.Auth',
+    version: '7',
+    method: 'login',
+    account: username,
+    passwd: password
+  }
+  const url = `webapi/entry.cgi?${qs.stringify(param)}`
+  console.log('login url:{}', url)
+  return axios.get(url)
+}
+// 获取歌词
+export function getSYNOLyric(id) {
+  const param = {
+    id,
+    method: 'getlyrics',
+    library: 'shared',
+    api: 'SYNO.AudioStation.Lyrics',
+    version: 2
+  }
+  const url = `/webapi/AudioStation/lyrics.cgi?${qs.stringify(param)}`
+  return axios.get(url)
 }
 
 // 歌单详情

@@ -7,6 +7,9 @@
       @select="selectItem"
       @del="deleteItem"
     >
+      <div slot="topBtn" class="list-btn">
+        <span @click="refreshMusics">刷新</span>
+      </div>
       <div slot="listBtn" class="list-btn">
         <span @click="$refs.dialog.show()">清空列表</span>
       </div>
@@ -24,7 +27,7 @@
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import MusicList from 'components/music-list/music-list'
 import MmDialog from 'base/mm-dialog/mm-dialog'
-
+import { getRandomPlaylistDetail } from 'api'
 export default {
   name: 'PlayList',
   components: {
@@ -40,6 +43,13 @@ export default {
     ...mapGetters(['playing', 'playlist', 'currentMusic'])
   },
   methods: {
+    refreshMusics() {
+      getRandomPlaylistDetail().then(({ data }) => {
+        console.log(data)
+        const list = data.songs
+        this.setPlaylist({ list })
+      })
+    },
     // 清空列表事件
     clearList() {
       this.clearPlayList()
@@ -64,7 +74,7 @@ export default {
       setCurrentIndex: 'SET_CURRENTINDEX',
       clearPlaylist: 'CLEAR_PLAYLIST'
     }),
-    ...mapActions(['removerPlayListItem', 'clearPlayList'])
+    ...mapActions(['removerPlayListItem', 'clearPlayList', 'setPlaylist'])
   }
 }
 </script>

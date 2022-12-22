@@ -54,13 +54,14 @@
       <div class="music-music">
         <div class="music-bar-info">
           <template v-if="currentMusic && currentMusic.id">
-            {{ currentMusic.name }}
-            <span>- {{ currentMusic.singer }}</span>
+            {{ currentMusic.title }}
+            <span>- {{ currentMusic.additional.song_tag.artist }}</span>
           </template>
-          <template v-else>欢迎使用mmPlayer在线音乐播放器</template>
         </div>
         <div v-if="currentMusic.id" class="music-bar-time">
-          {{ currentTime | format }}/{{ currentMusic.duration % 3600 | format }}
+          {{ currentTime | format }}/{{
+            currentMusic.additional.song_audio.duration % 3600 | format
+          }}
         </div>
         <mm-progress
           class="music-progress"
@@ -81,12 +82,12 @@
       />
 
       <!-- 评论 -->
-      <mm-icon
+      <!-- <mm-icon
         class="icon-color pointer comment"
         type="comment"
         :size="30"
         @click="openComment"
-      />
+      /> -->
 
       <!-- 音量控制 -->
       <div class="music-bar-volume" title="音量加减 [Ctrl + Up / Down]">
@@ -101,7 +102,7 @@
 </template>
 
 <script>
-import { getLyric } from 'api'
+import { getLyric, getSYNOLyric } from 'api'
 import mmPlayerMusic from './mmPlayer'
 import {
   randomSortArray,
@@ -146,12 +147,14 @@ export default {
   },
   computed: {
     picUrl() {
-      return this.currentMusic.id && this.currentMusic.image
-        ? `url(${this.currentMusic.image}?param=300y300)`
+      return this.currentMusic.id
+        ? `url(${process.env.VUE_APP_BASE_API_URL}webapi/AudioStation/cover.cgi?method=getsongcover&api=SYNO.AudioStation.Cover&id=${this.currentMusic.id}&version=3)`
         : `url(${MMPLAYER_CONFIG.BACKGROUND})`
     },
     percentMusic() {
-      const duration = this.currentMusic.duration
+      const duration = this.currentMusic['additional']
+        ? this.currentMusic['additional']['song_audio']['duration']
+        : '0'
       return this.currentTime && duration ? this.currentTime / duration : 0
     },
     ...mapGetters([
@@ -174,7 +177,9 @@ export default {
       if (newMusic.id === oldMusic.id) {
         return
       }
-      this.audioEle.src = newMusic.url
+      const musicUrl = `${process.env.VUE_APP_BASE_API_URL}webapi/AudioStation/stream.cgi?method=stream&api=SYNO.AudioStation.Stream&id=${newMusic.id}&version=2`
+      console.log('player url:{}', musicUrl)
+      this.audioEle.src = musicUrl
       // 重置相关参数
       this.lyricIndex = this.currentTime = this.currentProgress = 0
       silencePromise(this.audioEle.play())
@@ -314,11 +319,13 @@ export default {
     },
     // 修改音乐显示时长
     progressMusic(percent) {
-      this.currentTime = this.currentMusic.duration * percent
+      this.currentTime =
+        this.currentMusic.additional.song_audio.duration * percent
     },
     // 修改音乐进度
     progressMusicEnd(percent) {
-      this.audioEle.currentTime = this.currentMusic.duration * percent
+      this.audioEle.currentTime =
+        this.currentMusic.additional.song_audio.duration * percent
     },
     // 切换播放顺序
     modeChange() {
@@ -394,12 +401,12 @@ export default {
     },
     // 获取歌词
     _getLyric(id) {
-      getLyric(id).then((res) => {
-        if (res.nolyric) {
-          this.nolyric = true
-        } else {
+      getSYNOLyric(id).then((res) => {
+        if (res.data.lyrics) {
           this.nolyric = false
-          this.lyric = parseLyric(res.lrc.lyric)
+          this.lyric = parseLyric(res.data.lyrics)
+        } else {
+          this.nolyric = true
         }
         silencePromise(this.audioEle.play())
       })

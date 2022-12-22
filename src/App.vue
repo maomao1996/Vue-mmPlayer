@@ -17,7 +17,7 @@
 
 <script>
 import { mapMutations, mapActions } from 'vuex'
-import { getPlaylistDetail } from 'api'
+import { getPlaylistDetail, getRandomPlaylistDetail } from 'api'
 import { MMPLAYER_CONFIG, VERSION } from '@/config'
 import MmHeader from 'components/mm-header/mm-header'
 import MmDialog from 'base/mm-dialog/mm-dialog'
@@ -41,25 +41,31 @@ export default {
     this.versionInfo = VERSION_INFO
 
     // 获取正在播放列表
-    getPlaylistDetail(MMPLAYER_CONFIG.PLAYLIST_ID).then((playlist) => {
-      const list = playlist.tracks.slice(0, 100)
+    // getPlaylistDetail(MMPLAYER_CONFIG.PLAYLIST_ID).then((playlist) => {
+    //   const list = playlist.tracks.slice(0, 100)
+    //   this.setPlaylist({ list })
+    // })
+
+    getRandomPlaylistDetail().then(({ data }) => {
+      console.log(data)
+      const list = data.songs
       this.setPlaylist({ list })
     })
 
-    // 设置title
-    let OriginTitile = document.title
-    let titleTime
-    document.addEventListener('visibilitychange', function () {
-      if (document.hidden) {
-        document.title = '死鬼去哪里了！'
-        clearTimeout(titleTime)
-      } else {
-        document.title = '(つェ⊂)咦!又好了!'
-        titleTime = setTimeout(function () {
-          document.title = OriginTitile
-        }, 2000)
-      }
-    })
+    // // 设置title
+    // let OriginTitile = document.title
+    // let titleTime
+    // document.addEventListener('visibilitychange', function () {
+    //   if (document.hidden) {
+    //     document.title = '死鬼去哪里了！'
+    //     clearTimeout(titleTime)
+    //   } else {
+    //     document.title = '(つェ⊂)咦!又好了!'
+    //     titleTime = setTimeout(function () {
+    //       document.title = OriginTitile
+    //     }, 2000)
+    //   }
+    // })
 
     // 设置audio元素
     this.$nextTick(() => {
@@ -74,16 +80,16 @@ export default {
         loadDOM.removeEventListener('webkitAnimationEnd', animationendFunc)
         document.body.removeChild(loadDOM)
         loadDOM = null
-        const version = getVersion()
-        if (version !== null) {
-          setVersion(VERSION)
-          if (version !== VERSION) {
-            this.$refs.versionDialog.show()
-          }
-        } else {
-          setVersion(VERSION)
-          this.$refs.versionDialog.show()
-        }
+        // const version = getVersion()
+        // if (version !== null) {
+        //   setVersion(VERSION)
+        //   if (version !== VERSION) {
+        //     this.$refs.versionDialog.show()
+        //   }
+        // } else {
+        //   setVersion(VERSION)
+        //   this.$refs.versionDialog.show()
+        // }
       }.bind(this)
       loadDOM.addEventListener('animationend', animationendFunc)
       loadDOM.addEventListener('webkitAnimationEnd', animationendFunc)

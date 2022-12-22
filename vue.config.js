@@ -51,5 +51,18 @@ module.exports = defineConfig({
         resolve('src/styles/mixin.less')
       ]
     }
+  },
+  devServer: {
+    port: 3002,
+    open: false,
+    proxy: {
+      '/webapi': {
+        ws: false,
+        target: 'http://nas.uyoqu.com:5000',
+        changeOrigin: true // 是否改变域名
+      }
+    }
+    // 下边这个， 如果你是本地自己mock 的话用after这个属性，线上环境一定要干掉
+    // after: require("./mock/mock-server.js")
   }
 })

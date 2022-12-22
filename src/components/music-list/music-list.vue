@@ -9,6 +9,7 @@
         <span v-else class="list-album">专辑</span>
       </div>
       <div ref="listContent" class="list-content" @scroll="listScroll($event)">
+        <slot name="topBtn"></slot>
         <div
           v-for="(item, index) in list"
           :key="item.id"
@@ -18,7 +19,7 @@
         >
           <span class="list-num" v-text="index + 1"></span>
           <div class="list-name">
-            <span>{{ item.name }}</span>
+            <span>{{ item.title }}</span>
             <div class="list-menu">
               <mm-icon
                 class="hover"
@@ -28,9 +29,9 @@
               />
             </div>
           </div>
-          <span class="list-artist">{{ item.singer }}</span>
+          <span class="list-artist">{{ item.additional.song_tag.artist }}</span>
           <span v-if="isDuration" class="list-time">
-            {{ item.duration % 3600 | format }}
+            {{ item.additional.song_audio.duration % 3600 | format }}
             <mm-icon
               class="hover list-menu-icon-del"
               type="delete-mini"
@@ -38,7 +39,9 @@
               @click.stop="deleteItem(index)"
             />
           </span>
-          <span v-else class="list-album">{{ item.album }}</span>
+          <span v-else class="list-album">{{
+            item.additional.song_tag.album
+          }}</span>
         </div>
         <slot name="listBtn"></slot>
       </div>

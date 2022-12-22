@@ -10,14 +10,6 @@
         <dd>歌手名：{{ currentMusic.singer }}</dd>
         <dd>专辑名：{{ currentMusic.album }}</dd>
       </template>
-      <template v-else>
-        <dd>mmPlayer在线音乐播放器</dd>
-        <dd>
-          <a class="hover" target="_blank" href="https://github.com/maomao1996">
-            <mm-icon type="github" :size="14" />&nbsp;茂茂
-          </a>
-        </dd>
-      </template>
     </dl>
     <!--歌词-->
     <div ref="musicLyric" class="music-lyric">
@@ -69,7 +61,7 @@ export default {
   computed: {
     musicPicUrl() {
       return this.currentMusic.id
-        ? `${this.currentMusic.image}?param=300y300`
+        ? `${process.env.VUE_APP_BASE_API_URL}webapi/AudioStation/cover.cgi?method=getsongcover&api=SYNO.AudioStation.Cover&id=${this.currentMusic.id}&version=3`
         : require('../../assets/img/player_cover.png')
     },
     lyricTop() {

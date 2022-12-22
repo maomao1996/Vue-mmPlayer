@@ -1,16 +1,10 @@
 <template>
   <!--头部-->
   <header class="mm-header">
-    <h1 class="header">
-      <a href="https://github.com/maomao1996/Vue-mmPlayer" target="_blank">
-        mmPlayer 在线音乐播放器
-      </a>
-    </h1>
     <dl class="user">
-      <template v-if="user.userId">
+      <template v-if="user.account">
         <router-link class="user-info" to="/music/userlist" tag="dt">
-          <img class="avatar" :src="`${user.avatarUrl}?param=50y50`" />
-          <span>{{ user.nickname }}</span>
+          <span>{{ user.account }}</span>
         </router-link>
         <dd class="user-btn" @click="openDialog(2)">退出</dd>
       </template>
@@ -26,15 +20,21 @@
     >
       <div class="mm-dialog-text">
         <input
-          v-model.trim="uidValue"
+          v-model.trim="username"
           class="mm-dialog-input"
-          type="number"
+          type="text"
           autofocus
-          placeholder="请输入您的网易云 UID"
+          placeholder="输入群晖用户名"
+        />
+        <input
+          v-model.trim="password"
+          class="mm-dialog-input"
+          type="password"
+          autofocus
+          placeholder="输入群晖密码"
           @keyup.enter="login"
         />
       </div>
-      <div slot="btn" @click="openDialog(1)">帮助</div>
     </mm-dialog>
     <!--帮助-->
     <mm-dialog
@@ -67,11 +67,11 @@
 </template>
 
 <script>
-import { getUserPlaylist } from 'api'
+import { getUserPlaylist, loginSYNO } from 'api'
 import { mapGetters, mapActions } from 'vuex'
 import MmDialog from 'base/mm-dialog/mm-dialog'
 import { toHttps } from '@/utils/util'
-
+import { getUserId } from '@/utils/storage'
 export default {
   name: 'MmHeader',
   components: {
@@ -80,14 +80,23 @@ export default {
   data() {
     return {
       user: {}, // 用户数据
-      uidValue: '' // 记录用户 UID
+      username: '',
+      password: ''
     }
   },
   computed: {
     ...mapGetters(['uid'])
   },
   created() {
-    this.uid && this._getUserPlaylist(this.uid)
+    const id = getUserId()
+    console.log(id)
+    if (id != null && id != '' && id != undefined) {
+      this.setUid(id)
+      console.log(this.uid)
+      if (this.uid) {
+        this.user = { account: this.uid }
+      }
+    }
   },
   methods: {
     // 打开对话框
@@ -112,17 +121,35 @@ export default {
     out() {
       this.user = {}
       this.setUid(null)
+      //清理cookie
+      var keys = document.cookie.match(/[^ =;]+(?=\=)/g)
+      if (keys) {
+        for (var i = keys.length; i--; )
+          document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+      }
       this.$mmToast('退出成功！')
     },
     // 登录
     login() {
-      if (this.uidValue === '') {
-        this.$mmToast('UID 不能为空')
+      if (this.username === '') {
+        this.$mmToast('用户名不能为空')
         this.openDialog(0)
         return
       }
-      this.openDialog(3)
-      this._getUserPlaylist(this.uidValue)
+      if (this.password === '') {
+        this.$mmToast('密码不能为空')
+        this.openDialog(0)
+        return
+      }
+      loginSYNO(this.username, this.password).then((data) => {
+        console.log(data)
+        console.log('登录成功')
+        this.setUid(data['data']['account'])
+        this.user = data['data']
+        setTimeout(() => {
+          this.$mmToast(`${this.user.account} 欢迎使用 mmPlayer`)
+        }, 200)
+      })
     },
     // 获取用户数据
     _getUserPlaylist(uid) {
