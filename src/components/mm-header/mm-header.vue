@@ -18,6 +18,7 @@
       cancel-btn-text="关闭"
       @confirm="login"
     >
+      <mm-loading v-model="loadingShow" />
       <div class="mm-dialog-text">
         <input
           v-model.trim="username"
@@ -67,21 +68,25 @@
 </template>
 
 <script>
-import { getUserPlaylist, loginSYNO } from 'api'
+import { getUserPlaylist, loginSYNO, getRandomPlaylistDetail } from 'api'
 import { mapGetters, mapActions } from 'vuex'
 import MmDialog from 'base/mm-dialog/mm-dialog'
+import MmLoading from 'base/mm-loading/mm-loading'
 import { toHttps } from '@/utils/util'
 import { getUserId } from '@/utils/storage'
 export default {
   name: 'MmHeader',
   components: {
-    MmDialog
+    MmDialog,
+    MmLoading
   },
   data() {
     return {
       user: {}, // 用户数据
       username: '',
-      password: ''
+      password: '',
+      firstLogin: true,
+      loadingShow: false
     }
   },
   computed: {
@@ -89,10 +94,8 @@ export default {
   },
   created() {
     const id = getUserId()
-    console.log(id)
     if (id != null && id != '' && id != undefined) {
       this.setUid(id)
-      console.log(this.uid)
       if (this.uid) {
         this.user = { account: this.uid }
       }
@@ -141,15 +144,41 @@ export default {
         this.openDialog(0)
         return
       }
-      loginSYNO(this.username, this.password).then((data) => {
-        console.log(data)
-        console.log('登录成功')
-        this.setUid(data['data']['account'])
-        this.user = data['data']
-        setTimeout(() => {
-          this.$mmToast(`${this.user.account} 欢迎使用 mmPlayer`)
-        }, 200)
-      })
+      this.openDialog(0)
+      this.loadingShow = true
+      loginSYNO(this.username, this.password)
+        .then((data) => {
+          this.loadingShow = false
+          if (!data.success) {
+            this.$mmToast(`登录失败`)
+            this.openDialog(0)
+            return
+          }
+          this.setUid(data['data']['account'])
+          this.user = data['data']
+          this.openDialog(3)
+          setTimeout(() => {
+            if (this.firstLogin) {
+              this.$mmToast(`${this.user.account} 登录成功`)
+              this.firstLogin = false
+              getRandomPlaylistDetail().then(({ data }) => {
+                const list = data.songs
+                this.setPlaylist({ list })
+              })
+              this.loopLogin()
+            }
+          }, 200)
+        })
+        .catch((err) => {
+          this.loadingShow = false
+          this.$mmToast(`登录失败`)
+        })
+    },
+    loopLogin() {
+      setInterval(() => {
+        //hack代码，一直重复登录防止下线
+        loginSYNO(this.username, this.password)
+      }, 1000 * 2 * 60)
     },
     // 获取用户数据
     _getUserPlaylist(uid) {
@@ -168,7 +197,7 @@ export default {
         }, 200)
       })
     },
-    ...mapActions(['setUid'])
+    ...mapActions(['setUid', 'setPlaylist'])
   }
 }
 </script>

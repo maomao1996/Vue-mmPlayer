@@ -45,7 +45,6 @@ export default {
   methods: {
     refreshMusics() {
       getRandomPlaylistDetail().then(({ data }) => {
-        console.log(data)
         const list = data.songs
         this.setPlaylist({ list })
       })

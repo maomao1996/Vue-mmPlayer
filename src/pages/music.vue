@@ -178,7 +178,6 @@ export default {
         return
       }
       const musicUrl = `${process.env.VUE_APP_BASE_API_URL}webapi/AudioStation/stream.cgi?method=stream&api=SYNO.AudioStation.Stream&id=${newMusic.id}&version=2`
-      console.log('player url:{}', musicUrl)
       this.audioEle.src = musicUrl
       // 重置相关参数
       this.lyricIndex = this.currentTime = this.currentProgress = 0

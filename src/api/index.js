@@ -34,7 +34,6 @@ export function loginSYNO(username, password) {
     passwd: password
   }
   const url = `webapi/entry.cgi?${qs.stringify(param)}`
-  console.log('login url:{}', url)
   return axios.get(url)
 }
 // 获取歌词
