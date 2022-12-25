@@ -5,6 +5,13 @@
       <a href="https://github.com/maomao1996/Vue-mmPlayer" target="_blank">
         mmPlayer 在线音乐播放器
       </a>
+      <img
+        v-if="visitorBadge"
+        :src="visitorBadge"
+        alt="累计访问数"
+        class="visitor"
+        onerror="this.style.display='none'"
+      />
     </h1>
     <dl class="user">
       <template v-if="user.userId">
@@ -71,6 +78,7 @@ import { getUserPlaylist } from 'api'
 import { mapGetters, mapActions } from 'vuex'
 import MmDialog from 'base/mm-dialog/mm-dialog'
 import { toHttps } from '@/utils/util'
+import { VISITOR_BADGE_ID } from '@/config'
 
 export default {
   name: 'MmHeader',
@@ -84,6 +92,12 @@ export default {
     }
   },
   computed: {
+    visitorBadge() {
+      if (VISITOR_BADGE_ID) {
+        return `https://visitor-badge.laobi.icu/badge?left_color=transparent&right_color=transparent&page_id=${VISITOR_BADGE_ID}`
+      }
+      return ''
+    },
     ...mapGetters(['uid'])
   },
   created() {
@@ -157,13 +171,23 @@ export default {
     background: @header_bg_color;
   }
   .header {
-    text-align: center;
+    .flex-center;
     line-height: 60px;
     color: @text_color_active;
     font-size: @font_size_large;
     @media (max-width: 768px) {
       padding-left: 15px;
-      text-align: left;
+      justify-content: flex-start;
+    }
+    @media (max-width: 414px) {
+      font-size: @font_size_medium;
+    }
+    .visitor {
+      margin-left: 6px;
+      height: 20px;
+      @media (max-width: 414px) {
+        display: none;
+      }
     }
   }
   .user {
