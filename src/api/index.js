@@ -25,6 +25,18 @@ export function getRandomPlaylistDetail() {
   const url = `/webapi/AudioStation/song.cgi?${qs.stringify(param)}`
   return axios.get(url)
 }
+
+export function setMusicScore(id, rating) {
+  const param = {
+    rating: rating,
+    method: 'setrating',
+    id: id,
+    api: 'SYNO.AudioStation.Song',
+    version: 3
+  }
+  const url = `/webapi/AudioStation/song.cgi?${qs.stringify(param)}`
+  return axios.get(url)
+}
 export function loginSYNO(username, password) {
   const param = {
     api: 'SYNO.API.Auth',

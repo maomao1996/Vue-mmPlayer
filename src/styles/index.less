@@ -8,7 +8,27 @@ body,
   height: 100%;
   overflow: hidden;
 }
+@font-face {
+  font-family: element-icons;
+  src: url('~assets/fonts/element-icons.535877f.woff') format("woff"),url('~assets/fonts/element-icons.732389d.ttf') format("truetype");
+  font-weight: 400;
+  font-display: "auto";
+  font-style: normal
+}
 
+[class*=" el-icon-"],[class^=el-icon-] {
+  font-family: element-icons!important;
+  speak: none;
+  font-style: normal;
+  font-weight: 400;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: baseline;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale
+}
 body {
   min-width: 320px;
   font-family: Arial;

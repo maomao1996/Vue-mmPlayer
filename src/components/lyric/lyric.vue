@@ -6,9 +6,13 @@
         <img :src="musicPicUrl" />
       </dt>
       <template v-if="currentMusic.id">
-        <dd>歌曲名：{{ currentMusic.name }}</dd>
-        <dd>歌手名：{{ currentMusic.singer }}</dd>
-        <dd>专辑名：{{ currentMusic.album }}</dd>
+        <dd>歌曲名：{{ currentMusic.title }}</dd>
+        <dd>歌手名：{{ currentMusic.additional.song_tag.artist }}</dd>
+        <dd>专辑名：{{ currentMusic.additional.song_tag.album }}</dd>
+        <Rate
+          v-model="currentMusic.additional.song_rating.rating"
+          @change="setScoreHandle"
+        />
       </template>
     </dl>
     <!--歌词-->
@@ -33,9 +37,13 @@
 
 <script>
 import { mapGetters } from 'vuex'
-
+import Rate from 'components/rate/rate'
+import { setMusicScore } from 'api'
 export default {
   name: 'Lyric',
+  components: {
+    Rate
+  },
   props: {
     // 歌词数据
     lyric: {
@@ -55,6 +63,7 @@ export default {
   },
   data() {
     return {
+      musicStar: 0,
       top: 0 // 歌词居中
     }
   },
@@ -88,6 +97,15 @@ export default {
       }
       const height = dom.offsetHeight
       this.top = Math.floor(height / 34 / 2)
+    },
+    setScoreHandle() {
+      console.log(this.currentMusic.additional.song_rating.rating)
+      setMusicScore(
+        this.currentMusic.id,
+        this.currentMusic.additional.song_rating.rating
+      ).then((res) => {
+        console.log(res)
+      })
     }
   }
 }

@@ -17,7 +17,7 @@
 
 <script>
 import { mapMutations, mapActions } from 'vuex'
-import { getPlaylistDetail, getRandomPlaylistDetail } from 'api'
+import { getRandomPlaylistDetail } from 'api'
 import { MMPLAYER_CONFIG, VERSION } from '@/config'
 import MmHeader from 'components/mm-header/mm-header'
 import MmDialog from 'base/mm-dialog/mm-dialog'

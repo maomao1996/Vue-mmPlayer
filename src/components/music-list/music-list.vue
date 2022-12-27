@@ -7,6 +7,7 @@
         <span class="list-artist">歌手</span>
         <span v-if="isDuration" class="list-time">时长</span>
         <span v-else class="list-album">专辑</span>
+        <span class="list-artist">评分</span>
       </div>
       <div ref="listContent" class="list-content" @scroll="listScroll($event)">
         <slot name="topBtn"></slot>
@@ -42,6 +43,12 @@
           <span v-else class="list-album">{{
             item.additional.song_tag.album
           }}</span>
+          <span class="list-artist list-rate">
+            <Rate
+              v-model="item.additional.song_rating.rating"
+              class="music-rate"
+              disabled
+          /></span>
         </div>
         <slot name="listBtn"></slot>
       </div>
@@ -55,7 +62,7 @@
 import { mapGetters, mapMutations } from 'vuex'
 import { format } from '@/utils/util'
 import MmNoResult from 'base/mm-no-result/mm-no-result'
-
+import Rate from 'components/rate/rate'
 const LIST_TYPE_ALBUM = 'album'
 const LIST_TYPE_DURATION = 'duration'
 const LIST_TYPE_PULLUP = 'pullup'
@@ -66,7 +73,8 @@ const THRESHOLD = 100
 export default {
   name: 'MusicList',
   components: {
-    MmNoResult
+    MmNoResult,
+    Rate
   },
   filters: {
     format
@@ -193,7 +201,15 @@ export default {
 .music-list {
   height: 100%;
 }
-
+.music-rate {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+.list-rate {
+  position: relative;
+}
 .list-header {
   border-bottom: 1px solid @list_head_line_color;
   color: @text_color_active;
