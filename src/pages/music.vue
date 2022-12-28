@@ -118,6 +118,7 @@ import MmProgress from 'base/mm-progress/mm-progress'
 import MusicBtn from 'components/music-btn/music-btn'
 import Lyric from 'components/lyric/lyric'
 import Volume from 'components/volume/volume'
+import { computeMusicUrl } from '@/utils/song'
 
 export default {
   name: 'Music',
@@ -181,13 +182,7 @@ export default {
       if (newMusic.id === oldMusic.id) {
         return
       }
-      const musicUrl = `${
-        process.env.VUE_APP_BASE_API_URL
-      }webapi/AudioStation/stream.cgi/0.${
-        newMusic.additional['song_audio']['codec']
-      }?method=stream&_sid=${getSid()}&api=SYNO.AudioStation.Stream&id=${
-        newMusic.id
-      }&version=2`
+      const musicUrl = computeMusicUrl(newMusic)
       this.audioEle.src = musicUrl
       // 重置相关参数
       this.lyricIndex = this.currentTime = this.currentProgress = 0

@@ -1,5 +1,5 @@
 import { toHttps } from './util'
-
+import { getSid } from './storage'
 function filterSinger(singers) {
   if (!Array.isArray(singers) || !singers.length) {
     return ''
@@ -9,6 +9,13 @@ function filterSinger(singers) {
     arr.push(item.name)
   })
   return arr.join('/')
+}
+export function computeMusicUrl(music) {
+  return `${process.env.VUE_APP_BASE_API_URL}webapi/AudioStation/stream.cgi/0.${
+    music.additional['song_audio']['codec']
+  }?method=stream&_sid=${getSid()}&api=SYNO.AudioStation.Stream&id=${
+    music.id
+  }&version=2`
 }
 
 export class Song {
