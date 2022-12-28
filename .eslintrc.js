@@ -36,7 +36,7 @@ module.exports = {
     ],
     'vue/multiline-html-element-content-newline': 'off',
     'vue/name-property-casing': ['error', 'PascalCase'],
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-console': 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-sequences': 2
   }

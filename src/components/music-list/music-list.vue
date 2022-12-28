@@ -7,7 +7,7 @@
         <span class="list-artist">歌手</span>
         <span v-if="isDuration" class="list-time">时长</span>
         <span v-else class="list-album">专辑</span>
-        <span class="list-artist">评分</span>
+        <span class="list-rate">评分</span>
       </div>
       <div ref="listContent" class="list-content" @scroll="listScroll($event)">
         <slot name="topBtn"></slot>
@@ -43,7 +43,7 @@
           <span v-else class="list-album">{{
             item.additional.song_tag.album
           }}</span>
-          <span class="list-artist list-rate">
+          <span class="list-rate">
             <Rate
               v-model="item.additional.song_rating.rating"
               class="music-rate"
@@ -337,6 +337,17 @@ export default {
       width: 150px;
     }
   }
+  .list-rate {
+    display: block;
+    width: 120px;
+    .no-wrap();
+    @media (max-width: 1440px) {
+      width: 140px;
+    }
+    @media (max-width: 1200px) {
+      width: 130px;
+    }
+  }
 
   .list-time {
     display: block;
@@ -384,6 +395,9 @@ export default {
     .list-album {
       width: 20%;
     }
+    .list-rate {
+      width: 15%;
+    }
   }
 }
 
@@ -392,7 +406,9 @@ export default {
     .list-artist {
       width: 80px;
     }
-
+    .list-rate {
+      width: 120px;
+    }
     .list-album,
     .list-time {
       display: none;

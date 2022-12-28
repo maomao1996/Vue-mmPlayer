@@ -3,9 +3,9 @@
   <header class="mm-header">
     <dl class="user">
       <template v-if="user.account">
-        <router-link class="user-info" to="/music/userlist" tag="dt">
+        <div class="user-info" to="/music/userlist" tag="dt">
           <span>{{ user.account }}</span>
-        </router-link>
+        </div>
         <dd class="user-btn" @click="openDialog(2)">退出</dd>
       </template>
       <dd v-else class="user-btn" @click="openDialog(0)">登录</dd>
@@ -73,7 +73,7 @@ import { mapGetters, mapActions } from 'vuex'
 import MmDialog from 'base/mm-dialog/mm-dialog'
 import MmLoading from 'base/mm-loading/mm-loading'
 import { toHttps } from '@/utils/util'
-import { getUserId } from '@/utils/storage'
+import { getUserId, setSid } from '@/utils/storage'
 export default {
   name: 'MmHeader',
   components: {
@@ -147,7 +147,8 @@ export default {
       this.openDialog(0)
       this.loadingShow = true
       loginSYNO(this.username, this.password)
-        .then((data) => {
+        .then(({ data }) => {
+          console.log(data)
           this.loadingShow = false
           if (!data.success) {
             this.$mmToast(`登录失败`)
@@ -155,6 +156,7 @@ export default {
             return
           }
           this.setUid(data['data']['account'])
+          setSid(data['data']['sid'])
           this.user = data['data']
           this.openDialog(3)
           setTimeout(() => {
@@ -162,7 +164,7 @@ export default {
               this.$mmToast(`${this.user.account} 登录成功`)
               this.firstLogin = false
               getRandomPlaylistDetail().then(({ data }) => {
-                const list = data.songs
+                const list = data.data.songs
                 this.setPlaylist({ list })
               })
               this.loopLogin()

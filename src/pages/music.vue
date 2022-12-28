@@ -111,7 +111,7 @@ import {
   silencePromise
 } from '@/utils/util'
 import { PLAY_MODE, MMPLAYER_CONFIG } from '@/config'
-import { getVolume, setVolume } from '@/utils/storage'
+import { getSid, getVolume, setVolume } from '@/utils/storage'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 import MmProgress from 'base/mm-progress/mm-progress'
@@ -148,7 +148,11 @@ export default {
   computed: {
     picUrl() {
       return this.currentMusic.id
-        ? `url(${process.env.VUE_APP_BASE_API_URL}webapi/AudioStation/cover.cgi?method=getsongcover&api=SYNO.AudioStation.Cover&id=${this.currentMusic.id}&version=3)`
+        ? `url(${
+            process.env.VUE_APP_BASE_API_URL
+          }webapi/AudioStation/cover.cgi?method=getsongcover&_sid=${getSid()}&api=SYNO.AudioStation.Cover&id=${
+            this.currentMusic.id
+          }&version=3)`
         : `url(${MMPLAYER_CONFIG.BACKGROUND})`
     },
     percentMusic() {
@@ -177,7 +181,13 @@ export default {
       if (newMusic.id === oldMusic.id) {
         return
       }
-      const musicUrl = `${process.env.VUE_APP_BASE_API_URL}webapi/AudioStation/stream.cgi?method=stream&api=SYNO.AudioStation.Stream&id=${newMusic.id}&version=2`
+      const musicUrl = `${
+        process.env.VUE_APP_BASE_API_URL
+      }webapi/AudioStation/stream.cgi/0.${
+        newMusic.additional['song_audio']['codec']
+      }?method=stream&_sid=${getSid()}&api=SYNO.AudioStation.Stream&id=${
+        newMusic.id
+      }&version=2`
       this.audioEle.src = musicUrl
       // 重置相关参数
       this.lyricIndex = this.currentTime = this.currentProgress = 0
@@ -400,10 +410,10 @@ export default {
     },
     // 获取歌词
     _getLyric(id) {
-      getSYNOLyric(id).then((res) => {
-        if (res.data.lyrics) {
+      getSYNOLyric(id).then(({ data }) => {
+        if (data.data.lyrics) {
           this.nolyric = false
-          this.lyric = parseLyric(res.data.lyrics)
+          this.lyric = parseLyric(data.data.lyrics)
         } else {
           this.nolyric = true
         }

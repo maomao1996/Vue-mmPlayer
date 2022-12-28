@@ -39,6 +39,7 @@
 import { mapGetters } from 'vuex'
 import Rate from 'components/rate/rate'
 import { setMusicScore } from 'api'
+import { getSid } from '@/utils/storage'
 export default {
   name: 'Lyric',
   components: {
@@ -70,7 +71,11 @@ export default {
   computed: {
     musicPicUrl() {
       return this.currentMusic.id
-        ? `${process.env.VUE_APP_BASE_API_URL}webapi/AudioStation/cover.cgi?method=getsongcover&api=SYNO.AudioStation.Cover&id=${this.currentMusic.id}&version=3`
+        ? `${
+            process.env.VUE_APP_BASE_API_URL
+          }webapi/AudioStation/cover.cgi?method=getsongcover&_sid=${getSid()}&api=SYNO.AudioStation.Cover&id=${
+            this.currentMusic.id
+          }&version=3`
         : require('../../assets/img/player_cover.png')
     },
     lyricTop() {
@@ -99,12 +104,11 @@ export default {
       this.top = Math.floor(height / 34 / 2)
     },
     setScoreHandle() {
-      console.log(this.currentMusic.additional.song_rating.rating)
       setMusicScore(
         this.currentMusic.id,
         this.currentMusic.additional.song_rating.rating
-      ).then((res) => {
-        console.log(res)
+      ).catch((err) => {
+        this.$mmToast('评分失败！')
       })
     }
   }

@@ -46,10 +46,17 @@ export default {
     //   this.setPlaylist({ list })
     // })
 
-    getRandomPlaylistDetail().then(({ data }) => {
-      const list = data.songs
-      this.setPlaylist({ list })
-    })
+    getRandomPlaylistDetail()
+      .then(({ data }) => {
+        console.log(data)
+        if (data.success) {
+          const list = data.data.songs
+          this.setPlaylist({ list })
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
 
     // // 设置title
     // let OriginTitile = document.title

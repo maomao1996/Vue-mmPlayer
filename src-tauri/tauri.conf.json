@@ -1,0 +1,73 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
+  "build": {
+    "beforeBuildCommand": "yarn build",
+    "beforeDevCommand": "yarn serve",
+    "devPath": "http://localhost:3002",
+    "distDir": "../dist"
+  },
+  "package": {
+    "productName": "nas-music",
+    "version": "0.1.0"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": true,
+      "http": {
+        "all": true,
+        "request": true,
+        "scope": [
+          "https://nas.uyoqu.com:5001/*"
+        ]
+      }
+    },
+    "bundle": {
+      "active": true,
+      "category": "DeveloperTool",
+      "copyright": "",
+      "deb": {
+        "depends": []
+      },
+      "externalBin": [],
+      "icon": [
+        "icons/music/32x32.png",
+        "icons/music/128x128.png",
+        "icons/music/128x128@2x.png",
+        "icons/music/icon.icns",
+        "icons/music/icon.ico"
+      ],
+      "identifier": "com.uyoqu.nas.music",
+      "longDescription": "",
+      "macOS": {
+        "entitlements": null,
+        "exceptionDomain": "",
+        "frameworks": [],
+        "providerShortName": null,
+        "signingIdentity": null
+      },
+      "resources": [],
+      "shortDescription": "",
+      "targets": "all",
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": ""
+      }
+    },
+    "security": {
+      "csp": null
+    },
+    "updater": {
+      "active": false
+    },
+    "windows": [
+      {
+        "fullscreen": false,
+        "height": 600,
+        "resizable": true,
+        "title": "nas-music",
+        "width": 800
+      }
+    ]
+  }
+}

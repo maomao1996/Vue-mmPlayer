@@ -98,6 +98,15 @@ export function setUserId(uid) {
   return uid
 }
 
+// 获取凭证sid
+export function getSid() {
+  return storage.get('__qunhuiSid', null)
+}
+// 修改凭证sid
+export function setSid(sid) {
+  storage.set('__qunhuiSid', sid)
+  return sid
+}
 /**
  * 版本号
  * @type VERSION_KEY：key值
