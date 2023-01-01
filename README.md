@@ -471,6 +471,14 @@ PC 端界面自我感觉还行， 就是移动端界面总觉得怪怪的，奈�
 
 </details>
 
+## 数据统计
+
+因为百度统计现在数据存储时长默认为 1 年，造成前几年的数据都丢了（虽说没啥用，但是也是本作品成长的历史），所以在 [github](https://github.com/maomao1996/picture/tree/main/mmPlayer/stats) 保存下每年的累计访问
+
+> 2022 年累计访问
+
+![2022](https://cdn.jsdelivr.net/gh/maomao1996/picture/mmPlayer/stats/2022.png)
+
 ## 免责声明
 
 本站音频文件来自各网站接口，本站不会修改任何音频文件<br />
