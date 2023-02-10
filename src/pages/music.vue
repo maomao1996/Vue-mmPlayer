@@ -395,11 +395,11 @@ export default {
     // 获取歌词
     _getLyric(id) {
       getLyric(id).then((res) => {
-        if (res.nolyric) {
-          this.nolyric = true
-        } else {
+        if (res.lrc && res.lrc.lyric) {
           this.nolyric = false
           this.lyric = parseLyric(res.lrc.lyric)
+        } else {
+          this.nolyric = true
         }
         silencePromise(this.audioEle.play())
       })
