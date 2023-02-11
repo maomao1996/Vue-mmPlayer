@@ -126,6 +126,7 @@ export default {
   z-index: 1996;
   background-color: @dialog_bg_color;
   user-select: none;
+  backdrop-filter: @backdrop_filter;
   &.@{dialog-prefix-cls}-fade-enter-active {
     animation: mm-dialog-fadein 0.3s;
     .@{dialog-prefix-cls}-content {
