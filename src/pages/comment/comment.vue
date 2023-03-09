@@ -5,19 +5,9 @@
     <dl v-if="hotComments.length > 0" class="comment-list">
       <!--精彩评论-->
       <dt class="comment-title">精彩评论</dt>
-      <dd
-        v-for="item in hotComments"
-        :key="item.commentId"
-        class="comment-item"
-      >
-        <a
-          target="_blank"
-          :href="`https://music.163.com/#/user/home?id=${item.user.userId}`"
-        >
-          <img
-            v-lazy="`${item.user.avatarUrl}?param=50y50`"
-            class="comment-item-pic"
-          />
+      <dd v-for="item in hotComments" :key="item.commentId" class="comment-item">
+        <a target="_blank" :href="`https://music.163.com/#/user/home?id=${item.user.userId}`">
+          <img v-lazy="`${item.user.avatarUrl}?param=50y50`" class="comment-item-pic" />
           <h2 class="comment-item-title">{{ item.user.nickname }}</h2>
         </a>
         <p class="comment-item-disc">{{ item.content }}</p>
@@ -33,26 +23,16 @@
     <!--最新评论-->
     <dl v-if="commentList.length > 0" class="comment-list">
       <dt class="comment-title">最新评论（{{ total }}）</dt>
-      <dd
-        v-for="item in commentList"
-        :key="item.commentId"
-        class="comment-item"
-      >
+      <dd v-for="item in commentList" :key="item.commentId" class="comment-item">
         <a
           class="comment-item-pic"
           target="_blank"
           :href="`https://music.163.com/#/user/home?id=${item.user.userId}`"
         >
-          <img
-            v-lazy="`${item.user.avatarUrl}?param=50y50`"
-            class="cover-img"
-          />
+          <img v-lazy="`${item.user.avatarUrl}?param=50y50`" class="cover-img" />
         </a>
         <h2 class="comment-item-title">
-          <a
-            target="_blank"
-            :href="`https://music.163.com/#/user/home?id=${item.user.userId}`"
-          >
+          <a target="_blank" :href="`https://music.163.com/#/user/home?id=${item.user.userId}`">
             {{ item.user.nickname }}
           </a>
         </h2>
@@ -109,17 +89,9 @@ export default {
       const diff = newTime.getTime() - time
       if (newTime.getDate() === dateObj.date && diff < 60000) {
         formatTime = '刚刚'
-      } else if (
-        newTime.getDate() === dateObj.date &&
-        diff > 60000 &&
-        diff < 3600000
-      ) {
+      } else if (newTime.getDate() === dateObj.date && diff > 60000 && diff < 3600000) {
         formatTime = `${Math.floor(diff / 60000)}分钟前`
-      } else if (
-        newTime.getDate() === dateObj.date &&
-        diff > 3600000 &&
-        diff < 86400000
-      ) {
+      } else if (newTime.getDate() === dateObj.date && diff > 3600000 && diff < 86400000) {
         formatTime = `${addZero(dateObj.hours)}:${addZero(dateObj.minutes)}`
       } else if (newTime.getDate() !== dateObj.date && diff < 86400000) {
         formatTime = `昨天${addZero(dateObj.hours)}:${addZero(dateObj.minutes)}`

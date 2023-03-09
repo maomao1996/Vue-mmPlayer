@@ -17,11 +17,7 @@
               v-text="cancelBtnText"
             ></div>
             <slot name="btn"></slot>
-            <div
-              class="mm-btn-confirm"
-              @click="confirm"
-              v-text="confirmBtnText"
-            ></div>
+            <div class="mm-btn-confirm" @click="confirm" v-text="confirmBtnText"></div>
           </div>
         </div>
       </div>

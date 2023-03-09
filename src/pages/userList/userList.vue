@@ -3,17 +3,8 @@
   <div class="userList">
     <mm-loading v-model="mmLoadShow" />
     <template v-if="list.length > 0">
-      <div
-        v-for="item in formatList"
-        :key="item.id"
-        class="list-item"
-        :title="item.name"
-      >
-        <router-link
-          :to="{ path: `/music/details/${item.id}` }"
-          tag="div"
-          class="userList-item"
-        >
+      <div v-for="item in formatList" :key="item.id" class="list-item" :title="item.name">
+        <router-link :to="{ path: `/music/details/${item.id}` }" tag="div" class="userList-item">
           <img v-lazy="`${item.coverImgUrl}?param=200y200`" class="cover-img" />
           <h3 class="name">{{ item.name }}</h3>
         </router-link>

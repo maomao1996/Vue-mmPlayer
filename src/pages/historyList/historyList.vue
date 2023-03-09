@@ -1,12 +1,7 @@
 <template>
   <!--我听过的（播放历史）-->
   <div class="historyList">
-    <music-list
-      :list="historyList"
-      list-type="duration"
-      @select="selectItem"
-      @del="deleteItem"
-    >
+    <music-list :list="historyList" list-type="duration" @select="selectItem" @del="deleteItem">
       <div slot="listBtn" class="list-btn">
         <span @click="$refs.dialog.show()">清空列表</span>
       </div>

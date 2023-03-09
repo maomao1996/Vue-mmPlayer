@@ -4,11 +4,7 @@
     <div class="mmProgress-bar"></div>
     <div ref="mmPercentProgress" class="mmProgress-outer"></div>
     <div ref="mmProgressInner" class="mmProgress-inner">
-      <div
-        class="mmProgress-dot"
-        @mousedown="barDown"
-        @touchstart.prevent="barDown"
-      ></div>
+      <div class="mmProgress-dot" @mousedown="barDown" @touchstart.prevent="barDown"></div>
     </div>
   </div>
 </template>

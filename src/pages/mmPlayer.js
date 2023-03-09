@@ -13,8 +13,7 @@ const mmPlayerMusic = {
           const duration = that.currentMusic.duration
           let buffered = 0
           ele.buffered.end(0)
-          buffered =
-            ele.buffered.end(0) > duration ? duration : ele.buffered.end(0)
+          buffered = ele.buffered.end(0) > duration ? duration : ele.buffered.end(0)
           that.currentProgress = buffered / duration
         }
       } catch (e) {}
@@ -70,10 +69,7 @@ const mmPlayerMusic = {
     // 将能播放的音乐加入播放历史
     ele.oncanplay = () => {
       retry = 1
-      if (
-        that.historyList.length === 0 ||
-        that.currentMusic.id !== that.historyList[0].id
-      ) {
+      if (that.historyList.length === 0 || that.currentMusic.id !== that.historyList[0].id) {
         that.setHistory(that.currentMusic)
       }
     }

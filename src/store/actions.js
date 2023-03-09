@@ -52,10 +52,7 @@ export const clearPlayList = function ({ commit }) {
 }
 
 // 删除正在播放列表中的歌曲
-export const removerPlayListItem = function (
-  { commit, state },
-  { list, index }
-) {
+export const removerPlayListItem = function ({ commit, state }, { list, index }) {
   let currentIndex = state.currentIndex
   if (index < state.currentIndex || list.length === state.currentIndex) {
     currentIndex--
