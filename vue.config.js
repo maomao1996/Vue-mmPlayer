@@ -46,10 +46,7 @@ module.exports = defineConfig({
   pluginOptions: {
     'style-resources-loader': {
       preProcessor: 'less',
-      patterns: [
-        resolve('src/styles/var.less'),
-        resolve('src/styles/mixin.less')
-      ]
+      patterns: [resolve('src/styles/var.less'), resolve('src/styles/mixin.less')]
     }
   }
 })

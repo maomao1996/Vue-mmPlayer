@@ -54,9 +54,7 @@
       <div class="mm-dialog-text">
         <p>
           1、
-          <a target="_blank" href="https://music.163.com">
-            点我(https://music.163.com)
-          </a>
+          <a target="_blank" href="https://music.163.com">点我(https://music.163.com)</a>
           打开网易云音乐官网
         </p>
         <p>2、点击页面右上角的“登录”</p>
@@ -65,11 +63,7 @@
       </div>
     </mm-dialog>
     <!--退出-->
-    <mm-dialog
-      ref="outDialog"
-      body-text="确定退出当前用户吗？"
-      @confirm="out"
-    />
+    <mm-dialog ref="outDialog" body-text="确定退出当前用户吗？" @confirm="out" />
   </header>
 </template>
 

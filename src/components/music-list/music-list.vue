@@ -103,17 +103,13 @@ export default {
       }
       if (newList.length !== oldList.length) {
         this.lockUp = false
-      } else if (
-        newList[newList.length - 1].id !== oldList[oldList.length - 1].id
-      ) {
+      } else if (newList[newList.length - 1].id !== oldList[oldList.length - 1].id) {
         this.lockUp = false
       }
     }
   },
   activated() {
-    this.scrollTop &&
-      this.$refs.listContent &&
-      (this.$refs.listContent.scrollTop = this.scrollTop)
+    this.scrollTop && this.$refs.listContent && (this.$refs.listContent.scrollTop = this.scrollTop)
   },
   methods: {
     // 滚动事件

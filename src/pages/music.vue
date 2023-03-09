@@ -6,50 +6,22 @@
         <keep-alive>
           <router-view v-if="$route.meta.keepAlive" class="router-view" />
         </keep-alive>
-        <router-view
-          v-if="!$route.meta.keepAlive"
-          :key="$route.path"
-          class="router-view"
-        />
+        <router-view v-if="!$route.meta.keepAlive" :key="$route.path" class="router-view" />
       </div>
       <div class="music-right" :class="{ show: lyricVisible }">
         <div class="close-lyric" @click="handleCloseLyric">关闭歌词</div>
-        <lyric
-          ref="lyric"
-          :lyric="lyric"
-          :nolyric="nolyric"
-          :lyric-index="lyricIndex"
-        />
+        <lyric ref="lyric" :lyric="lyric" :nolyric="nolyric" :lyric-index="lyricIndex" />
       </div>
     </div>
 
     <!--播放器-->
-    <div
-      class="music-bar"
-      :class="{ disable: !musicReady || !currentMusic.id }"
-    >
+    <div class="music-bar" :class="{ disable: !musicReady || !currentMusic.id }">
       <div class="music-bar-btns">
-        <mm-icon
-          class="pointer"
-          type="prev"
-          :size="36"
-          title="上一曲 Ctrl + Left"
-          @click="prev"
-        />
-        <div
-          class="control-play pointer"
-          title="播放暂停 Ctrl + Space"
-          @click="play"
-        >
+        <mm-icon class="pointer" type="prev" :size="36" title="上一曲 Ctrl + Left" @click="prev" />
+        <div class="control-play pointer" title="播放暂停 Ctrl + Space" @click="play">
           <mm-icon :type="playing ? 'pause' : 'play'" :size="24" />
         </div>
-        <mm-icon
-          class="pointer"
-          type="next"
-          :size="36"
-          title="下一曲 Ctrl + Right"
-          @click="next"
-        />
+        <mm-icon class="pointer" type="next" :size="36" title="下一曲 Ctrl + Right" @click="next" />
       </div>
       <div class="music-music">
         <div class="music-bar-info">
@@ -81,12 +53,7 @@
       />
 
       <!-- 评论 -->
-      <mm-icon
-        class="icon-color pointer comment"
-        type="comment"
-        :size="30"
-        @click="openComment"
-      />
+      <mm-icon class="icon-color pointer comment" type="comment" :size="30" @click="openComment" />
 
       <!-- 音量控制 -->
       <div class="music-bar-volume" title="音量加减 [Ctrl + Up / Down]">
@@ -103,12 +70,7 @@
 <script>
 import { getLyric } from 'api'
 import mmPlayerMusic from './mmPlayer'
-import {
-  randomSortArray,
-  parseLyric,
-  format,
-  silencePromise
-} from '@/utils/util'
+import { randomSortArray, parseLyric, format, silencePromise } from '@/utils/util'
 import { PLAY_MODE, MMPLAYER_CONFIG } from '@/config'
 import { getVolume, setVolume } from '@/utils/storage'
 import { mapGetters, mapMutations, mapActions } from 'vuex'

@@ -14,7 +14,8 @@
         <dd>mmPlayer在线音乐播放器</dd>
         <dd>
           <a class="hover" target="_blank" href="https://github.com/maomao1996">
-            <mm-icon type="github" :size="14" />&nbsp;茂茂
+            <mm-icon type="github" :size="14" />
+            &nbsp;茂茂
           </a>
         </dd>
       </template>
@@ -25,11 +26,7 @@
         <p v-if="!currentMusic.id">还没有播放音乐哦！</p>
         <p v-else-if="nolyric">暂无歌词！</p>
         <template v-else-if="lyric.length > 0">
-          <p
-            v-for="(item, index) in lyric"
-            :key="index"
-            :class="{ on: lyricIndex === index }"
-          >
+          <p v-for="(item, index) in lyric" :key="index" :class="{ on: lyricIndex === index }">
             {{ item.text }}
           </p>
         </template>
@@ -73,9 +70,7 @@ export default {
         : require('../../assets/img/player_cover.png')
     },
     lyricTop() {
-      return `transform :translate3d(0, ${
-        -34 * (this.lyricIndex - this.top)
-      }px, 0)`
+      return `transform :translate3d(0, ${-34 * (this.lyricIndex - this.top)}px, 0)`
     },
     ...mapGetters(['currentMusic'])
   },

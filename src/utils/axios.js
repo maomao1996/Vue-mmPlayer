@@ -15,9 +15,7 @@ request.interceptors.response.use(
     return Promise.reject(response)
   },
   (error) => {
-    Vue.prototype.$mmToast(
-      error.response ? error.response.data.message : error.message
-    )
+    Vue.prototype.$mmToast(error.response ? error.response.data.message : error.message)
     return error
   }
 )

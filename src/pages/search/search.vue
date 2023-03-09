@@ -3,11 +3,7 @@
   <div class="search flex-col">
     <mm-loading v-model="mmLoadShow" />
     <div class="search-head">
-      <span
-        v-for="(item, index) in Artists"
-        :key="index"
-        @click="clickHot(item.first)"
-      >
+      <span v-for="(item, index) in Artists" :key="index" @click="clickHot(item.first)">
         {{ item.first }}
       </span>
       <input
@@ -62,9 +58,7 @@ export default {
     list(newList, oldList) {
       if (newList.length !== oldList.length) {
         this.lockUp = false
-      } else if (
-        newList[newList.length - 1].id !== oldList[oldList.length - 1].id
-      ) {
+      } else if (newList[newList.length - 1].id !== oldList[oldList.length - 1].id) {
         this.lockUp = false
       }
     }
