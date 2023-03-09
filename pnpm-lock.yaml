@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@babel/core': ^7.12.16
   '@babel/eslint-parser': ^7.12.16
+  '@femm/prettier': ^1.0.1
   '@vue/cli-plugin-babel': ~5.0.0
   '@vue/cli-plugin-eslint': ~5.0.0
   '@vue/cli-service': ~5.0.0
@@ -37,6 +38,7 @@ dependencies:
 devDependencies:
   '@babel/core': 7.20.5
   '@babel/eslint-parser': 7.19.1_q7hszagzy73il6awuziitdhqxe
+  '@femm/prettier': 1.0.1
   '@vue/cli-plugin-babel': 5.0.8_2vo6k7iwn5qyshgggzrcvv6rba
   '@vue/cli-plugin-eslint': 5.0.8_yvnkslq6l73c7sesu7e5hzum2a
   '@vue/cli-service': 5.0.8_3xwajn3te2hnmzuvni3djij5um
@@ -46,9 +48,9 @@ devDependencies:
   eslint-plugin-prettier: 4.2.1_azklrodwt66esftms4odwjmsay
   eslint-plugin-vue: 8.7.1_eslint@7.32.0
   less: 4.1.3
-  less-loader: 8.1.1_less@4.1.3
+  less-loader: 8.1.1_less@4.1.3+webpack@5.75.0
   prettier: 2.8.1
-  style-resources-loader: 1.5.0
+  style-resources-loader: 1.5.0_webpack@5.75.0
   vue-cli-plugin-style-resources-loader: 0.1.5
   vue-template-compiler: 2.7.14
 
@@ -1294,6 +1296,10 @@ packages:
       - supports-color
     dev: true
 
+  /@femm/prettier/1.0.1:
+    resolution: {integrity: sha512-i/Hs3nYhOWaI7Ra0nCoCVSEIrbg1EfibnzBPR1M8G8OyYK4VMIhyjJMDs00qEaqHHYnqssYhve7MZCK4oPVTnw==}
+    dev: true
+
   /@hapi/hoek/9.3.0:
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
     dev: true
@@ -1864,7 +1870,7 @@ packages:
       html-webpack-plugin: 5.5.0_webpack@5.75.0
       is-file-esm: 1.0.0
       launch-editor-middleware: 2.6.0
-      less-loader: 8.1.1_less@4.1.3
+      less-loader: 8.1.1_less@4.1.3+webpack@5.75.0
       lodash.defaultsdeep: 4.6.1
       lodash.mapvalues: 4.6.0
       mini-css-extract-plugin: 2.7.2_webpack@5.75.0
@@ -2224,8 +2230,10 @@ packages:
     engines: {node: '>= 10.0.0'}
     dev: true
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.2:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -4589,7 +4597,7 @@ packages:
       shell-quote: 1.7.4
     dev: true
 
-  /less-loader/8.1.1_less@4.1.3:
+  /less-loader/8.1.1_less@4.1.3+webpack@5.75.0:
     resolution: {integrity: sha512-K93jJU7fi3n6rxVvzp8Cb88Uy9tcQKfHlkoezHwKILXhlNYiRQl4yowLIkQqmBXOH/5I8yoKiYeIf781HGkW9g==}
     engines: {node: '>= 10.13.0'}
     peerDependencies:
@@ -4598,6 +4606,7 @@ packages:
     dependencies:
       klona: 2.0.5
       less: 4.1.3
+      webpack: 5.75.0
     dev: true
 
   /less/4.1.3:
@@ -5971,7 +5980,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.2
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.2
       ajv-keywords: 5.1.0_ajv@8.11.2
     dev: true
 
@@ -6300,7 +6309,7 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /style-resources-loader/1.5.0:
+  /style-resources-loader/1.5.0_webpack@5.75.0:
     resolution: {integrity: sha512-fIfyvQ+uvXaCBGGAgfh+9v46ARQB1AWdaop2RpQw0PBVuROsTBqGvx8dj0kxwjGOAyq3vepe4AOK3M6+Q/q2jw==}
     engines: {node: '>=8.9'}
     peerDependencies:
@@ -6310,6 +6319,7 @@ packages:
       loader-utils: 2.0.4
       schema-utils: 2.7.1
       tslib: 2.4.1
+      webpack: 5.75.0
     dev: true
 
   /stylehacks/5.1.1_postcss@8.4.20:
