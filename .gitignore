@@ -2,20 +2,19 @@
 
 # Editor directories and files
 .idea
-.vscode
 
-# Dependencies
+# dependencies
 node_modules
 
-# Log files
-*-debug.log
-*-error.log
-
-# Lock files
+# lock files
 yarn.lock
 package-lock.json
 
-# Production
+# log files
+*-debug.log
+*-error.log
+
+# compile
 dist
 
 # local env files
