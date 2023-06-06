@@ -14,7 +14,7 @@
         <dd>在线音乐播放器</dd>
         <dd>
           <a class="hover" target="_blank" href="https://ygwiki.net">
-            <mm-icon type="github" :size="14" />
+            <mm-icon type="good" :size="14" />
             &nbsp;邕有维基
           </a>
         </dd>
