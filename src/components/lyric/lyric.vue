@@ -13,9 +13,9 @@
       <template v-else>
         <dd>mmPlayer在线音乐播放器</dd>
         <dd>
-          <a class="hover" target="_blank" href="https://github.com/maomao1996">
+          <a class="hover" target="_blank" href="https://ygwiki.net">
             <mm-icon type="github" :size="14" />
-            &nbsp;茂茂
+            &nbsp;邕有维基
           </a>
         </dd>
       </template>
