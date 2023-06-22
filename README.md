@@ -91,17 +91,14 @@ node app.js
 #### Vercel 部署
 
 1. `fork` 此项目
-2. 在 [Vercel](https://vercel.com) 官网点击 New Project
-3. 点击 `Import Git Repository`
-   1. 选择你 `fork` 的此项目
-   2. 点击 `import`
-4. `Configure Project` 配置
+2. 部署[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmaomao1996%2FVue-mmPlayer)
+3. `Configure Project` 配置
    1. `Project Name` 自己填
    2. `Framework Preset` 选 `Vue.js` （基本默认就是，不用修改）
    3. 点击 `Environment Variables`，并添加一条
       1. `key` 输入 `VUE_APP_BASE_API_URL`
       2. `value` 输入你后台 `api`（[NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)）服务的线上地址
-5. 点击 `Deploy` 等部署完成即可
+4. 点击 `Deploy` 等部署完成即可
 
 ## 技术栈
 
