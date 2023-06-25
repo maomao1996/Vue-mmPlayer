@@ -91,7 +91,7 @@ node app.js
 #### Vercel 部署
 
 1. `fork` 此项目
-2. 部署[![Deploy with Vercel](https://vercel.com/button)](https://github.com/{YOUR_USERNAME}/Vue-mmPlayer)
+2. 部署[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/maomao1996/Vue-mmPlayer&project-name=Vue-mmPlayer&repository-name=Vue-mmPlayer)
 3. `Configure Project` 配置
    1. `Project Name` 自己填
    2. `Framework Preset` 选 `Vue.js` （基本默认就是，不用修改）
