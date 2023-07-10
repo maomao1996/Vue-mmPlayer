@@ -2,6 +2,7 @@
   "name": "vue-mmplayer",
   "version": "1.8.3",
   "private": true,
+  "packageManager": "pnpm@8.0.0",
   "description": "Online music player",
   "author": "maomao1996 <1714487678@qq.com>",
   "bugs": {
@@ -16,7 +17,8 @@
     "dev": "vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "prepare": "husky install"
   },
   "dependencies": {
     "axios": "^1.2.1",
@@ -31,6 +33,7 @@
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
     "@femm/prettier": "^1.0.1",
+    "@femm/verify-commit": "^1.0.1",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
@@ -39,6 +42,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^8.7.1",
+    "husky": "^8.0.3",
     "less": "^4.0.0",
     "less-loader": "^8.0.0",
     "prettier": "^2.8.1",
