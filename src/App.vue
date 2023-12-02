@@ -20,9 +20,8 @@ import { getVersion, setVersion } from '@/utils/storage'
 
 const VERSION_INFO = `<div class="mm-dialog-text text-left">
 版本号：${VERSION}（${process.env.VUE_APP_UPDATE_TIME}）<br/>
-1、 采用新版图标<br>
-2、 修复音乐搜索<br>
-3、 优化滚动条样式
+这个网页大部分访问来源都是我学校那些机房的IP<br>
+So 你也懂得
 </div>`
 
 export default {
