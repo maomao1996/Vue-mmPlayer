@@ -4,7 +4,7 @@
     <mm-header />
     <router-view />
     <!--更新说明-->
-    <mm-dialog ref="versionDialog" type="alert" head-text="更新提示" :body-text="versionInfo" />
+    <mm-dialog ref="versionDialog" type="alert" head-text="通知" :body-text="versionInfo" />
     <!--播放器-->
     <audio ref="mmPlayer"></audio>
   </div>
