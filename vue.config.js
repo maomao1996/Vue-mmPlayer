@@ -34,7 +34,7 @@ module.exports = defineConfig({
             removeScriptTypeAttributes: true,
             removeStyleLinkTypeAttributes: true,
             useShortDoctype: true,
-            trimCustomFragments: true
+            trimCustomFragments: true,
           }
         }
         args[0].minify.minifyJS = true
@@ -46,7 +46,7 @@ module.exports = defineConfig({
   pluginOptions: {
     'style-resources-loader': {
       preProcessor: 'less',
-      patterns: [resolve('src/styles/var.less'), resolve('src/styles/mixin.less')]
-    }
-  }
+      patterns: [resolve('src/styles/var.less'), resolve('src/styles/mixin.less')],
+    },
+  },
 })

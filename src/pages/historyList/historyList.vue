@@ -24,10 +24,10 @@ export default {
   name: 'HistoryList',
   components: {
     MusicList,
-    MmDialog
+    MmDialog,
   },
   computed: {
-    ...mapGetters(['historyList', 'playing', 'currentMusic'])
+    ...mapGetters(['historyList', 'playing', 'currentMusic']),
   },
   methods: {
     // 清空列表事件
@@ -39,7 +39,7 @@ export default {
     selectItem(item, index) {
       this.selectPlay({
         list: this.historyList,
-        index
+        index,
       })
     },
     // 删除事件
@@ -50,9 +50,9 @@ export default {
       this.$mmToast('删除成功')
     },
     ...mapMutations({
-      setPlaying: 'SET_PLAYING'
+      setPlaying: 'SET_PLAYING',
     }),
-    ...mapActions(['selectPlay', 'clearHistory', 'removeHistory'])
-  }
+    ...mapActions(['selectPlay', 'clearHistory', 'removeHistory']),
+  },
 }
 </script>

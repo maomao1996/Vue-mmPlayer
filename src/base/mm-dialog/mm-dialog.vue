@@ -32,50 +32,50 @@ export default {
     // type：confirm、alert
     type: {
       type: String,
-      default: 'confirm'
+      default: 'confirm',
     },
     // 标题文本
     headText: {
       type: String,
-      default: '提示'
+      default: '提示',
     },
     // 内容文本（可以是html）
     bodyText: {
       type: String,
-      default: ''
+      default: '',
     },
     // 取消按钮文本
     cancelBtnText: {
       type: String,
-      default: '取消'
+      default: '取消',
     },
     // 确定按钮文本
     confirmBtnText: {
       type: String,
-      default: '确定'
+      default: '确定',
     },
     // Dialog 是否插入至 body 元素下
     appendToBody: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data() {
     return {
-      dialogShow: false // 是否显示对话框
+      dialogShow: false, // 是否显示对话框
     }
   },
   computed: {
     dialogType() {
       return this.type.toLowerCase()
-    }
+    },
   },
   watch: {
     dialogShow(val) {
       if (val && this.appendToBody) {
         document.body.appendChild(this.$el)
       }
-    }
+    },
   },
   mounted() {
     if (this.dialogShow && this.appendToBody) {
@@ -105,8 +105,8 @@ export default {
     confirm() {
       this.hide()
       this.$emit('confirm')
-    }
-  }
+    },
+  },
 }
 </script>
 

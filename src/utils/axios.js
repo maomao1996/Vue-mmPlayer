@@ -2,7 +2,7 @@ import axios from 'axios'
 import Vue from 'vue'
 
 const request = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API_URL
+  baseURL: process.env.VUE_APP_BASE_API_URL,
 })
 
 request.interceptors.response.use(
@@ -17,7 +17,7 @@ request.interceptors.response.use(
   (error) => {
     Vue.prototype.$mmToast(error.response ? error.response.data.message : error.message)
     return error
-  }
+  },
 )
 
 export default request

@@ -8,7 +8,7 @@ const state = {
   orderList: [], // 顺序列表
   currentIndex: -1, // 当前音乐索引
   historyList: getHistoryList() || [], // 播放历史列表
-  uid: getUserId() || null // 网易云用户UID
+  uid: getUserId() || null, // 网易云用户UID
 }
 
 export default state

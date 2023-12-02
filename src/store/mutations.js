@@ -32,7 +32,7 @@ const mutations = {
   // 修改网易云用户UID
   [types.SET_UID](state, uid) {
     state.uid = uid
-  }
+  },
 }
 
 export default mutations

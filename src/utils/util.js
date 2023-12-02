@@ -59,7 +59,7 @@ export function parseLyric(lrc) {
     if (text) {
       lyric.push({
         time: (result[1] * 6e4 + result[2] * 1e3 + (result[3] || 0) * 1) / 1e3,
-        text
+        text,
       })
     }
   }

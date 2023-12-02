@@ -45,22 +45,22 @@ export default {
     // 歌词数据
     lyric: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     // 是否无歌词
     nolyric: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // 当前歌词下标
     lyricIndex: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   data() {
     return {
-      top: 0 // 歌词居中
+      top: 0, // 歌词居中
     }
   },
   computed: {
@@ -72,7 +72,7 @@ export default {
     lyricTop() {
       return `transform :translate3d(0, ${-34 * (this.lyricIndex - this.top)}px, 0)`
     },
-    ...mapGetters(['currentMusic'])
+    ...mapGetters(['currentMusic']),
   },
   mounted() {
     window.addEventListener('resize', () => {
@@ -91,8 +91,8 @@ export default {
       }
       const height = dom.offsetHeight
       this.top = Math.floor(height / 34 / 2)
-    }
-  }
+    },
+  },
 }
 </script>
 

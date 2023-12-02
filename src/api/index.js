@@ -17,7 +17,7 @@ export function getPlaylistDetail(id) {
   return new Promise((resolve, reject) => {
     axios
       .get('/playlist/detail', {
-        params: { id }
+        params: { id },
       })
       .then(({ playlist }) => playlist || {})
       .then((playlist) => {
@@ -51,8 +51,8 @@ export function search(keywords, page = 0, limit = DEFAULT_LIMIT) {
     params: {
       offset: page * limit,
       limit: limit,
-      keywords
-    }
+      keywords,
+    },
   })
 }
 
@@ -65,8 +65,8 @@ export function searchHot() {
 export function getUserPlaylist(uid) {
   return axios.get('/user/playlist', {
     params: {
-      uid
-    }
+      uid,
+    },
   })
 }
 
@@ -74,8 +74,8 @@ export function getUserPlaylist(uid) {
 export function getMusicDetail(ids) {
   return axios.get('/song/detail', {
     params: {
-      ids
-    }
+      ids,
+    },
   })
 }
 
@@ -83,8 +83,8 @@ export function getMusicDetail(ids) {
 export function getCheckMusic(id) {
   return axios.get('/check/music', {
     params: {
-      id
-    }
+      id,
+    },
   })
 }
 
@@ -92,8 +92,8 @@ export function getCheckMusic(id) {
 export function getMusicUrl(id) {
   return axios.get('/song/url', {
     params: {
-      id
-    }
+      id,
+    },
   })
 }
 
@@ -102,8 +102,8 @@ export function getLyric(id) {
   const url = '/lyric'
   return axios.get(url, {
     params: {
-      id
-    }
+      id,
+    },
   })
 }
 
@@ -113,7 +113,7 @@ export function getComment(id, page, limit = DEFAULT_LIMIT) {
     params: {
       offset: page * limit,
       limit: limit,
-      id
-    }
+      id,
+    },
   })
 }

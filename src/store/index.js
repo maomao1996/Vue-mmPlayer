@@ -17,5 +17,5 @@ export default new Vuex.Store({
   actions,
   // vuex调试
   strict: debug,
-  plugins: debug ? [createLogger()] : []
+  plugins: debug ? [createLogger()] : [],
 })

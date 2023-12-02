@@ -42,13 +42,13 @@ import { loadMixin } from '@/utils/mixin'
 export default {
   name: 'PlayList',
   components: {
-    MmLoading
+    MmLoading,
   },
   mixins: [loadMixin],
   data() {
     return {
       list: [], // 云音乐特色榜
-      hotList: [] // 热门歌单
+      hotList: [], // 热门歌单
     }
   },
   created() {
@@ -59,7 +59,7 @@ export default {
         this._hideLoad()
       })
       .catch(() => {})
-  }
+  },
 }
 </script>
 

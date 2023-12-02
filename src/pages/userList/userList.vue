@@ -27,19 +27,19 @@ export default {
   name: 'PlayList',
   components: {
     MmLoading,
-    MmNoResult
+    MmNoResult,
   },
   mixins: [loadMixin],
   data() {
     return {
-      list: [] // 列表
+      list: [], // 列表
     }
   },
   computed: {
     formatList() {
       return this.list.filter((item) => item.trackCount > 0)
     },
-    ...mapGetters(['uid'])
+    ...mapGetters(['uid']),
   },
   watch: {
     uid(newUid) {
@@ -49,7 +49,7 @@ export default {
       } else {
         this.list = []
       }
-    }
+    },
   },
   created() {
     if (!this.uid) {
@@ -74,8 +74,8 @@ export default {
         this.list = res.playlist.slice(1)
         this._hideLoad()
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

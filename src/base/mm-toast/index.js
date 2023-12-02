@@ -22,7 +22,7 @@ const mmToast = {
       }
       let TempToastConstructor = Vue.extend(TempToast)
       instance = new TempToastConstructor({
-        data: opt
+        data: opt,
       })
       instance.vm = instance.$mount()
       document.body.appendChild(instance.vm.$el)
@@ -33,7 +33,7 @@ const mmToast = {
         document.body.removeChild(instance.vm.$el)
       }, opt.duration)
     }
-  }
+  },
 }
 
 export default mmToast

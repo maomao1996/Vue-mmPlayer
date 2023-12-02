@@ -5,12 +5,12 @@ export default {
   props: {
     type: {
       type: String,
-      required: true
+      required: true,
     },
     size: {
       type: Number,
-      default: 16
-    }
+      default: 16,
+    },
   },
   methods: {
     getIconCls() {
@@ -21,7 +21,7 @@ export default {
     },
     onClick(e) {
       this.$emit('click', e)
-    }
+    },
   },
   render() {
     const Icon = (
@@ -32,7 +32,7 @@ export default {
       />
     )
     return Icon
-  }
+  },
 }
 </script>
 

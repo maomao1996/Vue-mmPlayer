@@ -63,16 +63,16 @@ const THRESHOLD = 100
 export default {
   name: 'MusicList',
   components: {
-    MmNoResult
+    MmNoResult,
   },
   filters: {
-    format
+    format,
   },
   props: {
     // 歌曲数据
     list: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     /**
      * 列表类型
@@ -82,19 +82,19 @@ export default {
      */
     listType: {
       type: String,
-      default: LIST_TYPE_ALBUM
-    }
+      default: LIST_TYPE_ALBUM,
+    },
   },
   data() {
     return {
-      lockUp: true // 是否锁定滚动加载事件,默认锁定
+      lockUp: true, // 是否锁定滚动加载事件,默认锁定
     }
   },
   computed: {
     isDuration() {
       return this.listType === LIST_TYPE_DURATION
     },
-    ...mapGetters(['playing', 'currentMusic'])
+    ...mapGetters(['playing', 'currentMusic']),
   },
   watch: {
     list(newList, oldList) {
@@ -106,7 +106,7 @@ export default {
       } else if (newList[newList.length - 1].id !== oldList[oldList.length - 1].id) {
         this.lockUp = false
       }
-    }
+    },
   },
   activated() {
     this.scrollTop && this.$refs.listContent && (this.$refs.listContent.scrollTop = this.scrollTop)
@@ -167,7 +167,7 @@ export default {
     getPlayIconType({ id: itemId }) {
       const {
         playing,
-        currentMusic: { id }
+        currentMusic: { id },
       } = this
       return playing && id === itemId ? 'pause-mini' : 'play-mini'
     },
@@ -176,9 +176,9 @@ export default {
       this.$emit('del', index) // 触发删除事件
     },
     ...mapMutations({
-      setPlaying: 'SET_PLAYING'
-    })
-  }
+      setPlaying: 'SET_PLAYING',
+    }),
+  },
 }
 </script>
 

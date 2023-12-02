@@ -5,7 +5,7 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
  */
 export const listMixin = {
   computed: {
-    ...mapGetters(['playing', 'currentMusic'])
+    ...mapGetters(['playing', 'currentMusic']),
   },
   methods: {
     selectItem(item, index) {
@@ -14,15 +14,15 @@ export const listMixin = {
       } else {
         this.selectPlay({
           list: this.list,
-          index
+          index,
         })
       }
     },
     ...mapMutations({
-      setPlaying: 'SET_PLAYING'
+      setPlaying: 'SET_PLAYING',
     }),
-    ...mapActions(['selectPlay'])
-  }
+    ...mapActions(['selectPlay']),
+  },
 }
 
 /**
@@ -32,7 +32,7 @@ export const listMixin = {
 export const loadMixin = {
   data() {
     return {
-      mmLoadShow: true // loading状态
+      mmLoadShow: true, // loading状态
     }
   },
   methods: {
@@ -42,6 +42,6 @@ export const loadMixin = {
       timer = setTimeout(() => {
         this.mmLoadShow = false
       }, 200)
-    }
-  }
+    },
+  },
 }

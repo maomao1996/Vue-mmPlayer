@@ -23,13 +23,13 @@ import MmProgress from 'base/mm-progress/mm-progress'
 export default {
   name: 'Volume',
   components: {
-    MmProgress
+    MmProgress,
   },
   props: {
     volume: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     volumeProgress() {
@@ -45,8 +45,8 @@ export default {
           this.lastVolume = this.volumeProgress
         }
         this.handleVolumeChange(volume)
-      }
-    }
+      },
+    },
   },
   methods: {
     getVolumeIconType() {
@@ -58,8 +58,8 @@ export default {
     },
     handleVolumeChange(percent) {
       this.$emit('volumeChange', percent)
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -22,7 +22,7 @@ export const PLAY_MODE = {
   LIST_LOOP: 0,
   ORDER: 1,
   RANDOM: 2,
-  LOOP: 3
+  LOOP: 3,
 }
 
 /**
@@ -39,7 +39,7 @@ export const MMPLAYER_CONFIG = {
   /* 默认音量 */
   VOLUME: 0.8,
   /* 默认背景 */
-  BACKGROUND: BACKGROUNDS[Math.floor(Math.random() * BACKGROUNDS.length)]
+  BACKGROUND: BACKGROUNDS[Math.floor(Math.random() * BACKGROUNDS.length)],
 }
 
 /* 默认分页数量 */

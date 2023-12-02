@@ -12,9 +12,9 @@ export default {
     // 无数据提示文本
     title: {
       type: String,
-      default: ''
-    }
-  }
+      default: '',
+    },
+  },
 }
 </script>
 

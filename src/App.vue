@@ -29,7 +29,7 @@ export default {
   name: 'App',
   components: {
     MmHeader,
-    MmDialog
+    MmDialog,
   },
   created() {
     // 设置版本更新信息
@@ -87,10 +87,10 @@ export default {
   },
   methods: {
     ...mapMutations({
-      setAudioele: 'SET_AUDIOELE'
+      setAudioele: 'SET_AUDIOELE',
     }),
-    ...mapActions(['setPlaylist'])
-  }
+    ...mapActions(['setPlaylist']),
+  },
 }
 </script>
 

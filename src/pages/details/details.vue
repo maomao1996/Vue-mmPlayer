@@ -17,12 +17,12 @@ export default {
   name: 'Detail',
   components: {
     MmLoading,
-    MusicList
+    MusicList,
   },
   mixins: [loadMixin],
   data() {
     return {
-      list: [] // 列表
+      list: [], // 列表
     }
   },
   created() {
@@ -42,11 +42,11 @@ export default {
     selectItem(item, index) {
       this.selectPlay({
         list: this.list,
-        index
+        index,
       })
     },
-    ...mapActions(['selectPlay'])
-  }
+    ...mapActions(['selectPlay']),
+  },
 }
 </script>
 

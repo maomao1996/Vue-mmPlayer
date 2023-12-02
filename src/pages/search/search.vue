@@ -39,7 +39,7 @@ export default {
   name: 'Search',
   components: {
     MmLoading,
-    MusicList
+    MusicList,
   },
   mixins: [loadMixin],
   data() {
@@ -48,11 +48,11 @@ export default {
       Artists: [], // 热搜数组
       list: [], // 搜索数组
       page: 0, // 分页
-      lockUp: true // 是否锁定上拉加载事件,默认锁定
+      lockUp: true, // 是否锁定上拉加载事件,默认锁定
     }
   },
   computed: {
-    ...mapGetters(['playing', 'currentMusic'])
+    ...mapGetters(['playing', 'currentMusic']),
   },
   watch: {
     list(newList, oldList) {
@@ -61,7 +61,7 @@ export default {
       } else if (newList[newList.length - 1].id !== oldList[oldList.length - 1].id) {
         this.lockUp = false
       }
-    }
+    },
   },
   created() {
     // 获取热搜
@@ -118,10 +118,10 @@ export default {
       return getMusicDetail(id).then((res) => res.songs[0].al.picUrl)
     },
     ...mapMutations({
-      setPlaying: 'SET_PLAYING'
+      setPlaying: 'SET_PLAYING',
     }),
-    ...mapActions(['selectAddPlay'])
-  }
+    ...mapActions(['selectAddPlay']),
+  },
 }
 </script>
 

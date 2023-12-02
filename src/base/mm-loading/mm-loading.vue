@@ -16,14 +16,14 @@ export default {
     // 是否显示
     value: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // 加载动画背景颜色
     loadingBgColor: {
       type: String,
-      default: ''
-    }
-  }
+      default: '',
+    },
+  },
 }
 </script>
 

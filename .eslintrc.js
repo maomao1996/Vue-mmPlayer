@@ -1,10 +1,10 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
   },
   parserOptions: {
-    parser: '@babel/eslint-parser'
+    parser: '@babel/eslint-parser',
   },
   extends: ['plugin:vue/recommended', 'prettier', 'plugin:prettier/recommended'],
   rules: {
@@ -14,9 +14,9 @@ module.exports = {
       {
         singleline: 10,
         multiline: {
-          max: 1
-        }
-      }
+          max: 1,
+        },
+      },
     ],
     'vue/singleline-html-element-content-newline': 'off',
     'vue/html-self-closing': [
@@ -24,16 +24,16 @@ module.exports = {
       {
         html: {
           void: 'always',
-          normal: 'never'
+          normal: 'never',
         },
         svg: 'never',
-        math: 'never'
-      }
+        math: 'never',
+      },
     ],
     'vue/multiline-html-element-content-newline': 'off',
     'vue/name-property-casing': ['error', 'PascalCase'],
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-sequences': 2
-  }
+    'no-sequences': 2,
+  },
 }

@@ -20,7 +20,7 @@ const storage = {
     if (STORAGE) {
       STORAGE.removeItem(key)
     }
-  }
+  },
 }
 
 /**

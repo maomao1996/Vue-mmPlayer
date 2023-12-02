@@ -26,7 +26,7 @@ Vue.component(Icon.name, Icon)
 // 懒加载
 Vue.use(VueLazyload, {
   preLoad: 1,
-  loading: require('assets/img/default.png')
+  loading: require('assets/img/default.png'),
 })
 
 // 访问版本统计
@@ -58,5 +58,5 @@ new Vue({
   el: '#mmPlayer',
   store,
   router,
-  render: (h) => h(App)
+  render: (h) => h(App),
 })

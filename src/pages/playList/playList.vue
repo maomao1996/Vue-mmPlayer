@@ -24,15 +24,15 @@ export default {
   name: 'PlayList',
   components: {
     MusicList,
-    MmDialog
+    MmDialog,
   },
   data() {
     return {
-      show: false
+      show: false,
     }
   },
   computed: {
-    ...mapGetters(['playing', 'playlist', 'currentMusic'])
+    ...mapGetters(['playing', 'playlist', 'currentMusic']),
   },
   methods: {
     // 清空列表事件
@@ -57,9 +57,9 @@ export default {
     ...mapMutations({
       setPlaying: 'SET_PLAYING',
       setCurrentIndex: 'SET_CURRENTINDEX',
-      clearPlaylist: 'CLEAR_PLAYLIST'
+      clearPlaylist: 'CLEAR_PLAYLIST',
     }),
-    ...mapActions(['removerPlayListItem', 'clearPlayList'])
-  }
+    ...mapActions(['removerPlayListItem', 'clearPlayList']),
+  },
 }
 </script>

@@ -17,21 +17,21 @@ export default {
     // 进度值一
     percent: {
       type: [Number],
-      default: 0
+      default: 0,
     },
     // 进度值二（歌曲缓冲进度用）
     percentProgress: {
       type: [Number],
-      default: 0
-    }
+      default: 0,
+    },
   },
   data() {
     return {
       move: {
         status: false, // 是否可拖动
         startX: 0, // 记录最开始点击的X坐标
-        left: 0 // 记录当前已经移动的距离
-      }
+        left: 0, // 记录当前已经移动的距离
+      },
     }
   },
   watch: {
@@ -45,7 +45,7 @@ export default {
     percentProgress(newValue) {
       let offsetWidth = this.$refs.mmProgress.clientWidth * newValue
       this.$refs.mmPercentProgress.style.width = `${offsetWidth}px`
-    }
+    },
   },
   mounted() {
     this.$nextTick(() => {
@@ -80,7 +80,7 @@ export default {
       let rect = this.$refs.mmProgress.getBoundingClientRect()
       let offsetWidth = Math.min(
         this.$refs.mmProgress.clientWidth - dotWidth,
-        Math.max(0, e.clientX - rect.left)
+        Math.max(0, e.clientX - rect.left),
       )
       this.moveSilde(offsetWidth)
       this.commitPercent(true)
@@ -101,7 +101,7 @@ export default {
       let dist = endX - this.move.startX
       let offsetWidth = Math.min(
         this.$refs.mmProgress.clientWidth - dotWidth,
-        Math.max(0, this.move.left + dist)
+        Math.max(0, this.move.left + dist),
       )
       this.moveSilde(offsetWidth)
       this.commitPercent()
@@ -123,8 +123,8 @@ export default {
       const lineWidth = mmProgress.clientWidth - dotWidth
       const percent = mmProgressInner.clientWidth / lineWidth
       this.$emit(isEnd ? 'percentChangeEnd' : 'percentChange', percent)
-    }
-  }
+    },
+  },
 }
 </script>
 

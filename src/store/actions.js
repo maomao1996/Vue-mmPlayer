@@ -3,7 +3,7 @@ import {
   setHistoryList,
   removeHistoryList,
   setMode,
-  setUserId
+  setUserId,
 } from '@/utils/storage'
 import * as types from './mutation-types'
 

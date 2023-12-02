@@ -71,7 +71,7 @@ import { loadMixin } from '@/utils/mixin'
 export default {
   name: 'Comment',
   components: {
-    MmLoading
+    MmLoading,
   },
   filters: {
     // 格式化时间
@@ -83,7 +83,7 @@ export default {
         month: date.getMonth(),
         date: date.getDate(),
         hours: date.getHours(),
-        minutes: date.getMinutes()
+        minutes: date.getMinutes(),
       }
       const newTime = new Date()
       const diff = newTime.getTime() - time
@@ -101,7 +101,7 @@ export default {
         formatTime = `${dateObj.year}年${dateObj.month + 1}月${dateObj.date}日`
       }
       return formatTime
-    }
+    },
   },
   mixins: [loadMixin],
   data() {
@@ -110,7 +110,7 @@ export default {
       page: 0, // 分页
       hotComments: [], // 精彩评论
       commentList: [], // 最新评论
-      total: null // 评论总数
+      total: null, // 评论总数
     }
   },
   watch: {
@@ -118,7 +118,7 @@ export default {
       if (newList.length !== oldList.length) {
         this.lockUp = false
       }
-    }
+    },
   },
   created() {
     this.initData()
@@ -151,8 +151,8 @@ export default {
       getComment(this.$route.params.id, this.page).then(({ comments }) => {
         this.commentList = [...this.commentList, ...comments]
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -87,7 +87,7 @@ const mmPlayerMusic = {
     ele.onpause = () => {
       that.setPlaying(false)
     }
-  }
+  },
 }
 
 export default mmPlayerMusic
