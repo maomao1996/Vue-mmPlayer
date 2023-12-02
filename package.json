@@ -1,9 +1,9 @@
 {
   "name": "vue-mmplayer",
-  "version": "1.8.3",
+  "version": "1.1.8",
   "private": true,
   "packageManager": "pnpm@8.0.0",
-  "description": "Online music player",
+  "description": "music player",
   "author": "momo54181 <momo5418@mocn.top>",
   "bugs": {
     "url": "https://github.com/maomao1996/Vue-mmPlayer/issues"
