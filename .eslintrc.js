@@ -6,8 +6,11 @@ module.exports = {
   parserOptions: {
     parser: '@babel/eslint-parser',
   },
-  extends: ['plugin:vue/recommended', 'prettier', 'plugin:prettier/recommended'],
+  // extends: ['plugin:vue/recommended', 'prettier', 'plugin:prettier/recommended'],
+  // 跳过eslint
+  extends: [],
   rules: {
+    'prettier/prettier': 'off',
     'vue/multi-word-component-names': 'off',
     'vue/max-attributes-per-line': [
       'error',

@@ -4,8 +4,14 @@
     <router-link to="/music/playlist" tag="span">正在播放</router-link>
     <router-link to="/music/toplist" tag="span">推荐</router-link>
     <router-link to="/music/search" tag="span">搜索</router-link>
+    <router-link to="/music/bilisearch" tag="span">bili搜索</router-link>
     <router-link to="/music/userlist" tag="span">我的歌单</router-link>
+<!--    当视口宽小于960时显示-->
     <span class="show-960" @click="$emit('onClickLyric')">歌词</span>
+<!--    @TODO '我听过的' -- 优化方案:
+    现在的缺陷: 1.再次播放'我听过的',顺序会被打乱. 2.因为顺序会被打乱,所以历史记录就是不准确的. 3.没有记录每首歌曲听的次数,不方便未来收集数据用于"推荐算法"
+    优化方案: 1. 目前playlist和historylist有某种关联, 另外还有一个orderlist. 这三者应该需要重新设计一下
+    -->
     <router-link to="/music/historylist" tag="span">我听过的</router-link>
   </div>
 </template>

@@ -15,6 +15,7 @@ const mutations = {
   },
   // 修改播放列表
   [types.SET_PLAYLIST](state, playlist) {
+    console.log('mutation 修改playlist')
     state.playlist = playlist
   },
   // 修改顺序列表
@@ -23,6 +24,7 @@ const mutations = {
   },
   // 修改当前音乐索引
   [types.SET_CURRENTINDEX](state, currentIndex) {
+    console.log('mutation 修改当前音乐索引')
     state.currentIndex = currentIndex
   },
   // 修改播放历史列表
@@ -32,6 +34,9 @@ const mutations = {
   // 修改网易云用户UID
   [types.SET_UID](state, uid) {
     state.uid = uid
+  },
+  SET_COMMENT_OPEN(state, commentOpen) {
+    state.commentOpen = commentOpen
   },
 }
 

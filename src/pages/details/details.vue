@@ -8,7 +8,7 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { getPlaylistDetail } from 'api'
+import { getPlaylistDetail } from 'api/index'
 import MmLoading from 'base/mm-loading/mm-loading'
 import MusicList from 'components/music-list/music-list'
 import { loadMixin } from '@/utils/mixin'
@@ -36,6 +36,9 @@ export default {
       .catch(() => {
         this._hideLoad()
       })
+  },
+  beforeDestroy() {
+    console.log(' -- details 组件 --- 死了')
   },
   methods: {
     // 播放暂停事件

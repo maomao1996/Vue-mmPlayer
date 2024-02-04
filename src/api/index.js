@@ -1,6 +1,7 @@
-import axios from '@/utils/axios'
+import {request as axios, axiosOrigin} from '@/utils/axios'
 import { DEFAULT_LIMIT } from '@/config'
 import { formatSongs } from '@/utils/song'
+import {request} from "@/utils/axios";
 
 // 排行榜列表
 export function getToplistDetail() {
@@ -13,6 +14,7 @@ export function getPersonalized() {
 }
 
 // 歌单详情
+// origin
 export function getPlaylistDetail(id) {
   return new Promise((resolve, reject) => {
     axios
@@ -44,6 +46,11 @@ export function getPlaylistDetail(id) {
       })
   })
 }
+// export function getPlaylistDetail(id) {
+//   return new Promise((resolve, reject) => {
+//
+//   })
+// }
 
 // 搜索
 export function search(keywords, page = 0, limit = DEFAULT_LIMIT) {
@@ -59,6 +66,27 @@ export function search(keywords, page = 0, limit = DEFAULT_LIMIT) {
 // 热搜
 export function searchHot() {
   return axios.get('/search/hot')
+}
+
+// 搜索b站视频
+export function searchVideoResources(musicName, singer) {
+  // return axiosOrigin.get('http://123.57.92.107:9090/music-get/getMusic/SearchMusicResources/20', {
+  return axiosOrigin.get('/music-get/getMusic/SearchMusicResources/20', {
+    params: {
+      musicName,
+      singer: ''
+    }
+  })
+}
+// 获取视频音频
+export function getAudioUrl(bvid) {
+  // return axiosOrigin.get(`http://123.57.92.107:9090/music-get/getMusic/getMusicUrl/${bvid}`, {
+  return axiosOrigin.get(`/music-get/getMusic/getMusicUrl/${bvid}`, {
+    params: {
+      musicName: 'bvid',
+      singer: ''
+    },
+  })
 }
 
 // 获取用户歌单详情

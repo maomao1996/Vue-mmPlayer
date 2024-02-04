@@ -63,10 +63,11 @@
 </template>
 
 <script>
-import { getComment } from 'api'
+import { getComment } from 'api/index'
 import { addZero } from '@/utils/util'
 import MmLoading from 'base/mm-loading/mm-loading'
 import { loadMixin } from '@/utils/mixin'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'Comment',
@@ -113,15 +114,28 @@ export default {
       total: null, // 评论总数
     }
   },
+  computed: {
+    ...mapGetters([
+      'commentOpen'
+    ])
+  },
   watch: {
+    // 这个oldList就是上一次加载的总评论数量,newList是本次加载后的总评论数量.
+    //如果本次加载后数量不变, 说明数据库中没有其它评论可以加载了. 所以就停止滚动
     commentList(newList, oldList) {
       if (newList.length !== oldList.length) {
         this.lockUp = false
+        // this.lockUp = true
       }
     },
   },
   created() {
     this.initData()
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log('leave comment')
+    this.setCommentOpen(false)
+    next()
   },
   methods: {
     // 初始化数据
@@ -136,9 +150,11 @@ export default {
     },
     // 列表滚动事件
     listScroll(e) {
+      // console.log('scroll', this.lockUp)
       if (this.lockUp) {
         return
       }
+      // console.log('loading')
       const { scrollTop, scrollHeight, offsetHeight } = e.target
       if (scrollTop + offsetHeight >= scrollHeight - 100) {
         this.lockUp = true // 锁定滚动加载
@@ -148,11 +164,36 @@ export default {
     },
     // 滚动加载事件
     pullUp() {
+      console.log('getComment')
       getComment(this.$route.params.id, this.page).then(({ comments }) => {
+        // 因为重复的部分是有规律的, 即已经获取的所有评论commentList最后的部分可能会和新请求的comments前面几个重复.
+        //所以只要遍历可能重复的部分, 直到不再遇到重复就可以停止遍历
+        let commentsLen = comments.length
+        for (let i = 0; i < commentsLen; i++) {
+          let originSearch = this.commentList.length - 1 - i
+          if (comments[i].commentId === this.commentList[originSearch].commentId) {
+            const duplicate = comments.shift()
+            // console.log('重复: ')
+            // console.log(duplicate)
+            i--
+            commentsLen--
+          } else {
+            break
+          }
+        }
         this.commentList = [...this.commentList, ...comments]
+        // console.log('@@@ 合并后: ')
+        // // 如果this.commentList.length不是30的倍数,则说明有重复的
+        // console.log(this.commentList.length)
+        // console.log(comments.length)
+        // console.log(this.commentList)
+        // console.log(comments)
       })
     },
-  },
+    ...mapMutations({
+      setCommentOpen: 'SET_COMMENT_OPEN'
+    })
+  }
 }
 </script>
 

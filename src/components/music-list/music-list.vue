@@ -5,20 +5,30 @@
       <div class="list-item list-header">
         <span class="list-name">歌曲</span>
         <span class="list-artist">歌手</span>
+        <!--        <span v-if="isDuration" class="list-time">时长</span>
+                <span v-else class="list-album">专辑</span>-->
         <span v-if="isDuration" class="list-time">时长</span>
-        <span v-else class="list-album">专辑</span>
+        <span v-if="listType==='pullup'" class="list-album">专辑</span>
       </div>
       <div ref="listContent" class="list-content" @scroll="listScroll($event)">
+        <!--        <div
+                  v-for="(item, index) in list"
+                  :key="item.id"
+                  class="list-item"
+                  :class="{ on: playing && currentMusic.id === item.id }"
+                  @dblclick="selectItem(item, index, $event)"
+                >-->
         <div
           v-for="(item, index) in list"
           :key="item.id"
           class="list-item"
-          :class="{ on: playing && currentMusic.id === item.id }"
+          :class="{ on: currentMusic.id === item.id }"
           @dblclick="selectItem(item, index, $event)"
         >
           <span class="list-num" v-text="index + 1"></span>
           <div class="list-name">
             <span>{{ item.name }}</span>
+            <!--            播放暂停-->
             <div class="list-menu">
               <mm-icon
                 class="hover"
@@ -38,19 +48,19 @@
               @click.stop="deleteItem(index)"
             />
           </span>
-          <span v-else class="list-album">{{ item.album }}</span>
+          <span v-if="listType==='pullup'" class="list-album">{{ item.album }}</span>
         </div>
         <slot name="listBtn"></slot>
       </div>
     </template>
-    <mm-no-result v-else title="弄啥呢，怎么啥也没有！！！" />
+    <mm-no-result v-else title="弄啥呢，怎么啥也没有！！！"/>
   </div>
 </template>
 
 <script>
 // import {getCheckMusic} from 'api'
-import { mapGetters, mapMutations } from 'vuex'
-import { format } from '@/utils/util'
+import {mapGetters, mapMutations} from 'vuex'
+import {format} from '@/utils/util'
 import MmNoResult from 'base/mm-no-result/mm-no-result'
 
 const LIST_TYPE_ALBUM = 'album'
@@ -92,11 +102,13 @@ export default {
   },
   computed: {
     isDuration() {
-      return this.listType === LIST_TYPE_DURATION
+      // return this.listType === LIST_TYPE_DURATION
+      return this.listType === LIST_TYPE_DURATION || this.listType === LIST_TYPE_PULLUP
     },
     ...mapGetters(['playing', 'currentMusic']),
   },
   watch: {
+    //监听list,是为了修改lockUp. 和comment.vue中一样,oldList是上一次加载的数据
     list(newList, oldList) {
       if (this.listType !== LIST_TYPE_PULLUP) {
         return
@@ -109,6 +121,8 @@ export default {
     },
   },
   activated() {
+    // 当切换到其它组件,再次回来时将listContent恢复到上次的状态.
+    //this.scrollTop是组件music-list的属性.当music-list下拉时就会修改该属性值,可以通过mm.$children[0].$children[2].$children[1].$children[1].scrollTop查看
     this.scrollTop && this.$refs.listContent && (this.$refs.listContent.scrollTop = this.scrollTop)
   },
   methods: {
@@ -119,7 +133,7 @@ export default {
       if (this.listType !== LIST_TYPE_PULLUP || this.lockUp) {
         return
       }
-      const { scrollHeight, offsetHeight } = e.target
+      const {scrollHeight, offsetHeight} = e.target
       if (scrollTop + offsetHeight >= scrollHeight - THRESHOLD) {
         this.lockUp = true // 锁定滚动加载
         this.$emit('pullUp') // 触发滚动加载事件
@@ -131,7 +145,9 @@ export default {
     },
     // 播放暂停事件
     selectItem(item, index, e) {
+      //这个存在的意义不清楚??因为它不仅判断e是否传过来,还判断className是否是list-menu-icon-del,但是list-menu-icon-del中没有调用这个方法
       if (e && /list-menu-icon-del/.test(e.target.className)) {
+        //console.log('music-list.vue#selectItem list-menu-icon-del')
         return
       }
       if (this.currentMusic.id && item.id === this.currentMusic.id) {
@@ -164,10 +180,10 @@ export default {
       // })
     },
     // 获取播放状态 type
-    getPlayIconType({ id: itemId }) {
+    getPlayIconType({id: itemId}) {
       const {
         playing,
-        currentMusic: { id },
+        currentMusic: {id},
       } = this
       return playing && id === itemId ? 'pause-mini' : 'play-mini'
     },
@@ -335,10 +351,12 @@ export default {
   justify-content: center;
   align-items: center;
   height: 50px;
+
   span {
     padding: 5px 20px;
     cursor: pointer;
     user-select: none;
+
     &:hover {
       color: @text_color_active;
     }

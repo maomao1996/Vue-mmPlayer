@@ -1,9 +1,18 @@
-import { MMPLAYER_CONFIG } from '@/config'
+import {MMPLAYER_CONFIG} from '@/config'
 
 const STORAGE = window.localStorage
 const storage = {
   get(key, data = []) {
     if (STORAGE) {
+      /*
+      其中
+      Array.isArray(data)
+          ? JSON.parse(STORAGE.getItem(key))
+          : STORAGE.getItem(key)
+      和data同属于STORAGE.getItem(key)的选项.类似:
+       const a = 1,m=0,x=10,y=20,c=2
+       console.log(a?(m?x:y):c)
+      */
       return STORAGE.getItem(key)
         ? Array.isArray(data)
           ? JSON.parse(STORAGE.getItem(key))
@@ -30,6 +39,7 @@ const storage = {
  */
 const HISTORYLIST_KEY = '__mmPlayer_historyList__'
 const HistoryListMAX = 200
+
 // 获取播放历史
 export function getHistoryList() {
   return storage.get(HISTORYLIST_KEY)
@@ -73,10 +83,12 @@ export function clearHistoryList() {
  *          HistoryListMAX：最大长度
  */
 const MODE_KEY = '__mmPlayer_mode__'
+
 // 获取播放模式
 export function getMode() {
   return Number(storage.get(MODE_KEY, MMPLAYER_CONFIG.PLAY_MODE))
 }
+
 // 修改播放模式
 export function setMode(mode) {
   storage.set(MODE_KEY, mode)
@@ -88,10 +100,12 @@ export function setMode(mode) {
  * @type USERID_KEY：key值
  */
 const USERID_KEY = '__mmPlayer_userID__'
+
 // 获取用户uid
 export function getUserId() {
   return Number(storage.get(USERID_KEY, null))
 }
+
 // 修改用户uid
 export function setUserId(uid) {
   storage.set(USERID_KEY, uid)
@@ -103,11 +117,13 @@ export function setUserId(uid) {
  * @type VERSION_KEY：key值
  */
 const VERSION_KEY = '__mmPlayer_version__'
+
 // 获取版本号
 export function getVersion() {
   let version = storage.get(VERSION_KEY, null)
   return Array.isArray(version) ? null : version
 }
+
 // 修改版本号
 export function setVersion(version) {
   storage.set(VERSION_KEY, version)
@@ -119,11 +135,13 @@ export function setVersion(version) {
  * @type VOLUME_KEY：key值
  */
 const VOLUME_KEY = '__mmPlayer_volume__'
+
 // 获取音量
 export function getVolume() {
   const volume = storage.get(VOLUME_KEY, MMPLAYER_CONFIG.VOLUME)
   return Number(volume)
 }
+
 // 修改音量
 export function setVolume(volume) {
   storage.set(VOLUME_KEY, volume)

@@ -1,8 +1,11 @@
 <template>
   <!--进度条拖动-->
   <div ref="mmProgress" class="mmProgress" @click="barClick">
+<!--    进度条槽-->
     <div class="mmProgress-bar"></div>
+<!--    缓冲进度-->
     <div ref="mmPercentProgress" class="mmProgress-outer"></div>
+<!--    音乐进度-->
     <div ref="mmProgressInner" class="mmProgress-inner">
       <div class="mmProgress-dot" @mousedown="barDown" @touchstart.prevent="barDown"></div>
     </div>
@@ -87,12 +90,14 @@ export default {
     },
     // 鼠标按下事件
     barDown(e) {
+      //鼠标移动是一直监测的,只有当鼠标按下bar时才修改进度
       this.move.status = true
       this.move.startX = e.clientX || e.touches[0].pageX
       this.move.left = this.$refs.mmProgressInner.clientWidth
     },
     // 鼠标/触摸移动事件
     barMove(e) {
+
       if (!this.move.status) {
         return false
       }
@@ -117,10 +122,11 @@ export default {
     moveSilde(offsetWidth) {
       this.$refs.mmProgressInner.style.width = `${offsetWidth}px`
     },
-    // 修改 percent
+    // 修改 percent, isEnd表示释放鼠标,要在释放出开始播放
     commitPercent(isEnd = false) {
       const { mmProgress, mmProgressInner } = this.$refs
       const lineWidth = mmProgress.clientWidth - dotWidth
+      // percent是百分比
       const percent = mmProgressInner.clientWidth / lineWidth
       this.$emit(isEnd ? 'percentChangeEnd' : 'percentChange', percent)
     },

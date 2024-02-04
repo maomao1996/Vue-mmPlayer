@@ -34,6 +34,9 @@ export default {
   computed: {
     ...mapGetters(['playing', 'playlist', 'currentMusic']),
   },
+  beforeDestroy() {
+    console.log(' -- playList 组件 --- 死了')
+  },
   methods: {
     // 清空列表事件
     clearList() {
@@ -43,6 +46,7 @@ export default {
     // 播放暂停事件
     selectItem(item, index) {
       if (item.id !== this.currentMusic.id) {
+        //currentIndex
         this.setCurrentIndex(index)
         this.setPlaying(true)
       }
@@ -60,6 +64,6 @@ export default {
       clearPlaylist: 'CLEAR_PLAYLIST',
     }),
     ...mapActions(['removerPlayListItem', 'clearPlayList']),
-  },
+  }
 }
 </script>

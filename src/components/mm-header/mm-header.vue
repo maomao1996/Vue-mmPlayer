@@ -21,7 +21,7 @@
         </router-link>
         <dd class="user-btn" @click="openDialog(2)">退出</dd>
       </template>
-      <dd v-else class="user-btn" @click="openDialog(0)">登录</dd>
+      <dd v-else class="user-btn" v-on:click="openDialog(0)">登录</dd>
     </dl>
     <!--登录-->
     <mm-dialog
@@ -82,7 +82,7 @@ export default {
   data() {
     return {
       user: {}, // 用户数据
-      uidValue: '', // 记录用户 UID
+      uidValue: '1532302303', // 记录用户 UID
     }
   },
   computed: {

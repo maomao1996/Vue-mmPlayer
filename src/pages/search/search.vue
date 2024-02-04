@@ -1,5 +1,6 @@
 <template>
   <!--搜索-->
+<!--  @TODO 缺少清空搜索结果, 建议将这个搜索组件和推荐组件共用一个按钮-->
   <div class="search flex-col">
     <mm-loading v-model="mmLoadShow" />
     <div class="search-head">
@@ -70,6 +71,9 @@ export default {
       this.mmLoadShow = false
     })
   },
+  beforeDestroy() {
+    console.log(' -- search 组件 --- 死了')
+  },
   methods: {
     // 点击热搜
     clickHot(name) {
@@ -105,6 +109,7 @@ export default {
     },
     // 播放歌曲
     async selectItem(music) {
+      // console.log(music)
       try {
         const image = await this._getMusicDetail(music.id)
         music.image = toHttps(image)

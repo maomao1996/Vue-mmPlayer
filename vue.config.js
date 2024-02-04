@@ -14,6 +14,18 @@ process.env.VUE_APP_VERSION = require('./package.json').version
 process.env.VUE_APP_UPDATE_TIME = dayjs().locale('zh-cn').format('YYYY-MM-DD')
 
 module.exports = defineConfig({
+  //开启代理服务器（方式二）
+/*  devServer: {
+    proxy: {
+      '/music-get': {
+        target: 'http://123.57.92.107:9090',
+        // pathRewrite: { '^/atguigu': '' },
+        // ws: true, //用于支持websocket
+        // changeOrigin: true //用于控制请求头中的host值,默认是true,即伪装为与服务器同源
+      }
+    }
+  },*/
+  lintOnSave:false,
   publicPath: '',
   chainWebpack(config) {
     config.resolve.alias

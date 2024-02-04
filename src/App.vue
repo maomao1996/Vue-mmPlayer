@@ -5,7 +5,7 @@
     <router-view />
     <!--更新说明-->
     <mm-dialog ref="versionDialog" type="alert" head-text="更新提示" :body-text="versionInfo" />
-    <!--播放器-->
+    <!--播放器 没有controls属性就不会在页面中显示出来-->
     <audio ref="mmPlayer"></audio>
   </div>
 </template>
@@ -27,6 +27,11 @@ const VERSION_INFO = `<div class="mm-dialog-text text-left">
 
 export default {
   name: 'App',
+  data() {
+    return {
+      versionInfo: ''
+    }
+  },
   components: {
     MmHeader,
     MmDialog,
@@ -35,13 +40,13 @@ export default {
     // 设置版本更新信息
     this.versionInfo = VERSION_INFO
 
-    // 获取正在播放列表
+    // 获取正在播放列表,初次获取某个特定歌单
     getPlaylistDetail(MMPLAYER_CONFIG.PLAYLIST_ID).then((playlist) => {
       const list = playlist.tracks.slice(0, 100)
       this.setPlaylist({ list })
     })
 
-    // 设置title
+    // 设置title -- 当该窗口被切换掉时显示特定标题
     let OriginTitile = document.title
     let titleTime
     document.addEventListener('visibilitychange', function () {
@@ -62,6 +67,12 @@ export default {
     })
 
     // 首次加载完成后移除动画
+    /*
+    if内逻辑是:
+    1. 定义回调函数,将回调函数添加给动画结束事件
+      - 因为是回调函数,所以this的指向是appLoading标签.又因为要用到当前VC实例,所以bing修改.这里改用箭头函数后this是window,不可行
+    2. 动画结束后触发回调函数,先移除事件绑定,再判断是否要弹框提示版本更新
+     */
     let loadDOM = document.querySelector('#appLoading')
     if (loadDOM) {
       const animationendFunc = function () {
@@ -69,6 +80,9 @@ export default {
         loadDOM.removeEventListener('webkitAnimationEnd', animationendFunc)
         document.body.removeChild(loadDOM)
         loadDOM = null
+        //为了测试dialog的效果,强行提示
+        // this.$refs.versionDialog.show()
+        //在localStorage中找之前存的version,每次打开网站进行比较,如果不相同.就说明打开的是新版本,则进行提示
         const version = getVersion()
         if (version !== null) {
           setVersion(VERSION)
@@ -80,11 +94,13 @@ export default {
           this.$refs.versionDialog.show()
         }
       }.bind(this)
+
       loadDOM.addEventListener('animationend', animationendFunc)
       loadDOM.addEventListener('webkitAnimationEnd', animationendFunc)
       loadDOM.classList.add('removeAnimate')
     }
   },
+  // 涉及到vuex知识点
   methods: {
     ...mapMutations({
       setAudioele: 'SET_AUDIOELE',

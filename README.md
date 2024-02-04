@@ -1,4 +1,22 @@
-# mmPlayer
+# 环境的坑
+1. 启动是eslint报错, prettier检查错误, 需要配置idea的prettier对什么文件生效, 具体看https://blog.csdn.net/qq_41996454/article/details/125043469. 这个配置也能用配置文件形式: https://blog.csdn.net/m0_47320525/article/details/125298504
+也能通过npm  run  lint --fix简单修复一些报错
+2. 关闭eslint的prettier https://blog.csdn.net/weixin_42681295/article/details/124879919
+3. 使用npm install后启动报错提示找不到pnpm, 所以只能重新使用推荐的`pnpm install`. 
+4. 安装pnpm
+   1. 运行`npm install pnpm -g`默认选择一个pnpm版本, 但是该版本太高了, 暂时不清楚如何指定pnpm版本, 所以只能调整自己node版本. 所以就安装nvm了
+      1. nvm使用文章参考: http://www.manongjc.com/detail/26-nbmqbsbnrxxzspj.html https://blog.csdn.net/weixin_39168541/article/details/134710834
+         1. 安装过程的第二个路径选择, 作用是在该路径创建一个快捷方式, 链接到nvm的安装位置. 然后将该快捷方式添加到system path中
+5. webstorm中需要手动添加nodejs/npm的位置. 在setting中搜索即可
+6. 还需要在vue.config.js中配置`module.exports = defineConfig({ lintOnSave:false,})`才可以完全禁用.
+
+# 贡献
+1. 提出一个comment加载bug
+2. 实现comment按钮可以打开comment组件后, 再次点击回退到打开comment前的组件
+3. 实现在线播放b站音频.
+4. 优化一些样式细节
+
+# origin-mmPlayer
 
 > mmPlayer 是由茂茂开源的一款在线音乐播放器，具有音乐搜索、播放、歌词显示、播放历史、查看歌曲评论、网易云用户歌单播放同步等功能
 

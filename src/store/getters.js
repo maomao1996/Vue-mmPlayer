@@ -12,9 +12,11 @@ export const orderList = (state) => state.orderList
 export const currentIndex = (state) => state.currentIndex
 // 当前音乐
 export const currentMusic = (state) => {
+  console.log('getters currentMusic')
   return state.playlist[state.currentIndex] || {}
 }
 // 播放历史列表
 export const historyList = (state) => state.historyList
 // 网易云用户UID
 export const uid = (state) => state.uid
+export const commentOpen = (state) => state.commentOpen

@@ -1,5 +1,5 @@
 import TempToast from './mm-toast.vue'
-
+// 没看明白
 let instance
 let showToast = false
 let time // 存储toast显示状态
@@ -10,6 +10,7 @@ const mmToast = {
     Vue.prototype.$mmToast = (message, position) => {
       if (showToast) {
         clearTimeout(time)
+        // instance在后面赋值的, 这里能用??
         instance.vm.visible = showToast = false
         document.body.removeChild(instance.vm.$el)
         // return;// 如果toast还在，则不再执行
@@ -20,6 +21,7 @@ const mmToast = {
       if (position) {
         opt.position = position // 如果有传type，则使用所传的type
       }
+      // 这种写法不认识??
       let TempToastConstructor = Vue.extend(TempToast)
       instance = new TempToastConstructor({
         data: opt,

@@ -3,7 +3,7 @@
     <!--封面-->
     <dl class="music-info">
       <dt>
-        <img :src="musicPicUrl" />
+        <img referrerpolicy="no-referrer" :src="musicPicUrl" />
       </dt>
       <template v-if="currentMusic.id">
         <dd>歌曲名：{{ currentMusic.name }}</dd>
@@ -65,6 +65,10 @@ export default {
   },
   computed: {
     musicPicUrl() {
+      const idTest = this.currentMusic.id + ''
+      if (idTest.startsWith('BV')) {
+        return `${this.currentMusic.image}@672w_378h_1c_!web-search-common-cover.avif`
+      }
       return this.currentMusic.id
         ? `${this.currentMusic.image}?param=300y300`
         : require('../../assets/img/player_cover.png')
@@ -75,11 +79,12 @@ export default {
     ...mapGetters(['currentMusic']),
   },
   mounted() {
-    window.addEventListener('resize', () => {
-      clearTimeout(this.resizeTimer)
-      this.resizeTimer = setTimeout(() => this.clacTop(), 60)
-    })
-    this.$nextTick(() => this.clacTop())
+    //这里应该先监测是否有正在播放的音乐
+    // window.addEventListener('resize', () => {
+    //   clearTimeout(this.resizeTimer)
+    //   this.resizeTimer = setTimeout(() => this.clacTop(), 60)
+    // })
+    // this.$nextTick(() => this.clacTop())
   },
   methods: {
     // 计算歌词居中的 top值

@@ -25,6 +25,11 @@ export default {
   components: {
     MmProgress,
   },
+  data() {
+    return {
+      lastVolume: 0.8 // 如果上次退出时是mute状态, 则恢复静音时恢复到默认0.8音量
+    }
+  },
   props: {
     volume: {
       type: Number,

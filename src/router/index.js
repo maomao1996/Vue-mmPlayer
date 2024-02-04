@@ -16,15 +16,22 @@ const routes = [
         path: '/music/playlist', // 正在播放列表
         component: () => import('pages/playList/playList'),
         meta: {
-          keepAlive: true,
+          // keepAlive: true,
+        },
+      },
+      {
+        path: '/music/bilisearch', // 正在播放列表
+        component: () => import('pages/bili/bilisearch'),
+        meta: {
+          // keepAlive: true,
         },
       },
       {
         path: '/music/userlist', // 我的歌单
-        component: () => import('pages/userList/userList'),
+        component: () => import('pages/userList/userList.vue'),
         meta: {
           title: '我的歌单',
-          keepAlive: true,
+          // keepAlive: true,
         },
       },
       {
@@ -32,7 +39,7 @@ const routes = [
         component: () => import('pages/topList/topList'),
         meta: {
           title: '排行榜',
-          keepAlive: true,
+          // keepAlive: true,
         },
       },
       {
@@ -51,7 +58,7 @@ const routes = [
         component: () => import('pages/search/search'),
         meta: {
           title: '搜索',
-          keepAlive: true,
+          // keepAlive: true,
         },
       },
       {

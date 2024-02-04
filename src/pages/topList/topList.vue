@@ -35,12 +35,12 @@
 </template>
 
 <script>
-import { getToplistDetail, getPersonalized } from 'api'
+import { getToplistDetail, getPersonalized } from 'api/index'
 import MmLoading from 'base/mm-loading/mm-loading'
 import { loadMixin } from '@/utils/mixin'
 
 export default {
-  name: 'PlayList',
+  name: 'TopList',
   components: {
     MmLoading,
   },
@@ -53,12 +53,15 @@ export default {
   },
   created() {
     Promise.all([getToplistDetail(), getPersonalized()])
-      .then(([topList, hotList]) => {
+      .then(([topList, personalizedList]) => {
         this.list = topList.list.filter((v) => v.ToplistType)
-        this.hotList = hotList.result.slice()
+        this.hotList = personalizedList.result.slice()
         this._hideLoad()
       })
       .catch(() => {})
+  },
+  beforeDestroy() {
+    console.log(' -- topList 组件 --- 死了')
   },
 }
 </script>

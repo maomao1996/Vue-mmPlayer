@@ -23,6 +23,8 @@ export default {
       this.$emit('click', e)
     },
   },
+  //render()替代了<template>, 具体见https://v2.cn.vuejs.org/v2/guide/render-function.html#JSX
+  //通过生命周期图,可以看出render()是在created后面执行,所以methods中的函数已经可以准备好了
   render() {
     const Icon = (
       <i

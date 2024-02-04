@@ -3,18 +3,19 @@
     <div class="music-content">
       <div class="music-left flex-col">
         <music-btn @onClickLyric="handleOpenLyric" />
-        <keep-alive>
-          <router-view v-if="$route.meta.keepAlive" class="router-view" />
+        <keep-alive :include="['PlayList', 'UserList', 'TopList', 'Search', 'HistoryList', 'BiliSearch']">
+          <router-view class="router-view" />
         </keep-alive>
-        <router-view v-if="!$route.meta.keepAlive" :key="$route.path" class="router-view" />
       </div>
-      <div class="music-right" :class="{ show: lyricVisible }">
+      <!--这个歌词div默认在router-view一侧. 当show类被添加后,会覆盖整个屏幕, 但router-view并不受影响-->
+      <div class="music-right"  :class="{ show: lyricVisible }">
         <div class="close-lyric" @click="handleCloseLyric">关闭歌词</div>
         <lyric ref="lyric" :lyric="lyric" :nolyric="nolyric" :lyric-index="lyricIndex" />
       </div>
     </div>
 
-    <!--播放器-->
+    <!-- 播放器 -->
+<!--    @TODO 监测歌曲播放时是否被跳过, 如果跳过说明不匹配用户-->
     <div class="music-bar" :class="{ disable: !musicReady || !currentMusic.id }">
       <div class="music-bar-btns">
         <mm-icon class="pointer" type="prev" :size="36" title="上一曲 Ctrl + Left" @click="prev" />
@@ -62,6 +63,7 @@
     </div>
 
     <!--遮罩-->
+<!--    如果是b站视频,图片请求不能携带referer. 而这里背景图片请求无法修改referer. 暂时不解决它, 未来直接从QQ音乐平台获取正版封面-->
     <div class="mmPlayer-bg" :style="{ backgroundImage: picUrl }"></div>
     <div class="mmPlayer-mask"></div>
   </div>
@@ -98,16 +100,23 @@ export default {
       musicReady: false, // 是否可以使用播放器
       currentTime: 0, // 当前播放时间
       currentProgress: 0, // 当前缓冲进度
-      lyricVisible: false, // 移动端歌词显示
+      lyricVisible: false, // 控制歌词div的类show,当为true时,div会调整到指定样式覆盖整个屏幕
       lyric: [], // 歌词
       nolyric: false, // 是否有歌词
       lyricIndex: 0, // 当前播放歌词下标
       isMute: false, // 是否静音
-      volume, // 音量大小
+      volume, // 音量大小,
     }
   },
   computed: {
     picUrl() {
+      const idTest = this.currentMusic.id + ''
+      if (idTest.startsWith('BV')) {
+        /*console.log('background picUrl=', `${this.currentMusic.image}@672w_378h_1c_!web-search-common-cover.avif`)
+        return `${this.currentMusic.image}@672w_378h_1c_!web-search-common-cover.avif`*/
+        return `url(${MMPLAYER_CONFIG.BACKGROUND})`
+      }
+
       return this.currentMusic.id && this.currentMusic.image
         ? `url(${this.currentMusic.image}?param=300y300)`
         : `url(${MMPLAYER_CONFIG.BACKGROUND})`
@@ -117,6 +126,7 @@ export default {
       return this.currentTime && duration ? this.currentTime / duration : 0
     },
     ...mapGetters([
+      'commentOpen',
       'audioEle',
       'mode',
       'playing',
@@ -128,12 +138,16 @@ export default {
     ]),
   },
   watch: {
+    // 这里监测vuex中的currentMusic对象, prev/next/play()等函数改动的是currentIndex.
+    //而getters.js中state.playlist[state.currentIndex], 所以改动currentIndex会影响currentMusic
     currentMusic(newMusic, oldMusic) {
+      console.log('music.vue#watch currentMusic')
       if (!newMusic.id) {
         this.lyric = []
         return
       }
       if (newMusic.id === oldMusic.id) {
+        console.log('新旧musicId相同')
         return
       }
       this.audioEle.src = newMusic.url
@@ -144,6 +158,7 @@ export default {
         this._getLyric(newMusic.id)
       })
     },
+    // 点击播放/暂停按钮后, 修改playing的值
     playing(newPlaying) {
       const audio = this.audioEle
       this.$nextTick(() => {
@@ -151,6 +166,7 @@ export default {
         this.musicReady = true
       })
     },
+    //监测currentTime为了修改lyricIndex
     currentTime(newTime) {
       if (this.nolyric) {
         return
@@ -164,13 +180,16 @@ export default {
       this.lyricIndex = lyricIndex
     },
     $route() {
-      this.lyricVisible = false
+      // console.log('music.vue#$route()')
+      //不清楚这个设置的意义??
+      // this.lyricVisible = false
     },
   },
   mounted() {
     this.$nextTick(() => {
       mmPlayerMusic.initAudio(this)
       this.initKeyDown()
+      // 初始化的音量调整
       this.volumeChange(this.volume)
     })
   },
@@ -315,7 +334,13 @@ export default {
         this.$mmToast('还没有播放歌曲哦！')
         return false
       }
-      this.$router.push(`/music/comment/${this.currentMusic.id}`)
+      if (!this.commentOpen) {
+        this.$router.push(`/music/comment/${this.currentMusic.id}`)
+        this.setCommentOpen(true)
+      } else {
+        // this.$router.push(`/music/playlist`)
+        this.$router.back()
+      }
     },
     // 修改音量大小
     volumeChange(percent) {
@@ -356,6 +381,11 @@ export default {
     },
     // 获取歌词
     _getLyric(id) {
+      const idTest = id + ''
+      if (idTest.startsWith('BV')) {
+        this.lyric = []
+        return
+      }
       getLyric(id).then((res) => {
         if (res.lrc && res.lrc.lyric) {
           this.nolyric = false
@@ -370,6 +400,7 @@ export default {
       setPlaying: 'SET_PLAYING',
       setPlaylist: 'SET_PLAYLIST',
       setCurrentIndex: 'SET_CURRENTINDEX',
+      setCommentOpen: 'SET_COMMENT_OPEN'
     }),
     ...mapActions(['setHistory', 'setPlayMode']),
   },

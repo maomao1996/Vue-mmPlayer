@@ -52,6 +52,7 @@ export const clearPlayList = function ({ commit }) {
 }
 
 // 删除正在播放列表中的歌曲
+//@TODO 这里会改变currentMusic,就会触发music.vue中的watch.但是为什么这里修改currentIndex后没有立刻触发watch??
 export const removerPlayListItem = function ({ commit, state }, { list, index }) {
   let currentIndex = state.currentIndex
   if (index < state.currentIndex || list.length === state.currentIndex) {
@@ -60,6 +61,7 @@ export const removerPlayListItem = function ({ commit, state }, { list, index })
   }
   commit(types.SET_PLAYLIST, list)
   commit(types.SET_ORDERLIST, list)
+  console.log('action 修改了playlist')
   if (!list.length) {
     commit(types.SET_PLAYING, false)
   } else {

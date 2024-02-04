@@ -17,6 +17,7 @@
       name="description"
       content="mmPlayer 是由茂茂开源的一款在线音乐播放器，具有音乐搜索、播放、歌词显示、播放历史、查看歌曲评论、网易云用户歌单播放同步等功能"
     />
+    <!--icon样式的在线地址-->
     <link
       rel="stylesheet"
       href="//at.alicdn.com/t/font_1367495_eza6utwbiqn.css"
@@ -45,6 +46,7 @@
         font-size: 20px;
         background: rgba(255, 255, 255, 1);
       }
+      /*在App.vue中为appLoading添加了removeAnimate类*/
       #appLoading.removeAnimate {
         animation: removeAnimate 0.3s 0.5s 1 both;
       }
@@ -126,6 +128,7 @@
       }
     </style>
     <script>
+      // 应该就是判断是否是ie浏览器的
       ;(function () {
         if (!!window.ActiveXObject || 'ActiveXObject' in window) {
           window.location = './prompt.html'
@@ -135,6 +138,7 @@
     </script>
     <% if ( NODE_ENV === 'production' ) { %>
     <script>
+      // _hmt保存在window中,用于统计网站访问量trace等,逻辑在main.js中
       var _hmt = _hmt || []
       window._hmt = _hmt
       ;(function () {

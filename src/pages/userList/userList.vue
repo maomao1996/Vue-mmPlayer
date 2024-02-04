@@ -1,11 +1,11 @@
 <template>
   <!--我的歌单-->
-  <div class="userList">
+  <div class="videoList">
     <mm-loading v-model="mmLoadShow" />
     <template v-if="list.length > 0">
       <div v-for="item in formatList" :key="item.id" class="list-item" :title="item.name">
-        <router-link :to="{ path: `/music/details/${item.id}` }" tag="div" class="userList-item">
-          <img v-lazy="`${item.coverImgUrl}?param=200y200`" class="cover-img" />
+        <router-link :to="{ path: `/music/details/${item.id}` }" tag="div" class="videoList-item">
+          <img referrerPolicy="no-referrer" v-lazy="`${item.coverImgUrl}?param=200y200`" class="cover-img" />
           <h3 class="name">{{ item.name }}</h3>
         </router-link>
       </div>
@@ -24,7 +24,7 @@ import MmLoading from 'base/mm-loading/mm-loading'
 import MmNoResult from 'base/mm-no-result/mm-no-result'
 
 export default {
-  name: 'PlayList',
+  name: 'UserList',
   components: {
     MmLoading,
     MmNoResult,
@@ -42,7 +42,9 @@ export default {
     ...mapGetters(['uid']),
   },
   watch: {
+    // 登录了才加载用户歌单
     uid(newUid) {
+      console.log('userList.vue#warch()#uid')
       if (newUid) {
         this.mmLoadShow = true
         this._getUserPlaylist(newUid)
@@ -56,7 +58,11 @@ export default {
       this.mmLoadShow = false
     }
   },
+  beforeDestroy() {
+    console.log(' -- userList 组件 --- 死了')
+  },
   activated() {
+    console.log('userList.vue#actived()')
     if (this.uid && this.list.length === 0) {
       this.mmLoadShow = true
       this._getUserPlaylist(this.uid)
@@ -80,17 +86,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.userList {
+.videoList {
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  &-head {
-    height: 100px;
-  }
+
   .list-item {
+    //float: left;
     float: left;
     width: calc(~'100% / 7');
-    .userList-item {
+    .videoList-item {
       width: 130px;
       text-align: center;
       cursor: pointer;
