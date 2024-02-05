@@ -1,9 +1,15 @@
 import axios from 'axios'
 import Vue from 'vue'
 
+const neteaseAxios = axios.create({
+  baseURL: 'http://music.163.com/',
+})
+
 const request = axios.create({
+  // baseURL: process.env.VUE_APP_BASE_API_URL,
   baseURL: process.env.VUE_APP_BASE_API_URL,
 })
+
 
 request.interceptors.response.use(
   (response) => {
@@ -40,4 +46,4 @@ axiosOrigin.interceptors.response.use(
 )
 
 // export default request
-export {request, axiosOrigin}
+export {neteaseAxios, request, axiosOrigin}

@@ -1,3 +1,5 @@
+// 本文件是脱敏后的,运行时需要去掉文件名中'_structure', 再改用自己的ip/port
+
 /* 版本号 */
 export const VERSION = process.env.VUE_APP_VERSION
 
@@ -29,7 +31,7 @@ export const PLAY_MODE = {
  */
 // 引入不起作用??
 export const BILI_AUDIO_PATH =  process.env.BILI_AUDIO_DOWNLOAD_PATH
-export const AUDIO_PATH = 'http://video.niejian.top:80'
+export const AUDIO_PATH = 'http://ip:port'
 
 /**
  * 播放器默认配置

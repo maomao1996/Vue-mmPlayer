@@ -32,6 +32,7 @@ export function createSong(music) {
     singer: filterSinger(music.ar || music.artists),
     album: album.name,
     image: toHttps(album.picUrl) || null,
+    // 原本是ms单位, 封装成music对象后duration就以秒为单位了, 但是带有3位小数
     duration: duration / 1000,
     url: `https://music.163.com/song/media/outer/url?id=${music.id}.mp3`,
   })

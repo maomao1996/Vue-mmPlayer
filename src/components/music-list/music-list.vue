@@ -18,7 +18,8 @@
                   :class="{ on: playing && currentMusic.id === item.id }"
                   @dblclick="selectItem(item, index, $event)"
                 >-->
-        <div
+        <!-- @TODO 这里每个item都绑定了事件. 可以用事件委派来优化 -->
+                <div
           v-for="(item, index) in list"
           :key="item.id"
           class="list-item"
