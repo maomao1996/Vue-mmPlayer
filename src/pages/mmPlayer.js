@@ -7,6 +7,7 @@ let retry = 1
 //触发这些事件的函数有: audio.play()/pause()/load()
 const mmPlayerMusic = {
   initAudio(that) {
+    console.log('init-----, retry=', retry)
     const ele = that.audioEle
     // 音频缓冲事件
     ele.onprogress = () => {
@@ -47,19 +48,32 @@ const mmPlayerMusic = {
     }
     // 音乐播放出错 -- 在MDN没有看到该事件,但是能用
     ele.onerror = () => {
-      if (retry === 0) {
-        let toastText = '当前音乐不可播放，已自动播放下一曲'
+      console.log("------------ onerror")
+      console.log(that.currentMusic)
+      if (retry === 1) {
+        console.log('!!!!!!!!!!!!!! 第一次, url: ', retry)
+        console.log(that.currentMusic.urls[0].substring(that.currentMusic.urls[0].length - 25, that.currentMusic.urls[0].length - 10))
+      }
+      const urlsLength = that.currentMusic.urls.length
+      if (retry >= urlsLength) {
+        let toastText = '当前音乐源全部尝试, 不可播放，已自动播放下一曲'
         if (that.playlist.length === 1) {
           toastText = '歌单只有一首, 没有可播放的音乐了~'
         }
         that.$mmToast(toastText)
+        console.log('*** next()')
+        retry = 1
         that.next(true)
       } else {
         // eslint-disable-next-line no-console
-        console.log('重试一次')
-        retry -= 1
-        ele.url = that.currentMusic.url
+        console.log('!!!!!!!!!!!!!! 重试一次, url: ')
+        console.log(that.currentMusic.urls[retry].substring(that.currentMusic.urls[retry].length - 25, that.currentMusic.urls[retry].length - 10))
+        //that.currentMusic.canUrls.push(that.currentMusic.urls[retry])
+        ele.urls = that.currentMusic.urls[retry]
+        console.log('change url')
+        // console.dir(ele)
         ele.load()
+        retry += 1
       }
       // console.log('播放出错啦！')
     }

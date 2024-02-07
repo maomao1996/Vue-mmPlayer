@@ -1,14 +1,14 @@
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 /**
- * 歌曲列表
+ * 歌曲列表 -- 好像没有被用到
  */
 export const listMixin = {
   computed: {
     ...mapGetters(['playing', 'currentMusic']),
   },
   methods: {
-    selectItem(item, index) {
+    selectItem_modified(item, index) {
       if (item.id === this.currentMusic.id && this.playing) {
         this.setPlaying(false)
       } else {

@@ -81,6 +81,7 @@ import MmProgress from 'base/mm-progress/mm-progress'
 import MusicBtn from 'components/music-btn/music-btn'
 import Lyric from 'components/lyric/lyric'
 import Volume from 'components/volume/volume'
+import {audioEle} from "@/store/getters";
 
 export default {
   name: 'Music',
@@ -150,7 +151,17 @@ export default {
         console.log('新旧musicId相同')
         return
       }
-      this.audioEle.src = newMusic.url
+
+      if (newMusic.canUrls.length === 0) {
+        //第一次播放, 没有尝试过任何url
+        this.audioEle.src = newMusic.urls[0]
+      } else {
+        //已经过滤过urls, 直接使用canUrls中的url
+        //@TODO 由于一旦筛选出可以播放的url就不会再请求新的url,所以可能导致新出的优质音频无法获取. 未来提供一个按钮,删除缓存的canUrls,重新获取url
+        this.audioEle.src = newMusic.canUrls[0]
+        console.dir(this.audioEle)
+      }
+
       // 重置相关参数
       this.lyricIndex = this.currentTime = this.currentProgress = 0
       silencePromise(this.audioEle.play())
@@ -179,10 +190,10 @@ export default {
       }
       this.lyricIndex = lyricIndex
     },
+    // 监听浏览器地址栏路径的变化
+    //当路径变化时,可能是因为用户点击了回退. 此时就要关闭全屏歌词
     $route() {
-      // console.log('music.vue#$route()')
-      //不清楚这个设置的意义??
-      // this.lyricVisible = false
+      this.lyricVisible = false
     },
   },
   mounted() {
@@ -522,6 +533,7 @@ export default {
         right: 5px;
       }
     }
+
     .mode,
     .comment,
     .music-bar-volume {

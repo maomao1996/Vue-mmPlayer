@@ -50,7 +50,7 @@ export default {
       this.$mmToast('删除成功')
     },
     ...mapMutations({
-      setPlaying: 'SET_PLAYING',
+      //setPlaying: 'SET_PLAYING', // 没人调用??
     }),
     ...mapActions(['selectPlay', 'clearHistory', 'removeHistory']),
   },

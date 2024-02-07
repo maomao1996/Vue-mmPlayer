@@ -40,6 +40,7 @@ import { AUDIO_PATH } from '@/config'
 import MmLoading from 'base/mm-loading/mm-loading'
 import MmNoResult from 'base/mm-no-result/mm-no-result'
 import {mapActions} from "vuex";
+import { createSong } from '@/utils/song'
 
 export default {
   name: 'BiliSearch',
@@ -50,7 +51,7 @@ export default {
   mixins: [loadMixin],
   data() {
     return {
-      searchValue: '青花瓷',
+      searchValue: 'Taylor Swift',
       list: [],
     }
   },
@@ -63,22 +64,29 @@ export default {
     async selectItem(video) {
       console.log('selectVideo', video)
       try {
-        await this._getMusicDetail(video.bvid)
-        const url = `${AUDIO_PATH}/download//bvid_${video.bvid}.mp3`
+        const response = await this._getMusicDetail(video.bvid)
+
         const music = {}
-        music.image = video.coverPicUrl
+
         const format = video.duration.split(':') //视频duration最小单位是秒, 匹配歌词的话可能有误差
         const minute = parseInt(format[0])
         const second = parseInt(format[1])
-        music.duration = minute * 60 + second
+
+        // 暂时直接在biliSearch中创建music对象, 未来将biliSearch升级为自动的形式, 则biliSearch中会复用url失效的music对象, 为其中的urls添加新url
         music.id = video.bvid
         music.name = video.videoTitle
-        music.url = url
+        music.singer = 'bilibili'
+        music.album = 'bilibili 干杯!'
+        music.image = video.coverPicUrl
+        music.duration = (minute * 60 + second)
+        music.urls = response.data.urls
+        music.canUrls = []
+
         console.log('created music')
         console.log(music)
         this.selectAddPlay(music)
       } catch (error) {
-        this.$mmToast('哎呀，出错啦~')
+        this.$mmToast('播放b站歌曲，出错啦~')
       }
     },
     // 获取歌曲详情

@@ -45,6 +45,30 @@ router.beforeEach((to, from, next) => {
   }
 })
 
+// 页面标题滚动
+/*const scroll = function () {
+  var originalTitle = document.title;
+  var scrollText = " | " + originalTitle;
+  var scrollPos = 0;
+  var scrollSpeed = 50; // 滚动速度，单位为毫秒
+  var scrollDelay = 2000; // 滚动延迟，单位为毫秒
+
+  function scrollTitle() {
+    document.title = scrollText.substring(scrollPos, scrollText.length) + scrollText.substring(0, scrollPos);
+    scrollPos++;
+    if (scrollPos >= scrollText.length) {
+      scrollPos = 0;
+      setTimeout(scrollTitle, scrollDelay);
+    } else {
+      setTimeout(scrollTitle, scrollSpeed);
+    }
+  }
+
+  console.log('scroll~~~')
+  scrollTitle();
+}
+scroll()*/
+
 // 版权信息
 window.mmPlayer = window.mmplayer = `欢迎使用 mmPlayer!
 当前版本为：V${VERSION}

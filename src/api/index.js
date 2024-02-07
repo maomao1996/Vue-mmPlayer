@@ -129,7 +129,8 @@ export function getAudioUrl(bvid) {
   return axiosOrigin.get(`/music-get/getMusic/getMusicUrl/${bvid}`, {
     params: {
       musicName: 'bvid',
-      singer: ''
+      singer: '',
+      tried: false
     },
   })
 }
@@ -161,7 +162,7 @@ export function getCheckMusic(id) {
   })
 }
 
-// 获取音乐地址
+// 获取音乐地址 -- 未来可以用
 export function getMusicUrl(id) {
   return axios.get('/song/url', {
     params: {

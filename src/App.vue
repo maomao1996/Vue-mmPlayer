@@ -63,6 +63,8 @@ export default {
 
     // 设置audio元素
     this.$nextTick(() => {
+      console.log('audio: ')
+      console.dir(this.$refs.mmPlayer)
       this.setAudioele(this.$refs.mmPlayer)
     })
 
