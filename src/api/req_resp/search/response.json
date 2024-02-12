@@ -1,0 +1,373 @@
+{
+  "code": 0,
+  "ts": 1707228508633,
+  "start_ts": 1707228508437,
+  "traceid": "3be71d55f6f60639",
+  "req_0": {
+    "code": 0,
+    "data": {
+      "body": {
+        "album": {
+          "list": []
+        },
+        "gedantip": {
+          "tab": 0,
+          "tip": ""
+        },
+        "mv": {
+          "list": []
+        },
+        "qc": [],
+        "singer": {
+          "list": []
+        },
+        "song": {
+          "list": [
+            {
+              "act": 3,
+              "action": {
+                "alert": 41,
+                "icon2": 0,
+                "icons": 12992510,
+                "msgdown": 0,
+                "msgfav": 0,
+                "msgid": 13,
+                "msgpay": 6,
+                "msgshare": 0,
+                "switch": 16897281,
+                "switch2": 0
+              },
+              "album": {
+                "id": 2066015,
+                "mid": "003j3NMw1ZBpsv", //通过https://y.qq.com/n/ryqq/albumDetail/mid 查看album信息
+                "name": "起风了 (旧版)",
+                "pmid": "003j3NMw1ZBpsv_2", //可以用上面albumDetail链接打开, 但是不清楚是干嘛的
+                "subtitle": "原曲：《ヤキモチ》—高桥优",
+                "time_public": "",
+                "title": "起风了 (旧版)"
+              },
+              "bpm": 0,
+              "content": "",
+              "desc": "原曲：《ヤキモチ》—高桥优",
+              "desc_hilight": "原曲：《ヤキモチ》—高桥优",
+              "docid": "15051736177706540547",
+              "eq": 0,
+              "es": "",
+              "file": {
+                "b_30s": 0,
+                "e_30s": 60000,
+                "hires_bitdepth": 0,
+                "hires_sample": 0,
+                "media_mid": "003yPUOy0pMlJI",
+                "size_128mp3": 5007779,
+                "size_192aac": 7574372,
+                "size_192ogg": 5942060,
+                "size_24aac": 0,
+                "size_320mp3": 12519132,
+                "size_360ra": [],
+                "size_48aac": 1905035,
+                "size_96aac": 3816161,
+                "size_96ogg": 3251217,
+                "size_ape": 0,
+                "size_dolby": 17535197,
+                "size_dts": 0,
+                "size_flac": 0,
+                "size_hires": 0,
+                "size_new": [
+                  0,
+                  32720646,
+                  81412675,
+                  9788750,
+                  0,
+                  20984198
+                ],
+                "size_try": 960887,
+                "try_begin": 78061,
+                "try_end": 109773,
+                "url": ""
+              },
+              "fnote": 4009,
+              "genre": 0,
+              "grp": [],
+              "hotness": {
+                "desc": "",
+                "icon_url": "",
+                "jump_type": 0,
+                "jump_url": ""
+              },
+              "href3": "",
+              "id": 202371397,
+              "index_album": 1,
+              "index_cd": 0,
+              "interval": 312, //时长
+              "isonly": 0,
+              "ksong": {
+                "id": 2787638,
+                "mid": "001Wsrgh3RPWTO"
+              },
+              "label": "0",
+              "language": 0,
+              "lyric": "",
+              "lyric_hilight": "",
+              "mid": "0004jPDk2eB2dt",
+              "mv": {
+                "id": 1410541,
+                "name": "",
+                "title": "",
+                "vid": "x0025b8jts6",
+                "vt": 0
+              },
+              "name": "起风了", //歌名
+              "newStatus": 2,
+              "ov": 1,
+              "pay": {
+                "pay_down": 1,
+                "pay_month": 1,
+                "pay_play": 1,
+                "pay_status": 0,
+                "price_album": 0,
+                "price_track": 200,
+                "time_free": 0
+              },
+              "protect": 11,
+              "sa": 33570824,
+              "singer": [ //歌手
+                {
+                  "id": 1481170,
+                  "mid": "00210cxa3CNkFg", //通过https://y.qq.com/n/ryqq/singer/mid 可以查看歌手信息
+                  "name": "买辣椒也用券",
+                  "pmid": "",
+                  "title": "买辣椒也用券",
+                  "type": 1,
+                  "uin": 0
+                }
+              ],
+              "status": 0,
+              "subtitle": "原曲：《ヤキモチ》—高桥优", //副标题
+              "tag": 11,
+              "tid": 0,
+              "time_public": "2017-02-22",
+              "title": "起风了 (旧版)", //这个是作为标题显示在搜索结果中, 上面name不清楚干嘛的
+              "title_hilight": "<em>起风了<\/em> (旧版)",
+              "type": 0,
+              "url": "",
+              "version": 0,
+              "vf": [
+                0,
+                0,
+                0
+              ],
+              "vi": [
+                204596
+              ],
+              "volume": {
+                "gain": -7.1690001487731934,
+                "lra": 5.3680000305175781,
+                "peak": 0.9660000205039978
+              },
+              "vs": [ //不清楚干嘛的
+                "061zTAI71cdMsk",
+                "",
+                "",
+                "",
+                "001WLvDx0WTkgk",
+                "",
+                "",
+                "",
+                "",
+                "001F4L860S6wjL",
+                ""
+              ]
+            }
+          ]=
+        },
+        "songlist": { //如果按照歌单搜索时, 会将结果放在这里
+          "list": []
+        },
+        "user": { //如果按照用户搜索时, 会将结果放在这里
+          "list": []
+        },
+        "zhida": { // 直达, 如果匹配到歌名.会展示该歌手信息, 比如custom_info下一些信息及专辑(只给了少量几张)
+          "list": [
+            {
+              "album_list": {
+                "items": [
+                  {
+                    "id": 42410623,
+                    "mid": "0007UwCO09ApXj",
+                    "name": "immature"
+                  },
+                  {
+                    "id": 41878638,
+                    "mid": "004SRxZP1WDYv5",
+                    "name": "我只能离开 (女声版)"
+                  },
+                  {
+                    "id": 36438195,
+                    "mid": "0036uH0h2Hd4mf",
+                    "name": "一颗麦粒（Still Life）"
+                  },
+                  {
+                    "id": 33489852,
+                    "mid": "003i9eWz38ucna",
+                    "name": "风吹半夏 年代经典OST原声带"
+                  },
+                  {
+                    "id": 32196974,
+                    "mid": "0038fdH93kAtqV",
+                    "name": "原谅"
+                  },
+                  {
+                    "id": 30181374,
+                    "mid": "003782zG4GIdZL",
+                    "name": "远距离欣赏"
+                  }
+                ]
+              },
+              "custom_info": {
+                "album_num": "53",
+                "extra_desc": "68.6万人关注",
+                "flag": "",
+                "grade": "4",
+                "icon_type": "1",
+                "icon_type2": "8",
+                "icon_type2_schema": "qqmusic:\/\/qq.com\/ui\/openQuickListenSubPage?p=%7B%22Singerid%22%3A1481170%2C%22ExtraInfo%22%3A%7B%22from%22%3A%222006%22%7D%7D",
+                "ifpicurl": "https:\/\/y.qq.com\/music\/common\/upload\/t_user_profile\/4064592.png",
+                "is_follow": "0",
+                "mid": "00210cxa3CNkFg",
+                "mv_num": "72",
+                "one_line_desc": "69万粉丝",
+                "pos_intervene": "1",
+                "song_num": "118",
+                "tab_id": "song"
+              },
+              "desciption": "歌曲:118 专辑:53 视频:72",
+              "docid": "1:1481170",
+              "id": "1481170",
+              "jumpurl": "",
+              "mid": "",
+              "pic": "http:\/\/y.gtimg.cn\/music\/photo_new\/T001R150x150M00000210cxa3CNkFg_3.jpg",
+              "publish_date": "",
+              "title": "买辣椒也用券",
+              "track_list": { //歌手下的单曲(部分)
+                "items": [
+                  {
+                    "id": 202371397,
+                    "mid": "0004jPDk2eB2dt",
+                    "name": "起风了"
+                  },
+                  {
+                    "id": 293700875,
+                    "mid": "003hKob536i6FA",
+                    "name": "起风了"
+                  },
+                  {
+                    "id": 330980684,
+                    "mid": "004UpAfn2biv61",
+                    "name": "有光"
+                  },
+                  {
+                    "id": 388341921,
+                    "mid": "003pxHuc4OKDsE",
+                    "name": "其实你不懂我的心"
+                  },
+                  {
+                    "id": 244193339,
+                    "mid": "004I0gpP0IXPaS",
+                    "name": "我怀疑你曾来过"
+                  },
+                  {
+                    "id": 127530823,
+                    "mid": "002wozer43h6Vv",
+                    "name": "成全"
+                  },
+                  {
+                    "id": 436333165,
+                    "mid": "000F0KMx0Im4RI",
+                    "name": "我只能离开"
+                  },
+                  {
+                    "id": 349999522,
+                    "mid": "003zWPvh09RFhA",
+                    "name": "第三人称"
+                  },
+                  {
+                    "id": 360407070,
+                    "mid": "001eN4VL2HYQa8",
+                    "name": "人生何处不相逢"
+                  },
+                  {
+                    "id": 347438828,
+                    "mid": "003H5iLn4G0z5q",
+                    "name": "最后一卷胶片"
+                  },
+                  {
+                    "id": 339772000,
+                    "mid": "002HT5pF44MRUB",
+                    "name": "起风了"
+                  },
+                  {
+                    "id": 212084654,
+                    "mid": "001L3qbd22I6Hm",
+                    "name": "糟糕情书"
+                  },
+                  {
+                    "id": 293700901,
+                    "mid": "0028Uvz53P6VLB",
+                    "name": "起风了"
+                  },
+                  {
+                    "id": 213230705,
+                    "mid": "004H9Y8N0GavZz",
+                    "name": "Little Star"
+                  },
+                  {
+                    "id": 213231393,
+                    "mid": "000nYW6y1wIMlK",
+                    "name": "再见吧 喵小姐"
+                  },
+                  {
+                    "id": 213230715,
+                    "mid": "003GeGBC0I3xGl",
+                    "name": "参商"
+                  }
+                ]
+              },
+              "type": 1,
+              "vid": "",
+              "video_type": 0
+            }
+          ]
+        }
+      },
+      "code": 0,
+      "feedbackURL": "",
+      "meta": {
+        "cid": "",
+        "curpage": 1,
+        "dir": "L",
+        "display_order": [],
+        "ein": 20,
+        "estimate_sum": 12096,
+        "expid": "39087003,37160003,42482004,,3040001",
+        "is_filter": 0,
+        "next_page_start": {},
+        "nextpage": 2,
+        "perpage": 20,
+        "query": "起风了",
+        "result_trustworthy": 1,
+        "ret": 0,
+        "safetyType": 0,
+        "safetyUrl": "",
+        "searchid": "57352308978091971",
+        "sid": "",
+        "sin": 0,
+        "sum": 897,
+        "tab_list": [],
+        "uid": "",
+        "v": 0
+      },
+      "ver": 0
+    }
+  }
+}

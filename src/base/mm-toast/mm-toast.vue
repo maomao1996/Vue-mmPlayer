@@ -14,7 +14,7 @@ export default {
     return {
       position: 'center', // 默认显示位置
       message: '', // 默认显示文本
-      duration: 1500, // 显示时间, 毫秒
+      duration: 2000, // 显示时间, 毫秒
       visible: false, // 是否显示
     }
   },

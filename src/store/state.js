@@ -1,4 +1,4 @@
-import { getHistoryList, getMode, getUserId } from '@/utils/storage'
+import {getMusicListMap, getHistoryList, getMode, getUserId} from '@/utils/storage'
 
 const state = {
   audioEle: null, // audio元素
@@ -9,7 +9,13 @@ const state = {
   currentIndex: -1, // 当前音乐索引
   historyList: getHistoryList() || [], // 播放历史列表
   uid: getUserId() || null, // 网易云用户UID,
-  commentOpen: false
+  commentOpen: false,
+  searchAudio: null,
+  manageCustomMusicListRes: '',
+  customListId: -1,
+  //正在查询的歌单内容, 放进vuex可以做到用户向正在查询的歌单添加歌曲时,实时展现更新.
+  customMusicList: [],   // 这里设置为[]表示不存在歌单. 因为删除歌曲到0首时会自动删除歌单
+  musicListMap: getMusicListMap() || [],
 }
 
 export default state

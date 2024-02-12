@@ -3,33 +3,32 @@
   <div class="music-list flex-col">
     <template v-if="list.length > 0">
       <div class="list-item list-header">
+        <!--@TODO 样式有问题-->
+        <span class="list-platform">平台</span>
+        <span class="list-num">序号</span>
         <span class="list-name">歌曲</span>
         <span class="list-artist">歌手</span>
-        <!--        <span v-if="isDuration" class="list-time">时长</span>
-                <span v-else class="list-album">专辑</span>-->
-        <span v-if="isDuration" class="list-time">时长</span>
-        <span v-if="listType==='pullup'" class="list-album">专辑</span>
+        <span class="list-time">时长</span>
+        <span class="list-origin-time">真实时长</span>
+        <span class="list-album">专辑</span>
       </div>
       <div ref="listContent" class="list-content" @scroll="listScroll($event)">
-        <!--        <div
-                  v-for="(item, index) in list"
-                  :key="item.id"
-                  class="list-item"
-                  :class="{ on: playing && currentMusic.id === item.id }"
-                  @dblclick="selectItem(item, index, $event)"
-                >-->
         <!-- @TODO 这里每个item都绑定了事件. 可以用事件委派来优化 -->
-                <div
+        <div
           v-for="(item, index) in list"
           :key="item.id"
           class="list-item"
-          :class="{ on: currentMusic.id === item.id }"
+          :class="{
+            on: currentMusic.id === item.id,
+            [itemBackgrounds[item.platform]]: itemBackgrounds[item.platform]
+            }"
           @dblclick="selectItem(item, index, $event)"
         >
+          <span class="list-platform" v-text="item.platform"></span>
           <span class="list-num" v-text="index + 1"></span>
           <div class="list-name">
-            <span>{{ item.name }}</span>
-            <!--            播放暂停-->
+            <span>{{ item.name + (item.subTitle ? ' >> ' + item.subTitle : '') }}</span>
+            <!--播放暂停-->
             <div class="list-menu">
               <mm-icon
                 class="hover"
@@ -39,34 +38,88 @@
               />
             </div>
           </div>
-          <span class="list-artist">{{ item.singer }}</span>
-          <span v-if="isDuration" class="list-time">
-            {{ item.duration % 3600 | format }}
+          <span class="list-artist">{{ item.singer }}
+            <!-- 添加歌单按钮, 不能在搜索页中显示. 因为搜索页没有封装全music对象, 且不利于complex类型的song添加到歌单-->
             <mm-icon
+              v-if="listType !== 'search' && listType!== 'listDetails' && item.platform !== 'bili'"
+              class="hover list-menu-icon-add"
+              type="jiahao1"
+              :size="40"
+              @click.stop="openDialog(0, item)"
+            />
+          </span>
+          <span class="list-time">
+            {{ item.duration % 3600 | format }}
+            <!--删除歌曲按钮-->
+            <mm-icon
+              v-if="listType !== 'search'"
               class="hover list-menu-icon-del"
               type="delete-mini"
               :size="40"
               @click.stop="deleteItem(index)"
             />
           </span>
-          <span v-if="listType==='pullup'" class="list-album">{{ item.album }}</span>
+          <!--真实时长+删除歌曲/搜索音源按钮-->
+          <span class="list-origin-time"  v-if="listType === 'search'">
+            {{ item.originDuration % 3600 | format }}
+            <!-- 搜索音源按钮-->
+            <mm-icon
+              class="hover list-menu-icon-del"
+              type="chazhao"
+              :size="40"
+              @click.stop="searchAudio(item)"
+            />
+<!--            <mm-icon
+              class="hover list-menu-icon-del"
+              type="delete-mini"
+              :size="40"
+              @click.stop="searchAudio(item)"
+            />-->
+          </span >
+          <span class="list-album">
+            {{ item.album }}
+          </span>
         </div>
         <slot name="listBtn"></slot>
       </div>
     </template>
     <mm-no-result v-else title="弄啥呢，怎么啥也没有！！！"/>
+    <!--选择歌单进行添加歌曲-->
+    <mm-dialog
+      ref="addMusicToListDialog"
+      head-text="添加歌曲到歌单"
+      confirm-btn-text="添加"
+      cancel-btn-text="取消"
+      @confirm="addCustomList"
+    >
+      <div class="mm-dialog-text">
+        (输入完名称请回车,最后点击确定)
+        <el-select
+          v-model="chosenListName"
+          filterable
+          allow-create
+          default-first-option
+          placeholder="请选择歌单名称或输入新歌单名称">
+          <el-option
+            v-for="item in musicListMap"
+            :key="item.id"
+            :label="item.listName"
+            :value="item.listName">
+          </el-option>
+          <!--@TODO disabled属性可以禁止选用该option,可以通过判断歌单歌曲是否到达300首进行禁用-->
+        </el-select>
+      </div>
+    </mm-dialog>
   </div>
 </template>
 
 <script>
-// import {getCheckMusic} from 'api'
-import {mapGetters, mapMutations} from 'vuex'
+import {mapActions, mapGetters, mapMutations} from 'vuex'
 import {format} from '@/utils/util'
 import MmNoResult from 'base/mm-no-result/mm-no-result'
-
-const LIST_TYPE_ALBUM = 'album'
-const LIST_TYPE_DURATION = 'duration'
-const LIST_TYPE_PULLUP = 'pullup'
+import MmDialog from 'base/mm-dialog/mm-dialog'
+import {setCustomMusicList} from "@/store/actions";
+import cloneDeep from 'lodash/cloneDeep';
 
 // 触发滚动加载的阈值
 const THRESHOLD = 100
@@ -74,6 +127,7 @@ const THRESHOLD = 100
 export default {
   name: 'MusicList',
   components: {
+    MmDialog,
     MmNoResult,
   },
   filters: {
@@ -87,31 +141,39 @@ export default {
     },
     /**
      * 列表类型
-     * album: 显示专辑栏目（默认）
-     * duration: 显示时长栏目
-     * pullup: 开启上拉加载
      */
     listType: {
       type: String,
-      default: LIST_TYPE_ALBUM,
+      default: '',
     },
   },
   data() {
     return {
+      toAddSong: null,
+      chosenListName: '', //用户选择的歌单id或新建歌单名称
       lockUp: true, // 是否锁定滚动加载事件,默认锁定
+      itemBackgrounds: {
+        qq: 'qq-background-color',
+        netease: 'netease-background-color',
+        bili: 'bili-background-color',
+        complex: 'complex-background-color',
+        // 可以继续添加其他平台的背景色映射
+      },
     }
   },
   computed: {
-    isDuration() {
-      // return this.listType === LIST_TYPE_DURATION
-      return this.listType === LIST_TYPE_DURATION || this.listType === LIST_TYPE_PULLUP
-    },
-    ...mapGetters(['playing', 'currentMusic']),
+    ...mapGetters(
+      [
+        'playing',
+        'currentMusic',
+        'musicListMap',
+        'manageCustomMusicListRes',
+      ]),
   },
   watch: {
     //监听list,是为了修改lockUp. 和comment.vue中一样,oldList是上一次加载的数据
     list(newList, oldList) {
-      if (this.listType !== LIST_TYPE_PULLUP) {
+      if (this.listType !== 'search') {
         return
       }
       if (newList.length !== oldList.length) {
@@ -122,16 +184,57 @@ export default {
     },
   },
   activated() {
+    console.log('musicListMap=', this.musicListMap )
     // 当切换到其它组件,再次回来时将listContent恢复到上次的状态.
     //this.scrollTop是组件music-list的属性.当music-list下拉时就会修改该属性值,可以通过mm.$children[0].$children[2].$children[1].$children[1].scrollTop查看
     this.scrollTop && this.$refs.listContent && (this.$refs.listContent.scrollTop = this.scrollTop)
   },
   methods: {
+    // 删除事件
+    deleteItem(index) {
+      this.$emit('del', index) // 触发删除事件
+    },
+    addCustomList() {
+      console.log("addCustomList==")
+      console.log(this.chosenListName)
+      if (this.chosenListName.replace(/(^\s+)|(\s+$)/g, '') === '') {
+        this.$mmToast('歌单名称不能为空！')
+        return
+      }
+      let customListStorageKeyTail = ''
+      this.musicListMap.forEach(item => {
+        item.listName === this.chosenListName ? customListStorageKeyTail = item.id : ''
+      })
+      for (let i = 0; i < this.musicListMap.length; i++) {
+        if (this.musicListMap[i].listName === this.chosenListName) {
+          customListStorageKeyTail = this.musicListMap[i].id
+          break;
+        }
+      }
+      let cloneObj = {}
+      if (this.toAddSong.platform !== 'bili') {
+        cloneObj = cloneDeep(this.toAddSong)
+        cloneObj.audioSource ? cloneObj.audioSource.urls = null : 0 //去除urls, 因为bili的url会自动刷新
+      }
+      this.setCustomMusicList({listName: this.chosenListName, music: cloneObj, customListStorageKeyTail})
+      this.$mmToast(this.manageCustomMusicListRes)
+    },
+    // 打开对话框
+    openDialog(key, song) {
+      this.toAddSong = song
+      switch (key) {
+        case 0:
+          this.$refs.addMusicToListDialog.show()
+          break
+        case 1:
+          this.$refs.addMusicToListDialog.hide()
+      }
+    },
     // 滚动事件
     listScroll(e) {
       const scrollTop = e.target.scrollTop
       this.scrollTop = scrollTop
-      if (this.listType !== LIST_TYPE_PULLUP || this.lockUp) {
+      if (this.listType !== 'search' || this.lockUp) {
         return
       }
       const {scrollHeight, offsetHeight} = e.target
@@ -188,18 +291,36 @@ export default {
       } = this
       return playing && id === itemId ? 'pause-mini' : 'play-mini'
     },
-    // 删除事件
-    deleteItem(index) {
-      this.$emit('del', index) // 触发删除事件
+    // 搜索音频
+    searchAudio(item) {
+      this.$emit('searchAudio', item) // 触发删除事件
     },
     ...mapMutations({
       setPlaying: 'SET_PLAYING',
     }),
+    ...mapActions(['setCustomMusicList'])
   },
 }
 </script>
 
 <style lang="less" scoped>
+/* 定义不同平台的背景色样式 */
+.qq-background-color {
+  background-color: #A9EF6A4C; /* 例如，这是QQ平台的背景色 */
+}
+
+.netease-background-color {
+  background-color: rgba(215, 59, 59, 0.3); /* 例如，这是微信平台的背景色 */
+}
+
+.bili-background-color {
+  background-color: #79F5E04C; /* 例如，这是Twitter平台的背景色 */
+}
+
+.complex-background-color {
+  background-color: #9b48ee; /* 例如，这是Twitter平台的背景色 */
+}
+
 .music-list {
   height: 100%;
 }
@@ -209,7 +330,7 @@ export default {
   color: @text_color_active;
 
   .list-name {
-    padding-left: 40px;
+    padding-left: 70px;
     user-select: none;
   }
 }
@@ -238,15 +359,23 @@ export default {
   line-height: 50px;
   overflow: hidden;
 
+  .list-num,
+  .list-platform
+  {
+    padding-left: 7px;
+  }
+
   &.list-item-no {
     justify-content: center;
     align-items: center;
   }
 
   &.on {
-    color: #fff;
+    color: #0d9dda;
 
-    .list-num {
+    .list-num,
+    .list-platform
+    {
       font-size: 0;
       background: url('~assets/img/wave.gif') no-repeat center center;
     }
@@ -254,7 +383,8 @@ export default {
 
   &:hover {
     .list-name {
-      padding-right: 80px;
+      //padding-right: 111px;
+      background-color: red;
 
       .list-menu {
         display: block;
@@ -271,16 +401,28 @@ export default {
       }
     }
 
-    .list-time {
+    .list-time,
+    .list-origin-time
+    {
       font-size: 0;
 
       .list-menu-icon-del {
         display: block;
       }
     }
+
+    .list-artist {
+      font-size: 0;
+
+      .list-menu-icon-add {
+        display: block;
+      }
+    }
   }
 
-  .list-num {
+  .list-num,
+  .list-platform
+  {
     display: block;
     width: 30px;
     margin-right: 10px;
@@ -312,7 +454,8 @@ export default {
       display: none;
       position: absolute;
       top: 50%;
-      right: 10px;
+      //right: 10px;
+      left: -40px;
       height: 40px;
       font-size: 0;
       transform: translateY(-50%);
@@ -321,6 +464,7 @@ export default {
 
   .list-artist,
   .list-album {
+    position: relative;
     display: block;
     width: 300px;
     .no-wrap();
@@ -330,9 +474,18 @@ export default {
     @media (max-width: 1200px) {
       width: 150px;
     }
+    .list-menu-icon-add {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 34px;
+      transform: translateY(-50%);
+    }
   }
 
-  .list-time {
+  .list-time,
+  .list-origin-time
+  {
     display: block;
     width: 60px;
     position: relative;
@@ -390,7 +543,9 @@ export default {
     }
 
     .list-album,
-    .list-time {
+    .list-time,
+    list-origin-time
+    {
       display: none;
     }
   }

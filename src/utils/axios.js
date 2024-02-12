@@ -1,19 +1,16 @@
 import axios from 'axios'
 import Vue from 'vue'
 
-const neteaseAxios = axios.create({
-  baseURL: 'http://music.163.com/',
+// region Netease official
+const axiosNetease = axios.create({
+  baseURL: process.env.VUE_APP_NETEASE_API_1,
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  }
 })
-
-const request = axios.create({
-  // baseURL: process.env.VUE_APP_BASE_API_URL,
-  baseURL: process.env.VUE_APP_BASE_API_URL,
-})
-
-
-request.interceptors.response.use(
+axiosNetease.interceptors.response.use(
   (response) => {
-    window.response = response
+    //window.response = response
 
     if (response.status === 200 && response.data.code === 200) {
       return response.data
@@ -25,14 +22,37 @@ request.interceptors.response.use(
     return error
   },
 )
+//endregion
 
-const axiosOrigin = axios.create({
-  baseURL: process.env.VUE_APP_FromBili_BASE_API_URL,
+// region NeteaseCloudSpider
+const axiosNeteaseSpider = axios.create({
+  baseURL: process.env.VUE_APP_NETEASE_SPIDER_API,
 })
 
-axiosOrigin.interceptors.response.use(
+axiosNeteaseSpider.interceptors.response.use(
   (response) => {
-    window.response = response
+    //window.response = response
+
+    if (response.status === 200 && response.data.code === 200) {
+      return response.data
+    }
+    return Promise.reject(response)
+  },
+  (error) => {
+    Vue.prototype.$mmToast(error.response ? error.response.data.message : error.message)
+    return error
+  },
+)
+// endregion
+
+// region BiliAPIBackend
+const axiosBiliSpider = axios.create({
+  baseURL: process.env.VUE_APP_BILI_SPIDER_API,
+})
+
+axiosBiliSpider.interceptors.response.use(
+  (response) => {
+    //window.response = response
 
     if (response.status === 200) {
       return response
@@ -44,6 +64,51 @@ axiosOrigin.interceptors.response.use(
     return error
   },
 )
+// endregion
 
-// export default request
-export {neteaseAxios, request, axiosOrigin}
+// region BiliInfoApi
+const axiosBiliInfo = axios.create({
+  baseURL: process.env.VUE_APP_BILI_INFO_API,
+})
+axiosBiliInfo.interceptors.response.use(
+  (response) => {
+
+    if (response.status === 200 && response.data.code === 0) {
+      return response.data
+    }
+    return Promise.reject(response)
+  },
+  (error) => {
+    Vue.prototype.$mmToast(error.response ? error.response.data.message : error.message)
+    return error
+  },
+)
+// endregion
+
+// region QQ-common API
+const axiosCommonQQ = axios.create({
+  baseURL: process.env.VUE_APP_QQ_COMMON_API,
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  }
+})
+
+axiosCommonQQ.interceptors.response.use(
+  (response) => {
+    if (response.status === 200 && response.data.code === 0) {
+      //console.log('axiosCommonQQ.interceptors')
+      //console.log(response)
+      return response.data
+    }
+    return Promise.reject(response)
+  },
+  (error) => {
+    Vue.prototype.$mmToast(error.response ? error.response.data.message : error.message)
+    return error
+  },
+)
+// endregion
+
+// export
+export {axiosBiliInfo, axiosNetease, axiosNeteaseSpider, axiosBiliSpider, axiosCommonQQ}
+

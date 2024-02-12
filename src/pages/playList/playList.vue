@@ -1,7 +1,7 @@
 <template>
   <!--正在播放-->
   <div class="playList">
-    <music-list :list="playlist" list-type="duration" @select="selectItem" @del="deleteItem">
+    <music-list :list="playlist" list-type="playList" @select="selectItem" @del="deleteItem">
       <div slot="listBtn" class="list-btn">
         <span @click="$refs.dialog.show()">清空列表</span>
       </div>

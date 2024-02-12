@@ -1,9 +1,10 @@
 import {
   clearHistoryList,
+  setCustomList,
   setHistoryList,
   removeHistoryList,
   setMode,
-  setUserId,
+  setUserId, removeCustomList, delCustomListMap, setMusicListInfo, addOtherMusicList,
 } from '@/utils/storage'
 import * as types from './mutation-types'
 
@@ -33,8 +34,10 @@ export const selectAddPlay = function ({ commit, state }, music) {
   let index = findIndex(list, music)
   // 当前播放列表有待插入的音乐时，直接改变当前播放音乐的索引值
   if (index > -1) {
+    console.log("!!!!!!!!!!!")
     commit(types.SET_CURRENTINDEX, index)
   } else {
+    console.log("!222222222!!!!!!!!!!")
     list.unshift(music)
     commit(types.SET_PLAYLIST, list)
     commit(types.SET_ORDERLIST, list)
@@ -87,4 +90,37 @@ export const setPlayMode = function ({ commit }, mode) {
 // 设置网易云用户UID
 export const setUid = function ({ commit }, uid) {
   commit(types.SET_UID, setUserId(uid))
+}
+// 添加歌曲到歌单
+export const setCustomMusicList = function ({commit}, {listName, music, customListStorageKeyTail}) {
+  // console.log("action setCustomMusicList")
+  // console.log(listName)
+  // console.log(music)
+  commit('SET_CUSTOM_LIST', setCustomList(listName, music, customListStorageKeyTail))
+}
+// 设置查询的歌单id,之后通过getter()获取歌单详情. 如果直接在action()中调用getCustomList(id), 就不能做到监听
+export const setCustomMusicListId = function ({commit}, customMusicListId) {
+  // console.log("action setCustomMusicList")
+  // console.log(listName)
+  // console.log(music)
+  console.log('tetsteta setCustomMusicListId')
+  commit('SET_CUSTOM_LIST_ID', customMusicListId)
+}
+
+// 删除歌单中的单曲
+export const delSongFromCustomMusicListById = function ({commit}, {id, newList}) {
+  // removeCustomList(id, newList)
+  removeCustomList(id, newList)
+  commit('DEL_SONG_FROM_CUSTOM_LIST', newList)
+}
+// 删除整个歌单
+export const delCustomMusicList = function ({commit}, id) {
+  //console.log('1212414214123sfg')
+  commit('DEL_CUSTOM_LIST', delCustomListMap(id))
+}
+// 添加歌单信息(导入其它平台歌单)
+export const addOtherPlatformMusicList = function ({commit}, {id, listName}) {
+  console.log('1212414214123sfg')
+  addOtherMusicList(id, listName)
+  commit('ADD_OTHER_PLATFORM_MUSIC_LIST', 'import success')
 }

@@ -96,6 +96,7 @@ export default {
   },
   created() {
     this.uid && this._getUserPlaylist(this.uid)
+    console.log("13213123jhgj")
   },
   methods: {
     // 打开对话框

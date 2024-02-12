@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>musicu接口</title>
+</head>
+
+<body>
+
+  <h2>musicu接口</h2>
+
+  <div id="response"></div>
+
+  <button id="sendRequest">发送POST请求</button>
+
+  <script>
+
+    // 点击按钮发送POST请求
+    document.getElementById('sendRequest').addEventListener('click', function () {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "https://u.y.qq.com/cgi-bin/musicu.fcg", true);
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+      // 手动设置请求体的内容，不进行编码
+      var requestBody = '{"comm":{"g_tk":1579906136,"uin":331150871,"format":"json","inCharset":"utf-8","outCharset":"utf-8","notice":0,"platform":"h5","needNewCode":1,"ct":23,"cv":0},"req_0":{"method":"DoSearchForQQMusicDesktop","module":"music.search.SearchCgiService","param":{"remoteplace":"txt.mqq.all","searchid":"55215592813312667","search_type":0,"query":"我的歌声里","page_num":1,"num_per_page":20}}}';
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          console.log(xhr.responseText);
+        }
+      };
+
+      xhr.send(requestBody);
+
+    });
+
+  </script>
+</body>
+
+</html>

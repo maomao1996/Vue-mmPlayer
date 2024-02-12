@@ -1,0 +1,319 @@
+{
+  "code": 200,
+  "relatedVideos": {},
+  "playlist": {
+    "id": 48404261, //id
+    "name": "李玲玉 --天竺少女", //title
+    "coverImgId": 7713074068962014,
+    "coverImgUrl": "https://p1.music.126.net/emKJdD2Bb_0I9Ns_ClzSuQ==/7713074068962014.jpg", //coverImg
+    "coverImgId_str": null,
+    "adType": 0,
+    "userId": 2865333, //c创建者
+    "createTime": 1422143387332,
+    "status": 0,
+    "opRecommend": false,
+    "highQuality": false,
+    "newImported": false,
+    "updateTime": 1578593226847,
+    "trackCount": 50, //歌曲数量
+    "specialType": 0,
+    "privacy": 0,
+    "trackUpdateTime": 1706858537120,
+    "commentThreadId": "A_PL_0_48404261",
+    "playCount": 829057, // 播放量
+    "trackNumberUpdateTime": 1422143387404,
+    "subscribedCount": 5114,
+    "cloudTrackCount": 0,
+    "ordered": false,
+    "description": "著名流行音乐歌手、演员。原中国东方歌舞团歌舞演员，主攻日本及东南亚歌舞，国家一级演员，1992年荣获中国唱片界最高荣誉文化部颁发的“金唱片”奖。李玲玉是中国乐坛第一位甜歌皇后，她的嗓音成为中国歌坛的新声代 ，1987年仅《甜甜甜》一张磁带专辑销量突破800万盘......", //desc
+    "tags": [
+      "流行", //标签
+      "思念",
+      "经典"
+    ],
+    "updateFrequency": null,
+    "backgroundCoverId": 0,
+    "backgroundCoverUrl": null,
+    "titleImage": 0,
+    "titleImageUrl": null,
+    "englishTitle": null,
+    "officialPlaylistType": null,
+    "copied": false,
+    "relateResType": null,
+    "subscribers": [
+      {
+      "defaultAvatar": false,
+      "province": 420000,
+      "authStatus": 0,
+      "followed": false,
+      "avatarUrl": "http://p1.music.126.net/SUeqMM8HOIpHv9Nhl9qt9w==/109951165647004069.jpg",
+      "accountStatus": 0,
+      "gender": 0,
+      "city": 420100,
+      "birthday": 0,
+      "userId": 9132150119,
+      "userType": 0,
+      "nickname": "鼓弦会喜剧",
+      "signature": "",
+      "description": "",
+      "detailDescription": "",
+      "avatarImgId": 109951165647004069,
+      "backgroundImgId": 109951162868126486,
+      "backgroundUrl": "http://p1.music.126.net/_f8R60U9mZ42sSNvdPn2sQ==/109951162868126486.jpg",
+      "authority": 0,
+      "mutual": false,
+      "expertTags": null,
+      "experts": null,
+      "djStatus": 0,
+      "vipType": 0,
+      "remarkName": null,
+      "authenticationTypes": 0,
+      "avatarDetail": null,
+      "anchor": false,
+      "avatarImgIdStr": "109951165647004069",
+      "backgroundImgIdStr": "109951162868126486",
+      "avatarImgId_str": "109951165647004069"
+    }
+    ],
+    "subscribed": false,
+    "creator": {
+      "defaultAvatar": false,
+      "province": 440000,
+      "authStatus": 0,
+      "followed": false,
+      "avatarUrl": "http://p1.music.126.net/L_cw9GlwbWU1jY2HP0dQwg==/109951169174517093.jpg", //创建者头像
+      "accountStatus": 0,
+      "gender": 2,
+      "city": 440200,
+      "birthday": 0,
+      "userId": 2865333,
+      "userType": 200,
+      "nickname": "-涛声依旧-", //创建者名称
+      "signature": "这里有老歌也有新歌，但绝对都是经典的歌；这里有老人也有新人，他们都是打动过我们的人。重拾一段难忘的记忆，聆听一首熟悉的旋律，回味我们今天的生活。——曲曲经典,常听常新，代代传唱,百听不厌......",
+      "description": "",
+      "detailDescription": "",
+      "avatarImgId": 109951169174517093,
+      "backgroundImgId": 18940187300173274,
+      "backgroundUrl": "http://p1.music.126.net/1RqaZM5q4DZnfnD5dqMtLw==/18940187300173274.jpg",
+      "authority": 0,
+      "mutual": false,
+      "expertTags": [
+        "民族"
+      ],
+      "experts": null,
+      "djStatus": 0,
+      "vipType": 0,
+      "remarkName": null,
+      "authenticationTypes": 64,
+      "avatarDetail": {
+        "userType": 200,
+        "identityLevel": 2,
+        "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4761340159/e2c1/6fb5/f49b/353e6d1857f7c5f46426beb533427e53.png"
+      },
+      "anchor": false,
+      "avatarImgIdStr": "109951169174517093",
+      "backgroundImgIdStr": "18940187300173274",
+      "avatarImgId_str": "109951169174517093"
+    },
+    "tracks": [{
+      "name": "美人吟",
+      "id": 261721,
+      "pst": 0,
+      "t": 0,
+      "ar": [
+        {
+          "id": 8378,
+          "name": "李玲玉",
+          "tns": [],
+          "alias": []
+        }
+      ],
+      "alia": [
+        "电视剧《孝庄秘史》主题曲"
+      ],
+      "pop": 100.0,
+      "st": 0,
+      "rt": "600902000006265588",
+      "fee": 8,
+      "v": 28,
+      "crbt": null,
+      "cf": "",
+      "al": {
+        "id": 26024,
+        "name": "美人吟",
+        "picUrl": "http://p2.music.126.net/kPjcMbAnCsJLX9EVsi_OoQ==/80264348843492.jpg",
+        "tns": [],
+        "pic": 80264348843492
+      },
+      "dt": 241997,
+      "h": {
+        "br": 320000,
+        "fid": 0,
+        "size": 9682068,
+        "vd": -17086.0,
+        "sr": 44100
+      },
+      "m": {
+        "br": 192000,
+        "fid": 0,
+        "size": 5809258,
+        "vd": -14472.0,
+        "sr": 44100
+      },
+      "l": {
+        "br": 128000,
+        "fid": 0,
+        "size": 3872853,
+        "vd": -12779.0,
+        "sr": 44100
+      },
+      "sq": {
+        "br": 947343,
+        "fid": 0,
+        "size": 28656795,
+        "vd": -17077.0,
+        "sr": 44100
+      },
+      "hr": null,
+      "a": null,
+      "cd": "1",
+      "no": 1,
+      "rtUrl": null,
+      "ftype": 0,
+      "rtUrls": [],
+      "djId": 0,
+      "copyright": 2,
+      "s_id": 0,
+      "mark": 17179877376,
+      "originCoverType": 1,
+      "originSongSimpleData": null,
+      "tagPicList": null,
+      "resourceState": true,
+      "version": 28,
+      "songJumpInfo": null,
+      "entertainmentTags": null,
+      "awardTags": null,
+      "single": 0,
+      "noCopyrightRcmd": null,
+      "rtype": 0,
+      "rurl": null,
+      "mst": 9,
+      "cp": 22019,
+      "mv": 5436692,
+      "publishTime": 1125504000000,
+      "videoInfo": {
+        "moreThanOne": false,
+        "video": {
+          "vid": "5436692",
+          "type": 0,
+          "title": "美人吟",
+          "playTime": 576851,
+          "coverUrl": "http://p1.music.126.net/SpeEdbVAQGOqEFaxch5PrQ==/18776360069312554.jpg",
+          "publishTime": 1125504000007,
+          "artists": null,
+          "alias": null
+        }
+      }
+    }
+    ],
+    "videoIds": null,
+    "videos": null,
+    "trackIds": [
+      {
+        "id": 261721,
+        "v": 28,
+        "t": 0,
+        "at": 1422143387452,
+        "alg": null,
+        "uid": 2865333,
+        "rcmdReason": "",
+        "sc": null,
+        "f": null,
+        "sr": null
+      }
+    ],
+    "bannedTrackIds": null,
+    "mvResourceInfos": null,
+    "shareCount": 44,
+    "commentCount": 13,
+    "remixVideo": null,
+    "sharedUsers": null,
+    "historySharedUsers": null,
+    "gradeStatus": "OPENED",
+    "score": "8.0",
+    "algTags": [
+      "流行"
+    ],
+    "trialMode": 13
+  },
+  "urls": null,
+  "privileges": [ {
+    "id": 261721,
+    "fee": 8,
+    "payed": 0,
+    "realPayed": 0,
+    "st": 0,
+    "pl": 320000,
+    "dl": 0,
+    "sp": 7,
+    "cp": 1,
+    "subp": 1,
+    "cs": false,
+    "maxbr": 999000,
+    "fl": 320000,
+    "pc": null,
+    "toast": false,
+    "flag": 2064644,
+    "paidBigBang": false,
+    "preSell": false,
+    "playMaxbr": 999000,
+    "downloadMaxbr": 999000,
+    "maxBrLevel": "sky",
+    "playMaxBrLevel": "sky",
+    "downloadMaxBrLevel": "sky",
+    "plLevel": "exhigh",
+    "dlLevel": "none",
+    "flLevel": "exhigh",
+    "rscl": null,
+    "freeTrialPrivilege": {
+      "resConsumable": false,
+      "userConsumable": false,
+      "listenType": null,
+      "cannotListenReason": null,
+      "playReason": null
+    },
+    "rightSource": 0,
+    "chargeInfoList": [
+      {
+        "rate": 128000,
+        "chargeUrl": null,
+        "chargeMessage": null,
+        "chargeType": 0
+      },
+      {
+        "rate": 192000,
+        "chargeUrl": null,
+        "chargeMessage": null,
+        "chargeType": 0
+      },
+      {
+        "rate": 320000,
+        "chargeUrl": null,
+        "chargeMessage": null,
+        "chargeType": 0
+      },
+      {
+        "rate": 999000,
+        "chargeUrl": null,
+        "chargeMessage": null,
+        "chargeType": 1
+      }
+    ]
+  }
+  ],
+  "sharedPrivilege": null,
+  "resEntrance": null,
+  "fromUsers": null,
+  "fromUserCount": 0,
+  "songFromUsers": null
+}

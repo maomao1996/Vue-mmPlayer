@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SearchVideos</title>
+  <script src="../js/axios.min.js"></script>
+</head>
+
+<body>
+  <button class="btn btn-primary"> 根据keyword搜索视频 </button><br />
+  <button class="btn btn-primary"> 根据bvid获取cvid </button><br />
+  <button class="btn btn-primary"> 根据bvid和cvid获取音视频url </button><br />
+  <h5>音频url会过期,及时更新</h5>
+  <audio controls src="https://upos-sz-estgoss.bilivideo.com/upgcxcode/63/28/918602863/918602863-1-30280.m4s?e=ig8euxZM2rNcNbdlhoNvNC8BqJIzNbfqXBvEqxTEto8BTrNvN0GvT90W5JZMkX_YN0MvXg8gNEV4NC8xNEV4N03eN0B5tZlqNxTEto8BTrNvNeZVuJ10Kj_g2UB02J0mN0B5tZlqNCNEto8BTrNvNC7MTX502C8f2jmMQJ6mqF2fka1mqx6gqj0eN0B599M=&uipk=5&nbs=1&deadline=1707410536&gen=playurlv2&os=upos&oi=1880605563&trid=89a730ce01b1491d932b213dc0bb4cfbu&mid=0&platform=pc&upsig=d3203c792b2d2778639561d35ce66424&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,mid,platform&bvc=vod&nettype=0&orderid=0,3&buvid=05746C34-6526-44A7-9132-4C0A7180E63C148796infoc&build=0&f=u_0_0&agrr=0&bw=20906&logo=80000000"></audio>
+  <script>
+    //获取按钮
+    const btns = document.querySelectorAll('button');
+
+    //第一个
+    btns[0].onclick = function () {
+      //发送 AJAX 请求
+      axios({
+        //请求类型
+        method: 'GET',
+        //URL
+        url: 'https://api.bilibili.com/x/web-interface/wbi/search/type?category_id=&search_type=video&duration=1&keyword=庄东茹&page=1',
+      }).then(response => {
+        console.log(response);
+      });
+    }
+
+    //第2个
+    btns[1].onclick = function () {
+      //发送 AJAX 请求
+      axios({
+        //请求类型
+        method: 'GET',
+        //URL
+        url: 'https://api.bilibili.com/x/web-interface/view?bvid=BV1qV4y1P7xG',
+      }).then(response => {
+        console.log(response);
+      });
+    }
+
+    //第3个
+    btns[2].onclick = function () {
+      //发送 AJAX 请求
+      axios({
+        //请求类型
+        method: 'GET',
+        //URL
+        url: 'https://api.bilibili.com/x/player/wbi/playurl?bvid=BV1qV4y1P7xG&fnval=4048&cid=918602863',
+      }).then(response => {
+        console.log(response);
+      });
+    }
+  </script>
+</body>
+
+</html>

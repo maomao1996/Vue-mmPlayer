@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>歌单详情</title>
+  <script src="../js/axios.min.js"></script>
+</head>
+
+<body>
+  <h2>歌单详情</h2>
+
+  <div id="response"></div>
+
+  <button id="sendRequest">直接发送请求(bug:在控制台看响应size很小,实际很大,应该因为响应头没有conten-length)</button><br />
+  <button id="sendRequest2">通过NeteaseMusicCloudApi获取数据</button>
+
+  <script>
+
+    // 要发送的原始数据
+    const dataToSend = 'id=3778678&n=100000&s=8'
+    // 设置请求头
+    const config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded', // 指定不进行自动编码的 Content-Type
+      },
+    };
+
+    // 点击按钮发送POST请求
+    document.getElementById('sendRequest').addEventListener('click', function () {
+      // 发送 POST 请求
+      axios.post('http://music.163.com/api/v6/playlist/detail', dataToSend, config)
+        .then(response => {
+          console.log("success");
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    });
+
+
+    document.getElementById('sendRequest2').addEventListener('click', function () {
+      // 发送 POST 请求
+      axios.get('http://localhost:3000/playlist/detail?id=3778678')
+        .then(response => {
+          console.log("success");
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+
+    });
+
+  </script>
+</body>
+
+</html>

@@ -12,7 +12,7 @@
 
 <script>
 import { mapMutations, mapActions } from 'vuex'
-import { getPlaylistDetail } from 'api'
+import {getPlaylistDetailNetease, getPlaylistDetailNeteaseSpider} from 'api/index'
 import { MMPLAYER_CONFIG, VERSION } from '@/config'
 import MmHeader from 'components/mm-header/mm-header'
 import MmDialog from 'base/mm-dialog/mm-dialog'
@@ -41,7 +41,8 @@ export default {
     this.versionInfo = VERSION_INFO
 
     // 获取正在播放列表,初次获取某个特定歌单
-    getPlaylistDetail(MMPLAYER_CONFIG.PLAYLIST_ID).then((playlist) => {
+    getPlaylistDetailNetease(MMPLAYER_CONFIG.PLAYLIST_ID).then((playlist) => {
+      // 只取前100首
       const list = playlist.tracks.slice(0, 100)
       this.setPlaylist({ list })
     })
@@ -63,7 +64,7 @@ export default {
 
     // 设置audio元素
     this.$nextTick(() => {
-      console.log('audio: ')
+      // console.log('audio: ')
       console.dir(this.$refs.mmPlayer)
       this.setAudioele(this.$refs.mmPlayer)
     })

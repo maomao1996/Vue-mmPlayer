@@ -1,0 +1,255 @@
+{
+  "code": 0,
+  "ts": 1707722665053,
+  "start_ts": 1707722664994,
+  "traceid": "471edac5f844b807",
+  "req_0": {
+    "code": 0,
+    "data": {
+      "code": 0,
+      "subcode": 0,
+      "msg": "",
+      "from_gedan_plaza": 0,
+      "accessed_plaza_cache": 0,
+      "accessed_byfav": 1,
+      "optype": 0,
+      "filter_song_num": 0,
+      "dirinfo": {
+        "id": 8770661044, //id
+        "host_uin": 0,
+        "dirid": 50,
+        "title": "到底Emo有瘾 还是想她上瘾", //title
+        "picurl": "http://y.gtimg.cn/music/photo_new/T002R500x500M000002dh1zy2fgOOo.jpg?n=1", //coverPic
+        "picid": 0,
+        "desc": "", // 添加的歌单描述
+        "vec_tagid": [],
+        "vec_tagname": [],
+        "ctime": 1673502845,
+        "mtime": 1674467446,
+        "listennum": 0, //播放量,统计规则不清楚
+        "ordernum": 0,
+        "picmid": "",
+        "dirtype": 1,
+        "host_nick": "抗压小能手", //创建者
+        "songnum": 2, //歌曲数量
+        "ordertime": 0,
+        "show": 1,
+        "picurl2": "",
+        "song_update_time": 0,
+        "song_update_num": 0,
+        "disstype": 0,
+        "ai_uin": 0,
+        "dv2": 0,
+        "dir_show": 1,
+        "encrypt_uin": "oio5oK4zNeS5",
+        "encrypt_ai_uin": "",
+        "owndir": 0,
+        "headurl": "http://thirdqq.qlogo.cn/g?b=sdk&k=mKQO1AYgWwcky6Fxpicz9ew&s=140&t=1623942704", //创建者头像
+        "tag": [{"id":165,"name":"国语"}], //标签
+        "creator": {
+          "musicid": 0,
+          "type": 0,
+          "singerid": 0,
+          "nick": "抗压小能手",
+          "headurl": "http://thirdqq.qlogo.cn/g?b=sdk&k=mKQO1AYgWwcky6Fxpicz9ew&s=140&t=1623942704",
+          "ifpicurl": "",
+          "encrypt_uin": "oio5oK4zNeS5",
+          "isVip": 0,
+          "ai_uin": 0,
+          "encrypt_ai_uin": "",
+          "ext": null
+        },
+        "status": 0,
+        "edge_mark": "",
+        "layer_url": "",
+        "ext1": "",
+        "ext2": "",
+        "origin_title": "",
+        "ad_tag": false,
+        "aiToast": ""
+      },
+      "songlist": [
+        {
+          "id": 327313326,
+          "type": 0,
+          "songtype": 13,
+          "version": 0,
+          "trace": "",
+          "mid": "003M4M8W3fZ4LP",
+          "name": "愿所念皆可期",
+          "label": "0",
+          "title": "愿所念皆可期",
+          "subtitle": "",
+          "interval": 128,
+          "isonly": 0,
+          "language": 9,
+          "genre": 37,
+          "index_cd": 0,
+          "index_album": 1,
+          "status": 0,
+          "fnote": 4009,
+          "url": "",
+          "time_public": "2021-09-29",
+          "singer": [
+            {
+              "id": 9294086,
+              "mid": "00029ujk3wLpmw",
+              "name": "青你一夏",
+              "title": "青你一夏"
+            }
+          ],
+          "album": {
+            "id": 22496990,
+            "mid": "002weDY50EFJeC",
+            "name": "愿所念皆可期",
+            "title": "愿所念皆可期",
+            "pmid": "002weDY50EFJeC_1"
+          },
+          "mv": {
+            "id": 0,
+            "vid": "",
+            "vt": 0
+          },
+          "ksong": {
+            "id": 0,
+            "mid": ""
+          },
+          "file": {
+            "media_mid": "002T7lLF0XszXS",
+            "size_try": 960887,
+            "try_begin": 0,
+            "try_end": 0,
+            "size_24aac": 0,
+            "size_48aac": 769483,
+            "size_96aac": 1541856,
+            "size_128mp3": 2053223,
+            "size_192ogg": 2679461,
+            "size_192aac": 3068278,
+            "size_320mp3": 5132477,
+            "size_flac": 20068085,
+            "size_ape": 0,
+            "size_dts": 0,
+            "size_hires": 0,
+            "hires_sample": 0,
+            "hires_bitdepth": 0,
+            "b_30s": 0,
+            "e_30s": 60000,
+            "size_96ogg": 1315852,
+            "size_360ra": [],
+            "size_dolby": 0,
+            "size_new": [
+              64120141,
+              7580023,
+              18626651,
+              4353906,
+              0,
+              7356243
+            ]
+          },
+          "volume": {
+            "gain": -0.822,
+            "peak": 0.845,
+            "lra": 5.236
+          },
+          "pay": {
+            "pay_month": 1,
+            "price_track": 200,
+            "price_album": 0,
+            "pay_play": 1,
+            "pay_down": 1,
+            "pay_status": 0,
+            "time_free": 0
+          },
+          "action": {
+            "switch": 16893185,
+            "alert": 21,
+            "msgshare": 0,
+            "msgfav": 0,
+            "msgid": 13,
+            "msgdown": 0,
+            "icons": 12992510,
+            "msgpay": 6,
+            "switch2": 0,
+            "icon2": 0
+          },
+          "uiAction": 0,
+          "new_icon": 0,
+          "tid": 0,
+          "ov": 0,
+          "tf": "",
+          "sa": 65552,
+          "es": "",
+          "abt": "",
+          "pingpong": "",
+          "data_type": 0,
+          "ppurl": "",
+          "vs": [
+            "061Hbqo21lAjCZ",
+            "",
+            "",
+            "004IpKU740SHIE",
+            "004QWCV60dJ5J9",
+            "",
+            "",
+            "",
+            "",
+            "0029UkbM1s1PMY",
+            ""
+          ],
+          "bpm": 0,
+          "ktag": "0",
+          "team": "",
+          "vf": [
+            -0.878147,
+            0.833771,
+            5.243062
+          ]
+        }
+      ],
+      "login_uin": 0,
+      "invalid_song": [],
+      "filtered_song": [],
+      "ad_list": [],
+      "total_song_num": 2,
+      "encrypt_login": "oio5oK4zNeS5",
+      "ct": 23,
+      "cv": 0,
+      "ip": "112.23.195.123",
+      "orderlist": [],
+      "cmtURL_bykey": {
+        "url_key": "",
+        "url_params": ""
+      },
+      "srf_ip": "30.42.26.63",
+      "referer": "",
+      "namedflag": 0,
+      "isAd": 0,
+      "adTitle": "",
+      "adUrl": "",
+      "isForbidComment": 0,
+      "songtag": [],
+      "toplist_song": [],
+      "toplist_nolimit": false,
+      "sac_forbid": [],
+      "birthday": [],
+      "aiExt": {
+        "couple": [],
+        "recommdays": 0,
+        "nextLink": "",
+        "aiSongExt": [],
+        "allListening": 0,
+        "strAllListening": "",
+        "listeningIcon": "",
+        "static_msg": "",
+        "dynamic_msg": "",
+        "feedbackURL": ""
+      },
+      "vec_songid_newtime": [],
+      "vec_songid_type": [],
+      "vec_ai_extern": [],
+      "recomUgcValid": 0,
+      "quickListenVid": [],
+      "bitflag": 0
+    }
+  }
+}
