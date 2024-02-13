@@ -1,5 +1,5 @@
 import * as types from './mutation-types'
-import {getMusicListMap} from "@/utils/storage";
+import {delMusicList, getMusicListMap} from "@/utils/storage";
 
 const mutations = {
   // 修改audio元素
@@ -47,43 +47,30 @@ const mutations = {
     state.playlist[state.currentIndex].audioSource.urls = urls
   },
 
-  // 添加歌曲到歌单
-  SET_CUSTOM_LIST(state, result) {
-    if (result === 1) {
-      state.manageCustomMusicListRes = 'success'
-    } else if (result === 0) {
-      state.manageCustomMusicListRes = '新建歌单success'
-      //让map重新更新
-      state.musicListMap = getMusicListMap()
-    } else if (result === 2) {
-      state.manageCustomMusicListRes = '新建歌单失败, 歌单数量到达上限'
-    } else if (result === 3) {
-      state.manageCustomMusicListRes = 'music  exists 或 歌曲数量到达上限'
-    }
-    console.log( 'SET_CUSTOM_LIST ',state.manageCustomMusicListRes)
-  },
-  // 查询歌单详情
-  SET_CUSTOM_LIST_ID(state, customMusicListId) {
-    console.log('mutation SET_CUSTOM_LIST_ID')
-    state.customListId = customMusicListId
-  },
-  DEL_SONG_FROM_CUSTOM_LIST(state, newList) {
-    state.customMusicList = newList
-    state.manageCustomMusicListRes = '删除单曲成功'
-  },
-  DEL_CUSTOM_LIST(state, res) {
-    //让map重新更新
-    console.log('DEL_CUSTOM_LIST, res=', res)
+
+  ADD_MUSIC_LIST_TO_LOCAL(state, res) {
+    state.manageMusicListRes = res
     state.musicListMap = getMusicListMap()
-    state.manageCustomMusicListRes = '删除歌单成功'
+    console.log('state.manageMusicListRes', state.manageMusicListRes)
+  },
+  DEL_MUSIC_LIST(state, {platform, id}) {
+    //让map重新更新
+    delMusicList(platform, id)
+    state.musicListMap = getMusicListMap()
   },
 
-  ADD_OTHER_PLATFORM_MUSIC_LIST(state, message) {
-    console.log('ADD_OTHER_PLATFORM_MUSIC_LIST, message=', message)
-    //让map重新更新
+
+  // 添加歌曲到歌单
+  ADD_MUSIC_TO_CUSTOM_LIST(state, res) {
+    state.manageMusicListRes = res
     state.musicListMap = getMusicListMap()
-    state.manageCustomMusicListRes = message
   },
+
+
+  SET_MANAGE_MUSIC_LIST_RES(state, flag) {
+    state.manageMusicListRes = flag
+  },
+
 }
 
 export default mutations

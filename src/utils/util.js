@@ -107,3 +107,11 @@ export function toHttps(url) {
   }
   return url.replace('http://', 'https://')
 }
+
+export function generateUUID() {
+  let d = new Date().valueOf();
+  for (let i = 0; i < 4; i++) {
+    d += ('' + Math.floor(Math.random() * 10))
+  }
+  return d.slice(d.length - 8, d.length)
+}

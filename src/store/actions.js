@@ -1,10 +1,9 @@
 import {
   clearHistoryList,
-  setCustomList,
   setHistoryList,
   removeHistoryList,
   setMode,
-  setUserId, removeCustomList, delCustomListMap, setMusicListInfo, addOtherMusicList,
+  setUserId, delCustomListMap, addSongToCustomList, addMusicList, removeSongFromCustomList,
 } from '@/utils/storage'
 import * as types from './mutation-types'
 
@@ -91,36 +90,20 @@ export const setPlayMode = function ({ commit }, mode) {
 export const setUid = function ({ commit }, uid) {
   commit(types.SET_UID, setUserId(uid))
 }
-// 添加歌曲到歌单
-export const setCustomMusicList = function ({commit}, {listName, music, customListStorageKeyTail}) {
-  // console.log("action setCustomMusicList")
-  // console.log(listName)
-  // console.log(music)
-  commit('SET_CUSTOM_LIST', setCustomList(listName, music, customListStorageKeyTail))
-}
-// 设置查询的歌单id,之后通过getter()获取歌单详情. 如果直接在action()中调用getCustomList(id), 就不能做到监听
-export const setCustomMusicListId = function ({commit}, customMusicListId) {
-  // console.log("action setCustomMusicList")
-  // console.log(listName)
-  // console.log(music)
-  console.log('tetsteta setCustomMusicListId')
-  commit('SET_CUSTOM_LIST_ID', customMusicListId)
+
+
+// 添加歌单映射
+export const addMusicListToLocal = function ({commit}, musicListInfo) {
+  commit('ADD_MUSIC_LIST_TO_LOCAL', addMusicList(musicListInfo))
 }
 
-// 删除歌单中的单曲
-export const delSongFromCustomMusicListById = function ({commit}, {id, newList}) {
-  // removeCustomList(id, newList)
-  removeCustomList(id, newList)
-  commit('DEL_SONG_FROM_CUSTOM_LIST', newList)
+
+// 添加歌曲到歌单
+export const addMusicToCustomList = function ({commit}, {music, id}) {
+  // console.log("action addMusicToCustomList")
+  // console.log(listName)
+  // console.log(music)
+  commit('ADD_MUSIC_TO_CUSTOM_LIST', addSongToCustomList(music, id))
 }
-// 删除整个歌单
-export const delCustomMusicList = function ({commit}, id) {
-  //console.log('1212414214123sfg')
-  commit('DEL_CUSTOM_LIST', delCustomListMap(id))
-}
-// 添加歌单信息(导入其它平台歌单)
-export const addOtherPlatformMusicList = function ({commit}, {id, listName}) {
-  console.log('1212414214123sfg')
-  addOtherMusicList(id, listName)
-  commit('ADD_OTHER_PLATFORM_MUSIC_LIST', 'import success')
-}
+
+

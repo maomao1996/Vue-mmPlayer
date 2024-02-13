@@ -11,10 +11,7 @@ const state = {
   uid: getUserId() || null, // 网易云用户UID,
   commentOpen: false,
   searchAudio: null,
-  manageCustomMusicListRes: '',
-  customListId: -1,
-  //正在查询的歌单内容, 放进vuex可以做到用户向正在查询的歌单添加歌曲时,实时展现更新.
-  customMusicList: [],   // 这里设置为[]表示不存在歌单. 因为删除歌曲到0首时会自动删除歌单
+  manageMusicListRes: false,
   musicListMap: getMusicListMap() || [],
 }
 

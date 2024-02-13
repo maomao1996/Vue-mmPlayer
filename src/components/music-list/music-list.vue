@@ -52,7 +52,7 @@
             {{ item.duration % 3600 | format }}
             <!--删除歌曲按钮-->
             <mm-icon
-              v-if="listType !== 'search'"
+              v-if="listType !== 'search' && listType !== 'listDetails'"
               class="hover list-menu-icon-del"
               type="delete-mini"
               :size="40"
@@ -60,7 +60,7 @@
             />
           </span>
           <!--真实时长+删除歌曲/搜索音源按钮-->
-          <span class="list-origin-time"  v-if="listType === 'search'">
+          <span class="list-origin-time" v-if="listType === 'search'">
             {{ item.originDuration % 3600 | format }}
             <!-- 搜索音源按钮-->
             <mm-icon
@@ -69,13 +69,13 @@
               :size="40"
               @click.stop="searchAudio(item)"
             />
-<!--            <mm-icon
-              class="hover list-menu-icon-del"
-              type="delete-mini"
-              :size="40"
-              @click.stop="searchAudio(item)"
-            />-->
-          </span >
+            <!--            <mm-icon
+                          class="hover list-menu-icon-del"
+                          type="delete-mini"
+                          :size="40"
+                          @click.stop="searchAudio(item)"
+                        />-->
+          </span>
           <span class="list-album">
             {{ item.album }}
           </span>
@@ -95,7 +95,7 @@
       <div class="mm-dialog-text">
         (输入完名称请回车,最后点击确定)
         <el-select
-          v-model="chosenListName"
+          v-model="chosenMusicListTitle"
           filterable
           allow-create
           default-first-option
@@ -103,8 +103,8 @@
           <el-option
             v-for="item in musicListMap"
             :key="item.id"
-            :label="item.listName"
-            :value="item.listName">
+            :label="item.title"
+            :value="item.title">
           </el-option>
           <!--@TODO disabled属性可以禁止选用该option,可以通过判断歌单歌曲是否到达300首进行禁用-->
         </el-select>
@@ -115,11 +115,12 @@
 
 <script>
 import {mapActions, mapGetters, mapMutations} from 'vuex'
-import {format} from '@/utils/util'
+import {format, generateUUID} from '@/utils/util'
 import MmNoResult from 'base/mm-no-result/mm-no-result'
 import MmDialog from 'base/mm-dialog/mm-dialog'
-import {setCustomMusicList} from "@/store/actions";
+import {addMusicListToLocal, addMusicToCustomList} from "@/store/actions";
 import cloneDeep from 'lodash/cloneDeep';
+import {createCustomMusicListInfo} from "@/utils/music_list/MusicListInfo";
 
 // 触发滚动加载的阈值
 const THRESHOLD = 100
@@ -150,7 +151,10 @@ export default {
   data() {
     return {
       toAddSong: null,
-      chosenListName: '', //用户选择的歌单id或新建歌单名称
+      chosenMusicListTitle: '', //用户选择的歌单id或新建歌单名称
+      musicListDesc: '',
+      musicListTag: [],
+      musicListCoverImg: 'https://qpic.y.qq.com/music_cover/UwsgicvXzUsibGjO09TicjLpzMS4lkZbvGbzBjyxibwUDiaTDJibuib1nxIGw/600?n=1',
       lockUp: true, // 是否锁定滚动加载事件,默认锁定
       itemBackgrounds: {
         qq: 'qq-background-color',
@@ -167,7 +171,7 @@ export default {
         'playing',
         'currentMusic',
         'musicListMap',
-        'manageCustomMusicListRes',
+        'manageMusicListRes',
       ]),
   },
   watch: {
@@ -184,7 +188,7 @@ export default {
     },
   },
   activated() {
-    console.log('musicListMap=', this.musicListMap )
+    console.log('musicListMap=', this.musicListMap)
     // 当切换到其它组件,再次回来时将listContent恢复到上次的状态.
     //this.scrollTop是组件music-list的属性.当music-list下拉时就会修改该属性值,可以通过mm.$children[0].$children[2].$children[1].$children[1].scrollTop查看
     this.scrollTop && this.$refs.listContent && (this.$refs.listContent.scrollTop = this.scrollTop)
@@ -195,29 +199,40 @@ export default {
       this.$emit('del', index) // 触发删除事件
     },
     addCustomList() {
+      this.setManageMusicListRes(false)
       console.log("addCustomList==")
-      console.log(this.chosenListName)
-      if (this.chosenListName.replace(/(^\s+)|(\s+$)/g, '') === '') {
+      console.log(this.chosenMusicListTitle)
+      console.log(this.musicListMap)
+      if (this.chosenMusicListTitle.replace(/(^\s+)|(\s+$)/g, '') === '') {
         this.$mmToast('歌单名称不能为空！')
         return
       }
-      let customListStorageKeyTail = ''
-      this.musicListMap.forEach(item => {
-        item.listName === this.chosenListName ? customListStorageKeyTail = item.id : ''
-      })
+      let id = ''
       for (let i = 0; i < this.musicListMap.length; i++) {
-        if (this.musicListMap[i].listName === this.chosenListName) {
-          customListStorageKeyTail = this.musicListMap[i].id
+        if (this.musicListMap[i].title === this.chosenMusicListTitle) {
+          id = this.musicListMap[i].id
           break;
         }
       }
-      let cloneObj = {}
-      if (this.toAddSong.platform !== 'bili') {
-        cloneObj = cloneDeep(this.toAddSong)
-        cloneObj.audioSource ? cloneObj.audioSource.urls = null : 0 //去除urls, 因为bili的url会自动刷新
+      if (id === '') {
+        id = generateUUID()
+        console.log('id==', id)
+        const musicListInfo = createCustomMusicListInfo(id, this.chosenMusicListTitle, this.musicListDesc, this.musicListCoverImg, this.musicListTag)
+        this.addMusicListToLocal(musicListInfo)
+        if (!this.manageMusicListRes) {
+          this.$mmToast('歌单数量限制')
+          return
+        }
       }
-      this.setCustomMusicList({listName: this.chosenListName, music: cloneObj, customListStorageKeyTail})
-      this.$mmToast(this.manageCustomMusicListRes)
+      let cloneObj = {}
+      cloneObj = cloneDeep(this.toAddSong)
+      cloneObj.audioSource ? cloneObj.audioSource.urls = null : 0 //去除urls, 因为bili的url会自动刷新
+      this.addMusicToCustomList({music: cloneObj, id})
+      if (!this.manageMusicListRes) {
+        this.$mmToast('song list contains limit or exists music')
+      } else {
+        this.$mmToast('add success')
+      }
     },
     // 打开对话框
     openDialog(key, song) {
@@ -297,8 +312,9 @@ export default {
     },
     ...mapMutations({
       setPlaying: 'SET_PLAYING',
+      setManageMusicListRes: 'SET_MANAGE_MUSIC_LIST_RES',
     }),
-    ...mapActions(['setCustomMusicList'])
+    ...mapActions(['addMusicToCustomList', 'addMusicListToLocal',])
   },
 }
 </script>
@@ -360,8 +376,7 @@ export default {
   overflow: hidden;
 
   .list-num,
-  .list-platform
-  {
+  .list-platform {
     padding-left: 7px;
   }
 
@@ -374,8 +389,7 @@ export default {
     color: #0d9dda;
 
     .list-num,
-    .list-platform
-    {
+    .list-platform {
       font-size: 0;
       background: url('~assets/img/wave.gif') no-repeat center center;
     }
@@ -402,8 +416,7 @@ export default {
     }
 
     .list-time,
-    .list-origin-time
-    {
+    .list-origin-time {
       font-size: 0;
 
       .list-menu-icon-del {
@@ -421,8 +434,7 @@ export default {
   }
 
   .list-num,
-  .list-platform
-  {
+  .list-platform {
     display: block;
     width: 30px;
     margin-right: 10px;
@@ -474,6 +486,7 @@ export default {
     @media (max-width: 1200px) {
       width: 150px;
     }
+
     .list-menu-icon-add {
       display: none;
       position: absolute;
@@ -484,8 +497,7 @@ export default {
   }
 
   .list-time,
-  .list-origin-time
-  {
+  .list-origin-time {
     display: block;
     width: 60px;
     position: relative;
@@ -544,8 +556,7 @@ export default {
 
     .list-album,
     .list-time,
-    list-origin-time
-    {
+    list-origin-time {
       display: none;
     }
   }

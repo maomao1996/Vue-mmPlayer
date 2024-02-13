@@ -189,10 +189,11 @@ export default {
       const queryQQ = searchQQ(this.searchValue).then(data => {
         console.log("searchQQ")
         console.log(data.req_0.data.body.song.list)
-        return formatQQSongs(data.req_0.data.body.song.list).then(result => {
+        /*return formatQQSongs_WithUrl(data.req_0.data.body.song.list).then(result => {
           console.log("result=", result)
           return result
-        })
+        })*/
+        return formatQQSongs(data.req_0.data.body.song.list)
       })
       Promise.all([queryNetease, queryQQ]).then(([neteaseRes, qqRes]) => {
         console.log("neteaseRes=", neteaseRes)
@@ -201,7 +202,7 @@ export default {
         const maxLen = Math.max(neteaseRes.length, qqRes.length)
         for (let i = 0; i < maxLen; i++) {
           if (i < neteaseRes.length) {
-            //mergeArray.push(neteaseRes[i])
+            mergeArray.push(neteaseRes[i])
           }
           if (i < qqRes.length) {
             mergeArray.push(qqRes[i])

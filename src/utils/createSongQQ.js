@@ -22,6 +22,14 @@ export function createSong(music) {
   }
   const fee = parseInt(music.pay.pay_play) !== 0 ? 1 : 0 // 0是免费听.  目前猜测这个字段是标识歌曲是否是vip歌曲
   // console.log(music.title + ' = ', music.pay.pay_play) // 如果这个字段判断错误, 则放开这个log进行检查
+  let qqAudioSource = {
+    media_mid: '',
+    url: 'http://dl.stream.qqmusic.qq.com/'
+  }
+  if (fee === 1) {
+    qqAudioSource.media_mid = music.file.media_mid
+    qqAudioSource.url = `http://dl.stream.qqmusic.qq.com/`
+  }
   return new Song({
     platform: 'qq',
     id: music.mid,
@@ -32,15 +40,29 @@ export function createSong(music) {
     album: album.name,
     image: image,
     // QQ接口单位为s
-    duration: music.interval,
+    duration: fee === 0 ? music.interval : 60,
     originDuration: music.interval,
     url: `http://dl.stream.qqmusic.qq.com/`,
     lyricSource: {platform: 'qq', songId: music.mid},
+    audioSource: fee === 1 ? qqAudioSource : {}
   })
 }
-
 // 歌曲列表数据格式化
 export function formatSongs(songs) {
+  console.log("formatQQsongs")
+  const formattedSongs = []
+
+  // 创建music对象并统计歌曲mid
+  songs.forEach((item) => {
+    if (item.id) {
+      formattedSongs.push(createSong(item))
+    }
+  })
+  return formattedSongs
+}
+
+// 歌曲列表数据格式化Origin, 自动附带url
+export function formatSongs_WithUrl(songs) {
   console.log("formatQQsongs")
   const formattedSongs = []
   const len = songs.length
@@ -59,9 +81,10 @@ export function formatSongs(songs) {
   mids = mids.replace(/,\s*$/, '');
 
   //获取歌曲url
+  // @TODO 待删除, url直接在播放时获取, 这里之后就不用了
   return getQQMusicUrl(mids).then((data) => {
-    // console.log("getQQMusicUrl==>")
-    // console.log(data.req_0.data.midurlinfo)
+    console.log("getQQMusicUrl==>")
+    console.log(data.req_0.data.midurlinfo)
     const songsUrlInfo = data.req_0.data.midurlinfo
     const vipSongs = []
     for (let i = 0; i < len; i++) {
@@ -99,8 +122,9 @@ export function formatSongs(songs) {
     const vipLen = vipSongs.length
     if (vipLen !== 0) {
       return getQQMusicVipOneMinuteUrl(vipMidsStr, vipMediaMidsStr).then(data => {
-        // console.log('getVIp')
-        // console.log(vipSongs)
+        console.log('getVIp')
+        console.log(vipSongs)
+        console.log(data)
         const vipUrls = data.req_0.data.midurlinfo
         for (let i = 0; i < vipLen; i++) {
           // console.log("add vipUrl")

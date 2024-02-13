@@ -3,12 +3,13 @@
   <div class="details">
 
     <mm-loading v-model="mmLoadShow" />
-    <music-list list-type="listDetails" :list="list" @select="selectItem"
+    <music-list v-if="platform === 'custom'" list-type="customListDetails" :list="list" @select="selectItem"
                 @del="deleteItem">
       <div slot="listBtn" class="list-btn">
         <span @click="$refs.dialog.show()">清空列表</span>
       </div>
     </music-list>
+    <music-list v-else list-type="listDetails" :list="list" @select="selectItem"/>
     <mm-dialog
       ref="dialog"
       body-text="删除歌单"
@@ -19,12 +20,13 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex'
-import { getPlaylistDetailNeteaseSpider } from 'api/index'
+import {mapActions, mapGetters, mapMutations} from 'vuex'
+import {getPlaylistDetailNeteaseSpider, getQQMusicListDetail} from 'api/index'
 import MmLoading from 'base/mm-loading/mm-loading'
 import { loadMixin } from '@/utils/mixin'
 import MmDialog from 'base/mm-dialog/mm-dialog'
 import MusicList from 'components/music-list/music-list'
+import {getCustomList, removeSongFromCustomList} from "@/utils/storage";
 
 export default {
   name: 'Detail',
@@ -44,12 +46,11 @@ export default {
   computed: {
     ...mapGetters(
       [
-      'customMusicList',
-      'manageCustomMusicListRes',
       'musicListMap',
     ])
   },
   created() {
+    console.log('created!!!!!!!!!!')
     document.title = '无名歌单'
     if (this.platform === 'custom') {
       for (let i = 0; i < this.musicListMap.length; i++) {
@@ -58,9 +59,7 @@ export default {
           break
         }
       }
-      this.setCustomMusicListId(this.songListId)
-      // console.log('this.customMusicList', this.customMusicList)
-      this.list = this.customMusicList
+      this.list = getCustomList(this.songListId)
       this._hideLoad()
     } else if (this.platform === 'netease') {
       getPlaylistDetailNeteaseSpider(this.$route.params.id)
@@ -72,6 +71,11 @@ export default {
         .catch(() => {
           this._hideLoad()
         })
+    } else if (this.platform === 'qq') {
+      getQQMusicListDetail(this.songListId).then(data => {
+        console.log(data)
+        this._hideLoad()
+      })
     }
   },
   beforeDestroy() {
@@ -79,24 +83,21 @@ export default {
   },
   methods: {
     delCustomList() {
-      this.delCustomMusicList(this.songListId)
+      this.delMusicList({platform: this.platform, id: this.songListId})
       this.$router.push('/music/userList')
-      this.$mmToast(this.manageCustomMusicListRes)
     },
     deleteItem(index) {
-      console.log('deleteItem, index=', index)
-      console.log("this.songListId", this.songListId)
+      // console.log('deleteItem, index=', index)
+      // console.log("this.songListId", this.songListId)
       if (this.list.length === 1) {
-        console.log('12312313')
-        this.delCustomMusicList(this.songListId)
-        this.$router.push('/music/userList')
+       this.delCustomList()
       }
       else {
         this.list.splice(index, 1)
-        console.log("del res=", this.list)
-        this.delSongFromCustomMusicListById({id:this.songListId, newList: this.list})
+        // console.log("del res=", this.list)
+        removeSongFromCustomList(this.songListId, this.list)
       }
-      this.$mmToast(this.manageCustomMusicListRes)
+      this.list = getCustomList(this.songListId)
     },
     // 播放暂停事件
     selectItem(item, index) {
@@ -107,10 +108,10 @@ export default {
     },
     ...mapActions([
       'selectPlay',
-      'setCustomMusicListId',
-      'delSongFromCustomMusicListById',
-      'delCustomMusicList'
     ]),
+    ...mapMutations({
+      delMusicList: 'DEL_MUSIC_LIST',
+    })
   },
 }
 </script>

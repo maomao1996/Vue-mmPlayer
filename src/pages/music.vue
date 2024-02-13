@@ -3,6 +3,7 @@
     <div class="music-content">
       <div class="music-left flex-col">
         <music-btn @onClickLyric="handleOpenLyric"/>
+<!--        detail组件一定不要keep-alive. 因为要让每次打开时自动-->
         <keep-alive :include="['PlayList', 'UserList', 'TopList', 'Search', 'HistoryList', 'BiliSearch']">
           <router-view class="router-view"/>
         </keep-alive>
@@ -76,7 +77,7 @@
         <div class="mm-dialog-text">
           (输入完名称请回车,最后点击确定)
           <el-select
-            v-model="chosenListName"
+            v-model="chosenMusicListTitle"
             filterable
             allow-create
             default-first-option
@@ -84,8 +85,8 @@
             <el-option
               v-for="item in musicListMap"
               :key="item.id"
-              :label="item.listName"
-              :value="item.listName">
+              :label="item.title"
+              :value="item.title">
             </el-option>
             <!--@TODO disabled属性可以禁止选用该option,可以通过判断歌单歌曲是否到达300首进行禁用-->
           </el-select>
@@ -107,9 +108,9 @@
 </template>
 
 <script>
-import {getAudioUrlFromBili, getLyric, getQQLyric} from 'api/index'
+import {getAudioUrlFromBili, getLyric, getQQLyric, getQQMusicUrl, getQQMusicVipOneMinuteUrl} from 'api/index'
 import mmPlayerMusic from './mmPlayer'
-import {randomSortArray, parseLyric, format, silencePromise} from '@/utils/util'
+import {randomSortArray, parseLyric, format, silencePromise, generateUUID} from '@/utils/util'
 import {PLAY_MODE, MMPLAYER_CONFIG} from '@/config'
 import {getVolume, setVolume} from '@/utils/storage'
 import {mapGetters, mapMutations, mapActions} from 'vuex'
@@ -121,6 +122,7 @@ import Volume from 'components/volume/volume'
 import {audioEle} from "@/store/getters";
 import cloneDeep from "lodash/cloneDeep";
 import MmDialog from 'base/mm-dialog/mm-dialog'
+import {createCustomMusicListInfo} from "@/utils/music_list/MusicListInfo";
 
 export default {
   name: 'Music',
@@ -138,7 +140,10 @@ export default {
   data() {
     const volume = getVolume()
     return {
-      chosenListName: '', //用户选择的歌单id或新建歌单名称
+      musicListDesc: '',
+      musicListTag: [],
+      musicListCoverImg: 'https://qpic.y.qq.com/music_cover/UwsgicvXzUsibGjO09TicjLpzMS4lkZbvGbzBjyxibwUDiaTDJibuib1nxIGw/600?n=1',
+      chosenMusicListTitle: '',
       musicReady: false, // 是否可以使用播放器
       currentTime: 0, // 当前播放时间
       currentProgress: 0, // 当前缓冲进度
@@ -185,7 +190,7 @@ export default {
       'currentMusic',
       'historyList',
       'musicListMap',
-      'manageCustomMusicListRes',
+      'manageMusicListRes',
     ]),
   },
   watch: {
@@ -206,7 +211,126 @@ export default {
         return
       }
 
-      if (newMusic.platform !== 'complex' && newMusic.platform !== 'bili') {
+
+      let getUrl = null
+
+      if (newMusic.platform === 'qq') {
+        if (newMusic.limit === 0){
+          getUrl = getQQMusicUrl(`"${newMusic.id}"`).then((data) => {
+            console.log('getQQMusicUrl=========')
+            console.log(data)
+            const songUrl = data.req_0.data.midurlinfo[0].purl
+            // this.audioEle.src = `http://dl.stream.qqmusic.qq.com/` + songUrl
+            this.audioEle.src = newMusic.url + songUrl
+            console.log('this.audioEle.src', this.audioEle.src)
+          })
+        }
+        else {
+          const vipMidsStr = `"${newMusic.id}"`
+          const vipMediaMidsStr = `"RS02${newMusic.audioSource.media_mid}.mp3"`
+          getUrl = getQQMusicVipOneMinuteUrl(vipMidsStr, vipMediaMidsStr).then(data => {
+            console.log('getQQMusicVipOneMinuteUrl===')
+            console.log(data)
+            const vipUrl = data.req_0.data.midurlinfo[0].purl
+            this.audioEle.src = newMusic.audioSource.url + vipUrl
+            console.log(' this.audioEle.src',  this.audioEle.src)
+          })
+        }
+      }
+      else if (newMusic.platform === 'netease') {
+        // 在官方平台上有音频
+        this.audioEle.src = newMusic.url
+        this.quality = '' //平台歌曲默认都是128kbps,统一不展示了
+
+        /*this.lyricIndex = this.currentTime = this.currentProgress = 0
+        silencePromise(this.audioEle.play())
+        this.$nextTick(() => {
+          this._getLyric(newMusic)
+        })*/
+      } else {
+        // 音源在audioSource中
+        getUrl = getAudioUrlFromBili(newMusic.audioSource.bvid, newMusic.audioSource.cid).then(data => {
+          const audios = data.data.dash.audio
+          const urls = []
+          for (let i = 0; i < audios.length; i++) {
+            const quality = (Math.round(audios[i].bandwidth / 1000)) + 'kbps'
+            const url = audios[i].baseUrl
+            const urlObj = {quality, url}
+            urls.push(urlObj)
+          }
+          // newMusic.audioSource.urls = urls // 因为currentMusic对象被vuex管理,所以其中的属性修改时要用mutation的方式
+          this.setMusicAudioUrls(urls)
+          console.log('ghjkgkjg')
+        }).then(() => {
+          // @TODO 这里默认使用urls[0], 没有考虑"urls[0]不可用"的情况
+          this.audioEle.src = newMusic.audioSource.urls[0].url
+          this.quality = newMusic.audioSource.urls[0].quality
+
+          /*this.lyricIndex = this.currentTime = this.currentProgress = 0
+          silencePromise(this.audioEle.play())
+          this.$nextTick(() => {
+            this._getLyric(newMusic)
+          })*/
+        })
+      }
+
+      if (getUrl) {
+        getUrl.then(() => {
+          this.lyricIndex = this.currentTime = this.currentProgress = 0
+          console.log('aaaa123114342')
+          silencePromise(this.audioEle.play())
+          this.$nextTick(() => {
+            this._getLyric(newMusic)
+          })
+        })
+      } else {
+        this.lyricIndex = this.currentTime = this.currentProgress = 0
+        console.log('aaaa123114342')
+        silencePromise(this.audioEle.play())
+        this.$nextTick(() => {
+          this._getLyric(newMusic)
+        })
+      }
+
+      //这是没有抽出play()和_getLyric()时的代码,暂时保留
+/*      if (newMusic.platform === 'qq') {
+        if (newMusic.limit === 0){
+          getQQMusicUrl(`"${newMusic.id}"`).then((data) => {
+            console.log('getQQMusicUrl=========')
+            console.log(data)
+            const songUrl = data.req_0.data.midurlinfo[0].purl
+            this.audioEle.src = `http://dl.stream.qqmusic.qq.com/` + songUrl
+            // newMusic.url += songsUrlInfo[i].purl
+            console.log('this.audioEle.src', this.audioEle.src)
+            this.lyricIndex = this.currentTime = this.currentProgress = 0
+            console.log('aaaa123114342')
+            silencePromise(this.audioEle.play())
+            this.$nextTick(() => {
+              this._getLyric(newMusic)
+            })
+          })
+        }
+        else {
+          const vipMidsStr = `"${newMusic.id}"`
+          const vipMediaMidsStr = `"RS02${newMusic.audioSource.media_mid}.mp3"`
+          getQQMusicVipOneMinuteUrl(vipMidsStr, vipMediaMidsStr).then(data => {
+            console.log('getQQMusicVipOneMinuteUrl===')
+            console.log(data)
+            const vipUrl = data.req_0.data.midurlinfo[0].purl
+            // formattedSongs[i].url += vipUrl.purl
+            this.audioEle.src = newMusic.audioSource.url + vipUrl
+            console.log(' this.audioEle.src',  this.audioEle.src)
+            this.lyricIndex = this.currentTime = this.currentProgress = 0
+            console.log('aaaa123114342')
+            silencePromise(this.audioEle.play())
+            this.$nextTick(() => {
+              this._getLyric(newMusic)
+            })
+          })
+        }
+      }
+      // if (newMusic.platform !== 'complex' && newMusic.platform !== 'bili') {
+      else if (newMusic.platform === 'netease') {
         // 在官方平台上有音频
         this.audioEle.src = newMusic.url
         this.quality = '' //平台歌曲默认都是128kbps,统一不展示了
@@ -233,8 +357,8 @@ export default {
           // newMusic.audioSource.urls = urls // 因为currentMusic对象被vuex管理,所以其中的属性修改时要用mutation的方式
           this.setMusicAudioUrls(urls)
           console.log('ghjkgkjg')
-        }).then(() => {
-          // @TODO 这里默认使用urls[0], 没有考虑"urls[0]不可用"的情况
+        })
+          .then(() => {
           console.log('123114342')
           this.audioEle.src = newMusic.audioSource.urls[0].url
           this.quality = newMusic.audioSource.urls[0].quality
@@ -245,17 +369,19 @@ export default {
             this._getLyric(newMusic)
           })
           // console.log('promuse  郭洪智参乎上')
-        })
+        })*/
+
         /*console.log("newMusic=", newMusic)
         console.log("quality=", newMusic.audioSource.urls[0].quality)*/
         //this.audioEle.src = newMusic.audioSource.urls[0].url
-      }
-      // 重置相关参数
-      //this.lyricIndex = this.currentTime = this.currentProgress = 0
-      //silencePromise(this.audioEle.play())
-     /* this.$nextTick(() => {
+
+      /*// 重置相关参数
+      this.lyricIndex = this.currentTime = this.currentProgress = 0
+      silencePromise(this.audioEle.play())
+      this.$nextTick(() => {
         this._getLyric(newMusic)
-      })*/
+      })
+      }*/
     },
     // 点击播放/暂停按钮后, 修改playing的值
     playing(newPlaying) {
@@ -297,29 +423,40 @@ export default {
   methods: {
     // 添加歌曲到自建歌单
     addCustomList() {
+      this.setManageMusicListRes(false)
       console.log("addCustomList==")
-      console.log(this.chosenListName)
-      if (this.chosenListName.replace(/(^\s+)|(\s+$)/g, '') === '') {
+      console.log(this.chosenMusicListTitle)
+      console.log(this.musicListMap)
+      if (this.chosenMusicListTitle.replace(/(^\s+)|(\s+$)/g, '') === '') {
         this.$mmToast('歌单名称不能为空！')
         return
       }
-      let customListStorageKeyTail = ''
-      this.musicListMap.forEach(item => {
-        item.listName === this.chosenListName ? customListStorageKeyTail = item.id : ''
-      })
+      let id = ''
       for (let i = 0; i < this.musicListMap.length; i++) {
-        if (this.musicListMap[i].listName === this.chosenListName) {
-          customListStorageKeyTail = this.musicListMap[i].id
+        if (this.musicListMap[i].title === this.chosenMusicListTitle) {
+          id = this.musicListMap[i].id
           break;
         }
       }
-      let cloneObj = {}
-      if (this.currentMusic.platform !== 'bili') {
-        cloneObj = cloneDeep(this.currentMusic)
-        cloneObj.audioSource ? cloneObj.audioSource.urls = null : 0 //去除urls, 因为bili的url会自动刷新
+      if (id === '') {
+        id = generateUUID()
+        console.log('id==', id)
+        const musicListInfo = createCustomMusicListInfo(id, this.chosenMusicListTitle, this.musicListDesc, this.musicListCoverImg, this.musicListTag)
+        this.addMusicListToLocal(musicListInfo)
+        if (!this.manageMusicListRes) {
+          this.$mmToast('歌单数量限制')
+          return
+        }
       }
-      this.setCustomMusicList({listName: this.chosenListName, music: cloneObj, customListStorageKeyTail})
-      this.$mmToast(this.manageCustomMusicListRes)
+      let cloneObj = {}
+      cloneObj = cloneDeep(this.currentMusic)
+      cloneObj.audioSource ? cloneObj.audioSource.urls = null : 0 //去除urls, 因为bili的url会自动刷新
+      this.addMusicToCustomList({music: cloneObj, id})
+      if (!this.manageMusicListRes) {
+        this.$mmToast('song list contains limit or exists music')
+      } else {
+        this.$mmToast('add success')
+      }
     },
     // 打开对话框
     openDialog(key) {
@@ -560,8 +697,9 @@ export default {
       setCurrentIndex: 'SET_CURRENTINDEX',
       setCommentOpen: 'SET_COMMENT_OPEN',
       setMusicAudioUrls: 'SET_MUSIC_AUDIO_URLS',
+      setManageMusicListRes: 'SET_MANAGE_MUSIC_LIST_RES',
     }),
-    ...mapActions(['setHistory', 'setPlayMode', 'setCustomMusicList']),
+    ...mapActions(['setHistory', 'setPlayMode', 'addMusicToCustomList' ,'addMusicListToLocal']),
   },
 }
 </script>

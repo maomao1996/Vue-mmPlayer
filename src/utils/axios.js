@@ -109,6 +109,28 @@ axiosCommonQQ.interceptors.response.use(
 )
 // endregion
 
+// region QQ-listDetail API
+const axiosQQlistDetail = axios.create({
+  baseURL: process.env.VUE_APP_QQ_LIST_DETAIL_API,
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  }
+})
+
+axiosQQlistDetail.interceptors.response.use(
+  (response) => {
+    if (response.status === 200 && response.data.code === 0) {
+      return response.data
+    }
+    return Promise.reject(response)
+  },
+  (error) => {
+    Vue.prototype.$mmToast(error.response ? error.response.data.message : error.message)
+    return error
+  },
+)
+// endregion
+
 // export
-export {axiosBiliInfo, axiosNetease, axiosNeteaseSpider, axiosBiliSpider, axiosCommonQQ}
+export {axiosQQlistDetail , axiosBiliInfo, axiosNetease, axiosNeteaseSpider, axiosBiliSpider, axiosCommonQQ}
 

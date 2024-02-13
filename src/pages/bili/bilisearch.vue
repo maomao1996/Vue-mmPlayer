@@ -72,6 +72,7 @@ export default {
       this.exactSearchAudio(this.searchAudio).then(list => {
         console.log('list=', list)
         this.list = list
+        this.mmLoadShow = false
       })
     } else {
       this.searchValue = this.searchAudio.name + ' ' + this.searchAudio.singer + ' hi-res ' + ' 杜比 ' + ' 无损 '
@@ -79,10 +80,13 @@ export default {
       this.exactSearchAudio(this.searchAudio).then(validData => {
         console.log('validData=', validData)
         this.list = validData
+        this.mmLoadShow = false
+        if (this.list.length === 0) {
+          this.$mmToast('没有搜索到合适的, 请更换关键词试试. 或查看原歌曲时长是否正确')
+        }
       })
     }
     this.setSearchAudio(null)
-    this.mmLoadShow = false
   },
   methods: {
     // 精确搜索(根据正版歌曲的duration过滤搜索)

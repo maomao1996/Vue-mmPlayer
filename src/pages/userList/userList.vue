@@ -4,11 +4,12 @@
     <div class="user-list">
       <mm-loading v-model="mmLoadShow" />
       <template v-if="musicListMap.length > 0">
-        <div v-for="item in musicListMap" :key="item.id" class="list-item" :title="item.listName">
+<!--        @TODO 导入的歌单和custom歌单展示时混在了一起, 建议分开-->
+        <div v-for="item in musicListMap" :key="item.id" class="list-item" :title="item.title">
 <!--          目前只支持本网站的歌曲跳转到歌单详情页-->
-          <router-link :to="{ path: `/music/details/custom/${item.id}` }" tag="div" class="user-list-item">
-            <img referrerPolicy="no-referrer" src="https://qpic.y.qq.com/music_cover/UwsgicvXzUsibGjO09TicjLpzMS4lkZbvGbzBjyxibwUDiaTDJibuib1nxIGw/600?n=1" class="cover-img" />
-            <h3 class="name">{{ item.listName }}</h3>
+          <router-link :to="{ path: `/music/details/${item.platform}/${item.id}` }" tag="div" class="user-list-item">
+            <img referrerPolicy="no-referrer" v-lazy="`${item.image}`" class="cover-img" />
+            <h3 class="name">{{ item.title }}</h3>
           </router-link>
         </div>
       </template>
@@ -68,15 +69,16 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex'
+import {mapActions, mapGetters, mapMutations} from 'vuex'
 
-import { getUserPlaylist } from 'api/index'
+import {getQQMusicListDetail, getUserPlaylist} from 'api/index'
 import { loadMixin } from '@/utils/mixin'
 
 import MmLoading from 'base/mm-loading/mm-loading'
 import MmNoResult from 'base/mm-no-result/mm-no-result'
 import MmDialog from "base/mm-dialog/mm-dialog";
 import {addOtherPlatformMusicList} from "@/store/actions";
+import {createQqList} from "@/utils/music_list/createQqList";
 
 export default {
   name: 'UserList',
@@ -97,7 +99,7 @@ export default {
     formatList() {
       return this.userNeteaseList.filter((item) => item.trackCount > 0)
     },
-    ...mapGetters(['uid', 'musicListMap', 'manageCustomMusicListRes']),
+    ...mapGetters(['uid', 'musicListMap', 'manageMusicListRes']),
   },
   watch: {
     // 登录了就加载用户歌单
@@ -109,17 +111,18 @@ export default {
       } else {
         this.userNeteaseList = []
       }
+      this.mmLoadShow = false
     },
   },
   created() {
-    if (!this.uid) {
-      this.mmLoadShow = false
-    }
+    if (this.uid)
+      this._getUserPlaylist(this.uid)
+    this.mmLoadShow = false
   },
   beforeDestroy() {
     console.log(' -- userList 组件 --- 死了')
   },
-  activated() {
+  /*activated() {
     console.log('userList.vue#actived()')
     //console.log('musicListMap', this.musicListMap)
 
@@ -129,12 +132,16 @@ export default {
     } else if (!this.uid && this.userNeteaseList.length !== 0) {
       this.userNeteaseList = []
     }
-  },
+  },*/
   methods: {
     importQQMusicList() {
-      this.addOtherPlatformMusicList({id: this.otherPlatformListId, listName:'test'})
-      this.$mmToast(this.manageCustomMusicListRes)
-      console.log("after add:", this.musicListMap)
+      // this.addOtherPlatformMusicList({id: this.otherPlatformListId, listName:'test'})
+      //this.$mmToast(this.manageMusicListRes)
+     createQqList(this.otherPlatformListId).then(qqMusicListInfo => {
+       this.addMusicListToLocal(qqMusicListInfo)
+       console.log("after add:", this.musicListMap)
+       this.$mmToast('import success')
+     })
     },
     // 打开对话框
     openDialog(key) {
@@ -151,17 +158,18 @@ export default {
           break
       }
     },
-    // 获取我的歌单详情
+    // 获取netease我的歌单详情
     _getUserPlaylist(uid) {
       getUserPlaylist(uid).then((res) => {
         if (res.playlist.length === 0) {
           return
         }
+        // 对res.playlist进行浅拷贝,从index=1开始拷贝
         this.userNeteaseList = res.playlist.slice(1)
         this._hideLoad()
       })
     },
-    ...mapActions(['addOtherPlatformMusicList']),
+    ...mapActions(['addMusicListToLocal',]),
   },
 }
 </script>

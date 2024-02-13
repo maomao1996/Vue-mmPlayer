@@ -1,4 +1,4 @@
-import {axiosCommonQQ, axiosNetease, axiosNeteaseSpider, axiosBiliSpider, axiosBiliInfo} from '@/utils/axios'
+import {axiosCommonQQ, axiosQQlistDetail, axiosNetease, axiosNeteaseSpider, axiosBiliSpider, axiosBiliInfo} from '@/utils/axios'
 import {DEFAULT_LIMIT} from '@/config'
 import {formatSongs as formatNeteaseSongs} from '@/utils/createSongNetease'
 
@@ -214,11 +214,11 @@ export function searchQQ(keywords, page = 0, limit = DEFAULT_LIMIT) {
 }
 
 export function getQQMusicListDetail(id, limit = DEFAULT_LIMIT) {
-  const searchBodyHead = `"{comm": {"g_tk": 1106131342,"uin": 14324289,"format": "json","platform": "h5"},`
+  const searchBodyHead = `{"comm":{"g_tk":1106131342,"uin":14324289,"format":"json","platform":"h5"},`
   const searchBodyTail = '}'
-  const curReq = `""req_0": {"module": "music.srfDissInfo.aiDissInfo","method": "uniform_get_Dissinfo","param": {"disstid": ${id},"enc_host_uin": "","tag": 1,"userinfo": 1,"song_begin": 0,"song_num": 30}}`
+  const curReq = `"req_0":{"module":"music.srfDissInfo.aiDissInfo","method":"uniform_get_Dissinfo","param":{"disstid":983331199,"enc_host_uin":"","tag":1,"userinfo":1,"song_begin":0,"song_num":30}}`
   const body = searchBodyHead + curReq + searchBodyTail
-  return axiosCommonQQ.post('', body)
+  return axiosQQlistDetail.post('', body)
 }
 
 const qqMusicsApiBodyHead = `{"comm":{"cv":4747474,"ct":24,"format":"json","inCharset":"utf-8","outCharset":"utf-8","notice":0,"platform":"yqq.json","needNewCode":1,"uin":1431243,"g_tk_new_20200303":899819903,"g_tk":899819903},`
@@ -228,6 +228,7 @@ export function getQQMusicVipOneMinuteUrl(vipMids, vipMediaMids) {
   console.log('getQQMusicVipOneMinuteUrl')
   const curReq = `"req_0":{"module":"vkey.GetVkeyServer","method":"CgiGetVkey","param":{"guid":"9920044491","songmid":[${vipMids}],"songtype":[0],"uin":"1431243","loginflag":1,"platform":"20","filename":[${vipMediaMids}]}}`
   const body = qqMusicsApiBodyHead + curReq + qqMusicsApiBodyTail
+  console.log('1223424234')
   return axiosCommonQQ.post('', body)
 }
 

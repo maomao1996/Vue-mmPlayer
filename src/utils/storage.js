@@ -51,27 +51,32 @@ export function getMusicListMap() {
   console.log('getMusicListMap().....')
   return storage.get(MUSIC_LIST_HEAD)
 }
-// 创建歌单
-export function setCustomListMap(platform, id, listName='') {
-  const map = storage.get(MUSIC_LIST_HEAD)
-  if (map.length >= LOCAL_LIST_NUM) {
-    // 歌单数量到达上线
-    return ''
-  }
-  // console.log('map===,',map)
-  // id自动从1开始累加,如果中间删除歌单,后续歌单id不会变,依旧累加
 
-  const customListStorageKey = MUSIC_LIST_HEAD + id
+// 创建歌单
+export function addMusicList(musicListInfo) {
+  const map = storage.get(MUSIC_LIST_HEAD)
+  console.log('musicListInfo===,',musicListInfo)
+  let customListCount = 0
+  map.forEach(item => {
+    item.platform === 'custom' ? customListCount++ : ''
+  })
+  if (customListCount >= LOCAL_LIST_CONTAIN) {
+    return false
+  }
+  // ((map.length > 0 && map[0].id) || 0) + 1
   // console.log('id====',id)
-  map.unshift({listName, id: id})
+  map.unshift(musicListInfo)
   storage.set(MUSIC_LIST_HEAD, JSON.stringify(map))
-  return customListStorageKey
+  return true
 }
+
 // 删除歌单
-export function delCustomListMap(id) {
-  // 删除歌单
-  const customListStorageKey = MUSIC_LIST_HEAD + id
-  storage.clear(customListStorageKey)
+export function delMusicList(platform, id) {
+  // 删除本地歌单表
+  if (platform === 'custom') {
+    const customListStorageId = MUSIC_LIST_HEAD + 'custom_' + id
+    storage.clear(customListStorageId)
+  }
   // 删除歌单映射表中的对应记录
   const map = storage.get(MUSIC_LIST_HEAD)
   console.log('cleared musicList')
@@ -81,8 +86,8 @@ export function delCustomListMap(id) {
   console.log('to del item, index = ', index)
   map.splice(index, 1)
   storage.set(MUSIC_LIST_HEAD, JSON.stringify(map))
-  return true
 }
+
 /*// 通过歌单名称获取存储歌单的key -- del
 export function getCustomListStorageKey(listName) {
   const map = storage.get(MUSIC_LIST_HEAD)
@@ -96,71 +101,49 @@ export function getCustomListStorageKey(listName) {
   return MUSIC_LIST_HEAD + map[index].id
 }*/
 
-/**
- * 其它平台歌单
- */
-// 导入其它平台歌单
-export function addOtherMusicList(platform, id) {
-  console.log('addOtherMusicList')
-  const map = storage.get(MUSIC_LIST_HEAD)
-  // console.log('map===,',map)
-  // console.log('id====',id)
-  map.unshift({platform, id})
-  storage.set(MUSIC_LIST_HEAD, JSON.stringify(map))
+// 如果歌单不存在,调用者要先去添加到map,这里只负责操作歌单数据表.不负责映射表内容的创建
+export function addSongToCustomList(music, id) {
+  // console.log('existsList', customList)
+  let customListStorageId = MUSIC_LIST_HEAD + 'custom_' + id
+  console.log('customListStorageId , ', customListStorageId)
+  const customList = storage.get(customListStorageId)
+  //调用者暂时没有获取该歌单数据, 所以只能在这里判断重复和容量
+  if (customList.length >= LOCAL_LIST_CONTAIN) {
+    console.log('歌曲数量到达上线')
+    return false
+  }
+  const index = customList.findIndex(item => {
+    return item.id === music.id
+  })
+  if (index > -1) {
+    console.log('music exists !!!!! ')
+    return false
+  }
+  customList.unshift(music)
+  // console.log('customList====', customList)
+  // console.log('music====', music)
+  storage.set(customListStorageId, JSON.stringify(customList))
+  return true
 }
 
+export function getCustomList(id) {
+  const customListStorageId = MUSIC_LIST_HEAD + 'custom_' + id
+  return storage.get(customListStorageId)
+}
+
+export function removeSongFromCustomList(id, newCustomList) {
+  const customListStorageId = MUSIC_LIST_HEAD + 'custom_' + id
+  storage.set(customListStorageId, JSON.stringify(newCustomList))
+}
+
+
 /**
- * 单个歌单管理
+ * 歌单信息表管理
  */
 export function setMusicListInfo(id, musicListInfo) {
 
 }
-export function setCustomList(listName, music, id='') {
-  // console.log('existsList', customList)
-  let customListStorageKey = MUSIC_LIST_HEAD + 'custom_' + id
-  if (id === '') {
-    console.log('musicList not exists, now create !!!!!!!!')
-    // 创建歌单并更新到map中
-    //1.先更新到map中, 可以知道是否超过10个歌单
-    customListStorageKey = setCustomListMap(listName)
-    if (customListStorageKey === '') {
-      // 歌单创建失败, 可能是存在或到达上线
-      console.log('歌单创建失败, 到达上线')
-      return 2
-    }
-    console.log(customListStorageKey)
-    const customList = []
-    customList.unshift(music)
-    // console.log('customList====', customList)
-    // console.log('music====', music)
-    storage.set(customListStorageKey, JSON.stringify(customList))
-    console.log("5135125342")
-    return 0
-  } else {
-    // 歌单存在直接添加music
-    console.log('歌单存在直接添加music')
-    const customList = storage.get(customListStorageKey)
-    const index = customList.findIndex(item => {
-      return item.id === music.id
-    })
-    if (customList.length >= LOCAL_LIST_CONTAIN || index > -1) {
-      console.log('music  exists!!!!!!!!!! 或 歌曲数量到达上线')
-      return 3
-    }
-    customList.unshift(music)
-    storage.set(customListStorageKey, JSON.stringify(customList))
-    console.log('111111111 歌单存在直接添加music')
-    return 1
-  }
-}
-export function getCustomList (id) {
-  const customListStorageKey = MUSIC_LIST_HEAD + id
-  return storage.get(customListStorageKey)
-}
-export function removeCustomList (id, newCustomList) {
-  const customListStorageKey = MUSIC_LIST_HEAD + id
-  storage.set(customListStorageKey, JSON.stringify(newCustomList))
-}
+
 
 /**
  * 播放历史
