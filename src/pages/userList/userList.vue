@@ -71,7 +71,7 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from 'vuex'
 
-import {getQQMusicListDetail, getUserPlaylist} from 'api/index'
+import {getUserPlaylist} from 'api/index'
 import { loadMixin } from '@/utils/mixin'
 
 import MmLoading from 'base/mm-loading/mm-loading'

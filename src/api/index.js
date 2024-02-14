@@ -153,7 +153,7 @@ export function searchBili(keywords, page = 1) {
 
 // 获取视频cid
 export function getAudioCidFromBili(bvid) {
-  console.log('getAudioCidFromBili')
+  // console.log('getAudioCidFromBili')
   return axiosBiliInfo.get(`/web-interface/view?bvid=${bvid}`)
 }
 
@@ -213,10 +213,11 @@ export function searchQQ(keywords, page = 0, limit = DEFAULT_LIMIT) {
   return axiosCommonQQ.post('', body)
 }
 
-export function getQQMusicListDetail(id, limit = DEFAULT_LIMIT) {
+export function getQQMusicListDetail(id,offset=0, limit = 30) {
   const searchBodyHead = `{"comm":{"g_tk":1106131342,"uin":14324289,"format":"json","platform":"h5"},`
   const searchBodyTail = '}'
-  const curReq = `"req_0":{"module":"music.srfDissInfo.aiDissInfo","method":"uniform_get_Dissinfo","param":{"disstid":983331199,"enc_host_uin":"","tag":1,"userinfo":1,"song_begin":0,"song_num":30}}`
+  // const curReq = `"req_0":{"module":"music.srfDissInfo.aiDissInfo","method":"uniform_get_Dissinfo","param":{"disstid":983331199,"enc_host_uin":"","tag":1,"userinfo":1,"song_begin":0,"song_num":30}}`
+  const curReq = `"req_0":{"module":"music.srfDissInfo.aiDissInfo","method":"uniform_get_Dissinfo","param":{"disstid":${id},"enc_host_uin":"","tag":1,"userinfo":1,"song_begin":${offset},"song_num":${limit}}}`
   const body = searchBodyHead + curReq + searchBodyTail
   return axiosQQlistDetail.post('', body)
 }
@@ -225,10 +226,9 @@ const qqMusicsApiBodyHead = `{"comm":{"cv":4747474,"ct":24,"format":"json","inCh
 const qqMusicsApiBodyTail = `}`
 
 export function getQQMusicVipOneMinuteUrl(vipMids, vipMediaMids) {
-  console.log('getQQMusicVipOneMinuteUrl')
+  // console.log('getQQMusicVipOneMinuteUrl')
   const curReq = `"req_0":{"module":"vkey.GetVkeyServer","method":"CgiGetVkey","param":{"guid":"9920044491","songmid":[${vipMids}],"songtype":[0],"uin":"1431243","loginflag":1,"platform":"20","filename":[${vipMediaMids}]}}`
   const body = qqMusicsApiBodyHead + curReq + qqMusicsApiBodyTail
-  console.log('1223424234')
   return axiosCommonQQ.post('', body)
 }
 

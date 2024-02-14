@@ -13,6 +13,10 @@ const routes = [
     redirect: '/music/playlist',
     children: [
       {
+        path: '/music/about', // 教程
+        component: () => import('pages/about/about'),
+      },
+      {
         path: '/music/playlist', // 正在播放列表
         component: () => import('pages/playList/playList'),
       },

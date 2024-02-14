@@ -1,6 +1,14 @@
 <template>
   <!--头部-->
   <header class="mm-header">
+    <el-switch
+      class="auto-search-switch"
+      v-model="autoSearchSongAudioSource"
+      active-color="#13ce66"
+      inactive-color="#ff4949"
+      active-text="自动搜索"
+    >
+    </el-switch>
     <h1 class="header">
       <a href="https://github.com/maomao1996/Vue-mmPlayer" target="_blank">
         mmPlayer 在线音乐播放器
@@ -13,7 +21,9 @@
         onerror="this.style.display='none'"
       />
     </h1>
+
     <dl class="user">
+
       <template v-if="user.userId">
         <router-link class="user-info" to="/music/userlist" tag="dt">
           <img class="avatar" :src="`${user.avatarUrl}?param=50y50`" />
@@ -69,7 +79,7 @@
 
 <script>
 import { getUserPlaylist } from 'api'
-import { mapGetters, mapActions } from 'vuex'
+import {mapGetters, mapActions, mapMutations} from 'vuex'
 import MmDialog from 'base/mm-dialog/mm-dialog'
 import { toHttps } from '@/utils/util'
 import { VISITOR_BADGE_ID } from '@/config'
@@ -83,6 +93,7 @@ export default {
     return {
       user: {}, // 用户数据
       uidValue: '1532302303', // 记录用户 UID
+      autoSearchSongAudioSource: false,
     }
   },
   computed: {
@@ -92,13 +103,23 @@ export default {
       }
       return ''
     },
-    ...mapGetters(['uid']),
+    ...mapGetters(['uid','autoSearchAudioSource']),
+  },
+  watch: {
+    autoSearchSongAudioSource(newValue, oldValue) {
+      this.setAutoSearchAudioSource(newValue)
+      console.log('this.autoSearchAudioSource', this.autoSearchAudioSource)
+    },
   },
   created() {
     this.uid && this._getUserPlaylist(this.uid)
+    this.autoSearchSongAudioSource = this.autoSearchAudioSource
     console.log("13213123jhgj")
   },
   methods: {
+    ...mapMutations({
+      setAutoSearchAudioSource: 'SET_AUTO_SEARCH_AUDIO_SOURCE',
+    }),
     // 打开对话框
     openDialog(key) {
       switch (key) {
@@ -185,6 +206,16 @@ export default {
       }
     }
   }
+
+  .auto-search-switch {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    line-height: 30px;
+    text-align: right;
+    transform: translateY(-50%);
+  }
+
   .user {
     position: absolute;
     top: 50%;

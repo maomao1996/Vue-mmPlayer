@@ -1,5 +1,5 @@
 export class Song {
-  constructor({platform, limit, id, name, subTitle, singer, album, image, duration, originDuration, url, audioSource, lyricSource}) {
+  constructor({platform, limit, id, name, subTitle, singer, album, image, duration, originDuration, url, audioSource, lyricSource, audioSources, count}) {
     this.limit = limit //在平台上是否受限制
     this.platform = platform    //对于普通音频,platform用各个平台表示,包含b站. 对于组合音频, 用complex表示其类型.
     this.id = id //对于complex类型歌曲记录, id采用拼接的方式,中间用'-'分割
@@ -14,6 +14,8 @@ export class Song {
     this.audioSource = audioSource // bvid/cid及查询的urls.
     this.lyricSource = lyricSource // 歌词来源,封面大概率也来源于此
     this.mixInfo = null // 歌曲拼接的信息
+    this.audioSources = audioSources
+    this.count = count
   }
 }
 /*

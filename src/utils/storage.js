@@ -60,7 +60,7 @@ export function addMusicList(musicListInfo) {
   map.forEach(item => {
     item.platform === 'custom' ? customListCount++ : ''
   })
-  if (customListCount >= LOCAL_LIST_CONTAIN) {
+  if (customListCount >= LOCAL_LIST_NUM) {
     return false
   }
   // ((map.length > 0 && map[0].id) || 0) + 1

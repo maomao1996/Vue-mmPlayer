@@ -11,7 +11,7 @@ import mmToast from 'base/mm-toast'
 import Icon from 'base/mm-icon/mm-icon'
 import VueLazyload from 'vue-lazyload'
 import { VERSION } from './config'
-import {Select, Option} from 'element-ui';
+import {Select, Option, Switch} from 'element-ui';
 
 import '@/styles/index.less'
 
@@ -22,6 +22,7 @@ fastclick.attach(document.body)
 Vue.use(mmToast)
 Vue.use(Select)
 Vue.use(Option)
+Vue.use(Switch)
 // icon 组件
 Vue.component(Icon.name, Icon)
 

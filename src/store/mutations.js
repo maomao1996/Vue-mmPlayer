@@ -47,6 +47,22 @@ const mutations = {
     state.playlist[state.currentIndex].audioSource.urls = urls
   },
 
+  // 点击播放时, 需要为当前song添加urls
+  INSERT_CURRENT_MUSIC(state, music) {
+    // state.playlist[state.currentIndex] = music
+    console.log('music =========', music)
+    let i = state.currentIndex
+    console.log('afafa', state.playlist[i + 1].id)
+    const parts1 = ((state.playlist[i + 1].id) + '').split("-");
+    const result1 = parts1[0];
+    const parts2 = music.id.split("-");
+    const result2 = parts2[0];
+    console.log('choooooooooooo')
+    console.log(result1 , result2)
+    //if (result1 !== result2)
+      //state.playlist.splice(state.currentIndex + 1, 0, music)
+      state.playlist.splice(state.currentIndex, 1, music)
+  },
 
   ADD_MUSIC_LIST_TO_LOCAL(state, res) {
     state.manageMusicListRes = res
@@ -70,6 +86,14 @@ const mutations = {
   SET_MANAGE_MUSIC_LIST_RES(state, flag) {
     state.manageMusicListRes = flag
   },
+
+  SET_AUTO_SEARCH_AUDIO_SOURCE(state, flag) {
+    state.autoSearchAudioSource = flag
+  },
+
+  SET_SONGS_AUDIO_CANDIDATES(state, newCandidates) {
+    state.songsAudioCandidates = newCandidates
+  }
 
 }
 

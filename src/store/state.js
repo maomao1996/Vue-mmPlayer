@@ -7,12 +7,15 @@ const state = {
   playlist: [], // 播放列表
   orderList: [], // 顺序列表
   currentIndex: -1, // 当前音乐索引
+  // currentMusic: {}, // 当前音乐索引
   historyList: getHistoryList() || [], // 播放历史列表
   uid: getUserId() || null, // 网易云用户UID,
   commentOpen: false,
   searchAudio: null,
   manageMusicListRes: false,
   musicListMap: getMusicListMap() || [],
+  autoSearchAudioSource: false,
+  songsAudioCandidates: [],
 }
 
 export default state

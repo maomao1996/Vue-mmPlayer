@@ -69,7 +69,7 @@ export default {
     }
     if (this.searchAudio.audioSource && this.searchAudio.audioSource.tryBind) {
       this.searchValue = this.searchAudio.audioSource.tryBind
-      this.exactSearchAudio(this.searchAudio).then(list => {
+      this.exactSearchAudio(this.searchAudio, false).then(list => {
         console.log('list=', list)
         this.list = list
         this.mmLoadShow = false
@@ -96,7 +96,7 @@ export default {
      但是这个功能可以加到"为歌单添加音源"中, 否则用户一个一个查看音源音质太费事
     2. 关键词上, 可以做文章, 看除了'hi-res'还能添加什么关键词
      */
-    async exactSearchAudio(reference) {
+    async exactSearchAudio(reference, checkoutDuration = true) {
       // console.log("targetDuration=", targetDuration)
       const desiredDataCount = 8;
       const maxReq = 3 //最多查询次数
@@ -112,7 +112,7 @@ export default {
             const minute = parseInt(durationFormat[0])
             const second = parseInt(durationFormat[1])
             const duration = (minute * 60 + second)
-            if (Math.abs(duration - reference.originDuration) <= 4) {
+            if (!checkoutDuration || Math.abs(duration - reference.originDuration) <= 4) {
               item.title = item.title.replace(/<em class="keyword">|<\/em>/g, '')
               item.lyricSource = {platform: reference.platform, songId: reference.id}
               const complex = {
@@ -122,7 +122,7 @@ export default {
                 singer: reference.singer,
                 album: reference.album,
                 image: reference.image,
-                duration: item.duration,
+                duration: reference.originDuration, //歌曲真实时长,也就是正版的时长, complex中的duration用于表示找到的音频的时长
                 mixInfo: {audioSourceFrom: 'bili', others: reference.platform},
               }
               item.complex = complex
@@ -130,7 +130,7 @@ export default {
               validData.push(item)
             }
           })
-          console.log('validData=', validData)
+          // console.log('validData=', validData)
           if (list.length < 20) {
             break;
           }

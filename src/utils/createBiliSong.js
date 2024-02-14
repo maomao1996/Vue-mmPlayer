@@ -20,14 +20,14 @@ export function createBiliSong(videoInfo) {
     name: videoInfo.title,
     image: `https:${videoInfo.pic}@672w_378h_1c_!web-search-common-cover.avif`,
     duration,
-    singer: 'bilibili',
+    singer: videoInfo.bvid,
     album: 'bilibili 干杯!',
     audioSource: biliSource,
     lyricSource: videoInfo.lyricSource || null
   })
 
   return getAudioCidFromBili(videoInfo.bvid).then((data) => {
-    console.log("data=", data)
+    // console.log("getAudioCidFromBili data=", data)
     biliSource.cid = data.data.cid
     return biliSong
   })

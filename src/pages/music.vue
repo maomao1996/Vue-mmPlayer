@@ -108,7 +108,14 @@
 </template>
 
 <script>
-import {getAudioUrlFromBili, getLyric, getQQLyric, getQQMusicUrl, getQQMusicVipOneMinuteUrl} from 'api/index'
+import {
+  getAudioUrlFromBili,
+  getLyric,
+  getQQLyric,
+  getQQMusicUrl,
+  getQQMusicVipOneMinuteUrl,
+  searchBili
+} from 'api/index'
 import mmPlayerMusic from './mmPlayer'
 import {randomSortArray, parseLyric, format, silencePromise, generateUUID} from '@/utils/util'
 import {PLAY_MODE, MMPLAYER_CONFIG} from '@/config'
@@ -123,6 +130,7 @@ import {audioEle} from "@/store/getters";
 import cloneDeep from "lodash/cloneDeep";
 import MmDialog from 'base/mm-dialog/mm-dialog'
 import {createCustomMusicListInfo} from "@/utils/music_list/MusicListInfo";
+import {createComplexSong} from "@/utils/createComplexSong";
 
 export default {
   name: 'Music',
@@ -154,6 +162,8 @@ export default {
       isMute: false, // 是否静音
       volume, // 音量大小,
       quality: '',
+      // autoSearchAudioSource: true, //自动
+      candidateSongs: [],
     }
   },
   computed: {
@@ -191,29 +201,43 @@ export default {
       'historyList',
       'musicListMap',
       'manageMusicListRes',
+      'autoSearchAudioSource',
     ]),
   },
   watch: {
     // 这里监测vuex中的currentMusic对象, prev/next/play()等函数改动的是currentIndex.
     //而getters.js中state.playlist[state.currentIndex], 所以改动currentIndex会影响currentMusic
     currentMusic(newMusic, oldMusic) {
-      console.log('music.vue#watch currentMusic')
+     this.currentMusic2(newMusic, oldMusic)
+    },
+    /*currentMusicOld(newMusic, oldMusic) {
+      console.log('@@@@@@@@ music.vue#watch currentMusic')
       console.log('currentMusic newMusic=', newMusic)
       if (!newMusic.id) {
         this.lyric = []
         return
       }
 
-      // 对bili视频可以重复播放原因是:从正常搜索的一个版本跳到b站搜索播放一个视频歌曲后, 再用另一个版本跳到b站搜索, 点击正在播放的视频, 不会重新播放该视频
-      //如果不重新播放, 则视频对应的歌词也没有改变.
-      if (newMusic.platform !== 'bili' && newMusic.id === oldMusic.id) {
+      if (newMusic.id === oldMusic.id) {
         console.log('新旧musicId相同')
         return
       }
 
-
       let getUrl = null
+      if (this.autoSearchAudioSource && newMusic.limit !== 0 && newMusic.limit !== 8) {
 
+        console.log('a########### audoSearchAudio ')
+        getUrl = this.exactSearchAudio(newMusic, true).then(candidates => {
+          console.log('replace now !!!!!!!!!')
+          this.candidatesSong = candidates
+          this.insertCurrentMusic(candidates[0])
+          newMusic = candidates[0]
+          console.log('replace success!!!!!!!!!')
+          console.log('newMusic=', newMusic)
+          console.log('candidates=', candidates)
+        })
+        console.log('agadfa!!!!!!')
+      }
       if (newMusic.platform === 'qq') {
         if (newMusic.limit === 0){
           getUrl = getQQMusicUrl(`"${newMusic.id}"`).then((data) => {
@@ -242,11 +266,11 @@ export default {
         this.audioEle.src = newMusic.url
         this.quality = '' //平台歌曲默认都是128kbps,统一不展示了
 
-        /*this.lyricIndex = this.currentTime = this.currentProgress = 0
+        /!*this.lyricIndex = this.currentTime = this.currentProgress = 0
         silencePromise(this.audioEle.play())
         this.$nextTick(() => {
           this._getLyric(newMusic)
-        })*/
+        })*!/
       } else {
         // 音源在audioSource中
         getUrl = getAudioUrlFromBili(newMusic.audioSource.bvid, newMusic.audioSource.cid).then(data => {
@@ -266,11 +290,11 @@ export default {
           this.audioEle.src = newMusic.audioSource.urls[0].url
           this.quality = newMusic.audioSource.urls[0].quality
 
-          /*this.lyricIndex = this.currentTime = this.currentProgress = 0
+          /!*this.lyricIndex = this.currentTime = this.currentProgress = 0
           silencePromise(this.audioEle.play())
           this.$nextTick(() => {
             this._getLyric(newMusic)
-          })*/
+          })*!/
         })
       }
 
@@ -293,7 +317,7 @@ export default {
       }
 
       //这是没有抽出play()和_getLyric()时的代码,暂时保留
-/*      if (newMusic.platform === 'qq') {
+/!*      if (newMusic.platform === 'qq') {
         if (newMusic.limit === 0){
           getQQMusicUrl(`"${newMusic.id}"`).then((data) => {
             console.log('getQQMusicUrl=========')
@@ -369,20 +393,20 @@ export default {
             this._getLyric(newMusic)
           })
           // console.log('promuse  郭洪智参乎上')
-        })*/
+        })*!/
 
-        /*console.log("newMusic=", newMusic)
-        console.log("quality=", newMusic.audioSource.urls[0].quality)*/
+        /!*console.log("newMusic=", newMusic)
+        console.log("quality=", newMusic.audioSource.urls[0].quality)*!/
         //this.audioEle.src = newMusic.audioSource.urls[0].url
 
-      /*// 重置相关参数
+      /!*!// 重置相关参数
       this.lyricIndex = this.currentTime = this.currentProgress = 0
       silencePromise(this.audioEle.play())
       this.$nextTick(() => {
         this._getLyric(newMusic)
       })
-      }*/
-    },
+      }*!/
+    },*/
     // 点击播放/暂停按钮后, 修改playing的值
     playing(newPlaying) {
       console.log("@@@@@@@@@@ playing====", newPlaying)
@@ -421,6 +445,262 @@ export default {
     })
   },
   methods: {
+    async currentMusic2(newMusic, oldMusic) {
+      console.log('@@@@@@@@ music.vue#watch currentMusic')
+      console.log('currentMusic newMusic=', newMusic)
+      if (!newMusic.id) {
+        this.lyric = []
+        return
+      }
+
+      if (newMusic.id === oldMusic.id) {
+        console.log('新旧musicId相同')
+        return
+      }
+
+      let getUrl = null
+      if (newMusic.platform !== 'complex' && this.autoSearchAudioSource && newMusic.limit && newMusic.limit !== 0 && newMusic.limit !== 8) {
+
+        console.log('a########### audoSearchAudio ')
+        await this.exactSearchAudio(newMusic, true).then(candidates => {
+          console.log('replace now !!!!!!!!!')
+          this.candidateSongs = candidates
+          // this.replaceCurrentMusic(candidates[0])
+          // newMusic = candidates[0]
+          // this.setCurrentIndex(this.currentIndex)
+          // return
+          // console.log('newMusic=', newMusic)
+          // console.log('candidates=', candidates)
+        })
+        //this.next()
+        if (this.candidateSongs.length >= 1) {
+          console.log('candidates=', this.candidateSongs)
+          this.insertCurrentMusic(this.candidateSongs[0])
+          console.log('insert success!!!!!!!!!', this.playlist)
+          return
+        }
+        // console.log('agadfa!!!!!!')
+      }
+      if (newMusic.platform === 'qq') {
+        if (newMusic.limit === 0){
+          getUrl = getQQMusicUrl(`"${newMusic.id}"`).then((data) => {
+            console.log('getQQMusicUrl=========')
+            console.log(data)
+            const songUrl = data.req_0.data.midurlinfo[0].purl
+            // this.audioEle.src = `http://dl.stream.qqmusic.qq.com/` + songUrl
+            this.audioEle.src = newMusic.url + songUrl
+            console.log('this.audioEle.src', this.audioEle.src)
+            this.quality = ''
+          })
+        }
+        else {
+          const vipMidsStr = `"${newMusic.id}"`
+          const vipMediaMidsStr = `"RS02${newMusic.audioSource.media_mid}.mp3"`
+          getUrl = getQQMusicVipOneMinuteUrl(vipMidsStr, vipMediaMidsStr).then(data => {
+            console.log('getQQMusicVipOneMinuteUrl===')
+            console.log(data)
+            const vipUrl = data.req_0.data.midurlinfo[0].purl
+            this.audioEle.src = newMusic.audioSource.url + vipUrl
+            this.quality = ''
+            console.log(' this.audioEle.src',  this.audioEle.src)
+          })
+        }
+      }
+      else if (newMusic.platform === 'netease') {
+        // 在官方平台上有音频
+        this.audioEle.src = newMusic.url
+        this.quality = '' //平台歌曲默认都是128kbps,统一不展示了
+
+        /*this.lyricIndex = this.currentTime = this.currentProgress = 0
+        silencePromise(this.audioEle.play())
+        this.$nextTick(() => {
+          this._getLyric(newMusic)
+        })*/
+      } else {
+        // 音源在audioSource中
+        getUrl = getAudioUrlFromBili(newMusic.audioSource.bvid, newMusic.audioSource.cid).then(data => {
+          const audios = data.data.dash.audio
+          const urls = []
+          for (let i = 0; i < audios.length; i++) {
+            const quality = (Math.round(audios[i].bandwidth / 1000)) + 'kbps'
+            const url = audios[i].baseUrl
+            const urlObj = {quality, url}
+            urls.push(urlObj)
+          }
+          // newMusic.audioSource.urls = urls // 因为currentMusic对象被vuex管理,所以其中的属性修改时要用mutation的方式
+          this.setMusicAudioUrls(urls)
+          console.log('ghjkgkjg')
+        }).then(() => {
+          // @TODO 这里默认使用urls[0], 没有考虑"urls[0]不可用"的情况
+          this.audioEle.src = newMusic.audioSource.urls[0].url
+          this.quality = newMusic.audioSource.urls[0].quality
+
+          /*this.lyricIndex = this.currentTime = this.currentProgress = 0
+          silencePromise(this.audioEle.play())
+          this.$nextTick(() => {
+            this._getLyric(newMusic)
+          })*/
+        })
+      }
+
+      if (getUrl) {
+        getUrl.then(() => {
+          this.lyricIndex = this.currentTime = this.currentProgress = 0
+          console.log('aaaa123114342')
+          silencePromise(this.audioEle.play())
+          this.$nextTick(() => {
+            this._getLyric(newMusic)
+          })
+        })
+      } else {
+        this.lyricIndex = this.currentTime = this.currentProgress = 0
+        console.log('aaaa123114342')
+        silencePromise(this.audioEle.play())
+        this.$nextTick(() => {
+          this._getLyric(newMusic)
+        })
+      }
+
+      //这是没有抽出play()和_getLyric()时的代码,暂时保留
+      /*      if (newMusic.platform === 'qq') {
+              if (newMusic.limit === 0){
+                getQQMusicUrl(`"${newMusic.id}"`).then((data) => {
+                  console.log('getQQMusicUrl=========')
+                  console.log(data)
+                  const songUrl = data.req_0.data.midurlinfo[0].purl
+                  this.audioEle.src = `http://dl.stream.qqmusic.qq.com/` + songUrl
+                  // newMusic.url += songsUrlInfo[i].purl
+                  console.log('this.audioEle.src', this.audioEle.src)
+                  this.lyricIndex = this.currentTime = this.currentProgress = 0
+                  console.log('aaaa123114342')
+                  silencePromise(this.audioEle.play())
+                  this.$nextTick(() => {
+                    this._getLyric(newMusic)
+                  })
+                })
+              }
+              else {
+                const vipMidsStr = `"${newMusic.id}"`
+                const vipMediaMidsStr = `"RS02${newMusic.audioSource.media_mid}.mp3"`
+                getQQMusicVipOneMinuteUrl(vipMidsStr, vipMediaMidsStr).then(data => {
+                  console.log('getQQMusicVipOneMinuteUrl===')
+                  console.log(data)
+                  const vipUrl = data.req_0.data.midurlinfo[0].purl
+                  // formattedSongs[i].url += vipUrl.purl
+                  this.audioEle.src = newMusic.audioSource.url + vipUrl
+                  console.log(' this.audioEle.src',  this.audioEle.src)
+                  this.lyricIndex = this.currentTime = this.currentProgress = 0
+                  console.log('aaaa123114342')
+                  silencePromise(this.audioEle.play())
+                  this.$nextTick(() => {
+                    this._getLyric(newMusic)
+                  })
+                })
+              }
+            }
+            // if (newMusic.platform !== 'complex' && newMusic.platform !== 'bili') {
+            else if (newMusic.platform === 'netease') {
+              // 在官方平台上有音频
+              this.audioEle.src = newMusic.url
+              this.quality = '' //平台歌曲默认都是128kbps,统一不展示了
+              this.lyricIndex = this.currentTime = this.currentProgress = 0
+              silencePromise(this.audioEle.play())
+              this.$nextTick(() => {
+                this._getLyric(newMusic)
+              })
+              // console.log('郭洪智参乎上')
+            } else {
+              // 音源在audioSource中
+              // console.log('1421312313')
+              getAudioUrlFromBili(newMusic.audioSource.bvid, newMusic.audioSource.cid).then(data => {
+                const audios = data.data.dash.audio
+                const urls = []
+                for (let i = 0; i < audios.length; i++) {
+                  const quality = (Math.round(audios[i].bandwidth / 1000)) + 'kbps'
+                  const url = audios[i].baseUrl
+                  const urlObj = {quality, url}
+                  urls.push(urlObj)
+                  console.log('mhgfjh142134123')
+                }
+                console.log('jfhjfjh1421312313')
+                // newMusic.audioSource.urls = urls // 因为currentMusic对象被vuex管理,所以其中的属性修改时要用mutation的方式
+                this.setMusicAudioUrls(urls)
+                console.log('ghjkgkjg')
+              })
+                .then(() => {
+                console.log('123114342')
+                this.audioEle.src = newMusic.audioSource.urls[0].url
+                this.quality = newMusic.audioSource.urls[0].quality
+                this.lyricIndex = this.currentTime = this.currentProgress = 0
+                console.log('aaaa123114342')
+                silencePromise(this.audioEle.play())
+                this.$nextTick(() => {
+                  this._getLyric(newMusic)
+                })
+                // console.log('promuse  郭洪智参乎上')
+              })*/
+
+      /*console.log("newMusic=", newMusic)
+      console.log("quality=", newMusic.audioSource.urls[0].quality)*/
+      //this.audioEle.src = newMusic.audioSource.urls[0].url
+
+      /*// 重置相关参数
+      this.lyricIndex = this.currentTime = this.currentProgress = 0
+      silencePromise(this.audioEle.play())
+      this.$nextTick(() => {
+        this._getLyric(newMusic)
+      })
+      }*/
+    },
+    async exactSearchAudio(reference, checkoutDuration = true) {
+      const keyword = reference.name + ' ' + reference.singer + ' hi-res ' + ' 杜比 ' + ' 无损 '
+      const desiredDataCount = 4;
+      const maxReq = 2 //最多查询次数
+      const validData = []
+      let page = 1;
+      while (validData.length < desiredDataCount && page <= maxReq) {
+        try {
+          const data = await searchBili(keyword, page);
+          const list = data.data.result;
+
+          list.forEach(item => {
+            const durationFormat = item.duration.split(':') //视频duration最小单位是秒, 匹配歌词的话可能有误差
+            const minute = parseInt(durationFormat[0])
+            const second = parseInt(durationFormat[1])
+            const duration = (minute * 60 + second)
+            if (!checkoutDuration || Math.abs(duration - reference.originDuration) <= 4) {
+              item.title = item.title.replace(/<em class="keyword">|<\/em>/g, '')
+              item.lyricSource = {platform: reference.platform, songId: reference.id}
+              const complex = {
+                id: reference.id + '-' + item.bvid,
+                name: reference.name,
+                subTitle: reference.subTitle,
+                singer: reference.singer,
+                album: reference.album,
+                image: reference.image,
+                //@TODO 这个duration应该用上面计算出来的duration,而不是item.duration,item.duration格式不对
+                duration: item.duration,
+                mixInfo: {audioSourceFrom: 'bili', others: reference.platform},
+              }
+              item.complex = complex
+              //@TODO 有重复bvid, 按道理来说,分页查询重复可能性不大. 暂时不管这个bug
+              createComplexSong(item).then((complexSong) => {
+                validData.push(complexSong)
+              })
+            }
+          })
+          // console.log('validData=', validData)
+          if (list.length < 20) {
+            break;
+          }
+          page++;
+        } catch (error) {
+          console.error('Error fetching data:', error);
+          break;
+        }
+      }
+      return validData
+    },
     // 添加歌曲到自建歌单
     addCustomList() {
       this.setManageMusicListRes(false)
@@ -697,6 +977,7 @@ export default {
       setCurrentIndex: 'SET_CURRENTINDEX',
       setCommentOpen: 'SET_COMMENT_OPEN',
       setMusicAudioUrls: 'SET_MUSIC_AUDIO_URLS',
+      insertCurrentMusic: 'INSERT_CURRENT_MUSIC',
       setManageMusicListRes: 'SET_MANAGE_MUSIC_LIST_RES',
     }),
     ...mapActions(['setHistory', 'setPlayMode', 'addMusicToCustomList' ,'addMusicListToLocal']),

@@ -1,0 +1,216 @@
+{
+  "code": 0,
+  "subcode": 0,
+  "msg": "",
+  "data": {
+    "creator": {
+      "nick": "抗压小能手",
+      "headpic": "http://thirdqq.qlogo.cn/g?b=sdk&k=mKQO1AYgWwcky6Fxpicz9ew&s=140&t=1623942704",
+      "ifpic": "",
+      "uin": 0,
+      "forbidden": 0,
+      "ishost": 1,
+      "is_bind_weibo": 0,
+      "weibo_uid": "",
+      "weibo_nick": "",
+      "extra": "",
+      "singerinfo": {
+        "singerid": 0
+      },
+      "uin_web": "",
+      "encrypt_uin": "oio5oK4zNeS5",
+      "isfollow": 0,
+      "islock": 0,
+      "buy_lock": 0,
+      "fav_lock": 0,
+      "diss_lock": 0,
+      "shareurl": "https://i.y.qq.com/n2/m/share/profile_v2/index.html?userid=oio5oK4zNeS5",
+      "share_bykey": {
+        "url_key": "share_profile_index",
+        "url_params": "userid=oio5oK4zNeS5"
+      },
+      "jumpkey": "ia_share_profile",
+      "typeinfo": {
+        "type": 0,
+        "jumpurl": "http://y.qq.com/m/client/profile/prefer.html?ADTAG=share&_wv=1&userid=oio5oK4zNeS5#wechat_redirect", //口味偏好
+        "cfinfo_bykey": {
+          "url_key": "profile_prefer",
+          "url_params": "ADTAG=share&userid=oio5oK4zNeS5"
+        },
+        "jumpkey": "ia_taste_info_jump",
+        "iconurl": ""
+      },
+      "lvinfo": [],
+      "userInfoUI": {
+        "nickname": {
+          "lightColor": "",
+          "darkColor": ""
+        },
+        "iconlist": [ //是否是会员,ext是购买会员界面
+          {
+            "width": 62,
+            "height": 46,
+            "srcUrl": "https://y.qq.com/mediastyle/lv-icon/v10/vip/2x/d-vip1.png",
+            "style": "click",
+            "ext": "https://i.y.qq.com/n2/m/myservice/v3/index.html?_hidehd=1&entry=1&aid=music.sfw.myinfo.spvip.ios&sonic_remain_params=tab1&tab1=svip&tab2=cjhy&tab3=stvip",
+            "desc": "{\"int10\":0}"
+          },
+          {
+            "width": 34,
+            "height": 46,
+            "srcUrl": "https://y.qq.com/mediastyle/lv-icon/v10/audio/2x/d-vip1.png",
+            "style": "click",
+            "ext": "https://i.y.qq.com/n2/m/myservice/v3/index.html?_hidehd=1&entry=1&aid=music.sfw.myinfo.spvip.ios&sonic_remain_params=tab1&tab1=bookvip&tab2=svip&tab3=cjhy",
+            "desc": "{\"int10\":7}"
+          }
+        ]
+      },
+      "medal": { //听歌奖章
+        "flag": 0,
+        "iconurl": "http://y.gtimg.cn/music/icon/h5/medal_g.png",
+        "jumpurl": "http://y.qq.com/m/medal/index.html",
+        "jumpkey": "ia_singer_metal_index",
+        "medal_bykey": {
+          "url_key": "ia_singer_metal_index",
+          "url_params": ""
+        }
+      },
+      "listeninfo": { // 打卡活动界面
+        "iconurl": "http://y.gtimg.cn/music/icon/h5/listen/lv12.png",
+        "jumpurl": "https://i.y.qq.com/n2/m/client/actcenter/index.html",
+        "jumpkey": "ia_my_acclevel",
+        "listen_bykey": {
+          "url_key": "acclevel_index",
+          "url_params": "uin=oio5oK4zNeS5"
+        }
+      },
+      "backpic": { //背景图片
+        "picurl": "http://y.gtimg.cn/music/photo_new/T011R750x750M000003Zu6B44NwSgp.jpg",
+        "type": 1,
+        "title": "时光飞逝"
+      },
+      "cfinfo": { //听歌口味分析
+        "title": "",
+        "jumpurl": "http://y.qq.com/m/client/profile/prefer.html?ADTAG=share&_wv=1&userid=oio5oK4zNeS5#wechat_redirect",
+        "jumpkey": "ia_taste_info_jump",
+        "cfinfo_bykey": {
+          "url_key": "profile_prefer",
+          "url_params": "ADTAG=share&userid=oio5oK4zNeS5"
+        },
+        "similar": 0
+      },
+      "nums": { //被浏览量/关注人数及被关注人数
+        "visitornum": 20,
+        "fansnum": 0,
+        "follownum": 15,
+        "followusernum": 4,
+        "followsingernum": 11,
+        "frdnum": 0
+      }
+    },
+    "mymusictype": "我的音乐",
+    "mymusic": [
+      {
+        "title": "评论",
+        "picurl": "https://y.gtimg.cn/music/photo_new/T002R150x150M000001NtY0M4MQe98_1.jpg?max_age=2592000",
+        "laypic": "https://y.gtimg.cn/music/common/upload/t_cm3_photo_publish/138438.png",
+        "subtitle": "2条评论",
+        "jumpurl": "",
+        "jumptype": 1,
+        "jumpkey": "commentinfo",
+        "id": "0",
+        "music_bykey": {
+          "url_key": "",
+          "url_params": ""
+        },
+        "type": 5
+      },
+      {
+        "title": "我喜欢",
+        "picurl": "http://y.gtimg.cn/music/photo_new/T002R300x300M000001L6Psf4Eym2u_4.jpg",
+        "laypic": "http://y.gtimg.cn/music/photo_new/T011M000003y0CAs30Zplm.png",
+        "subtitle": "953首歌曲    12张歌单",
+        "jumpurl": "http://y.qq.com/w/taoge.html?ADTAG=profile_h5&id=983331199",
+        "jumptype": 0,
+        "jumpkey": "",
+        "id": "983331199",
+        "music_bykey": {
+          "url_key": "w_taoge",
+          "url_params": "ADTAG=profile_h5&id=983331199"
+        },
+        "type": 1,
+        "num0": 953,
+        "num1": 0,
+        "num2": 12
+      },
+      {
+        "title": "那年今日", //暂时打不开链接
+        "picurl": "http://y.gtimg.cn/music/photo_new/T011M000003t1El20S9FcD.jpg",
+        "laypic": "http://y.gtimg.cn/music/photo_new/T011M000003eWhtd0N6zFl.png",
+        "subtitle": "逝水流年那年今日音乐相伴",
+        "jumpurl": "http://y.qq.com/m/client/theday/index.html?ADTAG=profile_h5&encrypt_uin=oio5oK4zNeS5&fnick=%E6%8A%97%E5%8E%8B%E5%B0%8F%E8%83%BD%E6%89%8B",
+        "jumptype": 1,
+        "jumpkey": "ia_year_of_today",
+        "id": "0",
+        "music_bykey": {
+          "url_key": "theday_index",
+          "url_params": "ADTAG=profile_h5&encrypt_uin=oio5oK4zNeS5&fnick=%E6%8A%97%E5%8E%8B%E5%B0%8F%E8%83%BD%E6%89%8B"
+        },
+        "type": 2
+      }
+    ],
+    "mydiss": {
+      "num": 45,
+      "title": "歌单",
+      "laypic": "https://y.gtimg.cn/music/common/upload/t_cm3_photo_publish/132770.png",
+      "jumpurl": "http://www.qq.com",
+      "list":
+     [{
+       "dissid": 9153547725,
+       "dirid": 51,
+       "picurl": "http://y.gtimg.cn/music/photo_new/T002R500x500M000004dOiZg0VXhwt.jpg?n=1",
+       "title": "私人雷达",
+       "subtitle": "29首    0次播放    ",
+       "icontype": 0,
+       "iconurl": "",
+       "isshow": 1,
+       "dir_show": 1
+     },
+       {
+         "dissid": 8770661044,
+         "dirid": 50,
+         "picurl": "http://y.gtimg.cn/music/photo_new/T002R500x500M000002dh1zy2fgOOo.jpg?n=1",
+         "title": "到底Emo有瘾 还是想她上瘾",
+         "subtitle": "2首    0次播放    国语",
+         "icontype": 0,
+         "iconurl": "",
+         "isshow": 1,
+         "dir_show": 1
+       }
+     ]
+    },
+    "video": { //应该是"我上传的视频"
+      "num": 0,
+      "title": "",
+      "jumpurl": "",
+      "jumpkey": "ia_post_video_more",
+      "list": []
+    },
+    "myarticle": {
+      "title": "我的专栏文章 0",
+      "jumpurl": "https://y.qq.com/m/client/personal_magazine/index.html?encrypt_uin=oio5oK4zNeS5",
+      "jumpkey": "magazine_more",
+      "laypic": "https://y.gtimg.cn/music/common/upload/t_cm3_photo_publish/132771.png",
+      "totalcnt": 0,
+      "list": []
+    },
+    "myradio": {
+      "title": "我的主播电台 0",
+      "jumpurl": "https://y.qq.com/m/client/personal_radio/index.html?encrypt_uin=oio5oK4zNeS5",
+      "jumpkey": "radio_more",
+      "laypic": "https://y.gtimg.cn/music/common/upload/t_cm3_photo_publish/132769.png",
+      "totalcnt": 0,
+      "list": []
+    }
+  }
+}

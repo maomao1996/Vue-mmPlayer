@@ -2,6 +2,7 @@
   <!--选项-->
   <div class="music-btn">
     <router-link to="/music/playlist" tag="span">正在播放的歌单</router-link>
+    <router-link to="/music/about" tag="span">教程</router-link>
     <router-link to="/music/toplist" tag="span">推荐</router-link>
     <router-link to="/music/search" tag="span">搜索</router-link>
     <router-link to="/music/bilisearch" tag="span">bili搜索</router-link>
