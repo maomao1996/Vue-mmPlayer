@@ -30,5 +30,7 @@ export const manageMusicListRes = (state) => state.manageMusicListRes
 
 export const autoSearchAudioSource = (state) => state.autoSearchAudioSource
 
+export const useBindAudio = (state) => state.useBindAudio
+
 export const songsAudioCandidates = (state) => state.songsAudioCandidates
 

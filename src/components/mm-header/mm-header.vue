@@ -9,6 +9,14 @@
       active-text="自动搜索"
     >
     </el-switch>
+    <el-switch
+      class="use-bind-audio"
+      v-model="useBindAudioInfo"
+      active-color="#13ce66"
+      inactive-color="#ff4949"
+      active-text="使用绑定音频"
+    >
+    </el-switch>
     <h1 class="header">
       <a href="https://github.com/maomao1996/Vue-mmPlayer" target="_blank">
         mmPlayer 在线音乐播放器
@@ -94,6 +102,7 @@ export default {
       user: {}, // 用户数据
       uidValue: '1532302303', // 记录用户 UID
       autoSearchSongAudioSource: false,
+      useBindAudioInfo: false,
     }
   },
   computed: {
@@ -103,13 +112,17 @@ export default {
       }
       return ''
     },
-    ...mapGetters(['uid','autoSearchAudioSource']),
+    ...mapGetters(['uid','autoSearchAudioSource', 'useBindAudio']),
   },
   watch: {
     autoSearchSongAudioSource(newValue, oldValue) {
       this.setAutoSearchAudioSource(newValue)
       console.log('this.autoSearchAudioSource', this.autoSearchAudioSource)
     },
+    useBindAudioInfo(newValue, oldValue) {
+      console.log('newValue', newValue)
+      this.setUseBindAudio(newValue)
+    }
   },
   created() {
     this.uid && this._getUserPlaylist(this.uid)
@@ -119,6 +132,7 @@ export default {
   methods: {
     ...mapMutations({
       setAutoSearchAudioSource: 'SET_AUTO_SEARCH_AUDIO_SOURCE',
+      setUseBindAudio: 'SET_USE_BIND_AUDIO',
     }),
     // 打开对话框
     openDialog(key) {
@@ -211,6 +225,14 @@ export default {
     position: absolute;
     top: 50%;
     left: 15px;
+    line-height: 30px;
+    text-align: right;
+    transform: translateY(-50%);
+  }
+  .use-bind-audio {
+    position: absolute;
+    top: 50%;
+    left: 135px;
     line-height: 30px;
     text-align: right;
     transform: translateY(-50%);

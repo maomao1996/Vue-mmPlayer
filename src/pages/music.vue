@@ -75,7 +75,7 @@
         @confirm="addCustomList"
       >
         <div class="mm-dialog-text">
-          (输入完名称请回车,最后点击确定)
+          (输入完回车或点击空白区域检查内容变化,勿直接点击"添加")
           <el-select
             v-model="chosenMusicListTitle"
             filterable
@@ -83,7 +83,7 @@
             default-first-option
             placeholder="请选择歌单名称或输入新歌单名称">
             <el-option
-              v-for="item in musicListMap"
+              v-for="item in customMusicListMap"
               :key="item.id"
               :label="item.title"
               :value="item.title">
@@ -119,7 +119,7 @@ import {
 import mmPlayerMusic from './mmPlayer'
 import {randomSortArray, parseLyric, format, silencePromise, generateUUID} from '@/utils/util'
 import {PLAY_MODE, MMPLAYER_CONFIG} from '@/config'
-import {getVolume, setVolume} from '@/utils/storage'
+import {getBindInfo, getVolume, setVolume} from '@/utils/storage'
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 
 import MmProgress from 'base/mm-progress/mm-progress'
@@ -164,9 +164,15 @@ export default {
       quality: '',
       // autoSearchAudioSource: true, //自动
       candidateSongs: [],
+      // useBindAudio: true,
     }
   },
   computed: {
+    customMusicListMap() {
+      // console.log('this.musicListMap', this.musicListMap)
+      // console.log('222222222222', this.musicListMap.filter(item => item.platform === 'custom').map(item => item))
+      return this.musicListMap.filter(item => item.platform === 'custom').map(item => item)
+    },
     /*quality() {
       console.log('1lkjlhlh')
       if ((this.currentMusic.platform === 'complex' || this.currentMusic.platform === 'bili')  && this.currentMusic.audioSource.urls[0]) {
@@ -202,6 +208,7 @@ export default {
       'musicListMap',
       'manageMusicListRes',
       'autoSearchAudioSource',
+      'useBindAudio',
     ]),
   },
   watch: {
@@ -414,6 +421,7 @@ export default {
       this.$nextTick(() => {
         newPlaying ? silencePromise(audio.play()) : audio.pause()
         this.musicReady = true
+        console.log('nextTick end')
       })
     },
     //监测currentTime为了修改lyricIndex
@@ -456,6 +464,26 @@ export default {
       if (newMusic.id === oldMusic.id) {
         console.log('新旧musicId相同')
         return
+      }
+
+      if (newMusic.platform !== 'complex' && newMusic.platform !== 'bili' && this.useBindAudio) {
+        console.log('this.useBindAudio', this.useBindAudio)
+        const bindInfo = getBindInfo(newMusic.id)
+        if (bindInfo !== null) {
+          const {bvid, cid} = bindInfo.audioInfo
+          // const {bvid, cid} = getBindInfo(newMusic.id)
+          console.log('bindInfo===', bindInfo)
+          console.log('audioInfo==', bvid, cid)
+          const complexMusic = cloneDeep(newMusic)
+          complexMusic.platform = 'complex'
+          complexMusic.id = newMusic.id + '-' + bvid
+          complexMusic.limit = 0
+          complexMusic.audioSource = {bvid: bvid, cid: cid}
+          complexMusic.duration = complexMusic.originDuration
+          this.insertCurrentMusic(complexMusic)
+          console.log('complexMusic====', complexMusic)
+          return
+        }
       }
 
       let getUrl = null
@@ -517,6 +545,7 @@ export default {
           this._getLyric(newMusic)
         })*/
       } else {
+        console.log('complex play00000')
         // 音源在audioSource中
         getUrl = getAudioUrlFromBili(newMusic.audioSource.bvid, newMusic.audioSource.cid).then(data => {
           const audios = data.data.dash.audio
@@ -678,8 +707,8 @@ export default {
                 singer: reference.singer,
                 album: reference.album,
                 image: reference.image,
-                //@TODO 这个duration应该用上面计算出来的duration,而不是item.duration,item.duration格式不对
-                duration: item.duration,
+                // duration: duration,
+                originDuration: reference.originDuration,
                 mixInfo: {audioSourceFrom: 'bili', others: reference.platform},
               }
               item.complex = complex

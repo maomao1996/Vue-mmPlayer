@@ -20,6 +20,7 @@
     <music-list v-else-if="platform === 'qq' && !bindAudio" list-type="qqListDetails" :list="list" @select="selectItem"
                 @pullUp="pullUpLoadQQList">
       <div v-if="!bindAudio" slot="listBtnHead" class="list-btn">
+<!--        <span @click="bindSongsAudio">绑定歌单中的vip歌曲</span>-->
         <span @click="bindSongsAudio">绑定歌单中的vip歌曲</span>
       </div>
     </music-list>
@@ -96,6 +97,8 @@ export default {
     } else if (this.platform === 'qq') {
       getQQMusicListDetail(this.songListId, this.qqListPage, this.qqListPageCount).then(data => {
         this.qqListCount = data.req_0.data.total_song_num
+        document.title = this.platform + ' - ' + data.req_0.data.dirinfo.title
+        // console.log('data====')
         // console.log(data)
         this.list = formatSongs(data.req_0.data.songlist)
         this._hideLoad()
@@ -121,6 +124,15 @@ export default {
   },
   methods: {
     bindSongsAudio() {
+      this.$router.push({
+        name: 'BindSongsAudio',
+        params: {
+          platform: this.$route.params.platform,
+          id: this.$route.params.id
+        }
+      })
+    },
+    /*bindSongsAudio_Origin() {
       this.list = []
       if (this.platform === 'qq') {
         console.log('qq bind')
@@ -216,7 +228,7 @@ export default {
               })
             }
           }
-          /*list.forEach(item => {
+          /!*list.forEach(item => {
             const durationFormat = item.duration.split(':') //视频duration最小单位是秒, 匹配歌词的话可能有误差
             const minute = parseInt(durationFormat[0])
             const second = parseInt(durationFormat[1])
@@ -240,7 +252,7 @@ export default {
                 validData.push(complexSong)
               })
             }
-          })*/
+          })*!/
           // console.log('validData=', validData)
           if (list.length < 20) {
             break;
@@ -252,7 +264,7 @@ export default {
         }
       }
       return validData
-    },
+    },*/
     pullUpLoadQQList() {
       this.qqListPage++
       console.log('pullUpLoadQQList!!!!!!!!')

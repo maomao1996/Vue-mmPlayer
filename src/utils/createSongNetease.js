@@ -1,6 +1,7 @@
 import {toHttps} from './util'
 import {Song} from "@/utils/song";
 import {getMusicDetail} from "@/api";
+import {getBindInfo} from "@/utils/storage";
 
 function filterSinger(singers) {
   if (!Array.isArray(singers) || !singers.length) {
@@ -18,6 +19,7 @@ export function createSong(music) {
   const duration = music.duration || music.dt
   const subTitles = music.alia || music.alias || []
   const fee = music.fee || 0  // 0和8为免费听
+
   return new Song({
     platform: 'netease',
     limit: fee,

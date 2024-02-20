@@ -1,5 +1,6 @@
 import {Song} from './song'
 import {getQQMusicVipOneMinuteUrl, getQQMusicUrl} from "@/api";
+import {getBindInfo} from "@/utils/storage";
 
 function filterSinger(singers = []) {
   if (!Array.isArray(singers) || !singers.length) {
@@ -13,6 +14,10 @@ function filterSinger(singers = []) {
 }
 
 export function createSong(music) {
+  if (music.mid === '004buzu54QI3FI') {
+    const audioInfo = getBindInfo(music.mid)
+    console.log('audioInfo==', audioInfo)
+  }
   const album = music.album
   let image = ''
   if (album.pmid) {

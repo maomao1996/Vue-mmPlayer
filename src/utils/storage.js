@@ -39,8 +39,8 @@ const storage = {
  * 2. 用户可以手动点击同步, 上传服务器. 同步的歌单可以从本地删除, 需要时再同步下来.
  * 3. 提供两种同步方式, 一种同步只能用于听, 另一种同步可以编辑歌单, 但是需要保证本地有足够空闲空间
  */
-const LOCAL_LIST_NUM = 2 //歌单数量上线
-const LOCAL_LIST_CONTAIN = 3 //单个歌单最大容量
+const LOCAL_LIST_NUM = 10 //歌单数量上线
+const LOCAL_LIST_CONTAIN = 300 //单个歌单最大容量
 const MUSIC_LIST_HEAD = '__music_list__'
 
 /**
@@ -136,14 +136,37 @@ export function removeSongFromCustomList(id, newCustomList) {
   storage.set(customListStorageId, JSON.stringify(newCustomList))
 }
 
-
-/**
- * 歌单信息表管理
- */
-export function setMusicListInfo(id, musicListInfo) {
-
+const BIND_INFO_COUNT = 3;
+const BIND_INFO_KEY = '__bind_info__'
+export function addBindInfo(songId, audioInfo) {
+  const bindList = storage.get(BIND_INFO_KEY)
+  let count = 0;
+  bindList.forEach(item => {
+    if (item.songId === songId)
+      // 已经存在该songId的绑定
+      return false
+    count++;
+  })
+  if (count >= BIND_INFO_COUNT) {
+    //本地数据过多
+    return false
+  }
+  bindList.unshift({songId, audioInfo})
+  storage.set(BIND_INFO_KEY, JSON.stringify(bindList))
+  return true;
 }
-
+export function getBindInfo(songId) {
+  const bindList = storage.get(BIND_INFO_KEY)
+  let count = 0;
+  const index = bindList.findIndex(item => {
+    return item.songId === songId
+  })
+  if (index > -1) {
+    return bindList[index];
+  } else {
+    return null;
+  }
+}
 
 /**
  * 播放历史

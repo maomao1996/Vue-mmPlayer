@@ -9,7 +9,7 @@
         <span class="list-num">序号</span>
         <span class="list-name">歌曲</span>
         <span class="list-artist">歌手</span>
-        <span class="list-time">播放时长</span>
+        <span class="list-time">音频时长</span>
         <span class="list-origin-time">原版时长</span>
         <span class="list-album">专辑</span>
         <span v-if="bindAudio" class="list-name">绑定</span>
@@ -21,7 +21,6 @@
           v-for="(item, index) in list"
           :key="item.id"
           class="list-item"
-
           :class="{
             'limited': item.limit !== 0 && item.limit !== 8,
             on: currentMusic.id === item.id,
@@ -90,12 +89,12 @@
           </span>
           <!--操作绑定音频-->
           <div v-if="bindAudio" class="list-bind">
-<!--            <span>{{ item.name + (item.subTitle ? ' >> ' + item.subTitle : '') }}</span>-->
-<!--            <el-switch
-              v-model="value2"
-              active-color="#13ce66"
-              inactive-color="#ff4949">
-            </el-switch>-->
+            <!--            <span>{{ item.name + (item.subTitle ? ' >> ' + item.subTitle : '') }}</span>-->
+            <!--            <el-switch
+                          v-model="value2"
+                          active-color="#13ce66"
+                          inactive-color="#ff4949">
+                        </el-switch>-->
             <el-select @change="testAudio(index)" clearable v-model="chosenAudio[index]" placeholder="请选择">
               <el-option
                 v-for="(candidate,i) in songsAudioCandidates[index]"
@@ -119,7 +118,7 @@
       @confirm="addCustomList"
     >
       <div class="mm-dialog-text">
-        (输入完名称请回车,最后点击确定)
+        (输入完回车或点击空白区域检查内容变化,勿直接点击"添加")
         <el-select
           v-model="chosenMusicListTitle"
           filterable
@@ -127,7 +126,7 @@
           default-first-option
           placeholder="请选择歌单名称或输入新歌单名称">
           <el-option
-            v-for="item in musicListMap"
+            v-for="item in customMusicListMap"
             :key="item.id"
             :label="item.title"
             :value="item.title">
@@ -166,12 +165,12 @@
       @confirm="openDialog(2)"
     >
       <div class="mm-dialog-text">
-        <p>
-          1、
-          <a target="_blank" href="https://music.163.com">点我(https://music.163.com)</a>
-          打开b站官网搜索bvid或当前网站的b站接口中搜索
-        </p>
-        <p>2、输入b站bvid</p>
+        <p>1、如果有想绑定的b站视频,可以输入bvid. bvid是视频的id(以BV开头)</p>
+        <p>2、bvid可以参考"bili搜索"界面中播放音频时的歌手名</p>
+        <p>3、如果没有想要绑定的视频,可以使用"自动搜索音频"</p>
+        <p>4、自动搜索的算法不够智能, 如果没有搜到合适的结果, 请手动搜索视频. 复制其bvid, 再重复当前步骤,输入bvid</p>
+        <p>5、完成以上步骤后. "正在播放"页面中会有紫色背景的歌曲. 可以将紫色背景的歌曲保存至歌单. 避免未来再次寻找音频</p>
+        <p>6、注意是紫色背景,platform为complex的歌曲才能加入歌单. 普通蓝色歌曲仅包含b站音频, 并未包含歌词等信息. 这种音频需要重复绑定操作(具体的看视频).</p>
       </div>
     </mm-dialog>
   </div>
@@ -251,6 +250,11 @@ export default {
         'manageMusicListRes',
         'songsAudioCandidates',
       ]),
+    customMusicListMap() {
+      // console.log('this.musicListMap', this.musicListMap)
+      // console.log('222222222222', this.musicListMap.filter(item => item.platform === 'custom').map(item => item))
+      return this.musicListMap.filter(item => item.platform === 'custom').map(item => item)
+    }
   },
   watch: {
     songsAudioCandidates(newList, oldList) {
@@ -476,7 +480,7 @@ export default {
       setManageMusicListRes: 'SET_MANAGE_MUSIC_LIST_RES',
       setSearchAudio: 'SET_SEARCH_AUDIO',
     }),
-    ...mapActions(['addMusicToCustomList', 'addMusicListToLocal','selectAddPlay',])
+    ...mapActions(['addMusicToCustomList', 'addMusicListToLocal', 'selectAddPlay',])
   },
 }
 </script>
@@ -558,6 +562,7 @@ export default {
       font-size: 0;
       background: url('~assets/img/wave.gif') no-repeat center center;
     }
+
     /* .list-num,
     .list-platform {
       font-size: 0;
@@ -698,9 +703,10 @@ export default {
     }
   }
 }
+
 .limited {
   //text-decoration: line-through;
-  color: rgb(24, 1, 1);
+  color: #332D2DFF;
 }
 
 .list-btn {

@@ -33,10 +33,10 @@ export const selectAddPlay = function ({ commit, state }, music) {
   let index = findIndex(list, music)
   // 当前播放列表有待插入的音乐时，直接改变当前播放音乐的索引值
   if (index > -1) {
-    console.log("!!!!!!!!!!!")
+    console.log("当前播放列表有待插入的音乐")
     commit(types.SET_CURRENTINDEX, index)
   } else {
-    console.log("!222222222!!!!!!!!!!")
+    console.log("将播放音乐插入playList头")
     list.unshift(music)
     commit(types.SET_PLAYLIST, list)
     commit(types.SET_ORDERLIST, list)

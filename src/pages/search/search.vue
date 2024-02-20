@@ -87,7 +87,7 @@ export default {
   data() {
     return {
       hasBvid: '',
-      searchValue: '孙燕姿', // 搜索关键词
+      searchValue: '放了你', // 搜索关键词
       Artists: [], // 热搜数组
       list: [], // 搜索数组
       page: 0, // 分页

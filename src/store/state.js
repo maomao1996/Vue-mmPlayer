@@ -16,6 +16,7 @@ const state = {
   musicListMap: getMusicListMap() || [],
   autoSearchAudioSource: false,
   songsAudioCandidates: [],
+  useBindAudio: false,
 }
 
 export default state

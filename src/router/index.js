@@ -17,6 +17,11 @@ const routes = [
         component: () => import('pages/about/about'),
       },
       {
+        name: 'BindSongsAudio',
+        path: '/music/bindSongsAudio', // bindAudio
+        component: () => import('pages/bindSongsAudio/bindSongsAudio'),
+      },
+      {
         path: '/music/playlist', // 正在播放列表
         component: () => import('pages/playList/playList'),
       },
