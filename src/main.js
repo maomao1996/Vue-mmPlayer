@@ -43,7 +43,7 @@ router.beforeEach((to, from, next) => {
     next()
   } else {
     document.title =
-      (to.meta.title && `${to.meta.title} - mmPlayer在线音乐播放器`) || 'mmPlayer在线音乐播放器'
+      (to.meta.title && `${to.meta.title} - Music Collection在线音乐播放器`) || 'Music Collection在线音乐播放器'
     next()
   }
 })
@@ -67,17 +67,15 @@ router.beforeEach((to, from, next) => {
     }
   }
 
-  console.log('scroll~~~')
+  //console.log('scroll~~~')
   scrollTitle();
 }
 scroll()*/
 
 // 版权信息
-window.mmPlayer = window.mmplayer = `欢迎使用 mmPlayer!
+window.mmPlayer = window.mmplayer = `欢迎使用 Music Collection!
 当前版本为：V${VERSION}
-作者：茂茂
-Github：https://github.com/maomao1996/Vue-mmPlayer
-歌曲来源于网易云音乐 (https://music.163.com)`
+基于作者：茂茂 的Github开源项目：https://github.com/maomao1996/Vue-mmPlayer`
 
 // eslint-disable-next-line no-console
 console.info(`%c${window.mmplayer}`, `color:blue`)

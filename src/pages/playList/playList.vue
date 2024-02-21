@@ -35,7 +35,7 @@ export default {
     ...mapGetters(['playing', 'playlist', 'currentMusic']),
   },
   beforeDestroy() {
-    console.log(' -- playList 组件 --- 死了')
+    //console.log(' -- playList 组件 --- 死了')
   },
   methods: {
     // 清空列表事件

@@ -13,7 +13,7 @@ export const orderList = (state) => state.orderList
 export const currentIndex = (state) => state.currentIndex
 // 当前音乐 -- 其实currentMusic()本质是computed函数,即其中函数使用的变化变化时currentMusic这个"变量"就会改变
 export const currentMusic = (state) => {
-  console.log('getters currentMusic')
+  //console.log('getters currentMusic')
   return state.playlist[state.currentIndex] || {}
 }
 // 播放历史列表

@@ -4,6 +4,7 @@
     <div class="mm-loading-content">
       <svg class="circular" viewBox="25 25 50 50">
         <circle class="path" cx="50" cy="50" r="20" fill="none"></circle>
+        <p>无需比较, 选择喜欢的即可</p>
       </svg>
     </div>
   </div>

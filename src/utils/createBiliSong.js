@@ -27,13 +27,13 @@ export function createBiliSong(videoInfo) {
   })
 
   return getAudioCidFromBili(videoInfo.bvid).then((data) => {
-    // console.log("getAudioCidFromBili data=", data)
+    // //console.log("getAudioCidFromBili data=", data)
     biliSource.cid = data.data.cid
     return biliSong
   })
 
   /*return getAudioUrlFromBili(videoInfo.bvid, biliSource.cid).then(data => {
-    console.log("biliSong=", biliSong)
+    //console.log("biliSong=", biliSong)
     const audios = data.data.dash.audio
     const urls = []
     for (let i = 0; i < audios.length; i++) {

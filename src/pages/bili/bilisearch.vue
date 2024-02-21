@@ -70,15 +70,15 @@ export default {
     if (this.searchAudio.audioSource && this.searchAudio.audioSource.tryBind) {
       this.searchValue = this.searchAudio.audioSource.tryBind
       this.exactSearchAudio(this.searchAudio, false).then(list => {
-        console.log('list=', list)
+        //console.log('list=', list)
         this.list = list
         this.mmLoadShow = false
       })
     } else {
       this.searchValue = this.searchAudio.name + ' ' + this.searchAudio.singer + ' hi-res ' + ' 杜比 ' + ' 无损 '
-      console.log('searchAudio', this.searchAudio)
+      //console.log('searchAudio', this.searchAudio)
       this.exactSearchAudio(this.searchAudio).then(validData => {
-        console.log('validData=', validData)
+        //console.log('validData=', validData)
         this.list = validData
         this.mmLoadShow = false
         if (this.list.length === 0) {
@@ -97,7 +97,7 @@ export default {
     2. 关键词上, 可以做文章, 看除了'hi-res'还能添加什么关键词
      */
     async exactSearchAudio(reference, checkoutDuration = true) {
-      // console.log("targetDuration=", targetDuration)
+      // //console.log("targetDuration=", targetDuration)
       const desiredDataCount = 8;
       const maxReq = 3 //最多查询次数
       const validData = []
@@ -122,7 +122,7 @@ export default {
                 singer: reference.singer,
                 album: reference.album,
                 image: reference.image,
-                duration: reference.originDuration, //歌曲真实时长,也就是正版的时长, complex中的duration用于表示找到的音频的时长
+                originDuration: reference.originDuration, //歌曲真实时长,也就是正版的时长, complex中的duration用于表示找到的音频的时长
                 mixInfo: {audioSourceFrom: 'bili', others: reference.platform},
               }
               item.complex = complex
@@ -130,7 +130,7 @@ export default {
               validData.push(item)
             }
           })
-          // console.log('validData=', validData)
+          // //console.log('validData=', validData)
           if (list.length < 20) {
             break;
           }
@@ -148,15 +148,15 @@ export default {
       let axiosReq = null
       try {
         if (video.complex) {
-          console.log('toCreateComplexSong')
-          console.log(video)
+          //console.log('toCreateComplexSong')
+          //console.log(video)
           axiosReq = createComplexSong(video)
         } else {
           axiosReq = createBiliSong(video)
         }
         axiosReq.then(song => {
-          console.log('song')
-          console.log(song)
+          //console.log('song')
+          //console.log(song)
           this.selectAddPlay(song)
         })
       } catch (error) {
@@ -180,7 +180,7 @@ export default {
           data.data.result.forEach(item => {
             item.title = item.title.replace(/<em class="keyword">|<\/em>/g, '')
           })
-          //console.log("res=", data)
+          ////console.log("res=", data)
           this.list = data.data.result
           this.mmLoadShow = false
         }).catch((err) => {

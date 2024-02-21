@@ -73,7 +73,7 @@ export default {
       ])
   },
   created() {
-    console.log('created!!!!!!!!!!')
+    //console.log('created!!!!!!!!!!')
     document.title = '无名歌单'
     if (this.platform === 'custom') {
       for (let i = 0; i < this.musicListMap.length; i++) {
@@ -98,29 +98,29 @@ export default {
       getQQMusicListDetail(this.songListId, this.qqListPage, this.qqListPageCount).then(data => {
         this.qqListCount = data.req_0.data.total_song_num
         document.title = this.platform + ' - ' + data.req_0.data.dirinfo.title
-        // console.log('data====')
-        // console.log(data)
+        // //console.log('data====')
+        // //console.log(data)
         this.list = formatSongs(data.req_0.data.songlist)
         this._hideLoad()
       })
       // 统计vip歌曲数量
       /*getQQMusicListDetail(this.songListId, 0, 950).then(data => {
         this.qqListCount = data.req_0.data.total_song_num
-        console.log('this.qqListCount=', this.qqListCount)
+        //console.log('this.qqListCount=', this.qqListCount)
         let count = 0;
         data.req_0.data.songlist.forEach(music => {
           if (parseInt(music.pay.pay_play)) {
             count++
           }
         })
-        console.log('count=', count)
+        //console.log('count=', count)
         // this.list = formatSongs(data.req_0.data.songlist)
         this._hideLoad()
       })*/
     }
   },
   beforeDestroy() {
-    console.log(' -- details 组件 --- 死了')
+    //console.log(' -- details 组件 --- 死了')
   },
   methods: {
     bindSongsAudio() {
@@ -135,11 +135,11 @@ export default {
     /*bindSongsAudio_Origin() {
       this.list = []
       if (this.platform === 'qq') {
-        console.log('qq bind')
+        //console.log('qq bind')
 
         this.pullUpLoadQQVipSongs(3, true)
       } else {
-        console.log('other bind')
+        //console.log('other bind')
       }
       this.$nextTick(() => {
         this.bindAudio = true
@@ -147,7 +147,7 @@ export default {
     },
     pullUpLoadQQVipSongs(count = 3, start = false) {
       if (!start) this.qqListPage++
-      console.log('!!!!!!!!!!! pullUpLoadQQVipSongs')
+      //console.log('!!!!!!!!!!! pullUpLoadQQVipSongs')
       const vipSongs = []
       let qqSongs = []
       const qqSongCandidates = []
@@ -160,9 +160,9 @@ export default {
           if (parseInt(music.pay.pay_play))
             vipSongs.push(music)
         })
-        console.log('vipSongs.length', vipSongs.length)
+        //console.log('vipSongs.length', vipSongs.length)
         qqSongs = formatSongs(vipSongs)
-        console.log('before qqSongs=', qqSongs)
+        //console.log('before qqSongs=', qqSongs)
         for (let j = 0; j < qqSongs.length; j++) {
           if (j > 2) {
             break
@@ -172,20 +172,20 @@ export default {
 
             qqSongCandidates[j] = candidates
             qqSongCandidates[j].unshift(qqSongs[j])
-            // console.log(data)
+            // //console.log(data)
           })
         }
       }).then(() => {
         this.list = [...this.list, ...qqSongs]
         //if (this.songsAudioCandidates === []) {
-          //console.log('empty')
+          ////console.log('empty')
           // this.songsAudioCandidates = qqSongCandidates
           this.setSongsAudioCandidates(qqSongCandidates)
        // } else
          // this.songsAudioCandidates = [...this.songsAudioCandidates, ...qqSongCandidates]
-        console.log('after this.list=', this.list)
-        console.log('after this.songsAudioCandidates=', this.songsAudioCandidates)
-        console.log('after qqSongCandidates=', qqSongCandidates)
+        //console.log('after this.list=', this.list)
+        //console.log('after this.songsAudioCandidates=', this.songsAudioCandidates)
+        //console.log('after qqSongCandidates=', qqSongCandidates)
 
         if (count - vipSongs.length > 0) {
           //this.pullUpLoadQQVipSongs(count - vipSongs.length)
@@ -218,7 +218,7 @@ export default {
                 singer: reference.singer,
                 album: reference.album,
                 image: reference.image,
-                duration: duration,
+                originDuration: duration,
                 mixInfo: {audioSourceFrom: 'bili', others: reference.platform},
               }
               list[i].complex = complex
@@ -243,7 +243,7 @@ export default {
                 singer: reference.singer,
                 album: reference.album,
                 image: reference.image,
-                duration: item.duration,
+                originDuration: item.duration,
                 mixInfo: {audioSourceFrom: 'bili', others: reference.platform},
               }
               item.complex = complex
@@ -253,7 +253,7 @@ export default {
               })
             }
           })*!/
-          // console.log('validData=', validData)
+          // //console.log('validData=', validData)
           if (list.length < 20) {
             break;
           }
@@ -267,13 +267,13 @@ export default {
     },*/
     pullUpLoadQQList() {
       this.qqListPage++
-      console.log('pullUpLoadQQList!!!!!!!!')
+      //console.log('pullUpLoadQQList!!!!!!!!')
       getQQMusicListDetail(this.songListId, this.qqListPage * this.qqListPageCount, this.qqListPageCount).then(data => {
         if (data.req_0.data.songlist.length === 0) {
           this.$mmToast('歌单中没有更多歌曲了！')
           return
         }
-        console.log(data)
+        //console.log(data)
         this.list = [...this.list, ...formatSongs(data.req_0.data.songlist)]
       })
     },
@@ -282,13 +282,13 @@ export default {
       this.$router.push('/music/userList')
     },
     deleteItem(index) {
-      // console.log('deleteItem, index=', index)
-      // console.log("this.songListId", this.songListId)
+      // //console.log('deleteItem, index=', index)
+      // //console.log("this.songListId", this.songListId)
       if (this.list.length === 1) {
         this.delCustomList()
       } else {
         this.list.splice(index, 1)
-        // console.log("del res=", this.list)
+        // //console.log("del res=", this.list)
         removeSongFromCustomList(this.songListId, this.list)
       }
       this.list = getCustomList(this.songListId)

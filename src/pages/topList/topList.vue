@@ -61,7 +61,7 @@ export default {
       .catch(() => {})
   },
   beforeDestroy() {
-    console.log(' -- topList 组件 --- 死了')
+    //console.log(' -- topList 组件 --- 死了')
   },
 }
 </script>

@@ -30,7 +30,7 @@
             {{ currentMusic.name }}
             <span>&nbsp;-&nbsp;&nbsp;{{ currentMusic.singer }}</span>
           </template>
-          <template v-else>欢迎使用mmPlayer在线音乐播放器</template>
+          <template v-else>欢迎使用Music Collection在线音乐播放器</template>
         </div>
         <div v-if="currentMusic.id" class="music-bar-time">
           {{ currentTime | format }}/{{ currentMusic.duration % 3600 | format }}
@@ -169,14 +169,14 @@ export default {
   },
   computed: {
     customMusicListMap() {
-      // console.log('this.musicListMap', this.musicListMap)
-      // console.log('222222222222', this.musicListMap.filter(item => item.platform === 'custom').map(item => item))
+      // //console.log('this.musicListMap', this.musicListMap)
+      // //console.log('222222222222', this.musicListMap.filter(item => item.platform === 'custom').map(item => item))
       return this.musicListMap.filter(item => item.platform === 'custom').map(item => item)
     },
     /*quality() {
-      console.log('1lkjlhlh')
+      //console.log('1lkjlhlh')
       if ((this.currentMusic.platform === 'complex' || this.currentMusic.platform === 'bili')  && this.currentMusic.audioSource.urls[0]) {
-        console.log('this.currentMusic.audioSource.urls[0]', this.currentMusic.audioSource.urls[0])
+        //console.log('this.currentMusic.audioSource.urls[0]', this.currentMusic.audioSource.urls[0])
         return this.currentMusic.audioSource.urls[0].quality
       }
     },*/
@@ -218,53 +218,53 @@ export default {
      this.currentMusic2(newMusic, oldMusic)
     },
     /*currentMusicOld(newMusic, oldMusic) {
-      console.log('@@@@@@@@ music.vue#watch currentMusic')
-      console.log('currentMusic newMusic=', newMusic)
+      //console.log('@@@@@@@@ music.vue#watch currentMusic')
+      //console.log('currentMusic newMusic=', newMusic)
       if (!newMusic.id) {
         this.lyric = []
         return
       }
 
       if (newMusic.id === oldMusic.id) {
-        console.log('新旧musicId相同')
+        //console.log('新旧musicId相同')
         return
       }
 
       let getUrl = null
       if (this.autoSearchAudioSource && newMusic.limit !== 0 && newMusic.limit !== 8) {
 
-        console.log('a########### audoSearchAudio ')
+        //console.log('a########### audoSearchAudio ')
         getUrl = this.exactSearchAudio(newMusic, true).then(candidates => {
-          console.log('replace now !!!!!!!!!')
+          //console.log('replace now !!!!!!!!!')
           this.candidatesSong = candidates
           this.insertCurrentMusic(candidates[0])
           newMusic = candidates[0]
-          console.log('replace success!!!!!!!!!')
-          console.log('newMusic=', newMusic)
-          console.log('candidates=', candidates)
+          //console.log('replace success!!!!!!!!!')
+          //console.log('newMusic=', newMusic)
+          //console.log('candidates=', candidates)
         })
-        console.log('agadfa!!!!!!')
+        //console.log('agadfa!!!!!!')
       }
       if (newMusic.platform === 'qq') {
         if (newMusic.limit === 0){
           getUrl = getQQMusicUrl(`"${newMusic.id}"`).then((data) => {
-            console.log('getQQMusicUrl=========')
-            console.log(data)
+            //console.log('getQQMusicUrl=========')
+            //console.log(data)
             const songUrl = data.req_0.data.midurlinfo[0].purl
             // this.audioEle.src = `http://dl.stream.qqmusic.qq.com/` + songUrl
             this.audioEle.src = newMusic.url + songUrl
-            console.log('this.audioEle.src', this.audioEle.src)
+            //console.log('this.audioEle.src', this.audioEle.src)
           })
         }
         else {
           const vipMidsStr = `"${newMusic.id}"`
           const vipMediaMidsStr = `"RS02${newMusic.audioSource.media_mid}.mp3"`
           getUrl = getQQMusicVipOneMinuteUrl(vipMidsStr, vipMediaMidsStr).then(data => {
-            console.log('getQQMusicVipOneMinuteUrl===')
-            console.log(data)
+            //console.log('getQQMusicVipOneMinuteUrl===')
+            //console.log(data)
             const vipUrl = data.req_0.data.midurlinfo[0].purl
             this.audioEle.src = newMusic.audioSource.url + vipUrl
-            console.log(' this.audioEle.src',  this.audioEle.src)
+            //console.log(' this.audioEle.src',  this.audioEle.src)
           })
         }
       }
@@ -291,7 +291,7 @@ export default {
           }
           // newMusic.audioSource.urls = urls // 因为currentMusic对象被vuex管理,所以其中的属性修改时要用mutation的方式
           this.setMusicAudioUrls(urls)
-          console.log('ghjkgkjg')
+          //console.log('ghjkgkjg')
         }).then(() => {
           // @TODO 这里默认使用urls[0], 没有考虑"urls[0]不可用"的情况
           this.audioEle.src = newMusic.audioSource.urls[0].url
@@ -308,7 +308,7 @@ export default {
       if (getUrl) {
         getUrl.then(() => {
           this.lyricIndex = this.currentTime = this.currentProgress = 0
-          console.log('aaaa123114342')
+          //console.log('aaaa123114342')
           silencePromise(this.audioEle.play())
           this.$nextTick(() => {
             this._getLyric(newMusic)
@@ -316,7 +316,7 @@ export default {
         })
       } else {
         this.lyricIndex = this.currentTime = this.currentProgress = 0
-        console.log('aaaa123114342')
+        //console.log('aaaa123114342')
         silencePromise(this.audioEle.play())
         this.$nextTick(() => {
           this._getLyric(newMusic)
@@ -327,14 +327,14 @@ export default {
 /!*      if (newMusic.platform === 'qq') {
         if (newMusic.limit === 0){
           getQQMusicUrl(`"${newMusic.id}"`).then((data) => {
-            console.log('getQQMusicUrl=========')
-            console.log(data)
+            //console.log('getQQMusicUrl=========')
+            //console.log(data)
             const songUrl = data.req_0.data.midurlinfo[0].purl
             this.audioEle.src = `http://dl.stream.qqmusic.qq.com/` + songUrl
             // newMusic.url += songsUrlInfo[i].purl
-            console.log('this.audioEle.src', this.audioEle.src)
+            //console.log('this.audioEle.src', this.audioEle.src)
             this.lyricIndex = this.currentTime = this.currentProgress = 0
-            console.log('aaaa123114342')
+            //console.log('aaaa123114342')
             silencePromise(this.audioEle.play())
             this.$nextTick(() => {
               this._getLyric(newMusic)
@@ -345,14 +345,14 @@ export default {
           const vipMidsStr = `"${newMusic.id}"`
           const vipMediaMidsStr = `"RS02${newMusic.audioSource.media_mid}.mp3"`
           getQQMusicVipOneMinuteUrl(vipMidsStr, vipMediaMidsStr).then(data => {
-            console.log('getQQMusicVipOneMinuteUrl===')
-            console.log(data)
+            //console.log('getQQMusicVipOneMinuteUrl===')
+            //console.log(data)
             const vipUrl = data.req_0.data.midurlinfo[0].purl
             // formattedSongs[i].url += vipUrl.purl
             this.audioEle.src = newMusic.audioSource.url + vipUrl
-            console.log(' this.audioEle.src',  this.audioEle.src)
+            //console.log(' this.audioEle.src',  this.audioEle.src)
             this.lyricIndex = this.currentTime = this.currentProgress = 0
-            console.log('aaaa123114342')
+            //console.log('aaaa123114342')
             silencePromise(this.audioEle.play())
             this.$nextTick(() => {
               this._getLyric(newMusic)
@@ -370,10 +370,10 @@ export default {
         this.$nextTick(() => {
           this._getLyric(newMusic)
         })
-        // console.log('郭洪智参乎上')
+        // //console.log('郭洪智参乎上')
       } else {
         // 音源在audioSource中
-        // console.log('1421312313')
+        // //console.log('1421312313')
         getAudioUrlFromBili(newMusic.audioSource.bvid, newMusic.audioSource.cid).then(data => {
           const audios = data.data.dash.audio
           const urls = []
@@ -382,46 +382,46 @@ export default {
             const url = audios[i].baseUrl
             const urlObj = {quality, url}
             urls.push(urlObj)
-            console.log('mhgfjh142134123')
+            //console.log('mhgfjh142134123')
           }
-          console.log('jfhjfjh1421312313')
+          //console.log('jfhjfjh1421312313')
           // newMusic.audioSource.urls = urls // 因为currentMusic对象被vuex管理,所以其中的属性修改时要用mutation的方式
           this.setMusicAudioUrls(urls)
-          console.log('ghjkgkjg')
+          //console.log('ghjkgkjg')
         })
           .then(() => {
-          console.log('123114342')
+          //console.log('123114342')
           this.audioEle.src = newMusic.audioSource.urls[0].url
           this.quality = newMusic.audioSource.urls[0].quality
           this.lyricIndex = this.currentTime = this.currentProgress = 0
-          console.log('aaaa123114342')
+          //console.log('aaaa123114342')
           silencePromise(this.audioEle.play())
           this.$nextTick(() => {
             this._getLyric(newMusic)
           })
-          // console.log('promuse  郭洪智参乎上')
+          // //console.log('promuse  郭洪智参乎上')
         })*!/
 
-        /!*console.log("newMusic=", newMusic)
-        console.log("quality=", newMusic.audioSource.urls[0].quality)*!/
+        /*console.log("newMusic=", newMusic)
+        //console.log("quality=", newMusic.audioSource.urls[0].quality)*!/
         //this.audioEle.src = newMusic.audioSource.urls[0].url
 
-      /!*!// 重置相关参数
+       重置相关参数
       this.lyricIndex = this.currentTime = this.currentProgress = 0
       silencePromise(this.audioEle.play())
       this.$nextTick(() => {
         this._getLyric(newMusic)
       })
-      }*!/
+      }
     },*/
     // 点击播放/暂停按钮后, 修改playing的值
     playing(newPlaying) {
-      console.log("@@@@@@@@@@ playing====", newPlaying)
+      //console.log("@@@@@@@@@@ playing====", newPlaying)
       const audio = this.audioEle
       this.$nextTick(() => {
         newPlaying ? silencePromise(audio.play()) : audio.pause()
         this.musicReady = true
-        console.log('nextTick end')
+        //console.log('nextTick end')
       })
     },
     //监测currentTime为了修改lyricIndex
@@ -444,7 +444,7 @@ export default {
     },
   },
   mounted() {
-    console.log("currentMusic==", this.currentMusic)
+    //console.log("currentMusic==", this.currentMusic)
     this.$nextTick(() => {
       mmPlayerMusic.initAudio(this)
       this.initKeyDown()
@@ -454,26 +454,26 @@ export default {
   },
   methods: {
     async currentMusic2(newMusic, oldMusic) {
-      console.log('@@@@@@@@ music.vue#watch currentMusic')
-      console.log('currentMusic newMusic=', newMusic)
+      //console.log('@@@@@@@@ music.vue#watch currentMusic')
+      //console.log('currentMusic newMusic=', newMusic)
       if (!newMusic.id) {
         this.lyric = []
         return
       }
 
       if (newMusic.id === oldMusic.id) {
-        console.log('新旧musicId相同')
+        //console.log('新旧musicId相同')
         return
       }
 
       if (newMusic.platform !== 'complex' && newMusic.platform !== 'bili' && this.useBindAudio) {
-        console.log('this.useBindAudio', this.useBindAudio)
+        //console.log('this.useBindAudio', this.useBindAudio)
         const bindInfo = getBindInfo(newMusic.id)
         if (bindInfo !== null) {
           const {bvid, cid} = bindInfo.audioInfo
           // const {bvid, cid} = getBindInfo(newMusic.id)
-          console.log('bindInfo===', bindInfo)
-          console.log('audioInfo==', bvid, cid)
+          //console.log('bindInfo===', bindInfo)
+          //console.log('audioInfo==', bvid, cid)
           const complexMusic = cloneDeep(newMusic)
           complexMusic.platform = 'complex'
           complexMusic.id = newMusic.id + '-' + bvid
@@ -481,7 +481,7 @@ export default {
           complexMusic.audioSource = {bvid: bvid, cid: cid}
           complexMusic.duration = complexMusic.originDuration
           this.insertCurrentMusic(complexMusic)
-          console.log('complexMusic====', complexMusic)
+          //console.log('complexMusic====', complexMusic)
           return
         }
       }
@@ -489,35 +489,35 @@ export default {
       let getUrl = null
       if (newMusic.platform !== 'complex' && this.autoSearchAudioSource && newMusic.limit && newMusic.limit !== 0 && newMusic.limit !== 8) {
 
-        console.log('a########### audoSearchAudio ')
+        //console.log('a########### audoSearchAudio ')
         await this.exactSearchAudio(newMusic, true).then(candidates => {
-          console.log('replace now !!!!!!!!!')
+          //console.log('replace now !!!!!!!!!')
           this.candidateSongs = candidates
           // this.replaceCurrentMusic(candidates[0])
           // newMusic = candidates[0]
           // this.setCurrentIndex(this.currentIndex)
           // return
-          // console.log('newMusic=', newMusic)
-          // console.log('candidates=', candidates)
+          // //console.log('newMusic=', newMusic)
+          // //console.log('candidates=', candidates)
         })
         //this.next()
         if (this.candidateSongs.length >= 1) {
-          console.log('candidates=', this.candidateSongs)
+          //console.log('candidates=', this.candidateSongs)
           this.insertCurrentMusic(this.candidateSongs[0])
-          console.log('insert success!!!!!!!!!', this.playlist)
+          //console.log('insert success!!!!!!!!!', this.playlist)
           return
         }
-        // console.log('agadfa!!!!!!')
+        // //console.log('agadfa!!!!!!')
       }
       if (newMusic.platform === 'qq') {
         if (newMusic.limit === 0){
           getUrl = getQQMusicUrl(`"${newMusic.id}"`).then((data) => {
-            console.log('getQQMusicUrl=========')
-            console.log(data)
+            //console.log('getQQMusicUrl=========')
+            //console.log(data)
             const songUrl = data.req_0.data.midurlinfo[0].purl
             // this.audioEle.src = `http://dl.stream.qqmusic.qq.com/` + songUrl
             this.audioEle.src = newMusic.url + songUrl
-            console.log('this.audioEle.src', this.audioEle.src)
+            //console.log('this.audioEle.src', this.audioEle.src)
             this.quality = ''
           })
         }
@@ -525,12 +525,12 @@ export default {
           const vipMidsStr = `"${newMusic.id}"`
           const vipMediaMidsStr = `"RS02${newMusic.audioSource.media_mid}.mp3"`
           getUrl = getQQMusicVipOneMinuteUrl(vipMidsStr, vipMediaMidsStr).then(data => {
-            console.log('getQQMusicVipOneMinuteUrl===')
-            console.log(data)
+            //console.log('getQQMusicVipOneMinuteUrl===')
+            //console.log(data)
             const vipUrl = data.req_0.data.midurlinfo[0].purl
             this.audioEle.src = newMusic.audioSource.url + vipUrl
             this.quality = ''
-            console.log(' this.audioEle.src',  this.audioEle.src)
+            //console.log(' this.audioEle.src',  this.audioEle.src)
           })
         }
       }
@@ -545,7 +545,7 @@ export default {
           this._getLyric(newMusic)
         })*/
       } else {
-        console.log('complex play00000')
+        //console.log('complex play00000')
         // 音源在audioSource中
         getUrl = getAudioUrlFromBili(newMusic.audioSource.bvid, newMusic.audioSource.cid).then(data => {
           const audios = data.data.dash.audio
@@ -558,7 +558,7 @@ export default {
           }
           // newMusic.audioSource.urls = urls // 因为currentMusic对象被vuex管理,所以其中的属性修改时要用mutation的方式
           this.setMusicAudioUrls(urls)
-          console.log('ghjkgkjg')
+          //console.log('ghjkgkjg')
         }).then(() => {
           // @TODO 这里默认使用urls[0], 没有考虑"urls[0]不可用"的情况
           this.audioEle.src = newMusic.audioSource.urls[0].url
@@ -575,7 +575,7 @@ export default {
       if (getUrl) {
         getUrl.then(() => {
           this.lyricIndex = this.currentTime = this.currentProgress = 0
-          console.log('aaaa123114342')
+          //console.log('aaaa123114342')
           silencePromise(this.audioEle.play())
           this.$nextTick(() => {
             this._getLyric(newMusic)
@@ -583,7 +583,7 @@ export default {
         })
       } else {
         this.lyricIndex = this.currentTime = this.currentProgress = 0
-        console.log('aaaa123114342')
+        //console.log('aaaa123114342')
         silencePromise(this.audioEle.play())
         this.$nextTick(() => {
           this._getLyric(newMusic)
@@ -594,14 +594,14 @@ export default {
       /*      if (newMusic.platform === 'qq') {
               if (newMusic.limit === 0){
                 getQQMusicUrl(`"${newMusic.id}"`).then((data) => {
-                  console.log('getQQMusicUrl=========')
-                  console.log(data)
+                  //console.log('getQQMusicUrl=========')
+                  //console.log(data)
                   const songUrl = data.req_0.data.midurlinfo[0].purl
                   this.audioEle.src = `http://dl.stream.qqmusic.qq.com/` + songUrl
                   // newMusic.url += songsUrlInfo[i].purl
-                  console.log('this.audioEle.src', this.audioEle.src)
+                  //console.log('this.audioEle.src', this.audioEle.src)
                   this.lyricIndex = this.currentTime = this.currentProgress = 0
-                  console.log('aaaa123114342')
+                  //console.log('aaaa123114342')
                   silencePromise(this.audioEle.play())
                   this.$nextTick(() => {
                     this._getLyric(newMusic)
@@ -612,14 +612,14 @@ export default {
                 const vipMidsStr = `"${newMusic.id}"`
                 const vipMediaMidsStr = `"RS02${newMusic.audioSource.media_mid}.mp3"`
                 getQQMusicVipOneMinuteUrl(vipMidsStr, vipMediaMidsStr).then(data => {
-                  console.log('getQQMusicVipOneMinuteUrl===')
-                  console.log(data)
+                  //console.log('getQQMusicVipOneMinuteUrl===')
+                  //console.log(data)
                   const vipUrl = data.req_0.data.midurlinfo[0].purl
                   // formattedSongs[i].url += vipUrl.purl
                   this.audioEle.src = newMusic.audioSource.url + vipUrl
-                  console.log(' this.audioEle.src',  this.audioEle.src)
+                  //console.log(' this.audioEle.src',  this.audioEle.src)
                   this.lyricIndex = this.currentTime = this.currentProgress = 0
-                  console.log('aaaa123114342')
+                  //console.log('aaaa123114342')
                   silencePromise(this.audioEle.play())
                   this.$nextTick(() => {
                     this._getLyric(newMusic)
@@ -637,10 +637,10 @@ export default {
               this.$nextTick(() => {
                 this._getLyric(newMusic)
               })
-              // console.log('郭洪智参乎上')
+              // //console.log('郭洪智参乎上')
             } else {
               // 音源在audioSource中
-              // console.log('1421312313')
+              // //console.log('1421312313')
               getAudioUrlFromBili(newMusic.audioSource.bvid, newMusic.audioSource.cid).then(data => {
                 const audios = data.data.dash.audio
                 const urls = []
@@ -649,28 +649,28 @@ export default {
                   const url = audios[i].baseUrl
                   const urlObj = {quality, url}
                   urls.push(urlObj)
-                  console.log('mhgfjh142134123')
+                  //console.log('mhgfjh142134123')
                 }
-                console.log('jfhjfjh1421312313')
+                //console.log('jfhjfjh1421312313')
                 // newMusic.audioSource.urls = urls // 因为currentMusic对象被vuex管理,所以其中的属性修改时要用mutation的方式
                 this.setMusicAudioUrls(urls)
-                console.log('ghjkgkjg')
+                //console.log('ghjkgkjg')
               })
                 .then(() => {
-                console.log('123114342')
+                //console.log('123114342')
                 this.audioEle.src = newMusic.audioSource.urls[0].url
                 this.quality = newMusic.audioSource.urls[0].quality
                 this.lyricIndex = this.currentTime = this.currentProgress = 0
-                console.log('aaaa123114342')
+                //console.log('aaaa123114342')
                 silencePromise(this.audioEle.play())
                 this.$nextTick(() => {
                   this._getLyric(newMusic)
                 })
-                // console.log('promuse  郭洪智参乎上')
+                // //console.log('promuse  郭洪智参乎上')
               })*/
 
       /*console.log("newMusic=", newMusic)
-      console.log("quality=", newMusic.audioSource.urls[0].quality)*/
+      //console.log("quality=", newMusic.audioSource.urls[0].quality)*/
       //this.audioEle.src = newMusic.audioSource.urls[0].url
 
       /*// 重置相关参数
@@ -718,7 +718,7 @@ export default {
               })
             }
           })
-          // console.log('validData=', validData)
+          // //console.log('validData=', validData)
           if (list.length < 20) {
             break;
           }
@@ -733,9 +733,9 @@ export default {
     // 添加歌曲到自建歌单
     addCustomList() {
       this.setManageMusicListRes(false)
-      console.log("addCustomList==")
-      console.log(this.chosenMusicListTitle)
-      console.log(this.musicListMap)
+      //console.log("addCustomList==")
+      //console.log(this.chosenMusicListTitle)
+      //console.log(this.musicListMap)
       if (this.chosenMusicListTitle.replace(/(^\s+)|(\s+$)/g, '') === '') {
         this.$mmToast('歌单名称不能为空！')
         return
@@ -749,7 +749,7 @@ export default {
       }
       if (id === '') {
         id = generateUUID()
-        console.log('id==', id)
+        //console.log('id==', id)
         const musicListInfo = createCustomMusicListInfo(id, this.chosenMusicListTitle, this.musicListDesc, this.musicListCoverImg, this.musicListTag)
         this.addMusicListToLocal(musicListInfo)
         if (!this.manageMusicListRes) {
@@ -782,9 +782,9 @@ export default {
       if (music.lyricSource && music.lyricSource.platform === 'netease') {
         getLyric(music.lyricSource.songId).then((res) => {
           if (res.lrc && res.lrc.lyric) {
-            //console.log('res.lyric=', res.lrc.lyric) // 有的歌曲歌词是这样'[00:00.00-1] 作词 : 初梦', 会解析不出来
+            ////console.log('res.lyric=', res.lrc.lyric) // 有的歌曲歌词是这样'[00:00.00-1] 作词 : 初梦', 会解析不出来
             this.lyric = parseLyric(res.lrc.lyric, 'netease')
-            //console.log('netease lyric', this.lyric)
+            ////console.log('netease lyric', this.lyric)
             this.lyricType = 1
           } else {
             this.lyricType = 0
@@ -892,7 +892,7 @@ export default {
       if (length === 1) {
         this.loop()
       } else {
-        console.log('this.currentIndex + 1')
+        //console.log('this.currentIndex + 1')
         let index = this.currentIndex + 1
         if (index === length) {
           index = 0

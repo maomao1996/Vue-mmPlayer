@@ -39,7 +39,7 @@ export function createSong(music) {
 
 // 歌曲数据格式化
 export function formatSongs(list) {
-  //console.log('listLength=', list.length)
+  ////console.log('listLength=', list.length)
   const Songs = []
   list.forEach((item) => {
     const musicData = item
@@ -48,6 +48,6 @@ export function formatSongs(list) {
       Songs.push(song)
     }
   })
-  //console.log("netease songs=", Songs)
+  ////console.log("netease songs=", Songs)
   return Songs
 }

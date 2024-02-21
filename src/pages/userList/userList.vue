@@ -104,7 +104,7 @@ export default {
   watch: {
     // 登录了就加载用户歌单
     uid(newUid) {
-      console.log('userList.vue#warch()#uid')
+      //console.log('userList.vue#warch()#uid')
       if (newUid) {
         this.mmLoadShow = true
         this._getUserPlaylist(newUid)
@@ -120,11 +120,11 @@ export default {
     this.mmLoadShow = false
   },
   beforeDestroy() {
-    console.log(' -- userList 组件 --- 死了')
+    //console.log(' -- userList 组件 --- 死了')
   },
   /*activated() {
-    console.log('userList.vue#actived()')
-    //console.log('musicListMap', this.musicListMap)
+    //console.log('userList.vue#actived()')
+    ////console.log('musicListMap', this.musicListMap)
 
     if (this.uid && this.userNeteaseList.length === 0) {
       this.mmLoadShow = true
@@ -139,7 +139,7 @@ export default {
       //this.$mmToast(this.manageMusicListRes)
       createQqList(this.otherPlatformListId).then(qqMusicListInfo => {
         this.addMusicListToLocal(qqMusicListInfo)
-        console.log("after add:", this.musicListMap)
+        //console.log("after add:", this.musicListMap)
         this.$mmToast('import success')
       })
     },

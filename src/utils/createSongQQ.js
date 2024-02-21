@@ -16,7 +16,7 @@ function filterSinger(singers = []) {
 export function createSong(music) {
   if (music.mid === '004buzu54QI3FI') {
     const audioInfo = getBindInfo(music.mid)
-    console.log('audioInfo==', audioInfo)
+    //console.log('audioInfo==', audioInfo)
   }
   const album = music.album
   let image = ''
@@ -26,7 +26,7 @@ export function createSong(music) {
     image = `http://y.gtimg.cn/music/photo_new/T001R500x500M000${music.singer[0].mid}.jpg`
   }
   const fee = parseInt(music.pay.pay_play) !== 0 ? 1 : 0 // 0是免费听.  目前猜测这个字段是标识歌曲是否是vip歌曲
-  // console.log(music.title + ' = ', music.pay.pay_play) // 如果这个字段判断错误, 则放开这个log进行检查
+  // //console.log(music.title + ' = ', music.pay.pay_play) // 如果这个字段判断错误, 则放开这个log进行检查
   let qqAudioSource = {
     media_mid: '',
     url: 'http://dl.stream.qqmusic.qq.com/'
@@ -54,7 +54,7 @@ export function createSong(music) {
 }
 // 歌曲列表数据格式化
 export function formatSongs(songs) {
-  console.log("formatQQsongs")
+  //console.log("formatQQsongs")
   const formattedSongs = []
 
   // 创建music对象并统计歌曲mid
@@ -68,7 +68,7 @@ export function formatSongs(songs) {
 
 // 歌曲列表数据格式化Origin, 自动附带url
 export function formatSongs_WithUrl(songs) {
-  console.log("formatQQsongs")
+  //console.log("formatQQsongs")
   const formattedSongs = []
   const len = songs.length
   let mids = ''
@@ -88,17 +88,17 @@ export function formatSongs_WithUrl(songs) {
   //获取歌曲url
   // @TODO 待删除, url直接在播放时获取, 这里之后就不用了
   return getQQMusicUrl(mids).then((data) => {
-    console.log("getQQMusicUrl==>")
-    console.log(data.req_0.data.midurlinfo)
+    //console.log("getQQMusicUrl==>")
+    //console.log(data.req_0.data.midurlinfo)
     const songsUrlInfo = data.req_0.data.midurlinfo
     const vipSongs = []
     for (let i = 0; i < len; i++) {
       if (songsUrlInfo[i].purl === '') {
         if (formattedSongs[i].limit !== 1) {
           // 上面猜测了一个字段是标识vip歌曲. 如果那个字段判断错误, 则这里会输出错误log
-          console.log("================================ qq vip music check error !!!!!!!!!")
-          console.log('错误歌名: ' + formattedSongs[i].name + ' -- 序号: ' + ((i + 1) * 2) + '歌曲origin数据: ')
-          console.log(songs[i])
+          //console.log("================================ qq vip music check error !!!!!!!!!")
+          //console.log('错误歌名: ' + formattedSongs[i].name + ' -- 序号: ' + ((i + 1) * 2) + '歌曲origin数据: ')
+          //console.log(songs[i])
           formattedSongs[i].singer += ' vip check error'
         }
         // 会员歌曲
@@ -112,28 +112,28 @@ export function formatSongs_WithUrl(songs) {
       }
 
     }
-    // console.log("assigned songs' url")
-    // console.log(formattedSongs)
+    // //console.log("assigned songs' url")
+    // //console.log(formattedSongs)
     vipMidsStr = vipMidsStr.replace(/,\s*$/, '');
     vipMediaMidsStr = vipMediaMidsStr.replace(/,\s*$/, '');
 
-    // console.log('vipSongs')
-    // console.log(vipSongs)
-    // console.log(vipMidsStr)
-    // console.log(vipMediaMidsStr)
+    // //console.log('vipSongs')
+    // //console.log(vipSongs)
+    // //console.log(vipMidsStr)
+    // //console.log(vipMediaMidsStr)
     return vipSongs
   }).then(vipSongs => {
-    // console.log("vipSongs=", vipSongs)
+    // //console.log("vipSongs=", vipSongs)
     const vipLen = vipSongs.length
     if (vipLen !== 0) {
       return getQQMusicVipOneMinuteUrl(vipMidsStr, vipMediaMidsStr).then(data => {
-        console.log('getVIp')
-        console.log(vipSongs)
-        console.log(data)
+        //console.log('getVIp')
+        //console.log(vipSongs)
+        //console.log(data)
         const vipUrls = data.req_0.data.midurlinfo
         for (let i = 0; i < vipLen; i++) {
-          // console.log("add vipUrl")
-          // console.log(vipUrls[i].purl)
+          // //console.log("add vipUrl")
+          // //console.log(vipUrls[i].purl)
           formattedSongs[vipSongs[i]].url += vipUrls[i].purl
           formattedSongs[vipSongs[i]].duration = 60 //试听60s
         }

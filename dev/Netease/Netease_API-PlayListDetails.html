@@ -32,8 +32,8 @@
       // 发送 POST 请求
       axios.post('http://music.163.com/api/v6/playlist/detail', dataToSend, config)
         .then(response => {
-          console.log("success");
-          console.log(response.data);
+          //console.log("success");
+          //console.log(response.data);
         })
         .catch(error => {
           console.error('Error:', error);
@@ -45,8 +45,8 @@
       // 发送 POST 请求
       axios.get('http://localhost:3000/playlist/detail?id=3778678')
         .then(response => {
-          console.log("success");
-          console.log(response.data);
+          //console.log("success");
+          //console.log(response.data);
         })
         .catch(error => {
           console.error('Error:', error);

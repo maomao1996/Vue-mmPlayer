@@ -33,10 +33,10 @@ export const selectAddPlay = function ({ commit, state }, music) {
   let index = findIndex(list, music)
   // 当前播放列表有待插入的音乐时，直接改变当前播放音乐的索引值
   if (index > -1) {
-    console.log("当前播放列表有待插入的音乐")
+    //console.log("当前播放列表有待插入的音乐")
     commit(types.SET_CURRENTINDEX, index)
   } else {
-    console.log("将播放音乐插入playList头")
+    //console.log("将播放音乐插入playList头")
     list.unshift(music)
     commit(types.SET_PLAYLIST, list)
     commit(types.SET_ORDERLIST, list)
@@ -63,7 +63,7 @@ export const removerPlayListItem = function ({ commit, state }, { list, index })
   }
   commit(types.SET_PLAYLIST, list)
   commit(types.SET_ORDERLIST, list)
-  console.log('action 修改了playlist')
+  //console.log('action 修改了playlist')
   if (!list.length) {
     commit(types.SET_PLAYING, false)
   } else {
@@ -100,9 +100,9 @@ export const addMusicListToLocal = function ({commit}, musicListInfo) {
 
 // 添加歌曲到歌单
 export const addMusicToCustomList = function ({commit}, {music, id}) {
-  // console.log("action addMusicToCustomList")
-  // console.log(listName)
-  // console.log(music)
+  // //console.log("action addMusicToCustomList")
+  // //console.log(listName)
+  // //console.log(music)
   commit('ADD_MUSIC_TO_CUSTOM_LIST', addSongToCustomList(music, id))
 }
 

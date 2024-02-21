@@ -139,8 +139,8 @@ export default {
       }
     },
     /*songsAudioCandidates(newList, oldList) {
-      console.log('songsAudioCandidates//////////')
-      console.log('songsAudioCandidates==', this.songsAudioCandidates)
+      //console.log('songsAudioCandidates//////////')
+      //console.log('songsAudioCandidates==', this.songsAudioCandidates)
 
       // if (oldList.length ===0) this.songsAudioCandidates.unshift([12, 134,1342])
     },*/
@@ -148,22 +148,22 @@ export default {
       for (let i = 0; i < newList; i++) {
         if (newList[i] !== oldList && newList[i]) {
           // 确认绑定
-          console.log('checkedChosen i===', i)
+          //console.log('checkedChosen i===', i)
           this.checkedCount++
-          console.log('newList.length===', newList.length)
+          //console.log('newList.length===', newList.length)
           if (this.checkedCount === newList.length) {
-            console.log('绑定剩余部分')
+            //console.log('绑定剩余部分')
           }
         } else {
           // 取消确认
-          console.log('取消不了, 已经绑定了. 需要重新绑定, 请单独绑定该歌曲. 教程看"单只歌曲绑定"')
+          //console.log('取消不了, 已经绑定了. 需要重新绑定, 请单独绑定该歌曲. 教程看"单只歌曲绑定"')
         }
       }
     }*/
   },
   created() {
     // this.mmLoadShow = true
-    console.log('created!!!!!!!!!!')
+    //console.log('created!!!!!!!!!!')
     document.title = '无名歌单'
     if (this.platform === 'custom') {
       for (let i = 0; i < this.musicListMap.length; i++) {
@@ -173,7 +173,7 @@ export default {
         }
       }
       const songList = getCustomList(this.songListId)
-      console.log('this._hideLoad() getCustomList')
+      //console.log('this._hideLoad() getCustomList')
       const vipSongs = []
       songList.forEach(song => {
         if (song.limit !== 0 && song.limit !== 8) {
@@ -184,7 +184,7 @@ export default {
       const partSongs = this.onceLoadVipSongs.slice(this.loadAudioCount * (this.onceLoadVipSongsPage++), this.loadAudioCount)
       this.searchSongsAudio(partSongs).then(() => {
         this.list = [...this.list, ...partSongs]
-        console.log('after this.list=', this.list)
+        //console.log('after this.list=', this.list)
         this._hideLoad()
       })
     } else if (this.platform === 'netease') {
@@ -202,7 +202,7 @@ export default {
           const partSongs = this.onceLoadVipSongs.slice(this.loadAudioCount * (this.onceLoadVipSongsPage++), this.loadAudioCount)
           this.searchSongsAudio(partSongs).then(() => {
             this.list = [...this.list, ...partSongs]
-            console.log('after this.list=', this.list)
+            //console.log('after this.list=', this.list)
             this._hideLoad()
           })
         })
@@ -214,7 +214,7 @@ export default {
       //this._hideLoad()
       /*getQQMusicListDetail(this.songListId, this.qqListPage, this.qqListPageCount).then(data => {
         this.qqListCount = data.req_0.data.total_song_num
-        // console.log(data)
+        // //console.log(data)
         this.list = formatSongs(data.req_0.data.songlist)
         document.title = this.platform + ' - '
         this._hideLoad()
@@ -225,27 +225,27 @@ export default {
     confirmBind(songIndex) {
       if (this.chosenChecked[songIndex]) {
         // 确认绑定
-        console.log('checkedChosen songIndex===', songIndex)
+        //console.log('checkedChosen songIndex===', songIndex)
         const toBindAudioIndex = this.chosenAudio[songIndex]
-        console.log('this.chosenAudio[songIndex]', toBindAudioIndex)
+        //console.log('this.chosenAudio[songIndex]', toBindAudioIndex)
         if (!toBindAudioIndex || toBindAudioIndex === 0) {
           // 没有选择音频或选择的是原版音频
           this.$mmToast('未绑定任何音频')
         } else {
           const {bvid, cid} = this.songsAudioCandidates[songIndex][toBindAudioIndex].audioSource
-          console.log('info====', bvid, cid)
+          //console.log('info====', bvid, cid)
           const toBindSongId = this.songsAudioCandidates[songIndex][0].id
           addBindInfo(toBindSongId, {bvid, cid})
         }
         this.checkedCount++
-        console.log('newList.length===', this.chosenChecked.length)
+        //console.log('newList.length===', this.chosenChecked.length)
         if (this.checkedCount === this.chosenChecked.length) {
-          console.log('绑定剩余部分')
+          //console.log('绑定剩余部分')
           this.loadNext()
         }
       } else {
         // 取消确认
-        console.log('取消不了, 已经绑定了. 需要重新绑定, 请单独绑定该歌曲. 教程看"单只歌曲绑定"')
+        //console.log('取消不了, 已经绑定了. 需要重新绑定, 请单独绑定该歌曲. 教程看"单只歌曲绑定"')
       }
     },
     testAudio(songIndex) {
@@ -253,13 +253,13 @@ export default {
         this.$mmToast('取消绑定该歌曲')
         return
       }
-      console.log('testAudio=', songIndex)
-      console.log('songsAudioCandidates=', this.songsAudioCandidates)
-      // console.log('songsAudioCandidates=', this.songsAudioCandidates[songIndex][0].id)
-      console.log('songsAudioCandidates=', this.songsAudioCandidates[songIndex][this.chosenAudio[songIndex]].id)
-      console.log('@@@@@@@this.songsAudioCandidates[songIndex][this.chosenAudio[songIndex]]', this.songsAudioCandidates[songIndex][this.chosenAudio[songIndex]])
+      //console.log('testAudio=', songIndex)
+      //console.log('songsAudioCandidates=', this.songsAudioCandidates)
+      // //console.log('songsAudioCandidates=', this.songsAudioCandidates[songIndex][0].id)
+      //console.log('songsAudioCandidates=', this.songsAudioCandidates[songIndex][this.chosenAudio[songIndex]].id)
+      //console.log('@@@@@@@this.songsAudioCandidates[songIndex][this.chosenAudio[songIndex]]', this.songsAudioCandidates[songIndex][this.chosenAudio[songIndex]])
       this.selectItemPlay(this.songsAudioCandidates[songIndex][this.chosenAudio[songIndex]])
-      // console.log('songsAudioCandidates=', this.songsAudioCandidates[2])
+      // //console.log('songsAudioCandidates=', this.songsAudioCandidates[2])
     },
     loadNext() {
       if (this.lockUp) {
@@ -269,7 +269,7 @@ export default {
       if (this.platform === 'qq')
         this.pullUpLoadQQVipSongs()
       else if (this.platform === 'netease' || this.platform === 'custom') {
-        console.log('this.onceLoadVipSongsPage', this.onceLoadVipSongsPage)
+        //console.log('this.onceLoadVipSongsPage', this.onceLoadVipSongsPage)
         const offset = this.loadAudioCount * (this.onceLoadVipSongsPage++)
         const partSongs = this.onceLoadVipSongs.slice(offset, offset + this.loadAudioCount)
         if (!partSongs || partSongs.length === 0) {
@@ -279,7 +279,7 @@ export default {
         }
         this.searchSongsAudio(partSongs).then(() => {
           this.list = [...this.list, ...partSongs]
-          console.log('after this.list=', this.list)
+          //console.log('after this.list=', this.list)
           this._hideLoad()
         })
       }
@@ -288,16 +288,16 @@ export default {
     bindSongsAudio_old() {
       this.list = []
       if (this.platform === 'qq') {
-        console.log('qq bind')
+        //console.log('qq bind')
         this.pullUpLoadQQVipSongs(3, true)
       } else {
-        console.log('other bind')
+        //console.log('other bind')
       }
     },
     pullUpLoadQQVipSongs(count = this.loadAudioCount, start = false) {
       this.mmLoadShow = true
       if (!start) this.qqListPage++
-      console.log('!!!!!!!!!!! pullUpLoadQQVipSongs')
+      //console.log('!!!!!!!!!!! pullUpLoadQQVipSongs')
       const vipSongs = []
       let qqSongs = []
       //let qqSongCandidates = []
@@ -311,39 +311,39 @@ export default {
           if (parseInt(music.pay.pay_play))
             vipSongs.push(music)
         })
-        console.log('vipSongs.length', vipSongs.length)
+        //console.log('vipSongs.length', vipSongs.length)
         qqSongs = formatSongs(vipSongs)
-        console.log('before qqSongs=', qqSongs)
+        //console.log('before qqSongs=', qqSongs)
         // 这个for循环可以和上面data.req_0.data.songlist.forEach()合并
         this.searchSongsAudio(qqSongs).then(() => {
           this.list = [...this.list, ...qqSongs]
-          console.log('after this.list=', this.list)
+          //console.log('after this.list=', this.list)
           if (count - vipSongs.length > 0) {
             return this.pullUpLoadQQVipSongs(count - vipSongs.length)
           }
-          console.log('this._hideLoad() pullUpLoadQQVipSongs')
+          //console.log('this._hideLoad() pullUpLoadQQVipSongs')
           this._hideLoad()
         })
         /*for (let j = 0; j < qqSongs.length;j++) {
           if (j > 2) {
             break
           }
-          //setTimeout(()=> {console.log('qqSongs[j]------', qqSongs[j])}, 100)
+          //setTimeout(()=> {//console.log('qqSongs[j]------', qqSongs[j])}, 100)
           this.exactSearchAudio(qqSongs[j], true).then(candidates => {
             // Vue.set(this.songsAudioCandidates, j, []);
             // this.songsAudioCandidates[j].push(qqSongs[j])
             const len = this.songsAudioCandidates.length
-            console.log('len===', len)
-            console.log('j===', j)
-            console.log('qqSongs[j]', qqSongs[j])
+            //console.log('len===', len)
+            //console.log('j===', j)
+            //console.log('qqSongs[j]', qqSongs[j])
             Vue.set(this.songsAudioCandidates, len, []);
             this.songsAudioCandidates[len].push(qqSongs[j])
 
             // Vue.set(qqSongCandidates, j, []);
             // qqSongCandidates[j].push(qqSongs[j])
-            //console.log('candidates', Array.isArray(candidates))
-            //console.log('candidates', (candidates))
-            //console.log('candidates', candidates[2])
+            ////console.log('candidates', Array.isArray(candidates))
+            ////console.log('candidates', (candidates))
+            ////console.log('candidates', candidates[2])
             for (let i = 0; i < candidates.length; i++) {
               // this.songsAudioCandidates[j].push(candidates[i]);
               this.songsAudioCandidates[len].push(candidates[i]);
@@ -353,16 +353,16 @@ export default {
           }).then(() => {
             //this.list = [...this.list, ...qqSongs]
             //this.songsAudioCandidates = [...this.songsAudioCandidates, ...qqSongCandidates]
-            //console.log('after this.list=', this.list)
-            console.log('after this.songsAudioCandidates=', this.songsAudioCandidates)
-            console.log('after qqSongCandidates=', qqSongCandidates)
+            ////console.log('after this.list=', this.list)
+            //console.log('after this.songsAudioCandidates=', this.songsAudioCandidates)
+            //console.log('after qqSongCandidates=', qqSongCandidates)
 
           })
         }*/
       })
       /*.then(() => {
       this.list = [...this.list, ...qqSongs]
-      console.log('after this.list=', this.list)
+      //console.log('after this.list=', this.list)
       if (count - vipSongs.length > 0) {
         //this.pullUpLoadQQVipSongs(count - vipSongs.length)
       }
@@ -374,35 +374,35 @@ export default {
         /*if (j > 2) {
           break
         }*/
-        //setTimeout(()=> {console.log('songs[j]------', songs[j])}, 100)
+        //setTimeout(()=> {//console.log('songs[j]------', songs[j])}, 100)
         await this.exactSearchAudio(songs[j], true).then(candidates => {
           // Vue.set(this.songsAudioCandidates, j, []);
           // this.songsAudioCandidates[j].push(songs[j])
           //const len = this.songsAudioCandidates.length
           const len = this.list.length + j
-          console.log('len===', len)
-          console.log('j===', j)
-          console.log('songs[j]', songs[j])
+          //console.log('len===', len)
+          //console.log('j===', j)
+          //console.log('songs[j]', songs[j])
           Vue.set(this.songsAudioCandidates, len, []);
           this.songsAudioCandidates[len].push(songs[j])
 
           // Vue.set(qqSongCandidates, j, []);
           // qqSongCandidates[j].push(songs[j])
-          //console.log('candidates', Array.isArray(candidates))
-          //console.log('candidates', (candidates))
-          //console.log('candidates', candidates[2])
+          ////console.log('candidates', Array.isArray(candidates))
+          ////console.log('candidates', (candidates))
+          ////console.log('candidates', candidates[2])
           for (let i = 0; i < candidates.length; i++) {
             // this.songsAudioCandidates[j].push(candidates[i]);
             this.songsAudioCandidates[len].push(candidates[i]);
             // qqSongCandidates[j].push(candidates[i]);
           }
-          console.log('after this.songsAudioCandidates=', this.songsAudioCandidates)
+          //console.log('after this.songsAudioCandidates=', this.songsAudioCandidates)
         })
         /*.then(() => {
           //this.list = [...this.list, ...songs]
           //this.songsAudioCandidates = [...this.songsAudioCandidates, ...qqSongCandidates]
-          //console.log('after this.list=', this.list)
-          //console.log('after this.songsAudioCandidates=', this.songsAudioCandidates)
+          ////console.log('after this.list=', this.list)
+          ////console.log('after this.songsAudioCandidates=', this.songsAudioCandidates)
         })*/
       }
     },
@@ -439,7 +439,7 @@ export default {
               list[i].complex = complex
               //@TODO 有重复bvid, 按道理来说,分页查询重复可能性不大. 暂时不管这个bug
               await createComplexSong(list[i]).then((complexSong) => {
-                //console.log('complexSong', complexSong)
+                ////console.log('complexSong', complexSong)
                 validData.push(complexSong)
               })
             }
@@ -459,7 +459,7 @@ export default {
                 singer: reference.singer,
                 album: reference.album,
                 image: reference.image,
-                duration: item.duration,
+                originDuration: item.duration,
                 mixInfo: {audioSourceFrom: 'bili', others: reference.platform},
               }
               item.complex = complex
@@ -469,7 +469,7 @@ export default {
               })
             }
           })*/
-          // console.log('validData=', validData)
+          // //console.log('validData=', validData)
           if (list.length < 20) {
             break;
           }
@@ -479,12 +479,12 @@ export default {
           break;
         }
       }
-      //console.log('validData[2]', validData[2])
-      console.log('validDate.length = ', validData.length)
+      ////console.log('validData[2]', validData[2])
+      //console.log('validDate.length = ', validData.length)
       return validData
     },
     async selectItemPlay(music) {
-      // console.log(music)
+      // //console.log(music)
       try {
         //if (music.platform === 'netease') {
         //const image = await this._getMusicDetail(music.id)
@@ -496,14 +496,14 @@ export default {
       }
     },
     pullUpLoadQQList() {
-      console.log('pullUpLoadQQList!!!!!!!!')
+      //console.log('pullUpLoadQQList!!!!!!!!')
       /*this.qqListPage++
       getQQMusicListDetail(this.songListId, this.qqListPage * this.qqListPageCount, this.qqListPageCount).then(data => {
         if (data.req_0.data.songlist.length === 0) {
           this.$mmToast('歌单中没有更多歌曲了！')
           return
         }
-        console.log(data)
+        //console.log(data)
         this.list = [...this.list, ...formatSongs(data.req_0.data.songlist)]
       })*/
     },

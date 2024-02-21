@@ -18,8 +18,8 @@
     >
     </el-switch>
     <h1 class="header">
-      <a href="https://github.com/maomao1996/Vue-mmPlayer" target="_blank">
-        mmPlayer 在线音乐播放器
+      <a href="https://github.com/jainnieh/music-online-vue" target="_blank">
+        Music Collection 在线音乐播放器
       </a>
       <img
         v-if="visitorBadge"
@@ -100,7 +100,7 @@ export default {
   data() {
     return {
       user: {}, // 用户数据
-      uidValue: '1532302303', // 记录用户 UID
+      uidValue: '', // 记录用户 UID
       autoSearchSongAudioSource: false,
       useBindAudioInfo: false,
     }
@@ -117,17 +117,17 @@ export default {
   watch: {
     autoSearchSongAudioSource(newValue, oldValue) {
       this.setAutoSearchAudioSource(newValue)
-      console.log('this.autoSearchAudioSource', this.autoSearchAudioSource)
+      //console.log('this.autoSearchAudioSource', this.autoSearchAudioSource)
     },
     useBindAudioInfo(newValue, oldValue) {
-      console.log('newValue', newValue)
+      //console.log('newValue', newValue)
       this.setUseBindAudio(newValue)
     }
   },
   created() {
     this.uid && this._getUserPlaylist(this.uid)
     this.autoSearchSongAudioSource = this.autoSearchAudioSource
-    console.log("13213123jhgj")
+    //console.log("13213123jhgj")
   },
   methods: {
     ...mapMutations({

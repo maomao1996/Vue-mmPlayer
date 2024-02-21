@@ -63,6 +63,7 @@
             {{ item.originDuration % 3600 | format }}
             <!-- 搜索音源按钮-->
             <mm-icon
+              v-show="item.platform !== 'bili' && item.platform !== 'complex'"
               class="hover list-menu-icon-del"
               type="chazhao"
               :size="40"
@@ -251,15 +252,15 @@ export default {
         'songsAudioCandidates',
       ]),
     customMusicListMap() {
-      // console.log('this.musicListMap', this.musicListMap)
-      // console.log('222222222222', this.musicListMap.filter(item => item.platform === 'custom').map(item => item))
+      // //console.log('this.musicListMap', this.musicListMap)
+      // //console.log('222222222222', this.musicListMap.filter(item => item.platform === 'custom').map(item => item))
       return this.musicListMap.filter(item => item.platform === 'custom').map(item => item)
     }
   },
   watch: {
     songsAudioCandidates(newList, oldList) {
-      console.log('songsAudioCandidates//////////')
-      console.log('songsAudioCandidates==', this.songsAudioCandidates)
+      //console.log('songsAudioCandidates//////////')
+      //console.log('songsAudioCandidates==', this.songsAudioCandidates)
       this.chosenAudio = new Array(newList.length)
     },
     //监听list,是为了修改lockUp. 和comment.vue中一样,oldList是上一次加载的数据
@@ -276,7 +277,7 @@ export default {
     },
   },
   activated() {
-    console.log('musicListMap=', this.musicListMap)
+    //console.log('musicListMap=', this.musicListMap)
     // 当切换到其它组件,再次回来时将listContent恢复到上次的状态.
     //this.scrollTop是组件music-list的属性.当music-list下拉时就会修改该属性值,可以通过mm.$children[0].$children[2].$children[1].$children[1].scrollTop查看
     this.scrollTop && this.$refs.listContent && (this.$refs.listContent.scrollTop = this.scrollTop)
@@ -284,18 +285,18 @@ export default {
   methods: {
     testAudio(songIndex) {
       if (!this.chosenAudio || this.chosenAudio[songIndex] === '') {
-        console.log('取消绑定该歌曲')
+        //console.log('取消绑定该歌曲')
         return
       }
-      console.log('testAudio=', songIndex)
-      console.log('songsAudioCandidates=', this.songsAudioCandidates)
-      console.log('songsAudioCandidates=', this.songsAudioCandidates[songIndex][0].id)
-      console.log('songsAudioCandidates=', this.songsAudioCandidates[songIndex][this.chosenAudio[songIndex]].id)
+      //console.log('testAudio=', songIndex)
+      //console.log('songsAudioCandidates=', this.songsAudioCandidates)
+      //console.log('songsAudioCandidates=', this.songsAudioCandidates[songIndex][0].id)
+      //console.log('songsAudioCandidates=', this.songsAudioCandidates[songIndex][this.chosenAudio[songIndex]].id)
       this.selectItemPlay(this.songsAudioCandidates[songIndex][this.chosenAudio[songIndex]])
-      console.log('songsAudioCandidates=', this.songsAudioCandidates[2])
+      //console.log('songsAudioCandidates=', this.songsAudioCandidates[2])
     },
     async selectItemPlay(music) {
-      // console.log(music)
+      // //console.log(music)
       try {
         if (music.platform === 'netease') {
           const image = await this._getMusicDetail(music.id)
@@ -310,18 +311,18 @@ export default {
       if (!this.hasBvid) {
         this.$mmToast('没有bvid,启动自动搜索')
       }
-      console.log('this.musicInfo', this.musicInfo)
+      //console.log('this.musicInfo', this.musicInfo)
       if (this.musicInfo.platform === 'netease') {
         // 添加封面url
         getMusicDetail(this.musicInfo.id).then((res) => {
           this.musicInfo.image = res.songs[0].al.picUrl
-          console.log('fjhgjfjhtwertwtr')
+          //console.log('fjhgjfjhtwertwtr')
         }).then(() => {
-          console.log('22222twertwtr')
+          //console.log('22222twertwtr')
           this.musicInfo.audioSource = {tryBind: this.hasBvid}
-          console.log('twertwtr')
+          //console.log('twertwtr')
           this.setSearchAudio(this.musicInfo)
-          console.log('1111twertwtr')
+          //console.log('1111twertwtr')
           this.$router.push({
             name: 'bili-search',
           })
@@ -329,7 +330,7 @@ export default {
       } else {
         this.musicInfo.audioSource = {tryBind: this.hasBvid}
         this.setSearchAudio(this.musicInfo)
-        console.log('t4524526647wertwtr')
+        //console.log('t4524526647wertwtr')
         this.$router.push({
           name: 'bili-search',
         })
@@ -344,7 +345,7 @@ export default {
     // 搜索音频
     searchAudio(music) {
       this.musicInfo = cloneDeep(music)
-      console.log("this.musicInfo=", this.musicInfo)
+      //console.log("this.musicInfo=", this.musicInfo)
       this.openDialog(2)
     },
     // 删除事件
@@ -353,9 +354,9 @@ export default {
     },
     addCustomList() {
       this.setManageMusicListRes(false)
-      console.log("addCustomList==")
-      console.log(this.chosenMusicListTitle)
-      console.log(this.musicListMap)
+      //console.log("addCustomList==")
+      //console.log(this.chosenMusicListTitle)
+      //console.log(this.musicListMap)
       if (this.chosenMusicListTitle.replace(/(^\s+)|(\s+$)/g, '') === '') {
         this.$mmToast('歌单名称不能为空！')
         return
@@ -369,7 +370,7 @@ export default {
       }
       if (id === '') {
         id = generateUUID()
-        console.log('id==', id)
+        //console.log('id==', id)
         const musicListInfo = createCustomMusicListInfo(id, this.chosenMusicListTitle, this.musicListDesc, this.musicListCoverImg, this.musicListTag)
         this.addMusicListToLocal(musicListInfo)
         if (!this.manageMusicListRes) {
@@ -431,7 +432,7 @@ export default {
     selectItem(item, index, e) {
       //这个存在的意义不清楚??因为它不仅判断e是否传过来,还判断className是否是list-menu-icon-del,但是list-menu-icon-del中没有调用这个方法
       if (e && /list-menu-icon-del/.test(e.target.className)) {
-        //console.log('music-list.vue#selectItem list-menu-icon-del')
+        ////console.log('music-list.vue#selectItem list-menu-icon-del')
         return
       }
       if (this.currentMusic.id && item.id === this.currentMusic.id) {

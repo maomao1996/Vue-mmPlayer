@@ -12,7 +12,7 @@ const storage = {
           : STORAGE.getItem(key)
       和data同属于STORAGE.getItem(key)的选项.类似:
        const a = 1,m=0,x=10,y=20,c=2
-       console.log(a?(m?x:y):c)
+       //console.log(a?(m?x:y):c)
       */
       return STORAGE.getItem(key)
         ? Array.isArray(data)
@@ -48,14 +48,14 @@ const MUSIC_LIST_HEAD = '__music_list__'
  */
 // 获取所有歌单
 export function getMusicListMap() {
-  console.log('getMusicListMap().....')
+  //console.log('getMusicListMap().....')
   return storage.get(MUSIC_LIST_HEAD)
 }
 
 // 创建歌单
 export function addMusicList(musicListInfo) {
   const map = storage.get(MUSIC_LIST_HEAD)
-  console.log('musicListInfo===,',musicListInfo)
+  //console.log('musicListInfo===,',musicListInfo)
   let customListCount = 0
   map.forEach(item => {
     item.platform === 'custom' ? customListCount++ : ''
@@ -64,7 +64,7 @@ export function addMusicList(musicListInfo) {
     return false
   }
   // ((map.length > 0 && map[0].id) || 0) + 1
-  // console.log('id====',id)
+  // //console.log('id====',id)
   map.unshift(musicListInfo)
   storage.set(MUSIC_LIST_HEAD, JSON.stringify(map))
   return true
@@ -79,11 +79,11 @@ export function delMusicList(platform, id) {
   }
   // 删除歌单映射表中的对应记录
   const map = storage.get(MUSIC_LIST_HEAD)
-  console.log('cleared musicList')
+  //console.log('cleared musicList')
   const index = map.findIndex((item) => {
     return item.id === parseInt(id)
   })
-  console.log('to del item, index = ', index)
+  //console.log('to del item, index = ', index)
   map.splice(index, 1)
   storage.set(MUSIC_LIST_HEAD, JSON.stringify(map))
 }
@@ -103,25 +103,25 @@ export function getCustomListStorageKey(listName) {
 
 // 如果歌单不存在,调用者要先去添加到map,这里只负责操作歌单数据表.不负责映射表内容的创建
 export function addSongToCustomList(music, id) {
-  // console.log('existsList', customList)
+  // //console.log('existsList', customList)
   let customListStorageId = MUSIC_LIST_HEAD + 'custom_' + id
-  console.log('customListStorageId , ', customListStorageId)
+  //console.log('customListStorageId , ', customListStorageId)
   const customList = storage.get(customListStorageId)
   //调用者暂时没有获取该歌单数据, 所以只能在这里判断重复和容量
   if (customList.length >= LOCAL_LIST_CONTAIN) {
-    console.log('歌曲数量到达上线')
+    //console.log('歌曲数量到达上线')
     return false
   }
   const index = customList.findIndex(item => {
     return item.id === music.id
   })
   if (index > -1) {
-    console.log('music exists !!!!! ')
+    //console.log('music exists !!!!! ')
     return false
   }
   customList.unshift(music)
-  // console.log('customList====', customList)
-  // console.log('music====', music)
+  // //console.log('customList====', customList)
+  // //console.log('music====', music)
   storage.set(customListStorageId, JSON.stringify(customList))
   return true
 }

@@ -51,16 +51,16 @@ export default {
     },
     percentProgress(newValue) {
       this.beenBuffered = newValue
-      /*// console.log('percentProgress= ', newValue) //在music.vue中传过来的
-      console.log('this.targetBuffered ', this.targetBuffered)
-      console.log('this.beenBuffered ', this.beenBuffered)
+      /*// //console.log('percentProgress= ', newValue) //在music.vue中传过来的
+      //console.log('this.targetBuffered ', this.targetBuffered)
+      //console.log('this.beenBuffered ', this.beenBuffered)
       if (this.targetBuffered && this.targetBuffered !== 0) {
         // 还没有缓存到目标进度, 需要继续向前缓存
         this.commitPercent(true)
         // 判断本次缓存是否到达目标值
         if (this.targetBuffered - newValue <= 0) {
           // 到达缓存目标值就清除任务
-          console.log("清除任务")
+          //console.log("清除任务")
           this.setPlaying(true)
           this.targetBuffered = 0
         }
@@ -154,7 +154,7 @@ export default {
       }
       // canProgress用于记录进度条最终前进百分比
       let canProgress = percent
-      console.log("向前缓存,percent= ", percent)
+      //console.log("向前缓存,percent= ", percent)
       if (percent >= this.beenBuffered) {
         // 虽然当前缓存了beenBuffered, 但是为了防止小数点太多导致进度条重点超过beenBuffered, 采用向下取整可以避免
         canProgress = Math.floor(this.beenBuffered * 1000) / 1000.0

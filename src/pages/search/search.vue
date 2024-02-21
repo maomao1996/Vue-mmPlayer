@@ -87,7 +87,7 @@ export default {
   data() {
     return {
       hasBvid: '',
-      searchValue: '放了你', // 搜索关键词
+      searchValue: '孙燕姿', // 搜索关键词
       Artists: [], // 热搜数组
       list: [], // 搜索数组
       page: 0, // 分页
@@ -135,7 +135,7 @@ export default {
       if (!this.hasBvid) {
         this.$mmToast('没有bvid,启动自动搜索')
       }
-      console.log('this.musicInfo', this.musicInfo)
+      //console.log('this.musicInfo', this.musicInfo)
       if (this.musicInfo.platform === 'netease') {
         // 添加封面url
         getMusicDetail(this.musicInfo.id).then((res) => {
@@ -164,7 +164,7 @@ export default {
     // 搜索音频
     searchAudio(music) {
       this.musicInfo = music
-      console.log("this.musicInfo=", this.musicInfo)
+      //console.log("this.musicInfo=", this.musicInfo)
       this.openDialog(0)
     },
     // 点击热搜
@@ -187,17 +187,17 @@ export default {
         return formatNeteaseSongs(result.songs)
       })
       const queryQQ = searchQQ(this.searchValue).then(data => {
-        console.log("searchQQ")
-        console.log(data.req_0.data.body.song.list)
+        //console.log("searchQQ")
+        //console.log(data.req_0.data.body.song.list)
         /*return formatQQSongs_WithUrl(data.req_0.data.body.song.list).then(result => {
-          console.log("result=", result)
+          //console.log("result=", result)
           return result
         })*/
         return formatQQSongs(data.req_0.data.body.song.list)
       })
       Promise.all([queryNetease, queryQQ]).then(([neteaseRes, qqRes]) => {
-        console.log("neteaseRes=", neteaseRes)
-        console.log("qqRes=", qqRes)
+        //console.log("neteaseRes=", neteaseRes)
+        //console.log("qqRes=", qqRes)
         const mergeArray = []
         const maxLen = Math.max(neteaseRes.length, qqRes.length)
         for (let i = 0; i < maxLen; i++) {
@@ -226,7 +226,7 @@ export default {
     },
     // 播放歌曲
     async selectItem(music) {
-      // console.log(music)
+      // //console.log(music)
       try {
         if (music.platform === 'netease') {
           const image = await this._getMusicDetail(music.id)

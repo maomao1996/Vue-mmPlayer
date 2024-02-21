@@ -153,13 +153,13 @@ export function searchBili(keywords, page = 1) {
 
 // 获取视频cid
 export function getAudioCidFromBili(bvid) {
-  // console.log('getAudioCidFromBili')
+  // //console.log('getAudioCidFromBili')
   return axiosBiliInfo.get(`/web-interface/view?bvid=${bvid}`)
 }
 
 // 获取视频音频
 export function getAudioUrlFromBili(bvid, cid) {
-  console.log('getAudioUrlFromBili')
+  //console.log('getAudioUrlFromBili')
   return axiosBiliInfo.get(`https://api.bilibili.com/x/player/wbi/playurl?bvid=${bvid}&fnval=4048&cid=${cid}`)
 }
 
@@ -175,7 +175,7 @@ export function getPlaylistDetailNetease(id) {
   return new Promise((resolve, reject) => {
     axiosNetease.post('/api/v6/playlist/detail', `id=${id}&n=100000&s=8`)
       .then(({playlist}) => {
-        //console.log("playlist=", playlist)
+        ////console.log("playlist=", playlist)
         const {trackIds, tracks} = playlist
         if (!playlist || !Array.isArray(trackIds)) {
           reject(new Error('获取歌单详情失败'))
@@ -226,14 +226,14 @@ const qqMusicsApiBodyHead = `{"comm":{"cv":4747474,"ct":24,"format":"json","inCh
 const qqMusicsApiBodyTail = `}`
 
 export function getQQMusicVipOneMinuteUrl(vipMids, vipMediaMids) {
-  // console.log('getQQMusicVipOneMinuteUrl')
+  // //console.log('getQQMusicVipOneMinuteUrl')
   const curReq = `"req_0":{"module":"vkey.GetVkeyServer","method":"CgiGetVkey","param":{"guid":"9920044491","songmid":[${vipMids}],"songtype":[0],"uin":"1431243","loginflag":1,"platform":"20","filename":[${vipMediaMids}]}}`
   const body = qqMusicsApiBodyHead + curReq + qqMusicsApiBodyTail
   return axiosCommonQQ.post('', body)
 }
 
 export function getQQMusicUrl(mids) {
-  console.log('getQQMusicUrl')
+  //console.log('getQQMusicUrl')
   const curReq = `"req_0":{"module":"vkey.GetVkeyServer","method":"CgiGetVkey","param":{"guid":"3565059752","songmid":[${mids}],"songtype":[0,0,0,0,0,0],"uin":"1431243","loginflag":1,"platform":"20","ctx":1}}`
   const body = qqMusicsApiBodyHead + curReq + qqMusicsApiBodyTail
   return axiosCommonQQ.post('', body)

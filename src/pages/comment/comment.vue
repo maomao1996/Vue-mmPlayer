@@ -133,7 +133,7 @@ export default {
     this.initData()
   },
   beforeRouteLeave(to, from, next) {
-    console.log('leave comment')
+    //console.log('leave comment')
     this.setCommentOpen(false)
     next()
   },
@@ -150,11 +150,11 @@ export default {
     },
     // 列表滚动事件
     listScroll(e) {
-      // console.log('scroll', this.lockUp)
+      // //console.log('scroll', this.lockUp)
       if (this.lockUp) {
         return
       }
-      // console.log('loading')
+      // //console.log('loading')
       const { scrollTop, scrollHeight, offsetHeight } = e.target
       if (scrollTop + offsetHeight >= scrollHeight - 100) {
         this.lockUp = true // 锁定滚动加载
@@ -164,7 +164,7 @@ export default {
     },
     // 滚动加载事件
     pullUp() {
-      console.log('getComment')
+      //console.log('getComment')
       getComment(this.$route.params.id, this.page).then(({ comments }) => {
         // 因为重复的部分是有规律的, 即已经获取的所有评论commentList最后的部分可能会和新请求的comments前面几个重复.
         //所以只要遍历可能重复的部分, 直到不再遇到重复就可以停止遍历
@@ -173,8 +173,8 @@ export default {
           let originSearch = this.commentList.length - 1 - i
           if (comments[i].commentId === this.commentList[originSearch].commentId) {
             const duplicate = comments.shift()
-            // console.log('重复: ')
-            // console.log(duplicate)
+            // //console.log('重复: ')
+            // //console.log(duplicate)
             i--
             commentsLen--
           } else {
@@ -182,12 +182,12 @@ export default {
           }
         }
         this.commentList = [...this.commentList, ...comments]
-        // console.log('@@@ 合并后: ')
+        // //console.log('@@@ 合并后: ')
         // // 如果this.commentList.length不是30的倍数,则说明有重复的
-        // console.log(this.commentList.length)
-        // console.log(comments.length)
-        // console.log(this.commentList)
-        // console.log(comments)
+        // //console.log(this.commentList.length)
+        // //console.log(comments.length)
+        // //console.log(this.commentList)
+        // //console.log(comments)
       })
     },
     ...mapMutations({

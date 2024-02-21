@@ -18,12 +18,12 @@ const mutations = {
   },
   // 修改播放状态
   [types.SET_PLAYING](state, playing) {
-    console.log('mutation 修改playing')
+    //console.log('mutation 修改playing')
     state.playing = playing
   },
   // 修改播放列表
   [types.SET_PLAYLIST](state, playlist) {
-    console.log('mutation 修改playlist')
+    //console.log('mutation 修改playlist')
     state.playlist = playlist
   },
   // 修改顺序列表
@@ -32,7 +32,7 @@ const mutations = {
   },
   // 修改当前音乐索引
   [types.SET_CURRENTINDEX](state, currentIndex) {
-    console.log('mutation 修改当前音乐索引')
+    //console.log('mutation 修改当前音乐索引')
     state.currentIndex = currentIndex
   },
   // 修改播放历史列表
@@ -57,15 +57,15 @@ const mutations = {
   // 点击播放时, 需要为当前song添加urls
   INSERT_CURRENT_MUSIC(state, music) {
     // state.playlist[state.currentIndex] = music
-    /*    console.log('music =========', music)
+    /*    //console.log('music =========', music)
         let i = state.currentIndex
-        console.log('afafa', state.playlist[i + 1].id)
+        //console.log('afafa', state.playlist[i + 1].id)
         const parts1 = ((state.playlist[i + 1].id) + '').split("-");
         const result1 = parts1[0];
         const parts2 = music.id.split("-");
         const result2 = parts2[0];
-        console.log('choooooooooooo')
-        console.log(result1 , result2)*/
+        //console.log('choooooooooooo')
+        //console.log(result1 , result2)*/
     //if (result1 !== result2)
     //state.playlist.splice(state.currentIndex + 1, 0, music)
     let list = [...state.playlist]
@@ -73,14 +73,14 @@ const mutations = {
     let index = findIndex(list, music)
     // 当前播放列表有待插入的音乐时，直接改变当前播放音乐的索引值
     if (index > -1) {
-      console.log("当前播放列表有待插入的音乐")
+      //console.log("当前播放列表有待插入的音乐")
       state.playlist.splice(state.currentIndex, 1)
       if (state.currentIndex <= index)
         state.currentIndex = index - 1
       else
         state.currentIndex = index
     } else {
-      console.log("替换当前播放的音频")
+      //console.log("替换当前播放的音频")
       state.playlist.splice(state.currentIndex, 1, music)
     }
   },
@@ -88,7 +88,7 @@ const mutations = {
   ADD_MUSIC_LIST_TO_LOCAL(state, res) {
     state.manageMusicListRes = res
     state.musicListMap = getMusicListMap()
-    console.log('state.manageMusicListRes', state.manageMusicListRes)
+    //console.log('state.manageMusicListRes', state.manageMusicListRes)
   },
   DEL_MUSIC_LIST(state, {platform, id}) {
     //让map重新更新

@@ -24,12 +24,6 @@ export const PLAY_MODE = {
   RANDOM: 2,
   LOOP: 3,
 }
-/**
- * 我将bili上的音乐下载到服务器指定目录了, 音频文件命名方式以bvid_开头,加上bvid. 该目录由nginx管理,所以直接拿url可以获取该目录下的资源
- */
-// 引入不起作用??
-export const BILI_AUDIO_PATH =  process.env.BILI_AUDIO_DOWNLOAD_PATH
-export const AUDIO_PATH = 'http://video.niejian.top:80'
 
 /**
  * 播放器默认配置
